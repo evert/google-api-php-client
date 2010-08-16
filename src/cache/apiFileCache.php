@@ -24,12 +24,12 @@
  *
  * @author Chris Chabot
  */
-class apiFileStorage extends apiStorage {
+class apiFileCache extends apiCache {
   private $path;
 
-  public function __construct($path)
-  {
-    $this->path = $path;
+  public function __construct() {
+    global $apiConfig;
+    $this->path = $apiConfig['ioFileCache_directory'];
   }
 
   private function isLocked($storageFile) {
@@ -43,7 +43,7 @@ class apiFileStorage extends apiStorage {
       if (! @mkdir($storageDir, 0755, true)) {
         // make sure the failure isn't because of a concurency issue
         if (! is_dir($storageDir)) {
-          throw new apiStorageException("Could not create storage directory: $storageDir");
+          throw new apiCacheException("Could not create storage directory: $storageDir");
         }
       }
     }
@@ -72,28 +72,28 @@ class apiFileStorage extends apiStorage {
     }
   }
 
-  private function getStorageDir($hash) {
+  private function getCacheDir($hash) {
     // use the first 2 characters of the hash as a directory prefix
     // this should prevent slowdowns due to huge directory listings
     // and thus give some basic amount of scalability
     return $this->path . '/' . substr($hash, 0, 2);
   }
 
-  private function getStorageFile($hash) {
-    return $this->getStorageDir($hash) . '/' . $hash;
+  private function getCacheFile($hash) {
+    return $this->getCacheDir($hash) . '/' . $hash;
   }
 
   public function get($key, $expiration = false) {
-    $storageFile = $this->getStorageFile(md5($key));
+    $storageFile = $this->getCacheFile(md5($key));
     // See if this storage file is locked, if so we wait upto 5 seconds for the lock owning process to
     // complete it's work. If the lock is not released within that time frame, it's cleaned up.
-    // This should give us a fair amount of 'Storage Stampeding' protection
+    // This should give us a fair amount of 'Cache Stampeding' protection
     if ($this->isLocked($storageFile)) {
       $this->waitForLock($storageFile);
     }
     if (file_exists($storageFile) && is_readable($storageFile)) {
       $now = time();
-      if (!$expiration || (($mtime = @filemtime($storageFile)) !== false && ($now - $mtime) < $expiration)) {
+      if (! $expiration || (($mtime = @filemtime($storageFile)) !== false && ($now - $mtime) < $expiration)) {
         if (($data = @file_get_contents($storageFile)) !== false) {
           $data = unserialize($data);
           return $data;
@@ -104,15 +104,15 @@ class apiFileStorage extends apiStorage {
   }
 
   public function set($key, $value) {
-    $storageDir = $this->getStorageDir(md5($key));
-    $storageFile = $this->getStorageFile(md5($key));
+    $storageDir = $this->getCacheDir(md5($key));
+    $storageFile = $this->getCacheFile(md5($key));
     if ($this->isLocked($storageFile)) {
       // some other process is writing to this file too, wait until it's done to prevent hickups
       $this->waitForLock($storageFile);
     }
     if (! is_dir($storageDir)) {
       if (! @mkdir($storageDir, 0755, true)) {
-        throw new apiStorageException("Could not create storage directory: $storageDir");
+        throw new apiCacheException("Could not create storage directory: $storageDir");
       }
     }
     // we serialize the whole request object, since we don't only want the
@@ -121,15 +121,15 @@ class apiFileStorage extends apiStorage {
     $this->createLock($storageFile);
     if (! @file_put_contents($storageFile, $data)) {
       $this->removeLock($storageFile);
-      throw new apiStorageException("Could not store data in the file");
+      throw new apiCacheException("Could not store data in the file");
     }
     $this->removeLock($storageFile);
   }
 
   public function delete($key) {
-    $file = $this->getStorageFile(md5($key));
+    $file = $this->getCacheFile(md5($key));
     if (! @unlink($file)) {
-      throw new apiStorageException("Storage file could not be deleted");
+      throw new apiCacheException("Cache file could not be deleted");
     }
   }
 }

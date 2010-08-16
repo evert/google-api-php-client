@@ -16,7 +16,18 @@
  */
 
 class apiAuthNone extends apiAuth {
+
+  public function authenticate(apiCache $cache, apiIO $io, $service) {
+    // noop
+  }
+
+  public function setAccessToken($accessToken) {
+    // noop
+  }
+
+
   public function sign($method, $url, $params = array(), $postBody = false, &$headers = array()) {
+    // noop
     return $url;
   }
 }

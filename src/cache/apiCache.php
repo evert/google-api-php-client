@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-require_once "apiFileStorage.php";
-require_once "apiApcStorage.php";
-require_once "apiMemcacheStorage.php";
+require_once "apiFileCache.php";
+require_once "apiApcCache.php";
+require_once "apiMemcacheCache.php";
 
 /**
  * Abstract storage class
  *
  * @author Chris Chabot
  */
-abstract class apiStorage {
+abstract class apiCache {
 
   /**
    * Retrieves the data for the given key, or false if they

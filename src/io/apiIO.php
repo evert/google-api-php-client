@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 
-abstract class apiIO {
+require_once "io/apiCurlIO.php";
 
-  abstract static public function send($url, $method, $postBody, $headers);
+interface apiIO {
+
+  public function __construct(apiCache $storage, apiAuth $auth);
+  public function makeRequest($url, $method, $postBody, $headers);
 
 }

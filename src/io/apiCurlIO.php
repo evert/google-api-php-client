@@ -15,9 +15,17 @@
  * limitations under the License.
  */
 
-class apiIO extends apiIO {
+class apiCurlIO implements apiIO {
 
   const USER_AGENT = 'google-api-php-client';
+
+  private $cache;
+  private $auth;
+
+  public function __construct(apiCache $cache, apiAuth $auth) {
+    $this->cache = $cache;
+    $this->auth = $auth;
+  }
 
   /**
    * Sends a request using the supplied parameters.
@@ -29,7 +37,7 @@ class apiIO extends apiIO {
    * @param string $ua the user agent to send in the request
    * @return array the returned data, parsed headers, and status code
    */
-  static public function send($url, $method, $postBody = false, $headers = false) {
+  public function makeRequest($url, $method, $postBody = false, $headers = false) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     if ($postBody) {

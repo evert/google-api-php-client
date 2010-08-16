@@ -23,18 +23,19 @@
  *
  * @author Chris Chabot
  */
-class apiMemcacheStorage extends apiStorage {
+class apiMemcacheCache extends apiCache {
   private $connection = false;
 
-  public function __construct($host, $port) {
+  public function __construct() {
+    global $apiConfig;
     if (! function_exists('memcache_connect')) {
-      throw new apiStorageException("Memcache functions not available");
+      throw new apiCacheException("Memcache functions not available");
     }
-    if ($host == '' || $port == '') {
-      throw new apiStorageException("You need to supply a valid memcache host and port");
+    $this->host = $apiConfig['ioMemCacheCache_host'];
+    $this->port = $apiConfig['ioMemCacheCache_port'];
+    if (is_empty($this->host) || is_empty($this->port)) {
+      throw new apiCacheException("You need to supply a valid memcache host and port");
     }
-    $this->host = $host;
-    $this->port = $port;
   }
 
   private function isLocked($key) {
@@ -78,7 +79,7 @@ class apiMemcacheStorage extends apiStorage {
   // so this potentially saves a lot of overhead
   private function connect() {
     if (! $this->connection = @memcache_pconnect($this->host, $this->port)) {
-      throw new apiStorageException("Couldn't connect to memcache server");
+      throw new apiCacheException("Couldn't connect to memcache server");
     }
   }
 
@@ -111,7 +112,7 @@ class apiMemcacheStorage extends apiStorage {
     // we store it with the cache_time default expiration so objects will atleast get cleaned eventually.
     if (@memcache_set($this->connection, $key, array('time' => time(),
         'data' => $value), false) == false) {
-      throw new apiStorageException("Couldn't store data in cache");
+      throw new apiCacheException("Couldn't store data in cache");
     }
   }
 

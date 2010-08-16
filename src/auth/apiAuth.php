@@ -19,11 +19,7 @@ require_once "apiAuthNone.php";
 require_once "apiOAuth.php";
 
 abstract class apiAuth {
-  public $localUserId;
-
-  public function __construct($localUserId = null) {
-    $this->localUserId = $localUserId;
-  }
-
+  abstract public function authenticate(apiCache $cache, apiIO $io, $service);
+  abstract public function setAccessToken($accessToken);
   abstract public function sign($method, $url, $params = array(), $postBody = false, &$headers = array());
 }

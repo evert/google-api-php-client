@@ -23,11 +23,11 @@
  *
  * @author Chris Chabot
  */
-class apiApcStorage extends apiStorage {
+class apiApcCache extends apiCache {
 
   public function __construct() {
     if (! function_exists('apc_add')) {
-      throw new apiStorageException("Apc functions not available");
+      throw new apiCacheException("Apc functions not available");
     }
   }
 
@@ -84,7 +84,7 @@ class apiApcStorage extends apiStorage {
    */
   public function set($key, $value) {
     if (@apc_store($key, array('time' => time(), 'data' => serialize($value))) == false) {
-      throw new apiStorageException("Couldn't store data");
+      throw new apiCacheException("Couldn't store data");
     }
   }
 
