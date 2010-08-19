@@ -33,6 +33,10 @@ class apiAuthException extends apiException {}
 class apiCacheException extends apiException {}
 class apiIOException extends apiException {}
 
+/**
+ * The Google API Client class
+ * @author chabotc
+ */
 class apiClient {
 
   // worker classes

@@ -15,13 +15,3 @@
  * limitations under the License.
  */
 
-require_once "io/apiCurlIO.php";
-require_once "io/apiREST.php";
-require_once "io/apiRPC.php";
-
-interface apiIO {
-
-  public function __construct(apiCache $storage, apiAuth $auth);
-  public function makeRequest($url, $method, $postBody, $headers);
-
-}

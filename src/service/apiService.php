@@ -17,6 +17,7 @@
 
 require_once "service/apiServiceResource.php";
 require_once "service/apiServiceRequest.php";
+require_once "service/apiBatch.php";
 
 class apiService {
 

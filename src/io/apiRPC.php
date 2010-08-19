@@ -15,13 +15,24 @@
  * limitations under the License.
  */
 
-require_once "io/apiCurlIO.php";
-require_once "io/apiREST.php";
-require_once "io/apiRPC.php";
 
-interface apiIO {
+class apiRPC {
 
-  public function __construct(apiCache $storage, apiAuth $auth);
-  public function makeRequest($url, $method, $postBody, $headers);
-
+  static public function execute($requests) {
+/*
+ * Example request:
+  POST /jsonrpc HTTP/1.1
+  Host: api.example.org
+  Authorization: <Auth token>
+  Content-Type: application/json
+  {
+    "method" : "people.get",
+    "id" : "myself"
+    "params" : {
+      "userid" : "@me",
+      "groupid" : "@self"
+    }
+  }
+ */
+  }
 }
