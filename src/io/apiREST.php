@@ -15,11 +15,41 @@
  * limitations under the License.
  */
 
+require_once "external/URITemplateParser.php";
+
 class apiREST {
+
   static public function execute($request) {
     $result = null;
-    echo "executing:<pre>\n".print_r($request, true)."</pre>";
-
-    return $result;
+    $requestUrl = $request->getBaseUrl() . $request->getPathUrl();
+    $uriTemplateVars = array();
+    $queryVars = array();
+    foreach ($request->getParameters() as $paramName => $paramSpec) {
+      if ($paramSpec['parameterType'] == 'path') {
+        $uriTemplateVars[$paramName] = $paramSpec['value'];
+      } else {
+        $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
+      }
+    }
+    $queryVars[] = 'alt=json';
+    if (count($uriTemplateVars)) {
+      $uriTemplateParser = new URI_Template_Parser($requestUrl);
+      $requestUrl = $uriTemplateParser->expand($uriTemplateVars);
+    }
+    $requestUrl = str_replace('%40', '@', $requestUrl);
+    if (count($queryVars)) {
+      $requestUrl .= '?' . implode($queryVars, '&');
+    }
+    $httpRequest = new apiHttpRequest($requestUrl, $request->getHttpMethod(), null, $request->getPostBody());
+    $httpRequest = $request->getIo()->authenticatedRequest($httpRequest);
+    if ($httpRequest->getResponseHttpCode() != '200' && $httpRequest->getResponseHttpCode() != '201') {
+      throw new apiException("Error executing REST call, http code: " . $httpRequest->getResponseHttpCode() . ", response body: " . $httpRequest->getResponseBody());
+    }
+    $decodedResponse = json_decode($httpRequest->getResponseBody(), true);
+    if ($decodedResponse == null) {
+      throw new apiException("Error json decoding response body: " . $httpRequest->getResponseBody());
+    }
+    return $decodedResponse;
   }
+
 }

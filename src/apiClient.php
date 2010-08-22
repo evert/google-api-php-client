@@ -15,19 +15,33 @@
  * limitations under the License.
  */
 
+// Check for the required json and curl extensions, the google api php client won't function without
+if (!function_exists('curl_init')) {
+  throw new Exception('The Google PHP API Library needs the CURL PHP extension');
+}
+if (!function_exists('json_decode')) {
+  throw new Exception('The Google PHP API Library needs the JSON PHP extension');
+}
+
 // hack around with the include paths a bit so the library 'just works'
 $cwd = dirname(__FILE__);
 set_include_path("$cwd" . PATH_SEPARATOR . ":" . get_include_path());
 
 require_once "config.php";
-if (file_exists($cwd . 'local_config.php')) {
-  require_once ($cwd . 'local_config.php');
+// If a local configuration file is found, merge it's values with the default configuration
+if (file_exists($cwd . '/local_config.php')) {
+  $defaultConfig = $apiConfig;
+  require_once ($cwd . '/local_config.php');
+  $apiConfig = array_merge($defaultConfig, $apiConfig);
 }
+
+// Include the top level classes, they each include their own dependencies
 require_once "auth/apiAuth.php";
 require_once "cache/apiCache.php";
 require_once "io/apiIO.php";
 require_once "service/apiService.php";
 
+// Exceptions that the Google PHP API Library can throw
 class apiException extends Exception {}
 class apiAuthException extends apiException {}
 class apiCacheException extends apiException {}
@@ -38,6 +52,9 @@ class apiIOException extends apiException {}
  * @author chabotc
  */
 class apiClient {
+
+  // the version of the discovery mechanism this class is meant to work with
+  const discoveryVersion = '0.1';
 
   // worker classes
   protected $auth;
@@ -74,7 +91,7 @@ class apiClient {
     }
     // Merge the service descriptor with the default values
     $this->services[$service] = array_merge($this->defaultService, $apiConfig['services'][$service]);
-    $this->services[$service]['discoveryURI'] = 'http://www.googleapis.com/discovery/0.1/describe?api=' . $service . '&apiVersion=' . $version;
+    $this->services[$service]['discoveryURI'] = 'http://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe?api=' . urlencode($service) . '&apiVersion=' . urlencode($version);
     $this->$service = $this->discoverService($service, $this->services[$service]['discoveryURI']);
     return $this->$service;
   }
@@ -94,7 +111,7 @@ class apiClient {
       $service = array_merge($service, $val);
     }
     $service['scope'] = implode(' ', $scopes);
-    $this->auth->authenticate($this->cache, $this->io, $service);
+    return $this->auth->authenticate($this->cache, $this->io, $service);
   }
 
   public function setAccessToken($accessToken) {
@@ -102,20 +119,16 @@ class apiClient {
   }
 
   private function discoverService($serviceName, $serviceURI) {
-    $discoveryResponse = $this->io->makeRequest($serviceURI, 'GET');
-    if ($discoveryResponse['http_code'] != '200') {
-      throw new apiException("Could not fetch discovery document for $service, http code: {$discoveryResponse['http_code']}, response: {$discoveryResponse['data']}");
+    $request = $this->io->makeRequest(new apiHttpRequest($serviceURI));
+    if ($request->getResponseHttpCode() != 200) {
+      throw new apiException("Could not fetch discovery document for $service, http code: ". $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
     }
-    // Work around a bug that's going to be fixed real-soon-now
-    if (strpos($discoveryResponse['data'], 'data":{{"') !== false) {
-      $discoveryResponse['data'] = str_replace('"data":{{"', '"data":{"', $discoveryResponse['data']);
-      $discoveryResponse['data'] = substr($discoveryResponse['data'], 0, strlen($discoveryResponse['data']) - 1);
-    }
-    $discoveryDocument = json_decode($discoveryResponse['data'], true);
+    $discoveryResponse = $request->getResponseBody();
+    $discoveryDocument = json_decode($discoveryResponse, true);
     if ($discoveryDocument == NULL) {
       throw new apiException("Invalid json returned for $service");
     }
-    return new apiService($serviceName, $discoveryDocument);
+    return new apiService($serviceName, $discoveryDocument, $this->io);
   }
 
 

@@ -27,26 +27,35 @@ class apiCurlIO implements apiIO {
     $this->auth = $auth;
   }
 
+  public function authenticatedRequest(apiHttpRequest $request) {
+    $request = $this->auth->sign($request);
+    echo "<pre>AuthenticatedRequest():\n".print_r($request, true)."</pre><br>";
+    return $this->makeRequest($request);
+  }
+
   /**
-   * Sends a request using the supplied parameters.
+   * Execute a apiHttpRequest
    *
-   * @param string $url the requested URL
-   * @param string $method the HTTP verb to use
-   * @param string $postBody the optional POST body to send in the request
-   * @param boolean $headers whether or not to return header information
-   * @param string $ua the user agent to send in the request
-   * @return array the returned data, parsed headers, and status code
+   * @param apiHttpRequest $request the http request to be executed
+   * @return apiHttpRequest http request with the response http code, response headers and response body filled in
    */
-  public function makeRequest($url, $method, $postBody = false, $headers = false) {
+  public function makeRequest(apiHttpRequest $request) {
+    // If it's a GET request, check to see if we have a valid cached version
+    if ($request->getMethod() == 'GET') {
+      if ($ret = $this->getCachedRequest($request)) {
+        return $ret;
+      }
+    }
+    // Couldn't use a cached version, so perform the actual request
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    if ($postBody) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $postBody);
+    curl_setopt($ch, CURLOPT_URL, $request->getUrl());
+    if ($request->getPostBody()) {
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getPostBody());
     }
-    if ($headers && is_array($headers)) {
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    if ($request->getHeaders() && is_array($request->getHeaders())) {
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $request->getHeaders());
     }
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENT);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
@@ -59,8 +68,9 @@ class apiCurlIO implements apiIO {
     $error = @curl_error($ch);
     @curl_close($ch);
     if ($errno != CURLE_OK) {
-      throw new apiIOException("HTTP Error: " . $error);
+      throw new apiIOException('HTTP Error: (' . $errno . ') ' . $error);
     }
+    // Parse out the raw response into usable bits
     list($raw_response_headers, $response_body) = explode("\r\n\r\n", $data, 2);
     $response_header_lines = explode("\r\n", $raw_response_headers);
     array_shift($response_header_lines);
@@ -73,7 +83,17 @@ class apiCurlIO implements apiIO {
         $response_header_array[$header] = $value;
       }
     }
-    return array('http_code' => $http_code, 'headers' => $response_header_array,
-        'data' => $response_body);
+    // Fill in the apiHttpRequest with the response values
+    $request->setResponseHttpCode((int) $http_code);
+    $request->setResponseHeaders($response_header_array);
+    $request->setResponseBody($response_body);
+    // And return it
+    return $request;
   }
+
+  private function getCachedRequest($request) {
+    //TODO implement caching using pragma, expired, valid, etag, etc headers
+    return false;
+  }
+
 }

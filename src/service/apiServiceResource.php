@@ -38,28 +38,28 @@ class apiServiceResource {
     }
     $batchKey = false;
     if (isset($arguments[1])) {
-      if (!is_string($arguments[1])) {
-        throw new apiException("The batch key param should be a string, for example: \$apiClient->buzz->activities->list( array('userId' => '@me'), 'batchKey')");
+      if (! is_string($arguments[1])) {
+        throw new apiException("The batch key parameter should be a string, for example: \$apiClient->buzz->activities->list( array('userId' => '@me'), 'batchKey')");
       }
       $batchKey = $arguments[1];
     }
-    if (!isset($this->methods[$name])) {
+    if (! isset($this->methods[$name])) {
       throw new apiException("Unknown function: {$this->serviceName}->{$this->resourceName}->{$name}()");
     }
     $method = $this->methods[$name];
     $parameters = $arguments[0];
     foreach ($parameters as $key => $val) {
-      if (!isset($method['parameters'][$key])) {
+      if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
         throw new apiException("($name) unknown parameter: '$key'");
       }
     }
     foreach ($method['parameters'] as $paramName => $paramSpec) {
-      if ($paramSpec['required'] && !isset($parameters[$paramName])) {
+      if ($paramSpec['required'] && ! isset($parameters[$paramName])) {
         throw new apiException("($name) missing required param: '$paramName'");
       }
       if (isset($parameters[$paramName])) {
         $value = $parameters[$paramName];
-/*
+        /*
 //TODO figure out how to do the pattern matching
         // check to see if the param value matches the required pattern
         if (isset($parameters[$paramName]['pattern']) && !empty($parameters[$paramName]['pattern'])) {
@@ -71,11 +71,14 @@ class apiServiceResource {
 */
         $parameters[$paramName] = $paramSpec;
         $parameters[$paramName]['value'] = $value;
+        // remove all the bits that were already validated in this function & are no longer relevant within the execution chain
+        unset($parameters[$paramName]['pattern']);
+        unset($parameters[$paramName]['required']);
       } else {
         unset($parameters[$paramName]);
       }
     }
-    $request = new apiServiceRequest($method['pathUrl'], $method['rpcName'], $method['httpMethod'], $parameters);
+    $request = new apiServiceRequest($this->service->getIo(), $this->service->getBaseUrl(), $method['pathUrl'], $method['rpcName'], $method['httpMethod'], $parameters, (isset($parameters['postBody']) ? $parameters['postBody'] : null));
     if ($batchKey) {
       return $request;
     } else {

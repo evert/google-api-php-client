@@ -26,8 +26,8 @@ class apiAuthNone extends apiAuth {
   }
 
 
-  public function sign($method, $url, $params = array(), $postBody = false, &$headers = array()) {
+  public function sign(apiHttpRequest $request) {
     // noop
-    return $url;
+    return $request;
   }
 }

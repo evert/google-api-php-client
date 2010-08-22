@@ -24,10 +24,13 @@
  */
 class apiServiceRequest {
 
+  protected $io;
+  protected $baseUrl;
   protected $pathUrl;
   protected $rpcName;
   protected $httpMethod;
   protected $parameters;
+  protected $postBody;
 
   /**
    * Only used internally, so using a quick-and-dirty constuctor
@@ -36,11 +39,56 @@ class apiServiceRequest {
    * @param $httpMethod
    * @param $parameters
    */
-  public function __construct($pathUrl, $rpcName, $httpMethod, $parameters) {
+  public function __construct(apiIO $io, $baseUrl, $pathUrl, $rpcName, $httpMethod, $parameters, $postBody = null) {
+    $this->io = $io;
+    $this->baseUrl = $baseUrl;
     $this->pathUrl = $pathUrl;
     $this->rpcName = $rpcName;
     $this->httpMethod = $httpMethod;
     $this->parameters = $parameters;
+    $this->postBody = $postBody;
+  }
+
+  /**
+   * @return the $postBody
+   */
+  public function getPostBody() {
+    return $this->postBody;
+  }
+
+  /**
+   * @param $postBody the $postBody to set
+   */
+  public function setPostBody($postBody) {
+    $this->postBody = $postBody;
+  }
+
+  /**
+   * @return the $io
+   */
+  public function getIo() {
+    return $this->io;
+  }
+
+  /**
+   * @param $io the $io to set
+   */
+  public function setIo($io) {
+    $this->io = $io;
+  }
+
+  /**
+   * @return the $baseUrl
+   */
+  public function getBaseUrl() {
+    return $this->baseUrl;
+  }
+
+  /**
+   * @param $baseUrl the $baseUrl to set
+   */
+  public function setBaseUrl($baseUrl) {
+    $this->baseUrl = $baseUrl;
   }
 
   /**

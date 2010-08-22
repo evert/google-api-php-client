@@ -15,13 +15,37 @@
  * limitations under the License.
  */
 
+require_once "io/apiHttpRequest.php";
 require_once "io/apiCurlIO.php";
 require_once "io/apiREST.php";
 require_once "io/apiRPC.php";
 
+/**
+ * Abstract IO class
+ * @author chabotc
+ */
 interface apiIO {
 
+  /**
+   * Called by the apiClient
+   * @param $storage
+   * @param $auth
+   */
   public function __construct(apiCache $storage, apiAuth $auth);
-  public function makeRequest($url, $method, $postBody, $headers);
+
+  /**
+   * An utility function that first calls $this->auth->sign($request) and then executes makeRequest()
+   * on that signed request. Used for when a request should be authenticated
+   * @param apiHttpRequest $request
+   * @return apiHttpRequest $request
+   */
+  public function authenticatedRequest(apiHttpRequest $request);
+
+  /**
+   * Executes a apIHttpRequest and returns the resulting populated httpRequest
+   * @param apiHttpRequest $request
+   * @return apiHttpRequest $request
+   */
+  public function makeRequest(apiHttpRequest $request);
 
 }

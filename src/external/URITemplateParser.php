@@ -23,7 +23,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * A URI Template Parser for PHP
+ * A URI Template Parser which is used by the apiREST class to resolve the REST requests
  * Blogpost: http://lab.kevburnsjr.com/php-uri-template-parser
  * Source: http://github.com/KevBurnsJr/php-uri-template-parser
  */
@@ -48,12 +48,12 @@ class URI_Template_Parser {
   }
 
   public function expand($data) {
-    // modification to make this a bit more performant (since gettype is very slow)
-    if (!is_array($data)) {
+    // Modification to make this a bit more performant (since gettype is very slow)
+    if (! is_array($data)) {
       $data = (array)$data;
     }
-/*
-    // Format incoming data
+    /*
+    // Original code, which uses a slow gettype() statement, kept in place for if the assumption that is_array always works here is incorrect
     switch (gettype($data)) {
       case "boolean":
       case "integer":

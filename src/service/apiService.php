@@ -21,10 +21,12 @@ require_once "service/apiBatch.php";
 
 class apiService {
 
+  protected $io;
   protected $version = null;
   protected $baseUrl;
 
-  public function __construct($serviceName, $discoveryDocument) {
+  public function __construct($serviceName, $discoveryDocument, apiIO $io) {
+    $this->io = $io;
     $discoveryDocument = $discoveryDocument['data'][$serviceName];
     foreach ($discoveryDocument as $version => $service) {
       if ($this->version !== null) {
@@ -38,4 +40,45 @@ class apiService {
     }
   }
 
+  /**
+   * @return the $io
+   */
+  public function getIo() {
+    return $this->io;
+  }
+
+  /**
+   * @param $io the $io to set
+   */
+  public function setIo($io) {
+    $this->io = $io;
+  }
+
+  /**
+   * @return the $version
+   */
+  public function getVersion() {
+    return $this->version;
+  }
+
+  /**
+   * @return the $baseUrl
+   */
+  public function getBaseUrl() {
+    return $this->baseUrl;
+  }
+
+  /**
+   * @param $version the $version to set
+   */
+  public function setVersion($version) {
+    $this->version = $version;
+  }
+
+  /**
+   * @param $baseUrl the $baseUrl to set
+   */
+  public function setBaseUrl($baseUrl) {
+    $this->baseUrl = $baseUrl;
+  }
 }

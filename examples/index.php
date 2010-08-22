@@ -12,8 +12,9 @@ if (isset($_SESSION['oauth_access_token'])) {
   $apiClient->setAccessToken($_SESSION['oauth_access_token']);
 } else {
   $token = $apiClient->authenticate();
-  $_SESSION['oauth_access_token'] = serialize($token);
-  echo "set access token to: ".print_r($_SESSION['oauth_access_token'], true)."</pre>";
+  $_SESSION['oauth_access_token'] = $token;
 }
 
-$apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@self'));
+$activites = $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@self'));
+
+echo "Activities: <pre>".print_r($activites, true)."</pre>";

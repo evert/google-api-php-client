@@ -21,5 +21,5 @@ require_once "apiOAuth.php";
 abstract class apiAuth {
   abstract public function authenticate(apiCache $cache, apiIO $io, $service);
   abstract public function setAccessToken($accessToken);
-  abstract public function sign($method, $url, $params = array(), $postBody = false, &$headers = array());
+  abstract public function sign(apiHttpRequest $request);
 }

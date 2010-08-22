@@ -74,8 +74,7 @@ class apiOAuth extends apiAuth {
       $secret = $this->cache->get($this->cacheKey.":nonce:" . $uid);
       $this->cache->delete($this->cacheKey.":nonce:" . $uid);
       $token = $this->upgradeRequestToken($_GET['oauth_token'], $secret, $_GET['oauth_verifier']);
-      echo "<pre>apiOAuth access token: ".print_r($token, true). "</pre>";
-      return $token;
+      return json_encode($token, true);
     } else {
       // Initialize the OAuth dance, first request a request token, then kick the client to the authorize URL
       // First we store the current URL in our cache, so that when the oauth dance is completed we can return there
@@ -94,7 +93,11 @@ class apiOAuth extends apiAuth {
    * @param object $accessToken
    */
   public function setAccessToken($accessToken) {
-    $this->accessToken = $accessToken;
+    $accessToken = json_decode($accessToken, true);
+    if ($accessToken == null) {
+      throw new apiAuthException("Could not json decode the access token");
+    }
+    $this->accessToken = new OAuthConsumer($accessToken['key'], $accessToken['secret']);
   }
 
   /**
@@ -105,18 +108,14 @@ class apiOAuth extends apiAuth {
    */
   public function upgradeRequestToken($requestToken, $requestTokenSecret, $oauthVerifier) {
     $ret = $this->requestAccessToken($requestToken, $requestTokenSecret, $oauthVerifier);
-    if ($ret['http_code'] == '200') {
-      $matches = array();
-      @parse_str($ret['data'], $matches);
-      if (!isset($matches['oauth_token']) || !isset($matches['oauth_token_secret'])) {
-        throw new apiException("Error authorizing access key (result was: {$ret['data']})");
-      }
-      // The token was upgraded to an access token, we can now continue to use it.
-      $this->accessToken = new OAuthConsumer(OAuthUtil::urldecodeRFC3986($matches['oauth_token']), OAuthUtil::urldecodeRFC3986($matches['oauth_token_secret']));
-      return $this->accessToken;
-    } else {
-      throw new apiException("Error requesting oauth access token, code " . $ret['http_code'] . ", message: " . $ret['data']);
+    $matches = array();
+    @parse_str($ret, $matches);
+    if (!isset($matches['oauth_token']) || !isset($matches['oauth_token_secret'])) {
+      throw new apiAuthException("Error authorizing access key (result was: {$ret})");
     }
+    // The token was upgraded to an access token, we can now continue to use it.
+    $this->accessToken = new OAuthConsumer(OAuthUtil::urldecodeRFC3986($matches['oauth_token']), OAuthUtil::urldecodeRFC3986($matches['oauth_token_secret']));
+    return $this->accessToken;
   }
 
   /**
@@ -131,7 +130,11 @@ class apiOAuth extends apiAuth {
     $accessToken = new OAuthConsumer($requestToken, $requestTokenSecret);
     $accessRequest = OAuthRequest::from_consumer_and_token($this->consumerToken, $accessToken, "GET", $this->service['access_token_url'], array('oauth_verifier' => $oauthVerifier));
     $accessRequest->sign_request($this->signatureMethod, $this->consumerToken, $accessToken);
-    return $this->io->makeRequest($accessRequest, 'GET');
+    $request = $this->io->makeRequest(new apiHttpRequest($accessRequest));
+    if ($request->getResponseHttpCode() != 200) {
+      throw new apiAuthException("Could not fetch access token, http code: " . $request->getResponseHttpCode() . ', response body: '. $request->getResponseBody());
+    }
+    return $request->getResponseBody();
   }
 
   /**
@@ -142,16 +145,12 @@ class apiOAuth extends apiAuth {
   public function obtainRequestToken($callbackUrl, $uid) {
     $callbackParams = (strpos($_SERVER['REQUEST_URI'], '?') !== false ? '&' : '?') . 'uid=' . urlencode($uid);
     $ret = $this->requestRequestToken($callbackUrl . $callbackParams);
-    if ($ret['http_code'] == '200') {
-      $matches = array();
-      preg_match('/oauth_token=(.*)&oauth_token_secret=(.*)&oauth_callback_confirmed=(.*)/', $ret['data'], $matches);
-      if (!is_array($matches) || count($matches) != 4) {
-        throw new apiException("Error retrieving request key ({$ret['data']})");
-      }
-      return new OAuthToken(OAuthUtil::urldecodeRFC3986($matches[1]), OAuthUtil::urldecodeRFC3986($matches[2]));
-    } else {
-      throw new apiException("Error requesting oauth request token, code " . $ret['http_code'] . ", message: " . $ret['data']);
+    $matches = array();
+    preg_match('/oauth_token=(.*)&oauth_token_secret=(.*)&oauth_callback_confirmed=(.*)/', $ret, $matches);
+    if (!is_array($matches) || count($matches) != 4) {
+      throw new apiAuthException("Error retrieving request key ({$ret})");
     }
+    return new OAuthToken(OAuthUtil::urldecodeRFC3986($matches[1]), OAuthUtil::urldecodeRFC3986($matches[2]));
   }
 
   /**
@@ -165,7 +164,11 @@ class apiOAuth extends apiAuth {
     $requestTokenRequest->set_parameter('scope', $this->service['scope']);
     $requestTokenRequest->set_parameter('oauth_callback', $callbackUrl);
     $requestTokenRequest->sign_request($this->signatureMethod, $this->consumerToken, NULL);
-    return $this->io->makeRequest($requestTokenRequest, 'GET');
+    $request = $this->io->makeRequest(new apiHttpRequest($requestTokenRequest));
+    if ($request->getResponseHttpCode() != 200) {
+      throw new apiAuthException("Couldn't fetch request token, http code: " . $request->getResponseHttpCode() . ', response body: '. $request->getResponseBody());
+    }
+    return $request->getResponseBody();
   }
 
   /**
@@ -199,10 +202,6 @@ class apiOAuth extends apiAuth {
 
   /**
    * Sign the request using OAuth. This uses the consumer token and key
-   * but 2 legged oauth doesn't require an access token and key. In situations where you want to
-   * do a 'reverse phone home' (aka: gadget does a makeRequest to your server
-   * and your server wants to retrieve more social information) this is the prefered
-   * method.
    *
    * @param string $method the method (get/put/delete/post)
    * @param string $url the url to sign (http://site/social/rest/people/1/@me)
@@ -210,9 +209,9 @@ class apiOAuth extends apiAuth {
    * @param string $postBody for POST/PUT requests, the postBody is included in the signature
    * @return string the signed url
    */
-  public function sign($method, $url, $params = array(), $postBody = false, &$headers = array()) {
-    $oauthRequest = OAuthRequest::from_request($method, $url, $params);
-    $params = $this->mergeParameters($params);
+  public function sign(apiHttpRequest $request) {
+    $oauthRequest = OAuthRequest::from_request($request->getMethod(), $request->getBaseUrl(), $request->getQueryParams());
+    $params = $this->mergeParameters($request->getQueryParams());
     foreach ($params as $key => $val) {
       if (is_array($val)) {
         $val = implode(',', $val);
@@ -221,7 +220,9 @@ class apiOAuth extends apiAuth {
     }
     $oauthRequest->sign_request($this->signatureMethod, $this->consumerToken, $this->accessToken);
     $signedUrl = $oauthRequest->to_url();
-    return $signedUrl;
+    $request->originalUrl = $request->getUrl();
+    $request->setUrl($signedUrl);
+    return $request;
   }
 
   /**
