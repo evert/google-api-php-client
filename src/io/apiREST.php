@@ -17,9 +17,21 @@
 
 require_once "external/URITemplateParser.php";
 
+/**
+ * The API REST class: implements the RESTful transport of apiServiceRequest()'s
+ * @author chabotc
+ */
 class apiREST {
 
-  static public function execute($request) {
+  /**
+   * Executes a apiServiceRequest using a RESTful call by transforming it into a apiHttpRequest, execute it via apiIO::authenticatedRequest()
+   * and returning the json decoded result
+   *
+   * @param apiServiceRequest $request
+   * @return array decoded result
+   * @throws apiServiceException on server side error (ie: not authenticated, invalid or mallformed post body, invalid url, etc)
+   */
+  static public function execute(apiServiceRequest $request) {
     $result = null;
     $requestUrl = $request->getBaseUrl() . $request->getPathUrl();
     $uriTemplateVars = array();
@@ -36,20 +48,44 @@ class apiREST {
       $uriTemplateParser = new URI_Template_Parser($requestUrl);
       $requestUrl = $uriTemplateParser->expand($uriTemplateVars);
     }
+    //FIXME work around for the the uri template lib which url encodes the @'s & confuses our servers
     $requestUrl = str_replace('%40', '@', $requestUrl);
+    //EOFIX
+
+    //FIXME temp work around to make @groups/{@following,@followers} work
+    if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
+      $requestUrl = str_replace('/@self', '', $requestUrl);
+    }
+    //EOFIX
+
     if (count($queryVars)) {
       $requestUrl .= '?' . implode($queryVars, '&');
     }
     $httpRequest = new apiHttpRequest($requestUrl, $request->getHttpMethod(), null, $request->getPostBody());
+    // Add a content-type: application/json header so the server knows how to interpret the post body
+    if ($request->getPostBody()) {
+      $contentTypeHeader = array('Content-Type: application/json');
+      if ($httpRequest->getHeaders()) {
+        $contentTypeHeader = array_merge($httpRequest->getHeaders(), $contentTypeHeader);
+      }
+      $httpRequest->setHeaders($contentTypeHeader);
+    }
     $httpRequest = $request->getIo()->authenticatedRequest($httpRequest);
     if ($httpRequest->getResponseHttpCode() != '200' && $httpRequest->getResponseHttpCode() != '201') {
-      throw new apiException("Error executing REST call, http code: " . $httpRequest->getResponseHttpCode() . ", response body: " . $httpRequest->getResponseBody());
+      $responseBody = $httpRequest->getResponseBody();
+      if (($responseBody = json_decode($responseBody, true)) != null && isset($responseBody['error']['message']) && isset($responseBody['error']['code'])) {
+        // if we're getting a json encoded error defintion, use that instead of the raw response body for improved readability
+        $errorMessage = "Error calling " . (isset($httpRequest->originalUrl) ? $httpRequest->originalUrl : $httpRequest->getUrl()) . ": ({$responseBody['error']['code']}) {$responseBody['error']['message']}";
+      } else {
+        $errorMessage = "Error calling " . $httpRequest->getMethod() . " " . (isset($httpRequest->originalUrl) ? $httpRequest->originalUrl : $httpRequest->getUrl()) . ": (" . $httpRequest->getResponseHttpCode() . ") " . $httpRequest->getResponseBody();
+      }
+      throw new apiServiceException($errorMessage);
     }
-    $decodedResponse = json_decode($httpRequest->getResponseBody(), true);
-    if ($decodedResponse == null) {
-      throw new apiException("Error json decoding response body: " . $httpRequest->getResponseBody());
+    if (($decodedResponse = json_decode($httpRequest->getResponseBody(), true)) == null) {
+      throw new apiServiceException("Invalid json in service response: " . $httpRequest->getResponseBody());
     }
-    return $decodedResponse;
+    //FIXME currently everything is wrapped in a data enveloppe, but hopefully this might change some day
+    return isset($decodedResponse['data']) ? $decodedResponse['data'] : $decodedResponse;
   }
 
 }

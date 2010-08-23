@@ -16,10 +16,10 @@
  */
 
 // Check for the required json and curl extensions, the google api php client won't function without
-if (!function_exists('curl_init')) {
+if (! function_exists('curl_init')) {
   throw new Exception('The Google PHP API Library needs the CURL PHP extension');
 }
-if (!function_exists('json_decode')) {
+if (! function_exists('json_decode')) {
   throw new Exception('The Google PHP API Library needs the JSON PHP extension');
 }
 
@@ -46,6 +46,8 @@ class apiException extends Exception {}
 class apiAuthException extends apiException {}
 class apiCacheException extends apiException {}
 class apiIOException extends apiException {}
+class apiServiceException extends apiException {}
+
 
 /**
  * The Google API Client class
@@ -60,6 +62,9 @@ class apiClient {
   protected $auth;
   protected $io;
   protected $cache;
+
+  // map of type string ('buzz#activity') => class representation (buzzAcvitityModel) which will be automatically triggered on input
+  private $typeHandlers = array();
 
   // definitions of services that are discover()'rd
   protected $services = array();
@@ -121,7 +126,7 @@ class apiClient {
   private function discoverService($serviceName, $serviceURI) {
     $request = $this->io->makeRequest(new apiHttpRequest($serviceURI));
     if ($request->getResponseHttpCode() != 200) {
-      throw new apiException("Could not fetch discovery document for $service, http code: ". $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
+      throw new apiException("Could not fetch discovery document for $service, http code: " . $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
     }
     $discoveryResponse = $request->getResponseBody();
     $discoveryDocument = json_decode($discoveryResponse, true);
@@ -131,5 +136,78 @@ class apiClient {
     return new apiService($serviceName, $discoveryDocument, $this->io);
   }
 
+  public function registerTypeHandler($type, $handlerClass) {
+    $this->typeHandlers[$type] = $handlerClass;
+  }
+
+  /**
+   * @return the $auth
+   */
+  public function getAuth() {
+    return $this->auth;
+  }
+
+  /**
+   * @return the $io
+   */
+  public function getIo() {
+    return $this->io;
+  }
+
+  /**
+   * @return the $cache
+   */
+  public function getCache() {
+    return $this->cache;
+  }
+
+  /**
+   * @return the $typeHandlers
+   */
+  public function getTypeHandlers() {
+    return $this->typeHandlers;
+  }
+
+  /**
+   * @return the $services
+   */
+  public function getServices() {
+    return $this->services;
+  }
+
+  /**
+   * @param $auth the $auth to set
+   */
+  public function setAuth($auth) {
+    $this->auth = $auth;
+  }
+
+  /**
+   * @param $io the $io to set
+   */
+  public function setIo($io) {
+    $this->io = $io;
+  }
+
+  /**
+   * @param $cache the $cache to set
+   */
+  public function setCache($cache) {
+    $this->cache = $cache;
+  }
+
+  /**
+   * @param $typeHandlers the $typeHandlers to set
+   */
+  public function setTypeHandlers($typeHandlers) {
+    $this->typeHandlers = $typeHandlers;
+  }
+
+  /**
+   * @param $services the $services to set
+   */
+  public function setServices($services) {
+    $this->services = $services;
+  }
 
 }

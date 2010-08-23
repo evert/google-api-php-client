@@ -19,6 +19,7 @@
  * Internal representation of a Google API request, used by the apiServiceResource class to
  * construct API function calls and passing them to the IO layer who knows how to execute
  * the request
+ *
  * @author chabotc
  *
  */

@@ -15,21 +15,41 @@
  * limitations under the License.
  */
 
+/**
+ * Curl based apiIO implementation, uses curl to perform the apiHttpRequest's
+ *
+ * @author chabotc
+ */
 class apiCurlIO implements apiIO {
 
+  // User agent that's used to identify this library
   const USER_AGENT = 'google-api-php-client';
 
+  // Set by the top level apiClient class, stored here locally to deal with auth signing and caching
   private $cache;
   private $auth;
 
+  /**
+   * Called by the apiClient base class
+   * @param apiCache $cache
+   * @param apiAuth $auth
+   */
   public function __construct(apiCache $cache, apiAuth $auth) {
     $this->cache = $cache;
     $this->auth = $auth;
   }
 
+
+  /**
+   * Perform an authenticated / signed apihttpRequest.
+   * This function takes the apiHttpRequest, calls apiAuth->sign on it (which can modify the request in what ever way fits the auth mechanism)
+   * and then calls apiCurlIO::makeRequest on the signed request
+   *
+   * @param apiHttpRequest $request
+   * @returns apiHttpRequest the resulting request with the responseHttpCode, responseHeaders and responseBody filled in
+   */
   public function authenticatedRequest(apiHttpRequest $request) {
     $request = $this->auth->sign($request);
-    echo "<pre>AuthenticatedRequest():\n".print_r($request, true)."</pre><br>";
     return $this->makeRequest($request);
   }
 
@@ -38,10 +58,12 @@ class apiCurlIO implements apiIO {
    *
    * @param apiHttpRequest $request the http request to be executed
    * @return apiHttpRequest http request with the response http code, response headers and response body filled in
+   * @throws apiIOException on curl or IO error
    */
   public function makeRequest(apiHttpRequest $request) {
     // If it's a GET request, check to see if we have a valid cached version
     if ($request->getMethod() == 'GET') {
+      // check to see if this is signed, and if so use the orignal url + oauth access token to get a (per user context(!)) unique key to match against
       if ($ret = $this->getCachedRequest($request)) {
         return $ret;
       }
@@ -95,5 +117,4 @@ class apiCurlIO implements apiIO {
     //TODO implement caching using pragma, expired, valid, etag, etc headers
     return false;
   }
-
 }

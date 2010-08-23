@@ -48,8 +48,17 @@ class apiServiceResource {
     }
     $method = $this->methods[$name];
     $parameters = $arguments[0];
+    // postBody is a special case since it's not defined in the discovery document as parameter, but we abuse the param entry for storing it
+    $postBody = null;
+    if (isset($parameters['postBody'])) {
+      // If the postBody is not a raw json string, json encode it for transport
+      $postBody = is_array($parameters['postBody']) || is_object($parameters['postBody']) ? json_encode($parameters['postBody']) : $parameters['postBody'];
+      // remove from the parameter list so not to trip up the param entry checking & make sure it doesn't end up on the query
+      unset($parameters['postBody']);
+      //FIXME Should really add the magic array('data' => ..real stuff ..) wrapper around the request as to not bother developers with it
+    }
     foreach ($parameters as $key => $val) {
-      if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
+      if (! isset($method['parameters'][$key])) {
         throw new apiException("($name) unknown parameter: '$key'");
       }
     }
@@ -59,8 +68,8 @@ class apiServiceResource {
       }
       if (isset($parameters[$paramName])) {
         $value = $parameters[$paramName];
+        //TODO figure out how to do the pattern matching
         /*
-//TODO figure out how to do the pattern matching
         // check to see if the param value matches the required pattern
         if (isset($parameters[$paramName]['pattern']) && !empty($parameters[$paramName]['pattern'])) {
           echo "pattern: {$parameters[$paramName]['pattern']}\n";
@@ -78,7 +87,7 @@ class apiServiceResource {
         unset($parameters[$paramName]);
       }
     }
-    $request = new apiServiceRequest($this->service->getIo(), $this->service->getBaseUrl(), $method['pathUrl'], $method['rpcName'], $method['httpMethod'], $parameters, (isset($parameters['postBody']) ? $parameters['postBody'] : null));
+    $request = new apiServiceRequest($this->service->getIo(), $this->service->getBaseUrl(), $method['pathUrl'], $method['rpcName'], $method['httpMethod'], $parameters, $postBody);
     if ($batchKey) {
       return $request;
     } else {
