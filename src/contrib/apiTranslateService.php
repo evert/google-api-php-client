@@ -35,6 +35,7 @@ class apiTranslateService {
    * Constructs the internal service representations and does the auto-magic configuration required to drive them
    */
   public function __construct(apiClient $apiClient) {
+    $apiClient->addService('translate', 'v2');
     $this->io = $apiClient->getIo();
     $this->translations = new apiServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods":{"list":{"pathUrl":"language\/translate\/v2","rpcName":"language.translations.list","httpMethod":"GET","methodType":"rest","parameters":{"source":{"parameterType":"query","required":false},"q":{"parameterType":"query","required":false},"target":{"parameterType":"query","required":false},"format":{"parameterType":"query","required":false}}},"listinternal":{"pathUrl":"language\/translate\/v2\/internal","rpcName":"language.translations.listinternal","httpMethod":"POST","methodType":"rest","parameters":{"source":{"parameterType":"query","required":false},"q":{"parameterType":"query","required":false},"target":{"parameterType":"query","required":false},"format":{"parameterType":"query","required":false}}}}}', true));
   }
@@ -107,5 +108,6 @@ class apiTranslateService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-
+    
 }
+

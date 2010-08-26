@@ -35,6 +35,7 @@ class apiDiacritizeService {
    * Constructs the internal service representations and does the auto-magic configuration required to drive them
    */
   public function __construct(apiClient $apiClient) {
+    $apiClient->addService('diacritize', 'v1');
     $this->io = $apiClient->getIo();
     $this->corpus = new apiServiceResource($this, $this->serviceName, 'corpus', json_decode('{"methods":{"get":{"pathUrl":"language\/diacritize\/v1","rpcName":"language.diacritize.corpus.get","httpMethod":"GET","methodType":"rest","parameters":{"message":{"parameterType":"query","required":false},"last_letter":{"parameterType":"query","required":false},"lang":{"parameterType":"query","required":false}}}}}', true));
   }
@@ -92,5 +93,6 @@ class apiDiacritizeService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-
+    
 }
+

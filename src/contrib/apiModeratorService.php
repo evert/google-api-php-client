@@ -79,12 +79,12 @@ class apiModeratorService {
    * Implementation of the moderator.tags.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.tags.insert
    *
-   * @param $postBody required
    * @param $seriesId required
    * @param $submissionId required
+   * @param $postBody required
    */
-  public function insertTags($postBody, $seriesId, $submissionId) {
-    return $this->tags->__call('insert', array(array('postBody' => $postBody, 'seriesId' => $seriesId, 'submissionId' => $submissionId)));
+  public function insertTags($seriesId, $submissionId, $postBody) {
+    return $this->tags->__call('insert', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
   }
 
   /**
@@ -100,11 +100,11 @@ class apiModeratorService {
    * Implementation of the moderator.series.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.series.update
    *
-   * @param $postBody required
    * @param $seriesId required
+   * @param $postBody required
    */
-  public function updateSeries($postBody, $seriesId) {
-    return $this->series->__call('update', array(array('postBody' => $postBody, 'seriesId' => $seriesId)));
+  public function updateSeries($seriesId, $postBody) {
+    return $this->series->__call('update', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
   }
 
   /**
@@ -143,11 +143,11 @@ class apiModeratorService {
    * Implementation of the moderator.topics.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.topics.insert
    *
-   * @param $postBody required
    * @param $seriesId required
+   * @param $postBody required
    */
-  public function insertTopics($postBody, $seriesId) {
-    return $this->topics->__call('insert', array(array('postBody' => $postBody, 'seriesId' => $seriesId)));
+  public function insertTopics($seriesId, $postBody) {
+    return $this->topics->__call('insert', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
   }
 
   /**
@@ -165,13 +165,13 @@ class apiModeratorService {
    * Implementation of the moderator.votes.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.votes.update
    *
-   * @param $postBody required
    * @param $seriesId required
    * @param $submissionId required
+   * @param $postBody required
    * @param $userId optional
    */
-  public function updateVotes($postBody, $seriesId, $submissionId, $userId = null) {
-    return $this->votes->__call('update', array(array('postBody' => $postBody, 'seriesId' => $seriesId, 'submissionId' => $submissionId, 'userId' => $userId)));
+  public function updateVotes($seriesId, $submissionId, $postBody, $userId = null) {
+    return $this->votes->__call('update', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody, 'userId' => $userId)));
   }
 
   /**
@@ -202,12 +202,12 @@ class apiModeratorService {
    * Implementation of the moderator.votes.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.votes.insert
    *
-   * @param $postBody required
    * @param $seriesId required
    * @param $submissionId required
+   * @param $postBody required
    */
-  public function insertVotes($postBody, $seriesId, $submissionId) {
-    return $this->votes->__call('insert', array(array('postBody' => $postBody, 'seriesId' => $seriesId, 'submissionId' => $submissionId)));
+  public function insertVotes($seriesId, $submissionId, $postBody) {
+    return $this->votes->__call('insert', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
   }
 
   /**
@@ -242,12 +242,12 @@ class apiModeratorService {
    * Implementation of the moderator.submissions.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.submissions.insert
    *
-   * @param $postBody required
    * @param $topicId required
    * @param $seriesId required
+   * @param $postBody required
    */
-  public function insertSubmissions($postBody, $topicId, $seriesId) {
-    return $this->submissions->__call('insert', array(array('postBody' => $postBody, 'topicId' => $topicId, 'seriesId' => $seriesId)));
+  public function insertSubmissions($topicId, $seriesId, $postBody) {
+    return $this->submissions->__call('insert', array(array('topicId' => $topicId, 'seriesId' => $seriesId, 'postBody' => $postBody)));
   }
 
   /**
@@ -273,13 +273,13 @@ class apiModeratorService {
    * Implementation of the moderator.responses.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#moderator.responses.insert
    *
-   * @param $postBody required
    * @param $parentSubmissionId required
    * @param $topicId required
    * @param $seriesId required
+   * @param $postBody required
    */
-  public function insertResponses($postBody, $parentSubmissionId, $topicId, $seriesId) {
-    return $this->responses->__call('insert', array(array('postBody' => $postBody, 'parentSubmissionId' => $parentSubmissionId, 'topicId' => $topicId, 'seriesId' => $seriesId)));
+  public function insertResponses($parentSubmissionId, $topicId, $seriesId, $postBody) {
+    return $this->responses->__call('insert', array(array('parentSubmissionId' => $parentSubmissionId, 'topicId' => $topicId, 'seriesId' => $seriesId, 'postBody' => $postBody)));
   }
 
   /**
@@ -339,5 +339,6 @@ class apiModeratorService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-
+    
 }
+

@@ -36,6 +36,7 @@ class apiEasyhybridService {
    * Constructs the internal service representations and does the auto-magic configuration required to drive them
    */
   public function __construct(apiClient $apiClient) {
+    $apiClient->addService('easyhybrid', 'v1');
     $this->io = $apiClient->getIo();
     $this->useremail = new apiServiceResource($this, $this->serviceName, 'useremail', json_decode('{"methods":{"get":{"pathUrl":"userinfo\/email","rpcName":"auth.useremail.get","httpMethod":"GET","methodType":"rest"}}}', true));
     $this->userinfo = new apiServiceResource($this, $this->serviceName, 'userinfo', json_decode('{"methods":{"get":{"pathUrl":"easyhybrid\/userinfo","rpcName":"auth.userinfo.get","httpMethod":"GET","methodType":"rest"}}}', true));
@@ -100,5 +101,6 @@ class apiEasyhybridService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-
+    
 }
+

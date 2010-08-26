@@ -58,41 +58,41 @@ class apiBuzzService {
    * Implementation of the buzz.photos.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.photos.insert
    *
-   * @param $postBody required
    * @param $albumId required
    * @param $userId required
+   * @param $postBody required
    * @param $resource optional
    * @param $hl optional
    */
-  public function insertPhotos($postBody, $albumId, $userId, $resource = null, $hl = null) {
-    return $this->photos->__call('insert', array(array('postBody' => $postBody, 'albumId' => $albumId, 'userId' => $userId, 'resource' => $resource, 'hl' => $hl)));
+  public function insertPhotos($albumId, $userId, $postBody, $resource = null, $hl = null) {
+    return $this->photos->__call('insert', array(array('albumId' => $albumId, 'userId' => $userId, 'postBody' => $postBody, 'resource' => $resource, 'hl' => $hl)));
   }
 
   /**
    * Implementation of the buzz.feeds.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.feeds.insert
    *
-   * @param $postBody required
    * @param $userId required
+   * @param $postBody required
    * @param $hl optional
    */
-  public function insertFeeds($postBody, $userId, $hl = null) {
-    return $this->feeds->__call('insert', array(array('postBody' => $postBody, 'userId' => $userId, 'hl' => $hl)));
+  public function insertFeeds($userId, $postBody, $hl = null) {
+    return $this->feeds->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
    * Implementation of the buzz.feeds.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.feeds.update
    *
-   * @param $postBody required
    * @param $siteId required
    * @param $userId required
+   * @param $postBody required
    * @param $max_results optional
    * @param $c optional
    * @param $hl optional
    */
-  public function updateFeeds($postBody, $siteId, $userId, $max_results = null, $c = null, $hl = null) {
-    return $this->feeds->__call('update', array(array('postBody' => $postBody, 'siteId' => $siteId, 'userId' => $userId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+  public function updateFeeds($siteId, $userId, $postBody, $max_results = null, $c = null, $hl = null) {
+    return $this->feeds->__call('update', array(array('siteId' => $siteId, 'userId' => $userId, 'postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -142,15 +142,15 @@ class apiBuzzService {
    * Implementation of the buzz.activities.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.activities.update
    *
-   * @param $postBody required
    * @param $scope required
    * @param $userId required
    * @param $postId required
+   * @param $postBody required
    * @param $hl optional
    * @param $abuseType optional
    */
-  public function updateActivities($postBody, $scope, $userId, $postId, $hl = null, $abuseType = null) {
-    return $this->activities->__call('update', array(array('postBody' => $postBody, 'scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'hl' => $hl, 'abuseType' => $abuseType)));
+  public function updateActivities($scope, $userId, $postId, $postBody, $hl = null, $abuseType = null) {
+    return $this->activities->__call('update', array(array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl, 'abuseType' => $abuseType)));
   }
 
   /**
@@ -170,14 +170,14 @@ class apiBuzzService {
    * Implementation of the buzz.activities.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.activities.insert
    *
-   * @param $postBody required
    * @param $userId required
+   * @param $postBody required
    * @param $preview optional
    * @param $resource optional
    * @param $hl optional
    */
-  public function insertActivities($postBody, $userId, $preview = null, $resource = null, $hl = null) {
-    return $this->activities->__call('insert', array(array('postBody' => $postBody, 'userId' => $userId, 'preview' => $preview, 'resource' => $resource, 'hl' => $hl)));
+  public function insertActivities($userId, $postBody, $preview = null, $resource = null, $hl = null) {
+    return $this->activities->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'preview' => $preview, 'resource' => $resource, 'hl' => $hl)));
   }
 
   /**
@@ -282,16 +282,16 @@ class apiBuzzService {
    * Implementation of the buzz.people.reshared method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.people.reshared
    *
-   * @param $postBody required
    * @param $groupId required
    * @param $userId required
    * @param $postId required
+   * @param $postBody required
    * @param $max_results optional
    * @param $c optional
    * @param $hl optional
    */
-  public function resharedPeople($postBody, $groupId, $userId, $postId, $max_results = null, $c = null, $hl = null) {
-    return $this->people->__call('reshared', array(array('postBody' => $postBody, 'groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+  public function resharedPeople($groupId, $userId, $postId, $postBody, $max_results = null, $c = null, $hl = null) {
+    return $this->people->__call('reshared', array(array('groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -311,30 +311,30 @@ class apiBuzzService {
    * Implementation of the buzz.people.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.people.update
    *
-   * @param $postBody required
    * @param $groupId required
    * @param $userId required
    * @param $personId required
+   * @param $postBody required
    * @param $hl optional
    */
-  public function updatePeople($postBody, $groupId, $userId, $personId, $hl = null) {
-    return $this->people->__call('update', array(array('postBody' => $postBody, 'groupId' => $groupId, 'userId' => $userId, 'personId' => $personId, 'hl' => $hl)));
+  public function updatePeople($groupId, $userId, $personId, $postBody, $hl = null) {
+    return $this->people->__call('update', array(array('groupId' => $groupId, 'userId' => $userId, 'personId' => $personId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
    * Implementation of the buzz.people.liked method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.people.liked
    *
-   * @param $postBody required
    * @param $groupId required
    * @param $userId required
    * @param $postId required
+   * @param $postBody required
    * @param $max_results optional
    * @param $c optional
    * @param $hl optional
    */
-  public function likedPeople($postBody, $groupId, $userId, $postId, $max_results = null, $c = null, $hl = null) {
-    return $this->people->__call('liked', array(array('postBody' => $postBody, 'groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+  public function likedPeople($groupId, $userId, $postId, $postBody, $max_results = null, $c = null, $hl = null) {
+    return $this->people->__call('liked', array(array('groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -378,41 +378,41 @@ class apiBuzzService {
    * Implementation of the buzz.groups.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.groups.update
    *
-   * @param $postBody required
    * @param $groupId required
    * @param $userId required
+   * @param $postBody required
    * @param $hl optional
    */
-  public function updateGroups($postBody, $groupId, $userId, $hl = null) {
-    return $this->groups->__call('update', array(array('postBody' => $postBody, 'groupId' => $groupId, 'userId' => $userId, 'hl' => $hl)));
+  public function updateGroups($groupId, $userId, $postBody, $hl = null) {
+    return $this->groups->__call('update', array(array('groupId' => $groupId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
    * Implementation of the buzz.groups.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.groups.insert
    *
-   * @param $postBody required
    * @param $userId required
+   * @param $postBody required
    * @param $hl optional
    */
-  public function insertGroups($postBody, $userId, $hl = null) {
-    return $this->groups->__call('insert', array(array('postBody' => $postBody, 'userId' => $userId, 'hl' => $hl)));
+  public function insertGroups($userId, $postBody, $hl = null) {
+    return $this->groups->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
    * Implementation of the buzz.comments.update method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.comments.update
    *
-   * @param $postBody required
    * @param $scope required
    * @param $userId required
    * @param $commentId required
    * @param $postId required
+   * @param $postBody required
    * @param $hl optional
    * @param $abuseType optional
    */
-  public function updateComments($postBody, $scope, $userId, $commentId, $postId, $hl = null, $abuseType = null) {
-    return $this->comments->__call('update', array(array('postBody' => $postBody, 'scope' => $scope, 'userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'hl' => $hl, 'abuseType' => $abuseType)));
+  public function updateComments($scope, $userId, $commentId, $postId, $postBody, $hl = null, $abuseType = null) {
+    return $this->comments->__call('update', array(array('scope' => $scope, 'userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl, 'abuseType' => $abuseType)));
   }
 
   /**
@@ -447,13 +447,13 @@ class apiBuzzService {
    * Implementation of the buzz.comments.insert method.
    * See: http://code.google.com/apis/buzz/v1/using_rest.html#buzz.comments.insert
    *
-   * @param $postBody required
    * @param $userId required
    * @param $postId required
+   * @param $postBody required
    * @param $hl optional
    */
-  public function insertComments($postBody, $userId, $postId, $hl = null) {
-    return $this->comments->__call('insert', array(array('postBody' => $postBody, 'userId' => $userId, 'postId' => $postId, 'hl' => $hl)));
+  public function insertComments($userId, $postId, $postBody, $hl = null) {
+    return $this->comments->__call('insert', array(array('userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
@@ -525,5 +525,6 @@ class apiBuzzService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-
+    
 }
+
