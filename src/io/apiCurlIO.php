@@ -23,7 +23,7 @@
 class apiCurlIO implements apiIO {
 
   // User agent that's used to identify this library
-  const USER_AGENT = 'google-api-php-client';
+  const userAgent = 'google-api-php-client';
 
   // Set by the top level apiClient class, stored here locally to deal with auth signing and caching
   private $cache;
@@ -79,13 +79,13 @@ class apiCurlIO implements apiIO {
     }
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENT);
+    curl_setopt($ch, CURLOPT_USERAGENT, self::userAgent);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
     curl_setopt($ch, CURLOPT_FAILONERROR, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HEADER, true);
     $data = @curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $errno = @curl_errno($ch);
     $error = @curl_error($ch);
     @curl_close($ch);
@@ -93,22 +93,22 @@ class apiCurlIO implements apiIO {
       throw new apiIOException('HTTP Error: (' . $errno . ') ' . $error);
     }
     // Parse out the raw response into usable bits
-    list($raw_response_headers, $response_body) = explode("\r\n\r\n", $data, 2);
-    $response_header_lines = explode("\r\n", $raw_response_headers);
-    array_shift($response_header_lines);
+    list($rawResponseHeaders, $responseBody) = explode("\r\n\r\n", $data, 2);
+    $responseHeaderLines = explode("\r\n", $rawResponseHeaders);
+    array_shift($responseHeaderLines);
     $response_headers = array();
-    foreach ($response_header_lines as $header_line) {
-      list($header, $value) = explode(': ', $header_line, 2);
-      if (isset($response_header_array[$header])) {
-        $response_header_array[$header] .= "\n" . $value;
+    foreach ($responseHeaderLines as $headerLine) {
+      list($header, $value) = explode(': ', $headerLine, 2);
+      if (isset($responseHeaders[$header])) {
+        $responseHeaders[$header] .= "\n" . $value;
       } else {
-        $response_header_array[$header] = $value;
+        $responseHeaders[$header] = $value;
       }
     }
     // Fill in the apiHttpRequest with the response values
-    $request->setResponseHttpCode((int) $http_code);
-    $request->setResponseHeaders($response_header_array);
-    $request->setResponseBody($response_body);
+    $request->setResponseHttpCode((int) $httpCode);
+    $request->setResponseHeaders($responseHeaders);
+    $request->setResponseBody($responseBody);
     // And return it
     return $request;
   }
