@@ -18,10 +18,28 @@
 require_once "../apiClient.php";
 require_once "../generator/apiGenerator.php";
 
-if (!isset($_GET['service']) || !isset($_GET['version'])) {
-  die("Please specify both the service and version of what to generate ie, generate.php?service=buzz&version=v1");
+// detect if this is a shell or a web envirionment, and extract the service and version numbers from it
+if (isset($_SERVER["TERM"])) {
+  if ($argc != 3) {
+    die("Specify both the service and version of what to generate, ie: php ./generate.php buzz v1");
+  }
+  // argc and argv are magically available when running from a shell
+  $service = $argv[1];
+  $version = $argv[2];
+  // php gets all confused if you actually write out the php start tag, splitting it up into bits removes that confusion
+  // it also breaks stuff if output in the web env, so only do this if ran from the shell
+  echo '<' . '?' . 'php' . "\n";
+} else {
+  // running in web env
+  if (!isset($_GET['service']) || !isset($_GET['version'])) {
+    die("Please specify both the service and version of what to generate ie, generate.php?service=buzz&version=v1");
+  }
+  $service = $_GET['service'];
+  $version = $_GET['version'];
+  // make it look formatted in a web browser
+  echo "<pre>";
 }
 
-$apiGenerator = new apiGenerator($_GET['service'], $_GET['version']);
-echo "<pre>" . $apiGenerator->generate() . "</pre>";
+$apiGenerator = new apiGenerator($service, $version);
+echo $apiGenerator->generate();
 

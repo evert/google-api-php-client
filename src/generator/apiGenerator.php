@@ -63,9 +63,6 @@ class apiGenerator extends apiClient {
 
       foreach ($resourceConfig['methods'] as $methodName => $methodConfig) {
         $requiredParams = $optionalParams = array();
-        if (strtoupper($methodConfig['httpMethod']) == 'POST' || strtoupper($methodConfig['httpMethod']) == 'PUT') {
-          $requiredParams[] = '$postBody';
-        }
         if (isset($methodConfig['parameters'])) {
           foreach ($methodConfig['parameters'] as $paramName => $paramConfig) {
             if ($paramName == 'alt') {
@@ -79,6 +76,9 @@ class apiGenerator extends apiClient {
               $optionalParams[] = "\$$paramName = null";
             }
           }
+        }
+        if (strtoupper($methodConfig['httpMethod']) == 'POST' || strtoupper($methodConfig['httpMethod']) == 'PUT') {
+          $requiredParams[] = '$postBody';
         }
         $params = array_merge($requiredParams, $optionalParams);
 
