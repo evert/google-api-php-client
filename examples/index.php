@@ -2,11 +2,11 @@
 session_start();
 
 require_once "../src/apiClient.php";
-
+require_once "../src/contrib/apiBuzzService.php";
 
 $apiClient = new apiClient();
-//$apiClient->discover('moderator');
-$apiClient->discover('buzz', 'v1.0');
+
+$buzz = new apiBuzzService($apiClient);
 
 if (isset($_SESSION['oauth_access_token'])) {
   $apiClient->setAccessToken($_SESSION['oauth_access_token']);
@@ -14,9 +14,14 @@ if (isset($_SESSION['oauth_access_token'])) {
   $token = $apiClient->authenticate();
   $_SESSION['oauth_access_token'] = $token;
 }
-//, 'postId' => 'tag:google.com,2010:buzz:z13rzxkicxi2tbyig04cdpjqtv3lznixdd0', 'max-results' => 20, 'c' => 2
-$activites = $apiClient->buzz->people->list(array('userId' => '@me', 'groupId' => 'tag:google.com,2010:buzz-group:108189587050871927619:13'));
-echo "Activities: <pre>".print_r($activites, true)."</pre>";
+
+// Old style call
+//$activities = $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@consumption'));
+
+// New style using the apiBuzzService wrapper
+$activities = $buzz->listActivities('@public', '@me');
+echo "Activities: <pre>".print_r($activities, true)."</pre>";
+
 
 
 /*
@@ -57,7 +62,10 @@ echo "<pre>post created:\n".print_r($newPost, true)."\n</pre>";
 //$people= $apiClient->buzz->people->get(array('userId' => '@me'));
 //echo "People: <pre>".print_r($people, true)."</pre>";
 
-//$followers = $apiClient->buzz->groups->get(array('userId' => '@me', 'groupId' => '@followers'));
+//$followers = $apiClient->buzz->groups->get(array('userId' => 'chabotc', 'groupId' => '@followers'));
+//echo "Followers: <pre>".print_r($followers, true)."</pre>";
+
+//$followers = $apiClient->buzz->groups->get(array('userId' => 'chabotc', 'groupId' => 'tag:google.com,2010:buzz-group:108189587050871927619:13'));
 //echo "Followers: <pre>".print_r($followers, true)."</pre>";
 
 //$groups = $apiClient->buzz->groups->list(array('userId' => '@me', 'max-results' => 2));

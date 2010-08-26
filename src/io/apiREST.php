@@ -32,6 +32,7 @@ class apiREST {
    * @throws apiServiceException on server side error (ie: not authenticated, invalid or mallformed post body, invalid url, etc)
    */
   static public function execute(apiServiceRequest $request) {
+    global $apiTypeHandlers;
     $result = null;
     $requestUrl = $request->getBaseUrl() . $request->getPathUrl();
     $uriTemplateVars = array();
@@ -53,9 +54,9 @@ class apiREST {
     //EOFIX
 
     //FIXME temp work around to make @groups/{@following,@followers} work
-    if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
+/*    if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
       $requestUrl = str_replace('/@self', '', $requestUrl);
-    }
+    }*/
     //EOFIX
 
     if (count($queryVars)) {
@@ -85,7 +86,12 @@ class apiREST {
       throw new apiServiceException("Invalid json in service response: " . $httpRequest->getResponseBody());
     }
     //FIXME currently everything is wrapped in a data enveloppe, but hopefully this might change some day
-    return isset($decodedResponse['data']) ? $decodedResponse['data'] : $decodedResponse;
+    $ret = isset($decodedResponse['data']) ? $decodedResponse['data'] : $decodedResponse;
+    // if the response type has a registered type handler, call & return it instead of the raw response array
+    if (isset($ret['kind']) && isset($apiTypeHandlers[$ret['kind']])) {
+      $ret = new $apiTypeHandlers[$ret['kind']]($ret);
+    }
+    return $ret;
   }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2010 Google Inc.
  *
@@ -62,29 +63,27 @@ class apiServiceResource {
         throw new apiException("($name) unknown parameter: '$key'");
       }
     }
-    foreach ($method['parameters'] as $paramName => $paramSpec) {
-      if ($paramSpec['required'] && ! isset($parameters[$paramName])) {
-        throw new apiException("($name) missing required param: '$paramName'");
-      }
-      if (isset($parameters[$paramName])) {
-        $value = $parameters[$paramName];
-        //TODO figure out how to do the pattern matching
-        /*
-        // check to see if the param value matches the required pattern
-        if (isset($parameters[$paramName]['pattern']) && !empty($parameters[$paramName]['pattern'])) {
-          echo "pattern: {$parameters[$paramName]['pattern']}\n";
-          if (preg_match($parameters[$paramName]['pattern'], $value) == 0) {
-            throw new apiException("($name) invalid parameter format for $paramName: $value doesn't match {$parameters[$paramName]['pattern']}");
-          }
+    if (isset($method['parameters'])) {
+      foreach ($method['parameters'] as $paramName => $paramSpec) {
+        if ($paramSpec['required'] && ! isset($parameters[$paramName])) {
+          throw new apiException("($name) missing required param: '$paramName'");
         }
-*/
-        $parameters[$paramName] = $paramSpec;
-        $parameters[$paramName]['value'] = $value;
-        // remove all the bits that were already validated in this function & are no longer relevant within the execution chain
-        unset($parameters[$paramName]['pattern']);
-        unset($parameters[$paramName]['required']);
-      } else {
-        unset($parameters[$paramName]);
+        if (isset($parameters[$paramName])) {
+          $value = $parameters[$paramName];
+          // check to see if the param value matches the required pattern
+          if (isset($parameters[$paramName]['pattern']) && ! empty($parameters[$paramName]['pattern'])) {
+            if (preg_match('|' . $parameters[$paramName]['pattern'] . '|', $value) == 0) {
+              throw new apiException("($name) invalid parameter format for $paramName: $value doesn't match \"{$parameters[$paramName]['pattern']}\"");
+            }
+          }
+          $parameters[$paramName] = $paramSpec;
+          $parameters[$paramName]['value'] = $value;
+          // remove all the bits that were already validated in this function & are no longer relevant within the execution chain
+          unset($parameters[$paramName]['pattern']);
+          unset($parameters[$paramName]['required']);
+        } else {
+          unset($parameters[$paramName]);
+        }
       }
     }
     $request = new apiServiceRequest($this->service->getIo(), $this->service->getBaseUrl(), $method['pathUrl'], $method['rpcName'], $method['httpMethod'], $parameters, $postBody);

@@ -48,6 +48,11 @@ class apiCacheException extends apiException {}
 class apiIOException extends apiException {}
 class apiServiceException extends apiException {}
 
+/* global array of type handlers, used by the api request executers to parse results
+ * maps the type strings ('buzz#activity') to a class representation (buzzAcvitityModel) which will be automatically triggered on input
+ */
+global $apiTypeHandlers;
+$apiTypeHandlers = array();
 
 /**
  * The Google API Client class
@@ -62,9 +67,6 @@ class apiClient {
   protected $auth;
   protected $io;
   protected $cache;
-
-  // map of type string ('buzz#activity') => class representation (buzzAcvitityModel) which will be automatically triggered on input
-  private $typeHandlers = array();
 
   // definitions of services that are discover()'rd
   protected $services = array();
@@ -85,7 +87,16 @@ class apiClient {
     $this->io = new $apiConfig['ioClass']($this->cache, $this->auth);
   }
 
-  public function discover($service, $version = 'v1.0') {
+  public function discover($service, $version = 'v1') {
+    $this->addService($service, $version);
+    $this->$service = $this->discoverService($service, $this->services[$service]['discoveryURI']);
+    return $this->$service;
+  }
+
+  /**
+   * Add a service
+   */
+  public function addService($service, $version) {
     global $apiConfig;
     if ($this->authenticated) {
       // Adding services after being authenticated, since the oauth scope is already set (so you wouldn't have access to that data)
@@ -97,8 +108,6 @@ class apiClient {
     // Merge the service descriptor with the default values
     $this->services[$service] = array_merge($this->defaultService, $apiConfig['services'][$service]);
     $this->services[$service]['discoveryURI'] = 'http://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe?api=' . urlencode($service) . '&apiVersion=' . urlencode($version);
-    $this->$service = $this->discoverService($service, $this->services[$service]['discoveryURI']);
-    return $this->$service;
   }
 
   public function authenticate() {
@@ -137,77 +146,12 @@ class apiClient {
   }
 
   public function registerTypeHandler($type, $handlerClass) {
-    $this->typeHandlers[$type] = $handlerClass;
+    global $apiTypeHandlers;
+    $apiTypeHandlers[$type] = $handlerClass;
   }
 
-  /**
-   * @return the $auth
-   */
-  public function getAuth() {
-    return $this->auth;
-  }
-
-  /**
-   * @return the $io
-   */
   public function getIo() {
     return $this->io;
-  }
-
-  /**
-   * @return the $cache
-   */
-  public function getCache() {
-    return $this->cache;
-  }
-
-  /**
-   * @return the $typeHandlers
-   */
-  public function getTypeHandlers() {
-    return $this->typeHandlers;
-  }
-
-  /**
-   * @return the $services
-   */
-  public function getServices() {
-    return $this->services;
-  }
-
-  /**
-   * @param $auth the $auth to set
-   */
-  public function setAuth($auth) {
-    $this->auth = $auth;
-  }
-
-  /**
-   * @param $io the $io to set
-   */
-  public function setIo($io) {
-    $this->io = $io;
-  }
-
-  /**
-   * @param $cache the $cache to set
-   */
-  public function setCache($cache) {
-    $this->cache = $cache;
-  }
-
-  /**
-   * @param $typeHandlers the $typeHandlers to set
-   */
-  public function setTypeHandlers($typeHandlers) {
-    $this->typeHandlers = $typeHandlers;
-  }
-
-  /**
-   * @param $services the $services to set
-   */
-  public function setServices($services) {
-    $this->services = $services;
   }
 
 }
