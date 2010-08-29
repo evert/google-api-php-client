@@ -27,7 +27,6 @@ require_once "external/OAuth.php";
  */
 class apiOAuth extends apiAuth {
 
-  public $localUserId;
   public $cacheKey;
   protected $consumerToken;
   protected $accessToken;
@@ -42,7 +41,6 @@ class apiOAuth extends apiAuth {
    * @param string $consumerKey
    * @param string $consumerSecret
    * @param apiCache $cache cache class to use (file,apc,memcache,mysql)
-   * @param any $localUser the *local* user ID (this is not the user's ID on the social network site, but the user id on YOUR site, this is used to link the oauth access token to a local login)
    */
   public function __construct() {
     global $apiConfig;
@@ -185,22 +183,6 @@ class apiOAuth extends apiAuth {
   }
 
   /**
-   * Returns the user ID on behalf of which this auth is making requests.
-   * @return String The user ID specified in the constructor.
-   */
-  public function getUserId() {
-    return $this->userId;
-  }
-
-  /**
-   * Sets the user ID on behalf of which this auth is making requests.
-   * @param String $userId A user ID.
-   */
-  public function setUserId($userId) {
-    $this->userId = $userId;
-  }
-
-  /**
    * Sign the request using OAuth. This uses the consumer token and key
    *
    * @param string $method the method (get/put/delete/post)
@@ -220,7 +202,10 @@ class apiOAuth extends apiAuth {
     }
     $oauthRequest->sign_request($this->signatureMethod, $this->consumerToken, $this->accessToken);
     $signedUrl = $oauthRequest->to_url();
+    // Set an originalUrl property that can be used to cache the resource
     $request->originalUrl = $request->getUrl();
+    // and add the access token key to it (since it doesn't include the secret, it's still secure to store this in cache)
+    $request->accessKey = $this->accessToken->key;
     $request->setUrl($signedUrl);
     return $request;
   }
