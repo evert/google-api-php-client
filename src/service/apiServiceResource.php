@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright 2010 Google Inc.
  *
@@ -16,6 +15,14 @@
  * limitations under the License.
  */
 
+/**
+ * Implements the actual methods/resources of the discovered Google API using magic function
+ * calling overloading (__call()), which on call will see if the method name (buzz.activities.list)
+ * is available in this service, and if so construct an apiServiceRequest representing it.
+ *
+ * @author Chris Chabot <chabotc@google.com>
+ *
+ */
 class apiServiceResource {
 
   private $service;
@@ -88,6 +95,7 @@ class apiServiceResource {
     }
     $request = new apiServiceRequest($this->service->getIo(), $this->service->getBaseUrl(), $method['pathUrl'], $method['rpcName'], $method['httpMethod'], $parameters, $postBody);
     if ($batchKey) {
+      $request->setBatchKey($batchKey);
       return $request;
     } else {
       return apiREST::execute($request);

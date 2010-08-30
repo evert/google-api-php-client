@@ -15,3 +15,24 @@
  * limitations under the License.
  */
 
+/**
+ * Wrapper for the (experimental!) JSON-RPC protocol, for production use regular REST calls instead
+ *
+ * @author Chris Chabot <chabotc@google.com>
+ */
+class apiBatch {
+
+  /**
+   * Execute one or multiple Google API requests, takes one or multiple requests as param
+   * Example usage:
+   *   $ret = apiBatch::execute(
+   *     $apiClient->activities->list(array('@public', '@me'), 'listActivitiesKey'),
+   *     $apiClient->people->get(array('userId' => '@me'), 'getPeopleKey')
+   *   );
+   *   print_r($ret['getPeopleKey']);
+   */
+  static public function execute( /* polymorphic */) {
+
+  }
+
+}

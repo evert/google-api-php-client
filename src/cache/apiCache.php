@@ -22,7 +22,7 @@ require_once "apiMemcacheCache.php";
 /**
  * Abstract storage class
  *
- * @author Chris Chabot
+ * @author Chris Chabot <chabotc@google.com>
  */
 abstract class apiCache {
 

@@ -20,7 +20,7 @@
  * construct API function calls and passing them to the IO layer who knows how to execute
  * the request
  *
- * @author chabotc
+ * @author Chris Chabot <chabotc@google.com>
  *
  */
 class apiServiceRequest {
@@ -32,6 +32,7 @@ class apiServiceRequest {
   protected $httpMethod;
   protected $parameters;
   protected $postBody;
+  protected $batchKey;
 
   /**
    * Only used internally, so using a quick-and-dirty constuctor
@@ -146,6 +147,20 @@ class apiServiceRequest {
    */
   public function setParameters($parameters) {
     $this->parameters = $parameters;
+  }
+
+  /**
+   * @return the $batchKey
+   */
+  public function getBatchKey() {
+    return $this->batchKey;
+  }
+
+  /**
+   * @param $batchKey the $batchKey to set
+   */
+  public function setBatchKey($batchKey) {
+    $this->batchKey = $batchKey;
   }
 
 }

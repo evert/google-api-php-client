@@ -55,8 +55,10 @@ global $apiTypeHandlers;
 $apiTypeHandlers = array();
 
 /**
- * The Google API Client class
- * @author chabotc
+ * The Google API Client
+ * http://code.google.com/p/google-api-php-client/
+ *
+ * @author Chris Chabot <chabotc@google.com>
  */
 class apiClient {
 

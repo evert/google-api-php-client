@@ -19,7 +19,7 @@
  * Curl based apiIO implementation.
  * This class implements http spec compliant request caching using the apiCache class
  *
- * @author chabotc
+ * @author Chris Chabot <chabotc@google.com>
  */
 class apiCurlIO implements apiIO {
 

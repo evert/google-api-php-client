@@ -22,7 +22,8 @@ require_once "io/apiRPC.php";
 
 /**
  * Abstract IO class
- * @author chabotc
+ *
+ * @author Chris Chabot <chabotc@google.com>
  */
 interface apiIO {
 

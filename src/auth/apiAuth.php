@@ -18,6 +18,11 @@
 require_once "apiAuthNone.php";
 require_once "apiOAuth.php";
 
+/**
+ * Abstract class for the Authentication in the API client
+ * @author Chris Chabot <chabotc@google.com>
+ *
+ */
 abstract class apiAuth {
   abstract public function authenticate(apiCache $cache, apiIO $io, $service);
   abstract public function setAccessToken($accessToken);

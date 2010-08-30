@@ -19,6 +19,16 @@ require_once "service/apiServiceResource.php";
 require_once "service/apiServiceRequest.php";
 require_once "service/apiBatch.php";
 
+/**
+ * This class parses the service end points of the api discovery document and constructs
+ * serviceResource variables for all of them.
+ *
+ * For instance when calling with the service document for Buzz, it will create apiServiceResource's
+ * for $this->activities, $this->photos, $this->people, $this->search, etc
+ *
+ * @author Chris Chabot <chabotc@google.com>
+ *
+ */
 class apiService {
 
   protected $io;

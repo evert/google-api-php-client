@@ -19,9 +19,8 @@ if (isset($_SESSION['oauth_access_token'])) {
 //$activities = $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@consumption'));
 
 // New style using the apiBuzzService wrapper
-$activities = $buzz->listActivities('@public', '@me');
+$activities = $buzz->listActivities('@consumption', '@me');
 echo "Activities: <pre>".print_r($activities, true)."</pre>";
-
 
 
 /*

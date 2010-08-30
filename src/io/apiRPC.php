@@ -15,15 +15,35 @@
  * limitations under the License.
  */
 
-
+/**
+ * This class implements the experimental JSON-RPC transport for executing apiServiceRequest'
+ *
+ * @author Chris Chabot <chabotc@google.com>
+ */
 class apiRPC {
 
   static public function execute($requests) {
+
+    echo "<pre>Requests:\n".print_r($requests, true)."</pre>";
+
+    $httpRequest = new apiHttpRequest('http://www.googleapis.com/rpc');
+    $httpRequest->setHeaders(array('Content-Type: application/json'));
+    $jsonRpcRequest = array();
+    foreach ($requests as $request) {
+      $jsonRpcRequest[] = array(
+        'id' => $request['batchKey'],
+        'method' => $request['rpcName']
+      );
+    }
+
+
+    $httpRequest = $request->getIo()->authenticatedRequest($httpRequest);
+    echo "<pre>" . print_r($httpRequest, true)."</pre>";
+
 /*
  * Example request:
-  POST /jsonrpc HTTP/1.1
-  Host: api.example.org
-  Authorization: <Auth token>
+  POST /rpc HTTP/1.1
+
   Content-Type: application/json
   {
     "method" : "people.get",

@@ -22,7 +22,7 @@
  * this in a clustered environment. In those cases please use the
  * MySql back-end
  *
- * @author Chris Chabot
+ * @author Chris Chabot <chabotc@google.com>
  */
 class apiFileCache extends apiCache {
   private $path;

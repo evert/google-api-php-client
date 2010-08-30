@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+/**
+ * Do-nothing authentication implementation, use this if you want to make un-authenticated calls
+ * @author Chris Chabot <chabotc@google.com>
+ *
+ */
 class apiAuthNone extends apiAuth {
 
   public function authenticate(apiCache $cache, apiIO $io, $service) {

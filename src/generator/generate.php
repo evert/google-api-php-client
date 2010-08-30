@@ -15,6 +15,14 @@
  * limitations under the License.
  */
 
+/**
+ * Creates the wrapper class for the specified service and version
+ *
+ * on the web call it using generator.php?service=buzz&version=v1
+ * in a shell: php ./generator.php buzz v1
+ * @author Chris Chabot <chabotc@google.com>
+ */
+
 require_once "../apiClient.php";
 require_once "../generator/apiGenerator.php";
 

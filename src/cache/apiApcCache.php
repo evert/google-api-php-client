@@ -21,7 +21,7 @@
  * the storage will be wiped, however for debugging and/or speed
  * it can be useful, kinda, and cache is a lot cheaper then storage.
  *
- * @author Chris Chabot
+ * @author Chris Chabot <chabotc@google.com>
  */
 class apiApcCache extends apiCache {
 

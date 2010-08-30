@@ -18,8 +18,9 @@
 require_once "external/URITemplateParser.php";
 
 /**
- * The API REST class: implements the RESTful transport of apiServiceRequest()'s
- * @author chabotc
+ * This class implements the RESTful transport of apiServiceRequest()'s
+ *
+ * @author Chris Chabot <chabotc@google.com>
  */
 class apiREST {
 
@@ -54,12 +55,11 @@ class apiREST {
     //EOFIX
 
 
-    //FIXME temp work around to make @groups/{@following,@followers} work
-    /*    if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
+    //FIXME temp work around to make @groups/{@following,@followers} work (something which we should really be fixing in our API)
+    if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
       $requestUrl = str_replace('/@self', '', $requestUrl);
-    }*/
+    }
     //EOFIX
-
 
     if (count($queryVars)) {
       $requestUrl .= '?' . implode($queryVars, '&');

@@ -24,6 +24,8 @@ require_once "external/OAuth.php";
  * how callback urls, request & access tokens are dealt with to prevent a possible
  * man in the middle attack.
  *
+ * @author Chris Chabot <chabotc@google.com>
+ *
  */
 class apiOAuth extends apiAuth {
 

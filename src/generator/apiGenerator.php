@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 
+/**
+ * This class can be used to automatically create a wrapper class for Google API end points
+ * Using wrapper classes allows the IDE to auto complete function names and offer suggestions for parameters
+ * making the API simpler to use.
+ *
+ * The generated wrapper class calls the api client's overloader function (__call) directly, so the behaviour
+ * is identical to calling the long for functions directly
+ *
+ * @author Chris Chabot <chabotc@google.com>
+ *
+ */
 class apiGenerator extends apiClient {
 
   private $discoveryUrl;

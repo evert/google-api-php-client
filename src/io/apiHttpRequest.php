@@ -15,6 +15,13 @@
  * limitations under the License.
  */
 
+/**
+ * HTTP Request used to execute http requests using the apiIO classes. On execution the
+ * responseHttpCode, responseHeaders and responseBody will be filled in.
+ *
+ * @author Chris Chabot <chabotc@google.com>
+ *
+ */
 class apiHttpRequest {
 
   protected $url;
