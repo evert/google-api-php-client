@@ -32,7 +32,8 @@ class apiBatch {
    *   print_r($ret['getPeopleKey']);
    */
   static public function execute( /* polymorphic */) {
-
+    $requests = func_get_args();
+    return apiRPC::execute($requests);
   }
 
 }

@@ -23,36 +23,32 @@
 class apiRPC {
 
   static public function execute($requests) {
-
-    echo "<pre>Requests:\n".print_r($requests, true)."</pre>";
-
-    $httpRequest = new apiHttpRequest('http://www.googleapis.com/rpc');
-    $httpRequest->setHeaders(array('Content-Type: application/json'));
     $jsonRpcRequest = array();
     foreach ($requests as $request) {
+      $parameters = array();
+      foreach ($request->getParameters() as $parameterName => $parameterVal) {
+        $parameters[$parameterName] = $parameterVal['value'];
+      }
       $jsonRpcRequest[] = array(
-        'id' => $request['batchKey'],
-        'method' => $request['rpcName']
+        'id' => $request->getBatchKey(),
+        'method' => str_replace('buzz.', 'chili.', $request->getRpcName()),
+        'params' => $parameters,
+      	'apiVersion' => 'v1'
       );
     }
-
-
+    $httpRequest = new apiHttpRequest('http://www.googleapis.com/rpc');
+    $httpRequest->setHeaders(array('Content-Type: application/json'));
+    $httpRequest->setMethod('POST');
+    $httpRequest->setPostBody(json_encode($jsonRpcRequest));
     $httpRequest = $request->getIo()->authenticatedRequest($httpRequest);
-    echo "<pre>" . print_r($httpRequest, true)."</pre>";
-
-/*
- * Example request:
-  POST /rpc HTTP/1.1
-
-  Content-Type: application/json
-  {
-    "method" : "people.get",
-    "id" : "myself"
-    "params" : {
-      "userid" : "@me",
-      "groupid" : "@self"
+    if (($decodedResponse = json_decode($httpRequest->getResponseBody(), true)) != false) {
+      $ret = array();
+      foreach ($decodedResponse as $response) {
+        $ret[$response['id']] = $response['result'];
+      }
+      return $ret;
+    } else {
+      throw new apiServiceException("Invalid json returned by the json-rpc end-point");
     }
-  }
- */
   }
 }

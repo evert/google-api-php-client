@@ -7,6 +7,7 @@ require_once "../src/contrib/apiBuzzService.php";
 $apiClient = new apiClient();
 
 $buzz = new apiBuzzService($apiClient);
+$apiClient->discover('buzz', 'v1');
 
 if (isset($_SESSION['oauth_access_token'])) {
   $apiClient->setAccessToken($_SESSION['oauth_access_token']);
@@ -15,13 +16,22 @@ if (isset($_SESSION['oauth_access_token'])) {
   $_SESSION['oauth_access_token'] = $token;
 }
 
+// Batch 2 functions
+$results = apiBatch::execute(
+  $apiClient->buzz->activities->list(array('userId' => 'chabotc', 'scope' => '@public'), 'listActivities')
+  //$apiClient->buzz->people->get(array('userId' => '@me'), 'getPeople')
+);
+echo "<pre>Batch Results:\n". print_r($results, true)."</pre>";
+
+
 // Old style call
 //$activities = $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@consumption'));
 
+/*
 // New style using the apiBuzzService wrapper
 $activities = $buzz->listActivities('@consumption', '@me');
 echo "Activities: <pre>".print_r($activities, true)."</pre>";
-
+*/
 
 /*
 // these both work when creating a buzz post!
