@@ -30,6 +30,9 @@ $apiConfig = array(
     'ioClass'      => 'apiCurlIO',
 	'cacheClass'   => 'apiFileCache',
 
+    // If you want to run the test suite (by running # phpunit AllTests.php in the tests/ directory), fill in the settings below
+    'oauth_test_token' => '', // the oauth access token to use (which you can get by runing authenticate() as the test user and copying the token value), ie '{"key":"foo","secret":"bar","callback_url":null}'
+    'oauth_test_user' => '', // and the user ID to use, this can either be a vanity name 'testuser' or a numberic ID '123456'
 
 	// IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
     'ioFileCache_directory'  => '/tmp/apiClient',
