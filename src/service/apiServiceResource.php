@@ -66,7 +66,7 @@ class apiServiceResource {
       //FIXME Should really add the magic array('data' => ..real stuff ..) wrapper around the request as to not bother developers with it
     }
     foreach ($parameters as $key => $val) {
-      if (! isset($method['parameters'][$key])) {
+      if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
         throw new apiException("($name) unknown parameter: '$key'");
       }
     }
