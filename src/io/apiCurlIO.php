@@ -24,7 +24,7 @@
 class apiCurlIO implements apiIO {
 
   // User agent that's used to identify this library
-  const userAgent = 'google-api-php-client';
+  const userAgent = 'google-api-php-client/1.0';
 
   // Set by the top level apiClient class, stored here locally to deal with auth signing and caching
   private $cache;
