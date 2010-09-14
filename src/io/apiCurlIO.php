@@ -85,6 +85,17 @@ class apiCurlIO implements apiIO {
       }
     }
     // Couldn't use a cached version, so perform the actual request
+
+    if ($request->getMethod() == 'POST') {
+      // make sure a Content-length header is set
+      $addHeaders = array('Content-Length: ' . strlen($request->getPostBody()));
+      if (is_array($request->getHeaders())) {
+        $request->setHeaders(array_merge($addHeaders, $request->getHeaders()));
+      } else {
+        $request->setHeaders($addHeaders);
+      }
+    }
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $request->getUrl());
     if ($request->getPostBody()) {
