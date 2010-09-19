@@ -522,6 +522,6 @@ class apiBuzzService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-
+    
 }
 
