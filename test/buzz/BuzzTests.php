@@ -36,8 +36,8 @@ class BuzzTests extends PHPUnit_Framework_TestSuite {
     $suite->addTestSuite('ActivitiesTest');
     $suite->addTestSuite('CommentsTest');
     $suite->addTestSuite('RelatedTest');
-    $suite->addTestSuite('PeopleTest');
     $suite->addTestSuite('GroupsTest');
+    $suite->addTestSuite('PeopleTest');
     $suite->addTestSuite('PhotosTest');
     $suite->addTestSuite('FeedsTest');
     $suite->addTestSuite('SearchTest');

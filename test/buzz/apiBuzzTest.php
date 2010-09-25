@@ -26,7 +26,7 @@ class apiBuzzTest extends PHPUnit_Framework_TestCase {
 
   private $origConfig;
 
-  public function setUp() {
+  public function __construct() {
     global $apiConfig;
     parent::setUp();
     $this->origConfig = $apiConfig;
@@ -42,7 +42,7 @@ class apiBuzzTest extends PHPUnit_Framework_TestCase {
     $this->apiClient->setAccessToken($apiConfig['oauth_test_token']);
   }
 
-  public function tearDown() {
+  public function __destruct() {
     global $apiConfig;
     $this->buzz = null;
     $this->apiClient = null;
