@@ -86,9 +86,10 @@ class apiCurlIO implements apiIO {
     }
     // Couldn't use a cached version, so perform the actual request
 
-    if ($request->getMethod() == 'POST') {
+    if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
       // make sure a Content-length header is set
-      $addHeaders = array('Content-Length: ' . strlen($request->getPostBody()));
+      $postContentLength = strlen($request->getPostBody()) != 0 ? strlen($request->getPostBody()) : '0';
+      $addHeaders = array('Content-Length: ' . $postContentLength);
       if (is_array($request->getHeaders())) {
         $request->setHeaders(array_merge($addHeaders, $request->getHeaders()));
       } else {
