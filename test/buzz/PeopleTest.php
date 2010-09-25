@@ -145,11 +145,18 @@ class PeopleTest extends apiBuzzTest {
   }
 
   public function testLikedPeople() {
+    // can't test right now since the 'scope' param is missing from the discovery document, so the generated service wrapper is invalid
     $this->assertTrue(true);
   }
 
   public function testSearchPeople() {
-    $this->assertTrue(true);
+    $people = $this->buzz->searchPeople('', 20, null, 'Chris Chabot');
+    $this->assertArrayHasKey('kind', $people);
+    $this->assertArrayHasKey('startIndex', $people);
+    $this->assertArrayHasKey('itemsPerPage', $people);
+    $this->assertArrayHasKey('entry', $people);
+    $this->assertTrue((count($people['entry']) > 0));
+    $this->evaluatePerson($people['entry'][0]);
   }
 
   public function testRelatedToUriPeople() {
@@ -157,6 +164,8 @@ class PeopleTest extends apiBuzzTest {
   }
 
   public function testResharedPeople() {
+    // can't test right now since the 'scope' param is missing from the discovery document, so the generated service wrapper is invalid
+    // $people = $buzz->resharedPeople('@self', '108189587050871927619', 'z13rzxkicxi2tbyig04cdpjqtv3lznixdd0', '', 2);
     $this->assertTrue(true);
   }
 
@@ -165,7 +174,6 @@ class PeopleTest extends apiBuzzTest {
     $this->assertEquals('buzz#person', $person['kind']);
     $this->assertArrayHasKey('id', $person);
     $this->assertArrayHasKey('displayName', $person);
-    $this->assertArrayHasKey('aboutMe', $person);
     $this->assertArrayHasKey('profileUrl', $person);
     $this->assertArrayHasKey('urls', $person);
     $this->assertArrayHasKey('photos', $person);
