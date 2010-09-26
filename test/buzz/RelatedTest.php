@@ -19,9 +19,29 @@
  */
 
 class RelatedTest extends apiBuzzTest {
-  public function testDummy() {
-    // temp place holder as tests are being filled in
-    $this->assertTrue(true);
+  public function testRelated() {
+    $related = $this->buzz->listRelated('@self', '@me', 'tag:google.com,2010:buzz:z122xx25xsazeroqe04cdpjqtv3lznixdd0', 20);
+
+    //  check if the the basic root elements match what is expected
+    $this->assertArrayHasKey('kind', $related);
+    $this->assertEquals('buzz#relatedFeed', $related['kind']);
+
+    $this->assertArrayHasKey('links', $related);
+    $this->assertArrayHasKey('title', $related);
+    $this->assertArrayHasKey('updated', $related);
+    $this->assertArrayHasKey('id', $related);
+    $this->assertArrayHasKey('items', $related);
+
+    // does the feed have any items in it?
+    $this->assertTrue(count($related['items']) > 0);
+
+    // and check if the fields in the items are as expected
+    $this->arrayHasKey('kind', $related['items'][0]);
+    $this->assertEquals('buzz#related', $related['items'][0]['kind']);
+    $this->arrayHasKey('id', $related['items'][0]);
+    $this->arrayHasKey('href', $related['items'][0]);
+    $this->arrayHasKey('title', $related['items'][0]);
+    $this->arrayHasKey('summary', $related['items'][0]);
   }
 
 }
