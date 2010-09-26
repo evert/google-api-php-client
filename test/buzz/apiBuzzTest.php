@@ -18,38 +18,47 @@
 require_once "../src/apiClient.php";
 require_once "../src/contrib/apiBuzzService.php";
 
+// These variables are shared between all the buzz test cases as performance optimization
+$apiBuzzTest_apiClient = null;
+$apiBuzzTest_buzz = null;
+
 class apiBuzzTest extends PHPUnit_Framework_TestCase {
 
   public $apiClient;
   public $oauthToken;
   public $buzz;
 
-  private $origConfig;
+  private $origConfig = false;
 
   public function __construct() {
-    global $apiConfig;
-    parent::setUp();
-    $this->origConfig = $apiConfig;
+    global $apiConfig, $apiBuzzTest_apiClient, $apiBuzzTest_buzz;
+    parent::__construct();
 
-    // Set up a predictable, default envirioment so the test results are predictable
-    $apiConfig['authClass'] ='apiOAuth';
-    $apiConfig['ioClass'] = 'apiCurlIO';
-	$apiConfig['cacheClass'] = 'apiFileCache';
-    $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
+    if (! $apiBuzzTest_apiClient || ! $apiBuzzTest_buzz) {
 
-    $this->apiClient = new apiClient();
-    $this->buzz = new apiBuzzService($this->apiClient);
-    $this->apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      $this->origConfig = $apiConfig;
+      // Set up a predictable, default envirioment so the test results are predictable
+      $apiConfig['authClass'] = 'apiOAuth';
+      $apiConfig['ioClass'] = 'apiCurlIO';
+      $apiConfig['cacheClass'] = 'apiFileCache';
+      $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
+
+      // create the global api and buzz clients (which are shared between the various buzz test suites for performance reasons)
+      $apiBuzzTest_apiClient = new apiClient();
+      $apiBuzzTest_buzz = new apiBuzzService($apiBuzzTest_apiClient);
+      $apiBuzzTest_apiClient->setAccessToken($apiConfig['oauth_test_token']);
+    }
+    $this->apiClient = $apiBuzzTest_apiClient;
+    $this->buzz = $apiBuzzTest_buzz;
   }
 
   public function __destruct() {
     global $apiConfig;
     $this->buzz = null;
     $this->apiClient = null;
-    $apiConfig = $this->origConfig;
-    parent::tearDown();
+    if ($this->origConfig) {
+      $apiConfig = $this->origConfig;
+    }
   }
 
 }
-
-

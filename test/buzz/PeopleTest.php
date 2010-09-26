@@ -24,28 +24,31 @@ class PeopleTest extends apiBuzzTest {
   private $groupId;
   private $personId;
 
-  public function __construct() {
+  public function setUp() {
     global $apiConfig;
-    parent::__construct();
-    // try to find a group ID we can use for the various people tests
-    $groups = $this->buzz->listGroups('@me', 20);
-    foreach ($groups['items'] as $group) {
-      if (isset($group['memberCount']) && $group['memberCount'] > 2) {
-        $this->groupId = $group['id'];
-        break;
+    parent::setUp();
+    // setUp is called for each test, make sure to only do the (expensive) pre-population of data only once
+    if (! $this->groupId && ! $this->personId) {
+      // try to find a group ID we can use for the various people tests
+      $groups = $this->buzz->listGroups('@me', 20);
+      foreach ($groups['items'] as $group) {
+        if (isset($group['memberCount']) && $group['memberCount'] > 2) {
+          $this->groupId = $group['id'];
+          break;
+        }
       }
-    }
-    if (! $this->groupId) {
-      throw new Exception("Could not run people test because there are no groups available with 2 or more contacts");
-    }
+      if (! $this->groupId) {
+        throw new Exception("Could not run people test because there are no groups available with 2 or more contacts");
+      }
 
-    // try to find someone to test un- & follow with
-    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], 10);
-    if (isset($people['entry']) && count($people['entry'])) {
-      $this->personId = $people['entry'][0]['id'];
-    }
-    if (! $this->personId) {
-      throw new Exception("Could not run people follow/unfollow tests because the test account isn't following anyone");
+      // try to find someone to test un- & follow with
+      $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], 10);
+      if (isset($people['entry']) && count($people['entry'])) {
+        $this->personId = $people['entry'][0]['id'];
+      }
+      if (! $this->personId) {
+        throw new Exception("Could not run people follow/unfollow tests because the test account isn't following anyone");
+      }
     }
   }
 
