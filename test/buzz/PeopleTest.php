@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -163,6 +162,7 @@ class PeopleTest extends apiBuzzTest {
   }
 
   public function testRelatedToUriPeople() {
+    // can't test this right now since the discovery document is missing the {userId} param
     $this->assertTrue(true);
   }
 

@@ -18,6 +18,12 @@
  * under the License.
  */
 
+
+/**
+ * This service isn't available in production yet, so a dumnmy test for now
+ * @author chabotc
+ *
+ */
 class FeedsTest extends apiBuzzTest {
   public function testDummy() {
     // temp place holder as tests are being filled in
