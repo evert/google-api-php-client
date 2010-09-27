@@ -179,7 +179,6 @@ class PeopleTest extends apiBuzzTest {
     $this->assertArrayHasKey('displayName', $person);
     $this->assertArrayHasKey('profileUrl', $person);
     $this->assertArrayHasKey('urls', $person);
-    $this->assertArrayHasKey('photos', $person);
   }
 
 }
