@@ -26,7 +26,6 @@ require_once "PeopleTest.php";
 require_once "GroupsTest.php";
 require_once "PhotosTest.php";
 require_once "FeedsTest.php";
-require_once "SearchTest.php";
 
 class BuzzTests extends PHPUnit_Framework_TestSuite {
 
@@ -40,7 +39,6 @@ class BuzzTests extends PHPUnit_Framework_TestSuite {
     $suite->addTestSuite('PeopleTest');
     $suite->addTestSuite('PhotosTest');
     $suite->addTestSuite('FeedsTest');
-    $suite->addTestSuite('SearchTest');
     return $suite;
   }
 }
