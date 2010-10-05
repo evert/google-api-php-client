@@ -22,6 +22,8 @@
  */
 class apiAuthNone extends apiAuth {
 
+  public $developerKey = null;
+
   public function authenticate(apiCache $cache, apiIO $io, $service) {
     // noop
   }
@@ -30,9 +32,17 @@ class apiAuthNone extends apiAuth {
     // noop
   }
 
+  public function setDeveloperKey($developerKey) {
+    $this->developerKey = $developerKey;
+  }
+
 
   public function sign(apiHttpRequest $request) {
-    // noop
+    if ($this->developerKey) {
+      $url = $request->getUrl();
+      $url .= ((strpos($url, '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey);
+    }
+    // else noop
     return $request;
   }
 }

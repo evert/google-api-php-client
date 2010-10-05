@@ -62,7 +62,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function insertPhotos($albumId, $userId, $postBody, $hl = null) {
-    return $this->photos->__call('insert', array(array('albumId' => $albumId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+    return $this->photos->__call('insert', array(
+        array('albumId' => $albumId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
@@ -89,7 +90,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function updateFeeds($siteId, $userId, $postBody, $max_results = null, $c = null, $hl = null) {
-    return $this->feeds->__call('update', array(array('siteId' => $siteId, 'userId' => $userId, 'postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->feeds->__call('update', array(
+        array('siteId' => $siteId, 'userId' => $userId, 'postBody' => $postBody, 'max-results' => $max_results,
+            'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -128,7 +131,9 @@ class apiBuzzService {
    * @param $abuseType optional
    */
   public function updateActivities($scope, $userId, $postId, $postBody, $hl = null, $abuseType = null) {
-    return $this->activities->__call('update', array(array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl, 'abuseType' => $abuseType)));
+    return $this->activities->__call('update', array(
+        array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl,
+            'abuseType' => $abuseType)));
   }
 
   /**
@@ -147,7 +152,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function extractPeopleFromSearchActivities($postBody, $lon = null, $max_results = null, $c = null, $bbox = null, $q = null, $pid = null, $radius = null, $lat = null, $hl = null) {
-    return $this->activities->__call('extractPeopleFromSearch', array(array('postBody' => $postBody, 'lon' => $lon, 'max-results' => $max_results, 'c' => $c, 'bbox' => $bbox, 'q' => $q, 'pid' => $pid, 'radius' => $radius, 'lat' => $lat, 'hl' => $hl)));
+    return $this->activities->__call('extractPeopleFromSearch', array(
+        array('postBody' => $postBody, 'lon' => $lon, 'max-results' => $max_results, 'c' => $c, 'bbox' => $bbox,
+            'q' => $q, 'pid' => $pid, 'radius' => $radius, 'lat' => $lat, 'hl' => $hl)));
   }
 
   /**
@@ -160,7 +167,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function deleteActivities($scope, $userId, $postId, $hl = null) {
-    return $this->activities->__call('delete', array(array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'hl' => $hl)));
+    return $this->activities->__call('delete', array(
+        array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'hl' => $hl)));
   }
 
   /**
@@ -174,7 +182,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function insertActivities($userId, $postBody, $preview = null, $photo = null, $hl = null) {
-    return $this->activities->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'preview' => $preview, 'photo' => $photo, 'hl' => $hl)));
+    return $this->activities->__call('insert', array(
+        array('userId' => $userId, 'postBody' => $postBody, 'preview' => $preview, 'photo' => $photo, 'hl' => $hl)));
   }
 
   /**
@@ -190,7 +199,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function listActivities($scope, $userId, $max_comments = null, $max_results = null, $c = null, $max_liked = null, $hl = null) {
-    return $this->activities->__call('list', array(array('scope' => $scope, 'userId' => $userId, 'max-comments' => $max_comments, 'max-results' => $max_results, 'c' => $c, 'max-liked' => $max_liked, 'hl' => $hl)));
+    return $this->activities->__call('list', array(
+        array('scope' => $scope, 'userId' => $userId, 'max-comments' => $max_comments, 'max-results' => $max_results,
+            'c' => $c, 'max-liked' => $max_liked, 'hl' => $hl)));
   }
 
   /**
@@ -221,7 +232,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function searchActivities($postBody, $lon = null, $max_results = null, $c = null, $bbox = null, $q = null, $pid = null, $radius = null, $lat = null, $hl = null) {
-    return $this->activities->__call('search', array(array('postBody' => $postBody, 'lon' => $lon, 'max-results' => $max_results, 'c' => $c, 'bbox' => $bbox, 'q' => $q, 'pid' => $pid, 'radius' => $radius, 'lat' => $lat, 'hl' => $hl)));
+    return $this->activities->__call('search', array(
+        array('postBody' => $postBody, 'lon' => $lon, 'max-results' => $max_results, 'c' => $c, 'bbox' => $bbox,
+            'q' => $q, 'pid' => $pid, 'radius' => $radius, 'lat' => $lat, 'hl' => $hl)));
   }
 
   /**
@@ -246,7 +259,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function searchPeople($postBody, $max_results = null, $c = null, $q = null, $hl = null) {
-    return $this->people->__call('search', array(array('postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'q' => $q, 'hl' => $hl)));
+    return $this->people->__call('search', array(
+        array('postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'q' => $q, 'hl' => $hl)));
   }
 
   /**
@@ -260,7 +274,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function listPeople($groupId, $userId, $max_results = null, $c = null, $hl = null) {
-    return $this->people->__call('list', array(array('groupId' => $groupId, 'userId' => $userId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->people->__call('list', array(
+        array('groupId' => $groupId, 'userId' => $userId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -288,7 +303,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function resharedPeople($groupId, $userId, $postId, $postBody, $max_results = null, $c = null, $hl = null) {
-    return $this->people->__call('reshared', array(array('groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->people->__call('reshared', array(
+        array('groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody,
+            'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -301,7 +318,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function deletePeople($groupId, $userId, $personId, $hl = null) {
-    return $this->people->__call('delete', array(array('groupId' => $groupId, 'userId' => $userId, 'personId' => $personId, 'hl' => $hl)));
+    return $this->people->__call('delete', array(
+        array('groupId' => $groupId, 'userId' => $userId, 'personId' => $personId, 'hl' => $hl)));
   }
 
   /**
@@ -315,7 +333,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function updatePeople($groupId, $userId, $personId, $postBody, $hl = null) {
-    return $this->people->__call('update', array(array('groupId' => $groupId, 'userId' => $userId, 'personId' => $personId, 'postBody' => $postBody, 'hl' => $hl)));
+    return $this->people->__call('update', array(
+        array('groupId' => $groupId, 'userId' => $userId, 'personId' => $personId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
@@ -331,7 +350,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function likedPeople($groupId, $userId, $postId, $postBody, $max_results = null, $c = null, $hl = null) {
-    return $this->people->__call('liked', array(array('groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->people->__call('liked', array(
+        array('groupId' => $groupId, 'userId' => $userId, 'postId' => $postId, 'postBody' => $postBody,
+            'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -356,7 +377,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function listGroups($userId, $max_results = null, $c = null, $hl = null) {
-    return $this->groups->__call('list', array(array('userId' => $userId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->groups->__call('list', array(
+        array('userId' => $userId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
   }
 
   /**
@@ -381,7 +403,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function updateGroups($groupId, $userId, $postBody, $hl = null) {
-    return $this->groups->__call('update', array(array('groupId' => $groupId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+    return $this->groups->__call('update', array(
+        array('groupId' => $groupId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
@@ -409,7 +432,9 @@ class apiBuzzService {
    * @param $abuseType optional
    */
   public function updateComments($scope, $userId, $commentId, $postId, $postBody, $hl = null, $abuseType = null) {
-    return $this->comments->__call('update', array(array('scope' => $scope, 'userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl, 'abuseType' => $abuseType)));
+    return $this->comments->__call('update', array(
+        array('scope' => $scope, 'userId' => $userId, 'commentId' => $commentId, 'postId' => $postId,
+            'postBody' => $postBody, 'hl' => $hl, 'abuseType' => $abuseType)));
   }
 
   /**
@@ -424,7 +449,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function listComments($scope, $userId, $postId, $max_results = null, $c = null, $hl = null) {
-    return $this->comments->__call('list', array(array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->comments->__call('list', array(
+        array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'max-results' => $max_results, 'c' => $c,
+            'hl' => $hl)));
   }
 
   /**
@@ -437,7 +464,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function deleteComments($userId, $commentId, $postId, $hl = null) {
-    return $this->comments->__call('delete', array(array('userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'hl' => $hl)));
+    return $this->comments->__call('delete', array(
+        array('userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'hl' => $hl)));
   }
 
   /**
@@ -450,7 +478,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function insertComments($userId, $postId, $postBody, $hl = null) {
-    return $this->comments->__call('insert', array(array('userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl)));
+    return $this->comments->__call('insert', array(
+        array('userId' => $userId, 'postId' => $postId, 'postBody' => $postBody, 'hl' => $hl)));
   }
 
   /**
@@ -463,7 +492,8 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function getComments($userId, $commentId, $postId, $hl = null) {
-    return $this->comments->__call('get', array(array('userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'hl' => $hl)));
+    return $this->comments->__call('get', array(
+        array('userId' => $userId, 'commentId' => $commentId, 'postId' => $postId, 'hl' => $hl)));
   }
 
   /**
@@ -478,7 +508,9 @@ class apiBuzzService {
    * @param $hl optional
    */
   public function listRelated($scope, $userId, $postId, $max_results = null, $c = null, $hl = null) {
-    return $this->related->__call('list', array(array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'max-results' => $max_results, 'c' => $c, 'hl' => $hl)));
+    return $this->related->__call('list', array(
+        array('scope' => $scope, 'userId' => $userId, 'postId' => $postId, 'max-results' => $max_results, 'c' => $c,
+            'hl' => $hl)));
   }
 
   /**
@@ -522,6 +554,6 @@ class apiBuzzService {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
   }
-    
+
 }
 

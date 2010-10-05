@@ -33,6 +33,7 @@ class apiOAuth extends apiAuth {
   protected $consumerToken;
   protected $accessToken;
   protected $privateKeyFile;
+  protected $developerKey;
   private $io;
   private $cache;
 
@@ -98,6 +99,13 @@ class apiOAuth extends apiAuth {
       throw new apiAuthException("Could not json decode the access token");
     }
     $this->accessToken = new OAuthConsumer($accessToken['key'], $accessToken['secret']);
+  }
+
+  /**
+   * Set the developer key to use, these are obtained through the API Console
+   */
+  public function setDeveloperKey($developerKey) {
+    $this->developerKey = $developerKey;
   }
 
   /**
@@ -194,6 +202,12 @@ class apiOAuth extends apiAuth {
    * @return string the signed url
    */
   public function sign(apiHttpRequest $request) {
+    // add the developer key to the request before signing it
+    if ($this->developerKey) {
+      $url = $request->getUrl();
+      $url .= ((strpos($url, '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey);
+    }
+    // and sign the request
     $oauthRequest = OAuthRequest::from_request($request->getMethod(), $request->getBaseUrl(), $request->getQueryParams());
     $params = $this->mergeParameters($request->getQueryParams());
     foreach ($params as $key => $val) {
