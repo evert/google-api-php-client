@@ -44,6 +44,6 @@ $apiConfig = array(
     	'buzz' => array('scope' => 'https://www.googleapis.com/auth/buzz', 'authorization_token_url' => 'https://www.google.com/buzz/api/auth/OAuthAuthorizeToken'),
     	'latitude' => array('scope' => 'https://www.googleapis.com/auth/latitude', 'authorization_token_url' => 'https://www.google.com/latitude/apps/OAuthAuthorizeToken'),
         'moderator' => array('scope' => 'https://www.googleapis.com/auth/moderator'),
-        'userinfo' => array('scope' => 'https://www.googleapis.com/auth/userinfo#email')
+        'easyhybrid' => array('scope' => 'https://www.googleapis.com/auth/userinfo#email')
     )
 );
