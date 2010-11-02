@@ -104,11 +104,11 @@ class apiClient {
       // Adding services after being authenticated, since the oauth scope is already set (so you wouldn't have access to that data)
       throw new apiException("Can't add services after having authenticated");
     }
-    if (! isset($apiConfig['services'][$service])) {
-      throw new apiException("Invalid or unknown service name");
+    $this->services[$service] = $this->defaultService;
+    if (isset($apiConfig['services'][$service])) {
+      // Merge the service descriptor with the default values
+      $this->services[$service] = array_merge($this->services[$service], $apiConfig['services'][$service]);
     }
-    // Merge the service descriptor with the default values
-    $this->services[$service] = array_merge($this->defaultService, $apiConfig['services'][$service]);
     $this->services[$service]['discoveryURI'] = 'http://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe?api=' . urlencode($service) . '&apiVersion=' . urlencode($version);
   }
 
