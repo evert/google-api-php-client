@@ -93,12 +93,26 @@ class apiREST {
     }
     //FIXME currently everything is wrapped in a data enveloppe, but hopefully this might change some day
     $ret = isset($decodedResponse['data']) ? $decodedResponse['data'] : $decodedResponse;
+    // Add a 'continuationToken' element to the response if the response contains a next link (so you can call it using the 'c' param)
+    $ret = self::checkNextLink($ret);
     // if the response type has a registered type handler, call & return it instead of the raw response array
     if (isset($ret['kind']) && isset($apiTypeHandlers[$ret['kind']])) {
       $ret = new $apiTypeHandlers[$ret['kind']]($ret);
     }
     return $ret;
   }
+
+
+  static private function checkNextLink($response) {
+    if (isset($response['links']) && isset($response['links']['next'][0]['href'])) {
+      parse_str($response['links']['next'][0]['href'], $params);
+      if (isset($params['c'])) {
+        $response['continuationToken'] = $params['c'];
+      }
+    }
+    return $response;
+  }
+
 
   /**
    * Misc function used to count the number of bytes in a post body, in the world of multi-byte chars

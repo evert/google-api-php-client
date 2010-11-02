@@ -36,7 +36,7 @@ class apiRPC {
       	'apiVersion' => 'v1'
       );
     }
-    $httpRequest = new apiHttpRequest('http://www.googleapis.com/rpc');
+    $httpRequest = new apiHttpRequest('https://www.googleapis.com/rpc?pp=1');
     $httpRequest->setHeaders(array('Content-Type: application/json'));
     $httpRequest->setMethod('POST');
     $httpRequest->setPostBody(json_encode($jsonRpcRequest));
@@ -44,11 +44,21 @@ class apiRPC {
     if (($decodedResponse = json_decode($httpRequest->getResponseBody(), true)) != false) {
       $ret = array();
       foreach ($decodedResponse as $response) {
-        $ret[$response['id']] = $response['result'];
+        $ret[$response['id']] = self::checkNextLink($response['result']);
       }
       return $ret;
     } else {
       throw new apiServiceException("Invalid json returned by the json-rpc end-point");
     }
+  }
+
+  static private function checkNextLink($response) {
+    if (isset($response['links']) && isset($response['links']['next'][0]['href'])) {
+      parse_str($response['links']['next'][0]['href'], $params);
+      if (isset($params['c'])) {
+        $response['continuationToken'] = $params['c'];
+      }
+    }
+    return $response;
   }
 }
