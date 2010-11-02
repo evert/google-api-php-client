@@ -82,10 +82,10 @@ class GroupsTest extends apiBuzzTest {
         'data' => array('title' => 'Google API Client Updated Group')));
     $this->evaluateGroup($group);
 
-    // Bug, this doesn't actually return the right group right now, skipping test
-    //$validateGroup = $this->buzz->getGroups($group['id'], '@me');
-    //$this->evaluateGroup($validateGroup);
-    //$this->assertEquals($validateGroup, $group);
+    $validateGroup = $this->buzz->getGroups($group['id'], '@me');
+    $this->evaluateGroup($validateGroup);
+    $this->assertEquals($validateGroup['title'], $group['title']);
+    $this->assertEquals($validateGroup['id'], $group['id']);
 
     $this->buzz->deleteGroups($group['id'], '@me');
   }
@@ -98,7 +98,7 @@ class GroupsTest extends apiBuzzTest {
     $this->assertArrayHasKey('title', $group);
     $this->assertArrayHasKey('links', $group);
     if (isset($group['memberCount'])) {
-      $this->evaluateTrue(is_numeric($group['memberCount']));
+      $this->assertTrue(is_numeric($group['memberCount']));
     }
   }
 
