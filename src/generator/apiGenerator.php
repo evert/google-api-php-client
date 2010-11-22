@@ -37,7 +37,7 @@ class apiGenerator extends apiClient {
     parent::__construct();
     $this->serviceName = $serviceName;
     $this->version = $version;
-    $this->discoveryUrl = 'http://www.googleapis.com/discovery/' . $this->discoveryVersion . '/describe?api=' . urlencode($this->serviceName) . '&apiVersion=' . urlencode($this->version);
+    $this->discoveryUrl = 'https://www.googleapis.com/discovery/' . $this->discoveryVersion . '/describe?api=' . urlencode($this->serviceName) . '&apiVersion=' . urlencode($this->version);
   }
 
   public function generate() {

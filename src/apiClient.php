@@ -109,7 +109,7 @@ class apiClient {
       // Merge the service descriptor with the default values
       $this->services[$service] = array_merge($this->services[$service], $apiConfig['services'][$service]);
     }
-    $this->services[$service]['discoveryURI'] = 'http://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe?api=' . urlencode($service) . '&apiVersion=' . urlencode($version);
+    $this->services[$service]['discoveryURI'] = 'https://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe?api=' . urlencode($service) . '&apiVersion=' . urlencode($version);
   }
 
   public function authenticate() {
