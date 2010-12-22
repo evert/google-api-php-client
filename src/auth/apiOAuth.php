@@ -204,8 +204,7 @@ class apiOAuth extends apiAuth {
   public function sign(apiHttpRequest $request) {
     // add the developer key to the request before signing it
     if ($this->developerKey) {
-      $url = $request->getUrl();
-      $url .= ((strpos($url, '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey);
+      $request->setUrl($request->getUrl() . ((strpos($request->getUrl(), '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey));
     }
     // and sign the request
     $oauthRequest = OAuthRequest::from_request($request->getMethod(), $request->getBaseUrl(), $request->getQueryParams());

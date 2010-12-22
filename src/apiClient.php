@@ -130,9 +130,21 @@ class apiClient {
     return $this->auth->authenticate($this->cache, $this->io, $service);
   }
 
+  /**
+   * Set the OAuth access token using the string that resulted from calling authenticate()
+   * @param (serialized) string $accessToken
+   */
   public function setAccessToken($accessToken) {
     $this->auth->setAccessToken($accessToken);
   }
+
+  /**
+   * Set the developer key to use, these are obtained through the API Console
+   */
+  public function setDeveloperKey($developerKey) {
+    $this->auth->setDeveloperKey($developerKey);
+  }
+
 
   private function discoverService($serviceName, $serviceURI) {
     $request = $this->io->makeRequest(new apiHttpRequest($serviceURI));
