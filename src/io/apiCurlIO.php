@@ -183,7 +183,7 @@ class apiCurlIO implements apiIO {
   }
 
   private function getCachedRequest(apiHttpRequest $request) {
-    $url = isset($request->originalUrl) ? $request->originalUrl : $request->getUrl();
+    $url = $request->getUrl();
     if (($cachedRequest = $this->cache->get($this->getRequestKey($request))) !== false) {
       // There is a cached version of this request, validate if it can actually be used
       $headers = $this->getNormalizedHeaders($request);
@@ -228,7 +228,7 @@ class apiCurlIO implements apiIO {
         $cacheControl[$key] = strtolower($val);
       }
     }
-    $url = isset($request->originalUrl) ? $request->originalUrl : $request->getUrl();
+    $url = $request->getUrl();
     return (in_array('must-revalidate', $cacheControl) || ($etag && ! $expires) || $expires > $date);
   }
 
@@ -239,8 +239,7 @@ class apiCurlIO implements apiIO {
    * @return a md5 sum of the request url
    */
   private function getRequestKey(apiHttpRequest $request) {
-    $cacheUrl = (isset($request->originalUrl) && isset($request->accessKey) ? $request->originalUrl . '.' . $request->accessKey : $request->getUrl());
-    $url = isset($request->originalUrl) ? $request->originalUrl : $request->getUrl();
+    $cacheUrl = (isset($request->accessKey) ? $request->getUrl(). '.' . $request->accessKey : $request->getUrl());
     return md5($cacheUrl);
   }
 

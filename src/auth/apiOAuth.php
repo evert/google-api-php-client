@@ -216,12 +216,12 @@ class apiOAuth extends apiAuth {
       $oauthRequest->set_parameter($key, $val);
     }
     $oauthRequest->sign_request($this->signatureMethod, $this->consumerToken, $this->accessToken);
-    $signedUrl = $oauthRequest->to_url();
-    // Set an originalUrl property that can be used to cache the resource
-    $request->originalUrl = $request->getUrl();
+    $authHeaders = $oauthRequest->to_header();
+    $headers = $request->getHeaders();
+    $headers[] = $authHeaders;
+    $request->setHeaders($headers);
     // and add the access token key to it (since it doesn't include the secret, it's still secure to store this in cache)
     $request->accessKey = $this->accessToken->key;
-    $request->setUrl($signedUrl);
     return $request;
   }
 

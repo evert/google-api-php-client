@@ -360,20 +360,11 @@ if(isset($params['title']) && isset($params['title-exact'])) {
   public function to_header() {
     $out ='Authorization: OAuth ';
     $total = array();
-
-    /*
-    $sig = $this->parameters['oauth_signature'];
-    unset($this->parameters['oauth_signature']);
-    uksort($this->parameters, 'strnatcmp');
-    $this->parameters['oauth_signature'] = $sig;
-    */
-
     foreach ($this->parameters as $k => $v) {
       if (substr($k, 0, 5) != "oauth") continue;
       $out .= OAuthUtil::urlencodeRFC3986($k) . '="' . OAuthUtil::urlencodeRFC3986($v) . '", ';
     }
     $out = substr_replace($out, '', strlen($out) - 2);
-
     return $out;
   }
 

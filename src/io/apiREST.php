@@ -77,9 +77,9 @@ class apiREST {
       $responseBody = $httpRequest->getResponseBody();
       if (($responseBody = json_decode($responseBody, true)) != null && isset($responseBody['error']['message']) && isset($responseBody['error']['code'])) {
         // if we're getting a json encoded error defintion, use that instead of the raw response body for improved readability
-        $errorMessage = "Error calling " . (isset($httpRequest->originalUrl) ? $httpRequest->originalUrl : $httpRequest->getUrl()) . ": ({$responseBody['error']['code']}) {$responseBody['error']['message']}";
+        $errorMessage = "Error calling " . $httpRequest->getUrl() . ": ({$responseBody['error']['code']}) {$responseBody['error']['message']}";
       } else {
-        $errorMessage = "Error calling " . $httpRequest->getMethod() . " " . (isset($httpRequest->originalUrl) ? $httpRequest->originalUrl : $httpRequest->getUrl()) . ": (" . $httpRequest->getResponseHttpCode() . ") " . $httpRequest->getResponseBody();
+        $errorMessage = "Error calling " . $httpRequest->getMethod() . " " . $httpRequest->getUrl() . ": (" . $httpRequest->getResponseHttpCode() . ") " . $httpRequest->getResponseBody();
       }
       throw new apiServiceException($errorMessage);
     }
