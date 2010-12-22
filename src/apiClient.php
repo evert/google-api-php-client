@@ -63,7 +63,7 @@ $apiTypeHandlers = array();
 class apiClient {
 
   // the version of the discovery mechanism this class is meant to work with
-  const discoveryVersion = '0.1';
+  const discoveryVersion = 'v0.2beta1';
 
   // worker classes
   protected $auth;
@@ -109,7 +109,7 @@ class apiClient {
       // Merge the service descriptor with the default values
       $this->services[$service] = array_merge($this->services[$service], $apiConfig['services'][$service]);
     }
-    $this->services[$service]['discoveryURI'] = 'https://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe?api=' . urlencode($service) . '&apiVersion=' . urlencode($version);
+    $this->services[$service]['discoveryURI'] = 'https://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe/' . urlencode($service) . '/' . urlencode($version);
   }
 
   public function authenticate() {

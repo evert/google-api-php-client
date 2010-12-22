@@ -36,7 +36,7 @@ class apiRPC {
       	'apiVersion' => 'v1'
       );
     }
-    $httpRequest = new apiHttpRequest('https://www.googleapis.com/rpc?pp=1');
+    $httpRequest = new apiHttpRequest($request->getRpcPath() . '?pp=1');
     $httpRequest->setHeaders(array('Content-Type: application/json'));
     $httpRequest->setMethod('POST');
     $httpRequest->setPostBody(json_encode($jsonRpcRequest));

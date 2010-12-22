@@ -29,7 +29,7 @@
 class apiGenerator extends apiClient {
 
   private $discoveryUrl;
-  private $discoveryVersion = '0.1';
+  private $discoveryVersion = 'v0.2beta1';
   private $serviceName;
   private $version;
 
@@ -37,15 +37,15 @@ class apiGenerator extends apiClient {
     parent::__construct();
     $this->serviceName = $serviceName;
     $this->version = $version;
-    $this->discoveryUrl = 'https://www.googleapis.com/discovery/' . $this->discoveryVersion . '/describe?api=' . urlencode($this->serviceName) . '&apiVersion=' . urlencode($this->version);
+    $this->discoveryUrl = 'https://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe/' . urlencode($serviceName) . '/' . urlencode($version);
   }
 
   public function generate() {
     $discoveryDocument = $this->getService();
-    if (!isset($discoveryDocument['data'][$this->serviceName][$this->version])) {
-      throw new apiException("Invalid service name or version number");
+    if (!isset($discoveryDocument['version']) || !isset($discoveryDocument['restBasePath']) || !isset($discoveryDocument['rpcPath'])) {
+      throw new apiServiceException("Invalid discovery document");
     }
-    $discoveryDocument = $discoveryDocument['data'][$this->serviceName][$this->version];
+
     $discoveryResources = $discoveryDocument['resources'];
     $ret = $this->licenseHeader() .
            "\n\n/**\n".
@@ -58,7 +58,9 @@ class apiGenerator extends apiClient {
     $vars = "  // Variables that the apiServiceResource implementation depends on\n" .
             "  private \$serviceName = '{$this->serviceName}';\n".
             "  private \$version = '{$this->version}';\n".
-            "  private \$baseUrl = '{$discoveryDocument['baseUrl']}';\n".
+            "  private \$restBasePath = 'https://www.googleapis.com{$discoveryDocument['restBasePath']}';\n".
+            "  private \$rpcPath = 'https://www.googleapis.com{$discoveryDocument['rpcPath']}';\n".
+
             "  private \$io;\n".
             "  // apiServiceResource's that are used internally\n";
     $constructor = "  /**\n" .
@@ -94,8 +96,8 @@ class apiGenerator extends apiClient {
         $params = array_merge($requiredParams, $optionalParams);
 
         $functions .= "  /**\n".
-        		      "   * Implementation of the {$methodConfig['rpcName']} method.\n".
-                      "   * See: http://code.google.com/apis/buzz/v1/using_rest.html#{$methodConfig['rpcName']}\n   *\n";
+        		      "   * Implementation of the {$methodConfig['rpcMethod']} method.\n".
+                      "   * See: http://code.google.com/apis/buzz/v1/using_rest.html#{$methodConfig['rpcMethod']}\n   *\n";
         $paramToArrayMapping = array();
         foreach ($params as $param) {
           $paramName = str_replace('$', '', str_replace(' = null', '', $param));
@@ -143,13 +145,6 @@ class apiGenerator extends apiClient {
   }
 
   /**
-   * @param \$io the \$io to set
-   */
-  public function setIo(\$io) {
-    \$this->io = \$io;
-  }
-
-  /**
    * @return the \$version
    */
   public function getVersion() {
@@ -157,26 +152,18 @@ class apiGenerator extends apiClient {
   }
 
   /**
-   * @return the \$baseUrl
+   * @return the \$restBasePath
    */
-  public function getBaseUrl() {
-    return \$this->baseUrl;
+  public function getRestBasePath() {
+    return \$this->restBasePath;
   }
 
   /**
-   * @param \$version the \$version to set
+   * @return the \$rpcPath
    */
-  public function setVersion(\$version) {
-    \$this->version = \$version;
-  }
-
-  /**
-   * @param \$baseUrl the \$baseUrl to set
-   */
-  public function setBaseUrl(\$baseUrl) {
-    \$this->baseUrl = \$baseUrl;
-  }
-    ";
+  public function getRpcPath() {
+    return \$this->rpcPath;
+  }";
   }
 
   private function licenseHeader() {

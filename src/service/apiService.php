@@ -31,22 +31,22 @@ require_once "service/apiBatch.php";
  */
 class apiService {
 
+  protected $baseUrl = 'https://www.googleapis.com';
   protected $io;
   protected $version = null;
-  protected $baseUrl;
+  protected $restBasePath;
+  protected $rpcPath;
 
   public function __construct($serviceName, $discoveryDocument, apiIO $io) {
     $this->io = $io;
-    $discoveryDocument = $discoveryDocument['data'][$serviceName];
-    foreach ($discoveryDocument as $version => $service) {
-      if ($this->version !== null) {
-        throw new apiException("Multiple service versions returned in the discovery document, giving up");
-      }
-      $this->version = $version;
-      $this->baseUrl = $service['baseUrl'];
-      foreach ($service['resources'] as $resourceName => $resourceTypes) {
-        $this->$resourceName = new apiServiceResource($this, $serviceName, $resourceName, $resourceTypes);
-      }
+    if (!isset($discoveryDocument['version']) || !isset($discoveryDocument['restBasePath']) || !isset($discoveryDocument['rpcPath'])) {
+      throw new apiServiceException("Invalid discovery document");
+    }
+    $this->version = $discoveryDocument['version'];
+    $this->restBasePath = $this->baseUrl . $discoveryDocument['restBasePath'];
+    $this->rpcPath = $this->baseUrl . $discoveryDocument['rpcPath'];
+    foreach ($discoveryDocument['resources'] as $resourceName => $resourceTypes) {
+      $this->$resourceName = new apiServiceResource($this, $serviceName, $resourceName, $resourceTypes);
     }
   }
 
@@ -72,10 +72,17 @@ class apiService {
   }
 
   /**
-   * @return the $baseUrl
+   * @return the $restBasePath
    */
-  public function getBaseUrl() {
-    return $this->baseUrl;
+  public function getRestBasePath() {
+    return $this->restBasePath;
+  }
+
+  /**
+   * @return the $rpcPath
+   */
+  public function getRpcPath() {
+    return $this->rpcPath;
   }
 
   /**
@@ -86,9 +93,16 @@ class apiService {
   }
 
   /**
-   * @param $baseUrl the $baseUrl to set
+   * @param $restBasePath the $restBasePath to set
    */
-  public function setBaseUrl($baseUrl) {
-    $this->baseUrl = $baseUrl;
+  public function setRestBasePath($restBasePath) {
+    $this->restBasePath = $restBasePath;
+  }
+
+  /**
+   * @param $rpcPath the $rpcPath to set
+   */
+  public function setRpcPath($rpcPath) {
+    $this->rpcPath = $rpcPath;
   }
 }

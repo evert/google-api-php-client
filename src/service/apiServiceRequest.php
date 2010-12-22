@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2010 Google Inc.
  *
@@ -26,8 +27,9 @@
 class apiServiceRequest {
 
   protected $io;
-  protected $baseUrl;
-  protected $pathUrl;
+  protected $restBasePath;
+  protected $restPath;
+  protected $rpcPath;
   protected $rpcName;
   protected $httpMethod;
   protected $parameters;
@@ -36,15 +38,12 @@ class apiServiceRequest {
 
   /**
    * Only used internally, so using a quick-and-dirty constuctor
-   * @param $pathUrl
-   * @param $rpcName
-   * @param $httpMethod
-   * @param $parameters
    */
-  public function __construct(apiIO $io, $baseUrl, $pathUrl, $rpcName, $httpMethod, $parameters, $postBody = null) {
+  public function __construct(apiIO $io, $restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
     $this->io = $io;
-    $this->baseUrl = $baseUrl;
-    $this->pathUrl = $pathUrl;
+    $this->restBasePath = $restBasePath;
+    $this->restPath = $restPath;
+    $this->rpcPath = $rpcPath;
     $this->rpcName = $rpcName;
     $this->httpMethod = $httpMethod;
     $this->parameters = $parameters;
@@ -80,13 +79,6 @@ class apiServiceRequest {
   }
 
   /**
-   * @return the $baseUrl
-   */
-  public function getBaseUrl() {
-    return $this->baseUrl;
-  }
-
-  /**
    * @param $baseUrl the $baseUrl to set
    */
   public function setBaseUrl($baseUrl) {
@@ -94,10 +86,24 @@ class apiServiceRequest {
   }
 
   /**
-   * @return the $pathUrl
+   * @return the $restBasePath
    */
-  public function getPathUrl() {
-    return $this->pathUrl;
+  public function getRestBasePath() {
+    return $this->restBasePath;
+  }
+
+  /**
+   * @return the restPath
+   */
+  public function getRestPath() {
+    return $this->restPath;
+  }
+
+  /**
+   * @return the $rpcPath
+   */
+  public function getRpcPath() {
+    return $this->rpcPath;
   }
 
   /**
@@ -122,10 +128,24 @@ class apiServiceRequest {
   }
 
   /**
-   * @param $pathUrl the $pathUrl to set
+   * @param $restBasePath the $restBasePath to set
    */
-  public function setPathUrl($pathUrl) {
-    $this->pathUrl = $pathUrl;
+  public function setRestBasePath($restBasePath) {
+    $this->restBasePath = $restBasePath;
+  }
+
+  /**
+   * @param $restPath the $restPath to set
+   */
+  public function setRestPath($restPath) {
+    $this->restPath = $restPath;
+  }
+
+  /**
+   * @param $rpcPath the $rpcPath to set
+   */
+  public function setRpcPath($rpcPath) {
+    $this->rpcPath = $rpcPath;
   }
 
   /**

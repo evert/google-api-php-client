@@ -35,11 +35,11 @@ class apiREST {
   static public function execute(apiServiceRequest $request) {
     global $apiTypeHandlers;
     $result = null;
-    $requestUrl = $request->getBaseUrl() . $request->getPathUrl();
+    $requestUrl = $request->getRestBasePath() . $request->getRestPath();
     $uriTemplateVars = array();
     $queryVars = array();
     foreach ($request->getParameters() as $paramName => $paramSpec) {
-      if ($paramSpec['parameterType'] == 'path') {
+      if ($paramSpec['restParameterType'] == 'path') {
         $uriTemplateVars[$paramName] = $paramSpec['value'];
       } else {
         $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
@@ -53,7 +53,6 @@ class apiREST {
     //FIXME work around for the the uri template lib which url encodes the @'s & confuses our servers
     $requestUrl = str_replace('%40', '@', $requestUrl);
     //EOFIX
-
 
     //FIXME temp work around to make @groups/{@following,@followers} work (something which we should really be fixing in our API)
     if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
