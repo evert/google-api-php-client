@@ -20,7 +20,7 @@
 
 class RelatedTest extends apiBuzzTest {
   public function testRelated() {
-    $related = $this->buzz->listRelated('@self', '@me', 'tag:google.com,2010:buzz:z122xx25xsazeroqe04cdpjqtv3lznixdd0', 20);
+    $related = $this->buzz->listRelated('tag:google.com,2010:buzz:z122xx25xsazeroqe04cdpjqtv3lznixdd0', '@self', '@me', null, null, 20);
 
     //  check if the the basic root elements match what is expected
     $this->assertArrayHasKey('kind', $related);
@@ -43,5 +43,4 @@ class RelatedTest extends apiBuzzTest {
     $this->arrayHasKey('title', $related['items'][0]);
     $this->arrayHasKey('summary', $related['items'][0]);
   }
-
 }

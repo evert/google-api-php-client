@@ -29,7 +29,7 @@ class PeopleTest extends apiBuzzTest {
     // setUp is called for each test, make sure to only do the (expensive) pre-population of data only once
     if (! $this->groupId && ! $this->personId) {
       // try to find a group ID we can use for the various people tests
-      $groups = $this->buzz->listGroups('@me', 20);
+      $groups = $this->buzz->listGroups('@me', null, null, 20);
       foreach ($groups['items'] as $group) {
         if (isset($group['memberCount']) && $group['memberCount'] > 2) {
           $this->groupId = $group['id'];
@@ -39,9 +39,8 @@ class PeopleTest extends apiBuzzTest {
       if (! $this->groupId) {
         throw new Exception("Could not run people test because there are no groups available with 2 or more contacts");
       }
-
       // try to find someone to test un- & follow with
-      $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], 10);
+      $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], null, null, 10);
       if (isset($people['entry']) && count($people['entry'])) {
         $this->personId = $people['entry'][0]['id'];
       }
@@ -59,7 +58,7 @@ class PeopleTest extends apiBuzzTest {
 
   public function testListPeople() {
     global $apiConfig;
-    $people = $this->buzz->listPeople($this->groupId, $apiConfig['oauth_test_user'], 10);
+    $people = $this->buzz->listPeople($this->groupId, $apiConfig['oauth_test_user'], null, null, 10);
 
     // test the basic feed properties
     $this->assertArrayHasKey('kind', $people);
@@ -78,7 +77,7 @@ class PeopleTest extends apiBuzzTest {
    */
   public function testFollowers() {
     global $apiConfig;
-    $people = $this->buzz->listPeople('@followers', $apiConfig['oauth_test_user'], 10);
+    $people = $this->buzz->listPeople('@followers', $apiConfig['oauth_test_user'], null, null, 10);
     // test the basic feed properties
     $this->assertArrayHasKey('kind', $people);
     $this->assertEquals('buzz#peopleFeed', $people['kind']);
@@ -96,7 +95,7 @@ class PeopleTest extends apiBuzzTest {
    */
   public function testFollowing() {
     global $apiConfig;
-    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], 10);
+    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], null, null, 10);
     // test the basic feed properties
     $this->assertArrayHasKey('kind', $people);
     $this->assertEquals('buzz#peopleFeed', $people['kind']);
@@ -115,9 +114,9 @@ class PeopleTest extends apiBuzzTest {
   public function testDeletePeople() {
     global $apiConfig;
     // stop following the test user
-    $this->buzz->deletePeople('@following', $apiConfig['oauth_test_user'], $this->personId);
+    $this->buzz->deletePeople('@following', $this->personId, $apiConfig['oauth_test_user']);
     // check to see if we're not following the user anymore
-    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], 1000000);
+    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], null, null, 1000000);
     $found = false;
     foreach ($people['entry'] as $person) {
       if ($person['id'] == $this->personId) {
@@ -133,9 +132,9 @@ class PeopleTest extends apiBuzzTest {
    */
   public function testUpdatePeople() {
     global $apiConfig;
-    $this->buzz->updatePeople('@following', $apiConfig['oauth_test_user'], $this->personId, '');
+    $this->buzz->updatePeople('@following', $this->personId, $apiConfig['oauth_test_user'], '');
     // assert that we're now following this user again
-    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], 1000000);
+    $people = $this->buzz->listPeople('@following', $apiConfig['oauth_test_user'], null, null, 1000000);
     $found = false;
     foreach ($people['entry'] as $person) {
       if ($person['id'] == $this->personId) {
@@ -152,7 +151,7 @@ class PeopleTest extends apiBuzzTest {
   }
 
   public function testSearchPeople() {
-    $people = $this->buzz->searchPeople('', 20, null, 'Chris Chabot');
+    $people = $this->buzz->searchPeople(null, null, 20, 'Chris Chabot');
     $this->assertArrayHasKey('kind', $people);
     $this->assertArrayHasKey('startIndex', $people);
     $this->assertArrayHasKey('itemsPerPage', $people);
