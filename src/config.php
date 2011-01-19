@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+global $apiConfig;
+
 $apiConfig = array(
 
     // Site name to show in the Google's oauth authentication screen

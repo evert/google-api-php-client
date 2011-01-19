@@ -2,11 +2,11 @@
 
 /* Generic exception class
  */
-class OAuthException extends Exception {
+class apiClientOAuthException extends Exception {
   // pass
 }
 
-class OAuthConsumer {
+class apiClientOAuthConsumer {
   public $key;
   public $secret;
 
@@ -17,7 +17,7 @@ class OAuthConsumer {
   }
 }
 
-class OAuthToken {
+class apiClientOAuthToken {
   // access tokens and request tokens
   public $key;
   public $secret;
@@ -36,8 +36,8 @@ class OAuthToken {
    * would respond to request_token and access_token calls with
    */
   function to_string() {
-    return "oauth_token=" . OAuthUtil::urlencodeRFC3986($this->key) .
-        "&oauth_token_secret=" . OAuthUtil::urlencodeRFC3986($this->secret);
+    return "oauth_token=" . apiClientOAuthUtil::urlencodeRFC3986($this->key) .
+        "&oauth_token_secret=" . apiClientOAuthUtil::urlencodeRFC3986($this->secret);
   }
 
   function __toString() {
@@ -45,14 +45,14 @@ class OAuthToken {
   }
 }
 
-class OAuthSignatureMethod {
+class apiClientOAuthSignatureMethod {
   public function check_signature(&$request, $consumer, $token, $signature) {
     $built = $this->build_signature($request, $consumer, $token);
     return $built == $signature;
   }
 }
 
-class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
+class apiClientOAuthSignatureMethod_HMAC_SHA1 extends apiClientOAuthSignatureMethod {
   function get_name() {
     return "HMAC-SHA1";
   }
@@ -66,14 +66,14 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
       ($token) ? $token->secret : ""
     );
 
-    $key_parts = array_map(array('OAuthUtil','urlencodeRFC3986'), $key_parts);
+    $key_parts = array_map(array('apiClientOAuthUtil','urlencodeRFC3986'), $key_parts);
     $key = implode('&', $key_parts);
 
     return base64_encode( hash_hmac('sha1', $base_string, $key, true));
   }
 }
 
-class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
+class apiClientOAuthSignatureMethod_RSA_SHA1 extends apiClientOAuthSignatureMethod {
   public function get_name() {
     return "RSA-SHA1";
   }
@@ -143,7 +143,7 @@ class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
   }
 }
 
-class OAuthRequest {
+class apiClientOAuthRequest {
   private $parameters;
   private $http_method;
   private $http_url;
@@ -167,19 +167,19 @@ class OAuthRequest {
     @$http_url or $http_url = $scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     @$http_method or $http_method = $_SERVER['REQUEST_METHOD'];
 
-    $request_headers = OAuthRequest::get_headers();
+    $request_headers = apiClientOAuthRequest::get_headers();
 
     // let the library user override things however they'd like, if they know
     // which parameters to use then go for it, for example XMLRPC might want to
     // do this
     if ($parameters) {
-      $req = new OAuthRequest($http_method, $http_url, $parameters);
+      $req = new apiClientOAuthRequest($http_method, $http_url, $parameters);
     }
     // next check for the auth header, we need to do some extra stuff
     // if that is the case, namely suck in the parameters from GET or POST
     // so that we can include them in the signature
     else if (@substr($request_headers['Authorization'], 0, 5) == "OAuth") {
-      $header_parameters = OAuthRequest::split_header($request_headers['Authorization']);
+      $header_parameters = apiClientOAuthRequest::split_header($request_headers['Authorization']);
       if ($http_method == "GET") {
         $req_parameters = $_GET;
       }
@@ -187,13 +187,13 @@ class OAuthRequest {
         $req_parameters = $_POST;
       }
       $parameters = array_merge($header_parameters, $req_parameters);
-      $req = new OAuthRequest($http_method, $http_url, $parameters);
+      $req = new apiClientOAuthRequest($http_method, $http_url, $parameters);
     }
     else if ($http_method == "GET") {
-      $req = new OAuthRequest($http_method, $http_url, $_GET);
+      $req = new apiClientOAuthRequest($http_method, $http_url, $_GET);
     }
     else if ($http_method == "POST") {
-      $req = new OAuthRequest($http_method, $http_url, $_POST);
+      $req = new apiClientOAuthRequest($http_method, $http_url, $_POST);
     }
     return $req;
   }
@@ -203,9 +203,9 @@ class OAuthRequest {
    */
   public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters=NULL) {
     @$parameters or $parameters = array();
-    $defaults = array("oauth_version" => OAuthRequest::$version,
-                      "oauth_nonce" => OAuthRequest::generate_nonce(),
-                      "oauth_timestamp" => OAuthRequest::generate_timestamp(),
+    $defaults = array("oauth_version" => apiClientOAuthRequest::$version,
+                      "oauth_nonce" => apiClientOAuthRequest::generate_nonce(),
+                      "oauth_timestamp" => apiClientOAuthRequest::generate_timestamp(),
                       "oauth_consumer_key" => $consumer->key);
     $parameters = array_merge($defaults, $parameters);
 
@@ -219,7 +219,7 @@ class OAuthRequest {
     }*/
 
 
-    return new OAuthRequest($http_method, $http_url, $parameters);
+    return new apiClientOAuthRequest($http_method, $http_url, $parameters);
   }
 
   public function set_parameter($name, $value) {
@@ -256,8 +256,8 @@ class OAuthRequest {
     }
 
     // Urlencode both keys and values
-    $keys = array_map(array('OAuthUtil', 'urlencodeRFC3986'), array_keys($params));
-    $values = array_map(array('OAuthUtil', 'urlencodeRFC3986'), array_values($params));
+    $keys = array_map(array('apiClientOAuthUtil', 'urlencodeRFC3986'), array_keys($params));
+    $values = array_map(array('apiClientOAuthUtil', 'urlencodeRFC3986'), array_values($params));
     $params = array_combine($keys, $values);
 
     // Sort by keys (natsort)
@@ -307,7 +307,7 @@ if(isset($params['title']) && isset($params['title-exact'])) {
       $this->get_signable_parameters()
     );
 
-    $parts = array_map(array('OAuthUtil', 'urlencodeRFC3986'), $parts);
+    $parts = array_map(array('apiClientOAuthUtil', 'urlencodeRFC3986'), $parts);
 
     return implode('&', $parts);
   }
@@ -348,7 +348,7 @@ if(isset($params['title']) && isset($params['title-exact'])) {
   public function to_postdata() {
     $total = array();
     foreach ($this->parameters as $k => $v) {
-      $total[] = OAuthUtil::urlencodeRFC3986($k) . "=" . OAuthUtil::urlencodeRFC3986($v);
+      $total[] = apiClientOAuthUtil::urlencodeRFC3986($k) . "=" . apiClientOAuthUtil::urlencodeRFC3986($v);
     }
     $out = implode("&", $total);
     return $out;
@@ -362,7 +362,7 @@ if(isset($params['title']) && isset($params['title-exact'])) {
     $total = array();
     foreach ($this->parameters as $k => $v) {
       if (substr($k, 0, 5) != "oauth") continue;
-      $out .= OAuthUtil::urlencodeRFC3986($k) . '="' . OAuthUtil::urlencodeRFC3986($v) . '", ';
+      $out .= apiClientOAuthUtil::urlencodeRFC3986($k) . '="' . apiClientOAuthUtil::urlencodeRFC3986($v) . '", ';
     }
     $out = substr_replace($out, '', strlen($out) - 2);
     return $out;
@@ -449,191 +449,7 @@ if(isset($params['title']) && isset($params['title-exact'])) {
   }
 }
 
-class OAuthServer {
-  protected $timestamp_threshold = 300; // in seconds, five minutes
-  protected $version = 1.0;             // hi blaine
-  protected $signature_methods = array();
-
-  protected $data_store;
-
-  function __construct($data_store) {
-    $this->data_store = $data_store;
-  }
-
-  public function add_signature_method($signature_method) {
-    $this->signature_methods[$signature_method->get_name()] =
-        $signature_method;
-  }
-
-  // high level functions
-
-  /**
-   * process a request_token request
-   * returns the request token on success
-   */
-  public function fetch_request_token(&$request) {
-    $this->get_version($request);
-
-    $consumer = $this->get_consumer($request);
-
-    // no token required for the initial token request
-    $token = NULL;
-
-    $this->check_signature($request, $consumer, $token);
-
-    $new_token = $this->data_store->new_request_token($consumer);
-
-    return $new_token;
-  }
-
-  /**
-   * process an access_token request
-   * returns the access token on success
-   */
-  public function fetch_access_token(&$request) {
-    $this->get_version($request);
-
-    $consumer = $this->get_consumer($request);
-
-    // requires authorized request token
-    $token = $this->get_token($request, $consumer, "request");
-
-    $this->check_signature($request, $consumer, $token);
-
-    $new_token = $this->data_store->new_access_token($token, $consumer);
-
-    return $new_token;
-  }
-
-  /**
-   * verify an api call, checks all the parameters
-   */
-  public function verify_request(&$request) {
-    $this->get_version($request);
-    $consumer = $this->get_consumer($request);
-    $token = $this->get_token($request, $consumer, "access");
-    $this->check_signature($request, $consumer, $token);
-    return array($consumer, $token);
-  }
-
-  // Internals from here
-  /**
-   * version 1
-   */
-  private function get_version(&$request) {
-    $version = $request->get_parameter("oauth_version");
-    if (!$version) {
-      $version = 1.0;
-    }
-    if ($version && $version != $this->version) {
-      throw new OAuthException("OAuth version '$version' not supported");
-    }
-    return $version;
-  }
-
-  /**
-   * figure out the signature with some defaults
-   */
-  private function get_signature_method(&$request) {
-    $signature_method =
-        @$request->get_parameter("oauth_signature_method");
-    if (!$signature_method) {
-      $signature_method = "PLAINTEXT";
-    }
-    if (!in_array($signature_method,
-                  array_keys($this->signature_methods))) {
-      throw new OAuthException(
-        "Signature method '$signature_method' not supported try one of the following: " . implode(", ", array_keys($this->signature_methods))
-      );
-    }
-    return $this->signature_methods[$signature_method];
-  }
-
-  /**
-   * try to find the consumer for the provided request's consumer key
-   */
-  private function get_consumer(&$request) {
-    $consumer_key = @$request->get_parameter("oauth_consumer_key");
-    if (!$consumer_key) {
-      throw new OAuthException("Invalid consumer key");
-    }
-
-    $consumer = $this->data_store->lookup_consumer($consumer_key);
-    if (!$consumer) {
-      throw new OAuthException("Invalid consumer");
-    }
-
-    return $consumer;
-  }
-
-  /**
-   * try to find the token for the provided request's token key
-   */
-  private function get_token(&$request, $consumer, $token_type="access") {
-    $token_field = @$request->get_parameter('oauth_token');
-    $token = $this->data_store->lookup_token(
-      $consumer, $token_type, $token_field
-    );
-    if (!$token) {
-      throw new OAuthException("Invalid $token_type token: $token_field");
-    }
-    return $token;
-  }
-
-  /**
-   * all-in-one function to check the signature on a request
-   * should guess the signature method appropriately
-   */
-  private function check_signature(&$request, $consumer, $token) {
-    // this should probably be in a different method
-    $timestamp = @$request->get_parameter('oauth_timestamp');
-    $nonce = @$request->get_parameter('oauth_nonce');
-
-    $this->check_timestamp($timestamp);
-    $this->check_nonce($consumer, $token, $nonce, $timestamp);
-
-    $signature_method = $this->get_signature_method($request);
-
-    $signature = $request->get_parameter('oauth_signature');
-    $valid_sig = $signature_method->check_signature(
-      $request,
-      $consumer,
-      $token,
-      $signature
-    );
-
-    if (!$valid_sig) {
-      throw new OAuthException("Invalid signature");
-    }
-  }
-
-  /**
-   * check that the timestamp is new enough
-   */
-  private function check_timestamp($timestamp) {
-    // verify that timestamp is recentish
-    $now = time();
-    if ($now - $timestamp > $this->timestamp_threshold) {
-      throw new OAuthException("Expired timestamp, yours $timestamp, ours $now");
-    }
-  }
-
-  /**
-   * check that the nonce is not repeated
-   */
-  private function check_nonce($consumer, $token, $nonce, $timestamp) {
-    // verify that the nonce is uniqueish
-    $found = $this->data_store->lookup_nonce($consumer, $token, $nonce, $timestamp);
-    if ($found) {
-      throw new OAuthException("Nonce already used: $nonce");
-    }
-  }
-
-
-
-}
-
-class OAuthDataStore {
+class apiClientOAuthDataStore {
   function lookup_consumer($consumer_key) {
     // implement me
   }
@@ -659,71 +475,7 @@ class OAuthDataStore {
 
 }
 
-
-/*  A very naive dbm-based oauth storage
- */
-class SimpleOAuthDataStore extends OAuthDataStore {
-  private $dbh;
-
-  function __construct($path = "oauth.gdbm") {
-    $this->dbh = dba_popen($path, 'c', 'gdbm');
-  }
-
-  function __destruct() {
-    dba_close($this->dbh);
-  }
-
-  function lookup_consumer($consumer_key) {
-    $rv = dba_fetch("consumer_$consumer_key", $this->dbh);
-    if ($rv === FALSE) {
-      return NULL;
-    }
-    $obj = unserialize($rv);
-    if (!($obj instanceof OAuthConsumer)) {
-      return NULL;
-    }
-    return $obj;
-  }
-
-  function lookup_token($consumer, $token_type, $token) {
-    $rv = dba_fetch("${token_type}_${token}", $this->dbh);
-    if ($rv === FALSE) {
-      return NULL;
-    }
-    $obj = unserialize($rv);
-    if (!($obj instanceof OAuthToken)) {
-      return NULL;
-    }
-    return $obj;
-  }
-
-  function lookup_nonce($consumer, $token, $nonce, $timestamp) {
-    return dba_exists("nonce_$nonce", $this->dbh);
-  }
-
-  function new_token($consumer, $type="request") {
-    $key = md5(time());
-    $secret = time() + time();
-    $token = new OAuthToken($key, md5(md5($secret)));
-    if (!dba_insert("${type}_$key", serialize($token), $this->dbh)) {
-      throw new OAuthException("doooom!");
-    }
-    return $token;
-  }
-
-  function new_request_token($consumer) {
-    return $this->new_token($consumer, "request");
-  }
-
-  function new_access_token($token, $consumer) {
-
-    $token = $this->new_token($consumer, 'access');
-    dba_delete("request_" . $token->key, $this->dbh);
-    return $token;
-  }
-}
-
-class OAuthUtil {
+class apiClientOAuthUtil {
   public static function urlencodeRFC3986($string) {
     return str_replace('%7E', '~', rawurlencode($string));
   }
