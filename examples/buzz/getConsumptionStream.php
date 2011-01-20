@@ -23,8 +23,6 @@
 require_once "../../src/apiClient.php";
 require_once "../../src/contrib/apiBuzzService.php";
 
-// Include the common header UI
-require_once "includes/header.php";
 // Include the utility function to display a buzz post- This is only intended to be a demo and a developer should create the UI that works for their app
 require_once 'includes/displayBuzzPost.php';
 
@@ -41,7 +39,8 @@ if (isset($_SESSION['auth_token'])) {
   $_SESSION['auth_token'] = $apiClient->authenticate();
 }
 
-
+// Include the common header UI
+require_once "includes/header.php";
 
 // Get the consumption stream (the activities from the people you're following) for @me, which means 'the authenticated user', using $buzz->listActivities()
 $activities = $buzz->listActivities('@consumption', '@me', 50, 50, null, 50);
