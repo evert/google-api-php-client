@@ -87,6 +87,7 @@ class apiClient {
     $this->cache = new $apiConfig['cacheClass']();
     $this->auth = new $apiConfig['authClass']();
     $this->io = new $apiConfig['ioClass']($this->cache, $this->auth);
+    $this->auth->setIo($this->io);
   }
 
   public function discover($service, $version = 'v1') {
@@ -136,6 +137,10 @@ class apiClient {
    */
   public function setAccessToken($accessToken) {
     $this->auth->setAccessToken($accessToken);
+  }
+
+  public function getAccessToken() {
+    return $this->auth->getAccessToken();
   }
 
   /**

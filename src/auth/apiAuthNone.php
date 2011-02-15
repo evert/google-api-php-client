@@ -32,6 +32,11 @@ class apiAuthNone extends apiAuth {
     // noop
   }
 
+  public function getAccessToken() {
+    // noop
+    return null;
+  }
+
   public function setDeveloperKey($developerKey) {
     $this->developerKey = $developerKey;
   }

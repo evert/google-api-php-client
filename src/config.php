@@ -22,6 +22,14 @@ $apiConfig = array(
     // Site name to show in the Google's oauth authentication screen
     'site_name' => 'www.example.org',
 
+    // OAuth2 Setting, you can get these keys at https://code.google.com/apis/console
+    'oauth2_client_id' => '',
+    'oauth2_client_secret' => '',
+    'oauth2_redirect_uri' => '',
+
+    // The developer key, you get this from the developer console at
+    'developer_key' => '',
+
     // If you're using the apiOAuth auth class, it will use these values for the oauth consumer key and secret.
     // See http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html for info on how to obtain those
     'oauth_consumer_key'    => 'anonymous',

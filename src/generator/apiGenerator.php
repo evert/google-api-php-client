@@ -126,7 +126,7 @@ class apiGenerator extends apiClient {
   private function getService() {
     $request = $this->io->makeRequest(new apiHttpRequest($this->discoveryUrl));
     if ($request->getResponseHttpCode() != 200) {
-      throw new apiException("Could not fetch discovery document for {$this->serviceName}, http code: " . $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
+      throw new apiException("Could not fetch discovery document for {$this->serviceName} at {$this->discoveryUrl}, http code: " . $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
     }
     $discoveryResponse = $request->getResponseBody();
     if (($discoveryDocument = json_decode($discoveryResponse, true)) == null) {

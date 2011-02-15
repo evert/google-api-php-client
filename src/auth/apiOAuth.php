@@ -34,8 +34,8 @@ class apiOAuth extends apiAuth {
   protected $accessToken;
   protected $privateKeyFile;
   protected $developerKey;
-  private $io;
-  private $cache;
+  public $io;
+  public $cache;
 
   /**
    * Instantiates the class, but does not initiate the login flow, leaving it
@@ -47,6 +47,9 @@ class apiOAuth extends apiAuth {
    */
   public function __construct() {
     global $apiConfig;
+    if (!empty($apiConfig['developer_key'])) {
+      $this->setDeveloperKey($apiConfig['developer_key']);
+    }
     $this->consumerToken = new apiClientOAuthConsumer($apiConfig['oauth_consumer_key'], $apiConfig['oauth_consumer_secret'], NULL);
     $this->signatureMethod = new apiClientOAuthSignatureMethod_HMAC_SHA1();
     $this->cacheKey = 'OAuth:' . $apiConfig['oauth_consumer_key']; // Scope data to the local user as well, or else multiple local users will share the same OAuth credentials.
@@ -98,8 +101,19 @@ class apiOAuth extends apiAuth {
     if ($accessToken == null) {
       throw new apiAuthException("Could not json decode the access token");
     }
+    if (! isset($accessToken['key']) || ! isset($accessToken['secret'])) {
+      throw new apiAuthException("Invalid OAuth token, missing key and/or secret");
+    }
     $this->accessToken = new apiClientOAuthConsumer($accessToken['key'], $accessToken['secret']);
   }
+
+  /**
+   * Returns the current access token
+   */
+  public function getAccessToken() {
+    return $this->accessToken;
+  }
+
 
   /**
    * Set the developer key to use, these are obtained through the API Console
