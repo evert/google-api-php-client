@@ -53,7 +53,6 @@ class apiAuthNone extends apiAuth {
 
   public function sign(apiHttpRequest $request) {
     if ($this->developerKey) {
-      echo "setting developer key";
       $request->setUrl($request->getUrl() . ((strpos($request->getUrl(), '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey));
     }
     return $request;
