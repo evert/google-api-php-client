@@ -24,6 +24,13 @@ class apiAuthNone extends apiAuth {
 
   public $developerKey = null;
 
+  public function __construct() {
+    global $apiConfig;
+    if (!empty($apiConfig['developer_key'])) {
+      $this->setDeveloperKey($apiConfig['developer_key']);
+    }
+  }
+
   public function authenticate(apiCache $cache, apiIO $io, $service) {
     // noop
   }
@@ -37,17 +44,18 @@ class apiAuthNone extends apiAuth {
     return null;
   }
 
+  /**
+   * Set the developer key to use, these are obtained through the API Console
+   */
   public function setDeveloperKey($developerKey) {
     $this->developerKey = $developerKey;
   }
 
-
   public function sign(apiHttpRequest $request) {
     if ($this->developerKey) {
-      $url = $request->getUrl();
-      $url .= ((strpos($url, '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey);
+      echo "setting developer key";
+      $request->setUrl($request->getUrl() . ((strpos($request->getUrl(), '?') === false) ? '?' : '&') . 'key='.urlencode($this->developerKey));
     }
-    // else noop
     return $request;
   }
 }
