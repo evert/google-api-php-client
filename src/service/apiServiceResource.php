@@ -72,7 +72,7 @@ class apiServiceResource {
     }
     if (isset($method['parameters'])) {
       foreach ($method['parameters'] as $paramName => $paramSpec) {
-        if ($paramSpec['required'] && ! isset($parameters[$paramName])) {
+        if (isset($paramSpec['required']) && $paramSpec['required'] && ! isset($parameters[$paramName])) {
           throw new apiException("($name) missing required param: '$paramName'");
         }
         if (isset($parameters[$paramName])) {
