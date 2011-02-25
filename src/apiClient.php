@@ -63,7 +63,7 @@ $apiTypeHandlers = array();
 class apiClient {
 
   // the version of the discovery mechanism this class is meant to work with
-  const discoveryVersion = 'v0.2beta1';
+  const discoveryVersion = 'v0.3';
 
   // worker classes
   protected $auth;

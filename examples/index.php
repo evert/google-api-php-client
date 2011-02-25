@@ -15,14 +15,68 @@ if (isset($_SESSION['oauth_access_token'])) {
   $_SESSION['oauth_access_token'] = $token;
 }
 
+// Access token: {"access_token":"1\/3mbWto2dJZVCfy1T3ULp0g","expires_in":3600,"refresh_token":"1\/DLzWfXeiCxtIdhwnDOpZ6lzg68vHKb3kTQutJtOqw-M","created":1298391230}
+
+//echo "<pre>" . print_r( $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@self')) , true) . "</pre>";
+
+echo "<pre>" . print_r( $buzz->listActivities('@consumption', '@me', 0, 10) , true) . "</pre>";
+//echo "<pre>" . print_r( $apiClient->buzz->activities->list(array('scope' => '@consumption', 'userId' => '@me')) , true) . "</pre>";
+
 /*
-// some day this should just work, however right now JSON-RPC only does unauthenticated requests..
+$post = array(
+  'data' => array(
+     'object' => array(
+        'type' => 'note',
+        'content' => 'Test post using the google-api-php-client library'
+      )
+  )
+);
+
+$newPost = $buzz->insertActivities('@me', $post);
+echo "<pre>post created:\n".print_r($newPost, true)."\n</pre>";
+*/
+
+// If the OAuth2 token has changed, that means the short lived (1 hour) access token got refreshed, store the new token in the session
+// or else it will keep refreshing, which is a big performance hit!
+if ($apiClient->getAccessToken() != $_SESSION['oauth_access_token']) {
+  echo "Access token has changed! updating session<pre>";
+
+
+  echo "Old token:\n" .print_r($_SESSION['oauth_access_token'], true) . "\n\nNew token:\n".$apiClient->getAccessToken();
+  $_SESSION['oauth_access_token'] = $apiClient->getAccessToken();
+
+  echo "</pre>";
+}
+
+//$people = $buzz->listPeople('@following', '104562341873818767583', 2048);
+//echo "<pre>" . print_r($people, true) . "</pre>";
+
+//$groups = $buzz->listGroups('@me');
+//echo "<pre>".print_r($groups, true) . "</pre>";
+
+/*
+ob_end_flush();
+$c = true;
+while ($c != null) {
+  echo "<br><br><b>[continuationToken]</b> $c<br><br>";
+  $act = $buzz->listActivities('@public', '@me', 0, 10, $c, 0);
+  $c = isset($act['continuationToken']) ? $act['continuationToken'] : null;
+  foreach ($act['items'] as $activity) {
+    echo "<p>Activity {$activity['id']} at {$activity['published']}<br></p>"; flush();
+  }
+}
+*/
+
+/*$people = $buzz->listPeople('@following', '@me');
+echo "<pre>Result:" . print_r($people, true) . "</pre>";
+*/
+
+/*
 $ret = apiBatch::execute(
   $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@self'), 'listActivitiesKey'),
   $apiClient->buzz->people->get(array('userId' => '@me'), 'getPeopleKey')
 );
 echo "<pre>" . print_r($ret, true) . "</pre>";
-
 */
 
 /*
@@ -37,13 +91,15 @@ $group = $buzz->getGroups($group['id'], '@me');
 echo "<pre>getGroup:\n" . print_r($group, true) . "</pre>";
 */
 
+
 /*
-$group = $buzz->getGroups('G:108189587050871927619:6640708088372090533', '@me');
-echo "<pre>getGroup (G:108189587050871927619:6640708088372090533):\n" . print_r($group, true) . "</pre>";
+$group = $buzz->getGroups('G:110242419133439594545:3603238784925997337', '@me');
+echo "<pre>getGroup (G:110242419133439594545:3603238784925997337):\n" . print_r($group, true) . "</pre>";
 
 $groups = $buzz->listGroups('@me');
 echo "<pre>".print_r($groups, true) . "</pre>";
 */
+
 
 /*
 $activityId = null;
@@ -78,8 +134,8 @@ $ret = $buzz->updatePeople('@following', '@me', $personId, '');
 echo "<pre>Result:" . print_r($ret, true) . "</pre>";
 */
 
-$activities = $buzz->listActivities('@consumption', '@me', 50, 50, null, 50);
-echo "<pre>Activities:\n" . print_r($activities, true) . "</pre>";
+//$activities = $buzz->listActivities('@consumption', '@me', 50, 50, null, 50);
+//echo "<pre>Activities:\n" . print_r($activities, true) . "</pre>";
 
 //$groups = $buzz->listGroups('@me', 20);
 //echo "<pre>Groups:\n" . print_r($groups, true) . "</pre>";

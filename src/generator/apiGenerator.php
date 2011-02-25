@@ -72,45 +72,68 @@ class apiGenerator extends apiClient {
     $functions = '';
     foreach ($discoveryResources as $resourceName => $resourceConfig) {
       $vars .= "  private \${$resourceName};\n";
-      $constructor .= "    \$this->{$resourceName} = new apiServiceResource(\$this, \$this->serviceName, '$resourceName', json_decode('". json_encode($resourceConfig). "', true));\n";
-
-      foreach ($resourceConfig['methods'] as $methodName => $methodConfig) {
-        $requiredParams = $optionalParams = array();
-        if (isset($methodConfig['parameters'])) {
-          foreach ($methodConfig['parameters'] as $paramName => $paramConfig) {
-            if ($paramName == 'alt') {
-              // the library depends on everything being json so we can't change the format (alt) parameter
-              continue;
-            }
-            $paramName = str_replace('-', '_', $paramName);
-            if (isset($paramConfig['required']) && $paramConfig['required']) {
-              $requiredParams[] = "\$$paramName";
-            } else {
-              $optionalParams[] = "\$$paramName = null";
+      $constructor .= "    \$this->{$resourceName} = new apiServiceResource(\$this, \$this->serviceName, '$resourceName', json_decode('". str_replace("'", "\\'", json_encode($resourceConfig)). "', true));\n";
+      if (isset($resourceConfig['methods'])) {
+        foreach ($resourceConfig['methods'] as $methodName => $methodConfig) {
+          $requiredParams = $optionalParams = array();
+          if (isset($methodConfig['parameters'])) {
+            foreach ($methodConfig['parameters'] as $paramName => $paramConfig) {
+              if ($paramName == 'alt') {
+                // the library depends on everything being json so we can't change the format (alt) parameter
+                continue;
+              }
+              //TODO check for the param's description here so we can add it to the docs below (line 107)
+              $paramName = str_replace('-', '_', $paramName);
+              if (isset($paramConfig['required']) && $paramConfig['required']) {
+                $requiredParams[] = "\$$paramName";
+              } else {
+                $optionalParams[] = "\$$paramName = null";
+              }
+              $paramDescriptions[$paramName] = '';
+              if (isset($paramConfig['type'])) {
+                $paramDescriptions[$paramName] .= ' ' . $paramConfig['type'] . ' ';
+              }
+              if (isset($paramConfig['description'])) {
+                $paramDescriptions[$paramName] .= $paramConfig['description'];
+              }
+              if (isset($paramConfig['enumDescriptions'])) {
+                $enumDescription = ", valid values are:\n";
+                foreach ($paramConfig['enumDescriptions'] as $key => $val) {
+                  $enumDescription .= '   *                 ' . $paramConfig['enum'][$key] . ' : ' . $val;
+                  if ($key != count($paramConfig['enumDescriptions']) -1) {
+                    $enumDescription .= "\n";
+                  }
+                }
+                $paramDescriptions[$paramName] .= $enumDescription;
+              }
             }
           }
-        }
-        if (strtoupper($methodConfig['httpMethod']) == 'POST' || strtoupper($methodConfig['httpMethod']) == 'PUT') {
-          $requiredParams[] = '$postBody';
-        }
-        $params = array_merge($requiredParams, $optionalParams);
+          if (strtoupper($methodConfig['httpMethod']) == 'POST' || strtoupper($methodConfig['httpMethod']) == 'PUT') {
+            $requiredParams[] = '$postBody';
+          }
+          $params = array_merge($requiredParams, $optionalParams);
 
-        $functions .= "  /**\n".
-        		      "   * Implementation of the {$methodConfig['rpcMethod']} method.\n".
-                      "   * See: http://code.google.com/apis/buzz/v1/using_rest.html#{$methodConfig['rpcMethod']}\n   *\n";
-        $paramToArrayMapping = array();
-        foreach ($params as $param) {
-          $paramName = str_replace('$', '', str_replace(' = null', '', $param));
-          $functions .= "   * @param \$$paramName " . (in_array($param, $requiredParams) ? "required" : "optional") . "\n";
-          $paramToArrayMapping[] = "'". str_replace('_', '-', $paramName) . "' => \${$paramName}";
-
+          $description = isset($methodConfig['description']) ? $methodConfig['description'] : "Implementation of the {$methodConfig['rpcMethod']} method.";
+          $functions .= "  /**\n".
+          		      "   * $description\n   *\n";
+          // TODO add link back to the docs:"   * See: http://code.google.com/apis/buzz/v1/using_rest.html#{$methodConfig['rpcMethod']}\n   *\n";
+          $paramToArrayMapping = array();
+          foreach ($params as $param) {
+            $paramName = str_replace('$', '', str_replace(' = null', '', $param));
+            $functions .= "   * @param \$$paramName ";
+            if (isset($paramDescriptions[$paramName])) {
+              $functions .=  ' ' . $paramDescriptions[$paramName];
+            }
+            $functions .= "\n";
+            $paramToArrayMapping[] = "'". str_replace('_', '-', $paramName) . "' => \${$paramName}";
+          }
+          $functions .= "   */\n";
+          $functions .= "  public function {$methodName}" . ucfirst($resourceName) . "(".
+                        implode(', ', $params).
+                        ") {\n".
+                        "    return \$this->{$resourceName}->__call('$methodName', array(array(" . implode(', ', $paramToArrayMapping) . ')));' . "\n" .
+          			  "  }\n\n";
         }
-        $functions .= "   */\n";
-        $functions .= "  public function {$methodName}" . ucfirst($resourceName) . "(".
-                      implode(', ', $params).
-                      ") {\n".
-                      "    return \$this->{$resourceName}->__call('$methodName', array(array(" . implode(', ', $paramToArrayMapping) . ')));' . "\n" .
-        			  "  }\n\n";
       }
     }
     $constructor .= "  }\n\n";
