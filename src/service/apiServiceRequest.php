@@ -40,8 +40,9 @@ class apiServiceRequest {
    * Only used internally, so using a quick-and-dirty constuctor
    */
   public function __construct(apiIO $io, $restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
+    global $apiConfig;
     $this->io = $io;
-    $this->restBasePath = $restBasePath;
+    $this->restBasePath = $apiConfig['basePath'] . $restBasePath;
     $this->restPath = $restPath;
     $this->rpcPath = $rpcPath;
     $this->rpcName = $rpcName;
