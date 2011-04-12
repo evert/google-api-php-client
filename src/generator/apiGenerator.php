@@ -34,13 +34,15 @@ class apiGenerator extends apiClient {
   private $version;
 
   public function __construct($serviceName, $version) {
+    global $apiConfig;
     parent::__construct();
     $this->serviceName = $serviceName;
     $this->version = $version;
-    $this->discoveryUrl = 'https://www.googleapis.com/discovery/' . self::discoveryVersion . '/describe/' . urlencode($serviceName) . '/' . urlencode($version);
+    $this->discoveryUrl = $apiConfig['basePath'] . '/discovery/' . self::discoveryVersion . '/describe/' . urlencode($serviceName) . '/' . urlencode($version);
   }
 
   public function generate() {
+    global $apiConfig;
     $discoveryDocument = $this->getService();
     if (!isset($discoveryDocument['version']) || !isset($discoveryDocument['restBasePath']) || !isset($discoveryDocument['rpcPath'])) {
       throw new apiServiceException("Invalid discovery document");
@@ -58,8 +60,8 @@ class apiGenerator extends apiClient {
     $vars = "  // Variables that the apiServiceResource implementation depends on\n" .
             "  private \$serviceName = '{$this->serviceName}';\n".
             "  private \$version = '{$this->version}';\n".
-            "  private \$restBasePath = 'https://www.googleapis.com{$discoveryDocument['restBasePath']}';\n".
-            "  private \$rpcPath = 'https://www.googleapis.com{$discoveryDocument['rpcPath']}';\n".
+            "  private \$restBasePath = '{$discoveryDocument['restBasePath']}';\n".
+            "  private \$rpcPath = '{$discoveryDocument['rpcPath']}';\n".
 
             "  private \$io;\n".
             "  // apiServiceResource's that are used internally\n";

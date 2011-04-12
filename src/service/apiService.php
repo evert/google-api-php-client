@@ -31,20 +31,20 @@ require_once "service/apiBatch.php";
  */
 class apiService {
 
-  protected $baseUrl = 'https://www.googleapis.com';
   protected $io;
   protected $version = null;
   protected $restBasePath;
   protected $rpcPath;
 
   public function __construct($serviceName, $discoveryDocument, apiIO $io) {
+    global $apiConfig;
     $this->io = $io;
     if (!isset($discoveryDocument['version']) || !isset($discoveryDocument['restBasePath']) || !isset($discoveryDocument['rpcPath'])) {
       throw new apiServiceException("Invalid discovery document");
     }
     $this->version = $discoveryDocument['version'];
-    $this->restBasePath = $this->baseUrl . $discoveryDocument['restBasePath'];
-    $this->rpcPath = $this->baseUrl . $discoveryDocument['rpcPath'];
+    $this->restBasePath = $apiConfig['basePath'] . $discoveryDocument['restBasePath'];
+    $this->rpcPath = $apiConfig['basePath'] . $discoveryDocument['rpcPath'];
     foreach ($discoveryDocument['resources'] as $resourceName => $resourceTypes) {
       $this->$resourceName = new apiServiceResource($this, $serviceName, $resourceName, $resourceTypes);
     }

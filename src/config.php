@@ -44,6 +44,9 @@ $apiConfig = array(
     'oauth_test_token' => '', // the oauth access token to use (which you can get by runing authenticate() as the test user and copying the token value), ie '{"key":"foo","secret":"bar","callback_url":null}'
     'oauth_test_user' => '', // and the user ID to use, this can either be a vanity name 'testuser' or a numberic ID '123456'
 
+    // Don't change these unless you're working against a special development or testing envirionment
+    'basePath' => 'https://www.googleapis.com',
+
 	// IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
     'ioFileCache_directory'  => '/tmp/apiClient',
     'ioMemCacheStorage_host' => '127.0.0.1',
@@ -55,6 +58,6 @@ $apiConfig = array(
     	'latitude' => array('scope' => 'https://www.googleapis.com/auth/latitude', 'authorization_token_url' => 'https://www.google.com/latitude/apps/OAuthAuthorizeToken'),
         'moderator' => array('scope' => 'https://www.googleapis.com/auth/moderator'),
         'easyhybrid' => array('scope' => 'https://www.googleapis.com/auth/userinfo#email'),
-	'siteVerification' => array('scope' => 'https://www.googleapis.com/auth/siteverification')
+        'siteVerification' => array('scope' => 'https://www.googleapis.com/auth/siteverification')
     )
 );
