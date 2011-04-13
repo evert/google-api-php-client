@@ -78,7 +78,7 @@ class apiOAuth extends apiAuth {
       $secret = $this->cache->get($this->cacheKey.":nonce:" . $uid);
       $this->cache->delete($this->cacheKey.":nonce:" . $uid);
       $token = $this->upgradeRequestToken($_GET['oauth_token'], $secret, $_GET['oauth_verifier']);
-      return json_encode($token, true);
+      return json_encode($token);
     } else {
       // Initialize the OAuth dance, first request a request token, then kick the client to the authorize URL
       // First we store the current URL in our cache, so that when the oauth dance is completed we can return there
