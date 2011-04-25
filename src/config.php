@@ -38,7 +38,7 @@ $apiConfig = array(
     // Which Authentication, Storage and HTTP IO classes to use.
     'authClass'    => 'apiOAuth',
     'ioClass'      => 'apiCurlIO',
-	'cacheClass'   => 'apiFileCache',
+    'cacheClass'   => 'apiFileCache',
 
     // If you want to run the test suite (by running # phpunit AllTests.php in the tests/ directory), fill in the settings below
     'oauth_test_token' => '', // the oauth access token to use (which you can get by runing authenticate() as the test user and copying the token value), ie '{"key":"foo","secret":"bar","callback_url":null}'
@@ -48,7 +48,7 @@ $apiConfig = array(
     'basePath' => 'https://www.googleapis.com',
 
 	// IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
-    'ioFileCache_directory'  => '/tmp/apiClient',
+    'ioFileCache_directory'  => sys_get_temp_dir() . '/apiClient',
     'ioMemCacheStorage_host' => '127.0.0.1',
     'ioMemcacheStorage_port' => '11211',
 
