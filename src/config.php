@@ -47,8 +47,11 @@ $apiConfig = array(
     // Don't change these unless you're working against a special development or testing envirionment
     'basePath' => 'https://www.googleapis.com',
 
-	// IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
-    'ioFileCache_directory'  => sys_get_temp_dir() . '/apiClient',
+    // IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
+    'ioFileCache_directory'  =>
+        (function_exists('sys_get_temp_dir') ?
+            sys_get_temp_dir() . '/apiClient' :
+        '/tmp/apiClient'),
     'ioMemCacheStorage_host' => '127.0.0.1',
     'ioMemcacheStorage_port' => '11211',
 
