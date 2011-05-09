@@ -42,7 +42,13 @@ class apiServiceRequest {
   public function __construct(apiIO $io, $restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
     global $apiConfig;
     $this->io = $io;
-    $this->restBasePath = $apiConfig['basePath'] . $restBasePath;
+
+    if (substr($restBasePath, 0, 4) == 'http') {
+      $this->restBasePath = $restBasePath;
+    } else {
+      $this->restBasePath = $apiConfig['basePath'] . $restBasePath;
+    }
+
     $this->restPath = $restPath;
     $this->rpcPath = $rpcPath;
     $this->rpcName = $rpcName;

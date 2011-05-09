@@ -36,7 +36,7 @@ $apiConfig = array(
     'oauth_consumer_secret' => 'anonymous',
 
     // Which Authentication, Storage and HTTP IO classes to use.
-    'authClass'    => 'apiOAuth',
+    'authClass'    => 'apiOAuth2',
     'ioClass'      => 'apiCurlIO',
     'cacheClass'   => 'apiFileCache',
 
