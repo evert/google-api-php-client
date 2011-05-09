@@ -18,7 +18,6 @@
  * under the License.
  */
 
-
 // Include the Google API Client library, and the Buzz Service wrapper
 require_once "../../src/apiClient.php";
 require_once "../../src/contrib/apiBuzzService.php";
@@ -29,7 +28,6 @@ require_once 'includes/displayBuzzPost.php';
 // Setup the API Client, and create the Buzz client using it
 $apiClient = new apiClient();
 $buzz = new apiBuzzService($apiClient);
-
 
 // If a oauth token was stored in the session, use that- and otherwise go through the oauth dance
 if (isset($_SESSION['auth_token'])) {
@@ -43,13 +41,12 @@ if (isset($_SESSION['auth_token'])) {
 require_once "includes/header.php";
 
 // Get the consumption stream (the activities from the people you're following) for @me, which means 'the authenticated user', using $buzz->listActivities()
-$activities = $buzz->listActivities('@consumption', '@me', 50, 50, null, 50);
+$activities = $buzz->listActivities('@consumption', '@me', null, null, null, null);
 //echo "<pre>".print_r($activities, true)."</pre>";
 
 foreach ($activities['items'] as $buzzPost) {
   displayBuzzPost($buzzPost);
 }
-
 
 // Include the common footer UI
 require_once "includes/footer.php";
