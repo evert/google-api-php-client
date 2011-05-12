@@ -7,4 +7,5 @@ php ./generate.php latitude v1 > ../contrib/apiLatitudeService.php
 php ./generate.php moderator v1 > ../contrib/apiModeratorService.php
 php ./generate.php translate v2 > ../contrib/apiTranslateService.php
 php ./generate.php prediction v1.1 > ../contrib/apiPredictionService.php
+php ./generate.php tasks v1 > ../contrib/apiTasksService.php
 
