@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -131,9 +131,9 @@ class apiGenerator extends apiClient {
           }
           $functions .= "   */\n";
           $functions .= "  public function {$methodName}" . ucfirst($resourceName) . "(".
-                        implode(', ', $params).
+                        implode(",\n        ", $params).
                         ") {\n".
-                        "    return \$this->{$resourceName}->__call('$methodName', array(array(" . implode(', ', $paramToArrayMapping) . ')));' . "\n" .
+                        "    return \$this->{$resourceName}->__call('$methodName', array(array(" . implode(",\n        ", $paramToArrayMapping) . ')));' . "\n" .
           			  "  }\n\n";
         }
       }
@@ -194,7 +194,7 @@ class apiGenerator extends apiClient {
   private function licenseHeader() {
     return
 "/*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the \"License\");
  * you may not use this file except in compliance with the License.

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,12 @@ class apiTranslateService {
   // Variables that the apiServiceResource implementation depends on
   private $serviceName = 'translate';
   private $version = 'v2';
-  private $restBasePath = 'https://www.googleapis.com/language/translate/';
-  private $rpcPath = 'https://www.googleapis.com/rpc';
+  private $restBasePath = '/language/translate/';
+  private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
+  private $detections;
+  private $languages;
   private $translations;
 
   /**
@@ -38,7 +40,27 @@ class apiTranslateService {
   public function __construct(apiClient $apiClient) {
     $apiClient->addService('translate', 'v2');
     $this->io = $apiClient->getIo();
+    $this->detections = new apiServiceResource($this, $this->serviceName, 'detections', json_decode('{"methods":{"list":{"restPath":"v2\/detect","rpcMethod":"language.detections.list","httpMethod":"GET","description":"Detect the language of text.","parameters":{"q":{"restParameterType":"query","required":true,"repeated":true,"description":"The text to detect","type":"string"}},"parameterOrder":["q"],"response":{"$ref":"DetectionsListResponse"}}}}', true));
+    $this->languages = new apiServiceResource($this, $this->serviceName, 'languages', json_decode('{"methods":{"list":{"restPath":"v2\/languages","rpcMethod":"language.languages.list","httpMethod":"GET","description":"List the source\/target languages supported by the API","parameters":{"target":{"restParameterType":"query","description":"the language and collation in which the localized results should be returned","type":"string"}},"response":{"$ref":"LanguagesListResponse"}}}}', true));
     $this->translations = new apiServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods":{"list":{"restPath":"v2","rpcMethod":"language.translations.list","httpMethod":"GET","description":"Returns text translations from one language to another.","parameters":{"format":{"restParameterType":"query","description":"The format of the text","type":"string","enum":["html","text"],"enumDescriptions":["Specifies the input is in HTML","Specifies the input is in plain textual format"]},"q":{"restParameterType":"query","required":true,"repeated":true,"description":"The text to translate","type":"string"},"source":{"restParameterType":"query","description":"The source language of the text","type":"string"},"target":{"restParameterType":"query","required":true,"description":"The target language into which the text should be translated","type":"string"}},"parameterOrder":["q","target"],"response":{"$ref":"TranslationsListResponse"}}}}', true));
+  }
+
+  /**
+   * Detect the language of text.
+   *
+   * @param $q   string The text to detect
+   */
+  public function listDetections($q) {
+    return $this->detections->__call('list', array(array('q' => $q)));
+  }
+
+  /**
+   * List the source/target languages supported by the API
+   *
+   * @param $target   string the language and collation in which the localized results should be returned
+   */
+  public function listLanguages($target = null) {
+    return $this->languages->__call('list', array(array('target' => $target)));
   }
 
   /**
@@ -51,8 +73,14 @@ class apiTranslateService {
    *                 text : Specifies the input is in plain textual format
    * @param $source   string The source language of the text
    */
-  public function listTranslations($q, $target, $format = null, $source = null) {
-    return $this->translations->__call('list', array(array('q' => $q, 'target' => $target, 'format' => $format, 'source' => $source)));
+  public function listTranslations($q,
+        $target,
+        $format = null,
+        $source = null) {
+    return $this->translations->__call('list', array(array('q' => $q,
+        'target' => $target,
+        'format' => $format,
+        'source' => $source)));
   }
 
   /**

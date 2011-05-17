@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ class apiBuzzService {
   // Variables that the apiServiceResource implementation depends on
   private $serviceName = 'buzz';
   private $version = 'v1';
-  private $restBasePath = 'https://www.googleapis.com/buzz/v1/';
-  private $rpcPath = 'https://www.googleapis.com/rpc';
+  private $restBasePath = '/buzz/v1/';
+  private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
   private $activities;
@@ -44,13 +44,13 @@ class apiBuzzService {
   public function __construct(apiClient $apiClient) {
     $apiClient->addService('buzz', 'v1');
     $this->io = $apiClient->getIo();
-    $this->activities = new apiServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods":{"count":{"restPath":"activities\/count","rpcMethod":"chili.activities.count","httpMethod":"GET","description":"Get a count of link shares","parameters":{"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"url":{"restParameterType":"query","repeated":true,"description":"URLs for which to get share counts.","type":"string"}},"response":{"$ref":"CountFeed"}},"delete":{"restPath":"activities\/{userId}\/{scope}\/{postId}","rpcMethod":"chili.activities.delete","httpMethod":"DELETE","description":"Delete an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity to delete.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@liked","@muted","@self"],"enumDescriptions":["Activities liked by the user.","Activities muted by the user.","Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user whose post to delete.","type":"string"}},"parameterOrder":["userId","scope","postId"]},"extractPeopleFromSearch":{"restPath":"activities\/search\/@people","rpcMethod":"chili.activities.extractPeopleFromSearch","httpMethod":"GET","description":"Search for people by topic","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"bbox":{"restParameterType":"query","description":"Bounding box to use in a geographic location query.","type":"string"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"lat":{"restParameterType":"query","description":"Latitude to use in a geographic location query.","type":"string"},"lon":{"restParameterType":"query","description":"Longitude to use in a geographic location query.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"pid":{"restParameterType":"query","description":"ID of a place to use in a geographic location query.","type":"string"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"},"radius":{"restParameterType":"query","description":"Radius to use in a geographic location query.","type":"string"}},"response":{"$ref":"PeopleFeed"}},"get":{"restPath":"activities\/{userId}\/@self\/{postId}","rpcMethod":"chili.activities.get","httpMethod":"GET","description":"Get an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-comments":{"restParameterType":"query","description":"Maximum number of comments to include.","type":"integer","minimum":"0","maximum":"4294967295"},"max-liked":{"restParameterType":"query","description":"Maximum number of likes to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"0"},"postId":{"restParameterType":"path","required":true,"description":"ID of the user to get.","type":"string"},"truncateAtom":{"restParameterType":"query","description":"Truncate the value of the atom:content element.","type":"boolean"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user whose post to get.","type":"string"}},"parameterOrder":["userId","postId"],"response":{"$ref":"Activity"}},"insert":{"restPath":"activities\/{userId}\/@self","rpcMethod":"chili.activities.insert","httpMethod":"POST","description":"Create a new activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"preview":{"restParameterType":"query","description":"If true, only preview the action.","type":"boolean","default":"false"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"request":{"$ref":"Activity"},"response":{"$ref":"Activity"}},"list":{"restPath":"activities\/{userId}\/{scope}","rpcMethod":"chili.activities.list","httpMethod":"GET","description":"List activities","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-comments":{"restParameterType":"query","description":"Maximum number of comments to include.","type":"integer","minimum":"0","maximum":"4294967295"},"max-liked":{"restParameterType":"query","description":"Maximum number of likes to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"0"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"scope":{"restParameterType":"path","required":true,"description":"The collection of activities to list.","type":"string","enum":["@comments","@consumption","@liked","@public","@self"],"enumDescriptions":["Limit to activities commented on by the user.","Limit to activities to be consumed by the user.","Limit to activities liked by the user.","Limit to public activities posted by the user.","Limit to activities posted by the user."]},"truncateAtom":{"restParameterType":"query","description":"Truncate the value of the atom:content element.","type":"boolean"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope"],"response":{"$ref":"ActivityFeed"}},"search":{"restPath":"activities\/search","rpcMethod":"chili.activities.search","httpMethod":"GET","description":"Search for activities","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"bbox":{"restParameterType":"query","description":"Bounding box to use in a geographic location query.","type":"string"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"lat":{"restParameterType":"query","description":"Latitude to use in a geographic location query.","type":"string"},"lon":{"restParameterType":"query","description":"Longitude to use in a geographic location query.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"pid":{"restParameterType":"query","description":"ID of a place to use in a geographic location query.","type":"string"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"},"radius":{"restParameterType":"query","description":"Radius to use in a geographic location query.","type":"string"},"truncateAtom":{"restParameterType":"query","description":"Truncate the value of the atom:content element.","type":"boolean"}},"response":{"$ref":"ActivityFeed"}},"track":{"restPath":"activities\/track","rpcMethod":"chili.activities.track","httpMethod":"GET","description":"Get real-time activity tracking information","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"bbox":{"restParameterType":"query","description":"Bounding box to use in a geographic location query.","type":"string"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"lat":{"restParameterType":"query","description":"Latitude to use in a geographic location query.","type":"string"},"lon":{"restParameterType":"query","description":"Longitude to use in a geographic location query.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"pid":{"restParameterType":"query","description":"ID of a place to use in a geographic location query.","type":"string"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"},"radius":{"restParameterType":"query","description":"Radius to use in a geographic location query.","type":"string"}},"response":{"$ref":"ActivityFeed"}},"update":{"restPath":"activities\/{userId}\/{scope}\/{postId}","rpcMethod":"chili.activities.update","httpMethod":"PUT","description":"Update an activity","parameters":{"abuseType":{"restParameterType":"query","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity to update.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@abuse","@liked","@muted","@self"],"enumDescriptions":["Activities reported by the user.","Activities liked by the user.","Activities muted by the user.","Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user whose post to update.","type":"string"}},"parameterOrder":["userId","scope","postId"],"request":{"$ref":"Activity"},"response":{"$ref":"Activity"}}}}', true));
-    $this->comments = new apiServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods":{"delete":{"restPath":"activities\/{userId}\/@self\/{postId}\/@comments\/{commentId}","rpcMethod":"chili.comments.delete","httpMethod":"DELETE","description":"Delete a comment","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"commentId":{"restParameterType":"path","required":true,"description":"ID of the comment being referenced.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to delete the comment.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","postId","commentId"]},"get":{"restPath":"activities\/{userId}\/@self\/{postId}\/@comments\/{commentId}","rpcMethod":"chili.comments.get","httpMethod":"GET","description":"Get a comment","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"commentId":{"restParameterType":"path","required":true,"description":"ID of the comment being referenced.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to get comments.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","postId","commentId"],"response":{"$ref":"Comment"}},"insert":{"restPath":"activities\/{userId}\/@self\/{postId}\/@comments","rpcMethod":"chili.comments.insert","httpMethod":"POST","description":"Create a comment","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity on which to comment.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user on whose behalf to comment.","type":"string"}},"parameterOrder":["userId","postId"],"request":{"$ref":"Comment"},"response":{"$ref":"Comment"}},"list":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/@comments","rpcMethod":"chili.comments.list","httpMethod":"GET","description":"List comments","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to get comments.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@self"],"enumDescriptions":["Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user for whose post to get comments.","type":"string"}},"parameterOrder":["userId","scope","postId"],"response":{"$ref":"CommentFeed"}},"update":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/@comments\/{commentId}","rpcMethod":"chili.comments.update","httpMethod":"PUT","description":"Update a comment","parameters":{"abuseType":{"restParameterType":"query","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"commentId":{"restParameterType":"path","required":true,"description":"ID of the comment being referenced.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to update the comment.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@abuse","@self"],"enumDescriptions":["Comments reported by the user.","Comments posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId","commentId"],"request":{"$ref":"Comment"},"response":{"$ref":"Comment"}}}}', true));
-    $this->groups = new apiServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods":{"delete":{"restPath":"people\/{userId}\/@groups\/{groupId}","rpcMethod":"chili.groups.delete","httpMethod":"DELETE","description":"Delete a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to delete.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"]},"get":{"restPath":"people\/{userId}\/@groups\/{groupId}\/@self","rpcMethod":"chili.groups.get","httpMethod":"GET","description":"Get a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to get.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"response":{"$ref":"Group"}},"insert":{"restPath":"people\/{userId}\/@groups","rpcMethod":"chili.groups.insert","httpMethod":"POST","description":"Create a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"request":{"$ref":"Group"},"response":{"$ref":"Group"}},"list":{"restPath":"people\/{userId}\/@groups","rpcMethod":"chili.groups.list","httpMethod":"GET","description":"Get a user\'s groups","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"response":{"$ref":"GroupFeed"}},"update":{"restPath":"people\/{userId}\/@groups\/{groupId}\/@self","rpcMethod":"chili.groups.update","httpMethod":"PUT","description":"Update a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to update.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"request":{"$ref":"Group"},"response":{"$ref":"Group"}}}}', true));
-    $this->people = new apiServiceResource($this, $this->serviceName, 'people', json_decode('{"methods":{"delete":{"restPath":"people\/{userId}\/@groups\/{groupId}\/{personId}","rpcMethod":"chili.people.delete","httpMethod":"DELETE","description":"Remove a person from a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group from which to remove the person.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"personId":{"restParameterType":"path","required":true,"description":"ID of the person to remove from the group.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the owner of the group.","type":"string"}},"parameterOrder":["userId","groupId","personId"]},"get":{"restPath":"people\/{userId}\/@self","rpcMethod":"chili.people.get","httpMethod":"GET","description":"Get a user profile","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"response":{"$ref":"Person"}},"liked":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/{groupId}","rpcMethod":"chili.people.liked","httpMethod":"GET","description":"Get people who liked an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"groupId":{"restParameterType":"path","required":true,"type":"string","enum":["@liked"],"enumDescriptions":["People who liked this activity."]},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity that was liked.","type":"string"},"scope":{"restParameterType":"path","required":true,"type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId","groupId"],"response":{"$ref":"PeopleFeed"}},"list":{"restPath":"people\/{userId}\/@groups\/{groupId}","rpcMethod":"chili.people.list","httpMethod":"GET","description":"Get people in a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group for which to list users.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"response":{"$ref":"PeopleFeed"}},"reshared":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/{groupId}","rpcMethod":"chili.people.reshared","httpMethod":"GET","description":"Get people who reshared an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"groupId":{"restParameterType":"path","required":true,"type":"string","enum":["@reshared"],"enumDescriptions":["People who reshared this activity."]},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity that was reshared.","type":"string"},"scope":{"restParameterType":"path","required":true,"type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId","groupId"],"response":{"$ref":"PeopleFeed"}},"search":{"restPath":"people\/search","rpcMethod":"chili.people.search","httpMethod":"GET","description":"Search for people","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"}},"response":{"$ref":"PeopleFeed"}},"update":{"restPath":"people\/{userId}\/@groups\/{groupId}\/{personId}","rpcMethod":"chili.people.update","httpMethod":"PUT","description":"Add a person to a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to which to add the person.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"personId":{"restParameterType":"path","required":true,"description":"ID of the person to add to the group.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the owner of the group.","type":"string"}},"parameterOrder":["userId","groupId","personId"],"request":{"$ref":"Person"},"response":{"$ref":"Person"}}}}', true));
-    $this->photoAlbums = new apiServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods":{"delete":{"restPath":"photos\/{userId}\/@self\/{albumId}","rpcMethod":"chili.photoAlbums.delete","httpMethod":"DELETE","description":"Delete a photo album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to delete.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"]},"get":{"restPath":"photos\/{userId}\/@self\/{albumId}","rpcMethod":"chili.photoAlbums.get","httpMethod":"GET","description":"Get a photo album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to get.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"response":{"$ref":"Album"}},"insert":{"restPath":"photos\/{userId}\/@self","rpcMethod":"chili.photoAlbums.insert","httpMethod":"POST","description":"Create a photo album","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"request":{"$ref":"Album"},"response":{"$ref":"Album"}},"list":{"restPath":"photos\/{userId}\/{scope}","rpcMethod":"chili.photoAlbums.list","httpMethod":"GET","description":"List a user\'s photo albums","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"scope":{"restParameterType":"path","required":true,"description":"The collection of albums to list.","type":"string","enum":["@self"],"enumDescriptions":["Albums posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope"],"response":{"$ref":"AlbumsFeed"}}}}', true));
-    $this->photos = new apiServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods":{"delete":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos\/{photoId}","rpcMethod":"chili.photos.delete","httpMethod":"DELETE","description":"Delete a photo","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to which to photo belongs.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"photoId":{"restParameterType":"path","required":true,"description":"ID of the photo to delete.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId","photoId"]},"get":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos\/{photoId}","rpcMethod":"chili.photos.get","httpMethod":"GET","description":"Get photo metadata","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the photo for which to get metadata.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"photoId":{"restParameterType":"path","required":true,"description":"ID of the album containing the photo.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId","photoId"],"response":{"$ref":"ChiliPhotosResourceJson"}},"insert":{"restPath":"photos\/{userId}\/{albumId}","rpcMethod":"chili.photos.insert","httpMethod":"POST","description":"Upload a photo to an album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to which to upload.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"request":{"$ref":"Album2"},"response":{"$ref":"Album2"}},"insert2":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos","rpcMethod":"chili.photos.insert2","httpMethod":"POST","description":"Upload a photo to an album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to which to upload.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"request":{"$ref":"ChiliPhotosResourceJson"},"response":{"$ref":"ChiliPhotosResourceJson"}},"listByAlbum":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos","rpcMethod":"chili.photos.listByAlbum","httpMethod":"GET","description":"List photos in an album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album for which to list photos.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"response":{"$ref":"PhotosFeed"}},"listByScope":{"restPath":"photos\/{userId}\/@self\/{scope}\/@photos","rpcMethod":"chili.photos.listByScope","httpMethod":"GET","description":"Get a user\'s photos","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"scope":{"restParameterType":"path","required":true,"description":"The collection of photos to list.","type":"string","enum":["@recent"],"enumDescriptions":["Recent photos uploaded by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope"],"response":{"$ref":"PhotosFeed"}}}}', true));
-    $this->related = new apiServiceResource($this, $this->serviceName, 'related', json_decode('{"methods":{"list":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/@related","rpcMethod":"chili.related.list","httpMethod":"GET","description":"Get related links for an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity to which to get related links.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@self"],"enumDescriptions":["Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId"],"response":{"$ref":"RelatedFeed"}}}}', true));
+    $this->activities = new apiServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods":{"count":{"restPath":"activities\/count","rpcMethod":"chili.activities.count","httpMethod":"GET","description":"Get a count of link shares","parameters":{"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"url":{"restParameterType":"query","repeated":true,"description":"URLs for which to get share counts.","type":"string"}},"response":{"$ref":"CountFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"delete":{"restPath":"activities\/{userId}\/{scope}\/{postId}","rpcMethod":"chili.activities.delete","httpMethod":"DELETE","description":"Delete an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity to delete.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@liked","@muted","@self"],"enumDescriptions":["Activities liked by the user.","Activities muted by the user.","Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user whose post to delete.","type":"string"}},"parameterOrder":["userId","scope","postId"],"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"extractPeopleFromSearch":{"restPath":"activities\/search\/@people","rpcMethod":"chili.activities.extractPeopleFromSearch","httpMethod":"GET","description":"Search for people by topic","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"bbox":{"restParameterType":"query","description":"Bounding box to use in a geographic location query.","type":"string"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"lat":{"restParameterType":"query","description":"Latitude to use in a geographic location query.","type":"string"},"lon":{"restParameterType":"query","description":"Longitude to use in a geographic location query.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"pid":{"restParameterType":"query","description":"ID of a place to use in a geographic location query.","type":"string"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"},"radius":{"restParameterType":"query","description":"Radius to use in a geographic location query.","type":"string"}},"response":{"$ref":"PeopleFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"get":{"restPath":"activities\/{userId}\/@self\/{postId}","rpcMethod":"chili.activities.get","httpMethod":"GET","description":"Get an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-comments":{"restParameterType":"query","description":"Maximum number of comments to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"0"},"max-liked":{"restParameterType":"query","description":"Maximum number of likes to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"0"},"postId":{"restParameterType":"path","required":true,"description":"ID of the post to get.","type":"string"},"truncateAtom":{"restParameterType":"query","description":"Truncate the value of the atom:content element.","type":"boolean"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user whose post to get.","type":"string"}},"parameterOrder":["userId","postId"],"response":{"$ref":"Activity"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"insert":{"restPath":"activities\/{userId}\/@self","rpcMethod":"chili.activities.insert","httpMethod":"POST","description":"Create a new activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"preview":{"restParameterType":"query","description":"If true, only preview the action.","type":"boolean","default":"false"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"request":{"$ref":"Activity"},"response":{"$ref":"Activity"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"list":{"restPath":"activities\/{userId}\/{scope}","rpcMethod":"chili.activities.list","httpMethod":"GET","description":"List activities","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-comments":{"restParameterType":"query","description":"Maximum number of comments to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"0"},"max-liked":{"restParameterType":"query","description":"Maximum number of likes to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"0"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"scope":{"restParameterType":"path","required":true,"description":"The collection of activities to list.","type":"string","enum":["@comments","@consumption","@liked","@public","@self"],"enumDescriptions":["Limit to activities commented on by the user.","Limit to activities to be consumed by the user.","Limit to activities liked by the user.","Limit to public activities posted by the user.","Limit to activities posted by the user."]},"truncateAtom":{"restParameterType":"query","description":"Truncate the value of the atom:content element.","type":"boolean"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope"],"response":{"$ref":"ActivityFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"search":{"restPath":"activities\/search","rpcMethod":"chili.activities.search","httpMethod":"GET","description":"Search for activities","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"bbox":{"restParameterType":"query","description":"Bounding box to use in a geographic location query.","type":"string"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"lat":{"restParameterType":"query","description":"Latitude to use in a geographic location query.","type":"string"},"lon":{"restParameterType":"query","description":"Longitude to use in a geographic location query.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"pid":{"restParameterType":"query","description":"ID of a place to use in a geographic location query.","type":"string"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"},"radius":{"restParameterType":"query","description":"Radius to use in a geographic location query.","type":"string"},"truncateAtom":{"restParameterType":"query","description":"Truncate the value of the atom:content element.","type":"boolean"}},"response":{"$ref":"ActivityFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"track":{"restPath":"activities\/track","rpcMethod":"chili.activities.track","httpMethod":"GET","description":"Get real-time activity tracking information","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"bbox":{"restParameterType":"query","description":"Bounding box to use in a geographic location query.","type":"string"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"lat":{"restParameterType":"query","description":"Latitude to use in a geographic location query.","type":"string"},"lon":{"restParameterType":"query","description":"Longitude to use in a geographic location query.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"pid":{"restParameterType":"query","description":"ID of a place to use in a geographic location query.","type":"string"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"},"radius":{"restParameterType":"query","description":"Radius to use in a geographic location query.","type":"string"}},"response":{"$ref":"ActivityFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"update":{"restPath":"activities\/{userId}\/{scope}\/{postId}","rpcMethod":"chili.activities.update","httpMethod":"PUT","description":"Update an activity","parameters":{"abuseType":{"restParameterType":"query","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity to update.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@abuse","@liked","@muted","@self"],"enumDescriptions":["Activities reported by the user.","Activities liked by the user.","Activities muted by the user.","Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user whose post to update.","type":"string"}},"parameterOrder":["userId","scope","postId"],"request":{"$ref":"Activity"},"response":{"$ref":"Activity"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]}}}', true));
+    $this->comments = new apiServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods":{"delete":{"restPath":"activities\/{userId}\/@self\/{postId}\/@comments\/{commentId}","rpcMethod":"chili.comments.delete","httpMethod":"DELETE","description":"Delete a comment","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"commentId":{"restParameterType":"path","required":true,"description":"ID of the comment being referenced.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to delete the comment.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","postId","commentId"],"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"get":{"restPath":"activities\/{userId}\/@self\/{postId}\/@comments\/{commentId}","rpcMethod":"chili.comments.get","httpMethod":"GET","description":"Get a comment","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"commentId":{"restParameterType":"path","required":true,"description":"ID of the comment being referenced.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to get comments.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","postId","commentId"],"response":{"$ref":"Comment"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"insert":{"restPath":"activities\/{userId}\/@self\/{postId}\/@comments","rpcMethod":"chili.comments.insert","httpMethod":"POST","description":"Create a comment","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity on which to comment.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user on whose behalf to comment.","type":"string"}},"parameterOrder":["userId","postId"],"request":{"$ref":"Comment"},"response":{"$ref":"Comment"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"list":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/@comments","rpcMethod":"chili.comments.list","httpMethod":"GET","description":"List comments","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to get comments.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@self"],"enumDescriptions":["Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user for whose post to get comments.","type":"string"}},"parameterOrder":["userId","scope","postId"],"response":{"$ref":"CommentFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"update":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/@comments\/{commentId}","rpcMethod":"chili.comments.update","httpMethod":"PUT","description":"Update a comment","parameters":{"abuseType":{"restParameterType":"query","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"commentId":{"restParameterType":"path","required":true,"description":"ID of the comment being referenced.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity for which to update the comment.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@abuse","@self"],"enumDescriptions":["Comments reported by the user.","Comments posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId","commentId"],"request":{"$ref":"Comment"},"response":{"$ref":"Comment"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]}}}', true));
+    $this->groups = new apiServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods":{"delete":{"restPath":"people\/{userId}\/@groups\/{groupId}","rpcMethod":"chili.groups.delete","httpMethod":"DELETE","description":"Delete a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to delete.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"get":{"restPath":"people\/{userId}\/@groups\/{groupId}\/@self","rpcMethod":"chili.groups.get","httpMethod":"GET","description":"Get a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to get.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"response":{"$ref":"Group"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"insert":{"restPath":"people\/{userId}\/@groups","rpcMethod":"chili.groups.insert","httpMethod":"POST","description":"Create a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"request":{"$ref":"Group"},"response":{"$ref":"Group"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"list":{"restPath":"people\/{userId}\/@groups","rpcMethod":"chili.groups.list","httpMethod":"GET","description":"Get a user\'s groups","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"response":{"$ref":"GroupFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"update":{"restPath":"people\/{userId}\/@groups\/{groupId}\/@self","rpcMethod":"chili.groups.update","httpMethod":"PUT","description":"Update a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to update.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"request":{"$ref":"Group"},"response":{"$ref":"Group"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]}}}', true));
+    $this->people = new apiServiceResource($this, $this->serviceName, 'people', json_decode('{"methods":{"delete":{"restPath":"people\/{userId}\/@groups\/{groupId}\/{personId}","rpcMethod":"chili.people.delete","httpMethod":"DELETE","description":"Remove a person from a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group from which to remove the person.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"personId":{"restParameterType":"path","required":true,"description":"ID of the person to remove from the group.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the owner of the group.","type":"string"}},"parameterOrder":["userId","groupId","personId"],"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"get":{"restPath":"people\/{userId}\/@self","rpcMethod":"chili.people.get","httpMethod":"GET","description":"Get a user profile","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"response":{"$ref":"Person"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"liked":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/{groupId}","rpcMethod":"chili.people.liked","httpMethod":"GET","description":"Get people who liked an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"groupId":{"restParameterType":"path","required":true,"type":"string","enum":["@liked"],"enumDescriptions":["People who liked this activity."]},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity that was liked.","type":"string"},"scope":{"restParameterType":"path","required":true,"type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId","groupId"],"response":{"$ref":"PeopleFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"list":{"restPath":"people\/{userId}\/@groups\/{groupId}","rpcMethod":"chili.people.list","httpMethod":"GET","description":"Get people in a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group for which to list users.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","groupId"],"response":{"$ref":"PeopleFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"reshared":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/{groupId}","rpcMethod":"chili.people.reshared","httpMethod":"GET","description":"Get people who reshared an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"groupId":{"restParameterType":"path","required":true,"type":"string","enum":["@reshared"],"enumDescriptions":["People who reshared this activity."]},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity that was reshared.","type":"string"},"scope":{"restParameterType":"path","required":true,"type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId","groupId"],"response":{"$ref":"PeopleFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"search":{"restPath":"people\/search","rpcMethod":"chili.people.search","httpMethod":"GET","description":"Search for people","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"q":{"restParameterType":"query","description":"Full-text search query string.","type":"string"}},"response":{"$ref":"PeopleFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]},"update":{"restPath":"people\/{userId}\/@groups\/{groupId}\/{personId}","rpcMethod":"chili.people.update","httpMethod":"PUT","description":"Add a person to a group","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"groupId":{"restParameterType":"path","required":true,"description":"ID of the group to which to add the person.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"personId":{"restParameterType":"path","required":true,"description":"ID of the person to add to the group.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the owner of the group.","type":"string"}},"parameterOrder":["userId","groupId","personId"],"request":{"$ref":"Person"},"response":{"$ref":"Person"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]}}}', true));
+    $this->photoAlbums = new apiServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods":{"delete":{"restPath":"photos\/{userId}\/@self\/{albumId}","rpcMethod":"chili.photoAlbums.delete","httpMethod":"DELETE","description":"Delete a photo album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to delete.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"get":{"restPath":"photos\/{userId}\/@self\/{albumId}","rpcMethod":"chili.photoAlbums.get","httpMethod":"GET","description":"Get a photo album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to get.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"response":{"$ref":"Album"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"insert":{"restPath":"photos\/{userId}\/@self","rpcMethod":"chili.photoAlbums.insert","httpMethod":"POST","description":"Create a photo album","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId"],"request":{"$ref":"Album"},"response":{"$ref":"Album"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"list":{"restPath":"photos\/{userId}\/{scope}","rpcMethod":"chili.photoAlbums.list","httpMethod":"GET","description":"List a user\'s photo albums","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"scope":{"restParameterType":"path","required":true,"description":"The collection of albums to list.","type":"string","enum":["@self"],"enumDescriptions":["Albums posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope"],"response":{"$ref":"AlbumsFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]}}}', true));
+    $this->photos = new apiServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods":{"delete":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos\/{photoId}","rpcMethod":"chili.photos.delete","httpMethod":"DELETE","description":"Delete a photo","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to which to photo belongs.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"photoId":{"restParameterType":"path","required":true,"description":"ID of the photo to delete.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId","photoId"],"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"get":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos\/{photoId}","rpcMethod":"chili.photos.get","httpMethod":"GET","description":"Get photo metadata","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album containing the photo.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"photoId":{"restParameterType":"path","required":true,"description":"ID of the photo for which to get metadata.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId","photoId"],"response":{"$ref":"ChiliPhotosResourceJson"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"insert":{"restPath":"photos\/{userId}\/{albumId}","rpcMethod":"chili.photos.insert","httpMethod":"POST","description":"Upload a photo to an album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to which to upload.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"request":{"$ref":"AlbumLite"},"response":{"$ref":"AlbumLite"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz"]},"insert2":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos","rpcMethod":"chili.photos.insert2","httpMethod":"POST","description":"Upload a photo to an album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album to which to upload.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"request":{"$ref":"ChiliPhotosResourceJson"},"response":{"$ref":"ChiliPhotosResourceJson"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"listByAlbum":{"restPath":"photos\/{userId}\/@self\/{albumId}\/@photos","rpcMethod":"chili.photos.listByAlbum","httpMethod":"GET","description":"List photos in an album","parameters":{"albumId":{"restParameterType":"path","required":true,"description":"ID of the album for which to list photos.","type":"string"},"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","albumId"],"response":{"$ref":"PhotosFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]},"listByScope":{"restPath":"photos\/{userId}\/@self\/{scope}\/@photos","rpcMethod":"chili.photos.listByScope","httpMethod":"GET","description":"Get a user\'s photos","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"c":{"restParameterType":"query","description":"A continuation token that allows pagination.","type":"string"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to include.","type":"integer","minimum":"0","maximum":"4294967295","default":"20"},"scope":{"restParameterType":"path","required":true,"description":"The collection of photos to list.","type":"string","enum":["@recent"],"enumDescriptions":["Recent photos uploaded by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope"],"response":{"$ref":"PhotosFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/picasa"]}}}', true));
+    $this->related = new apiServiceResource($this, $this->serviceName, 'related', json_decode('{"methods":{"list":{"restPath":"activities\/{userId}\/{scope}\/{postId}\/@related","rpcMethod":"chili.related.list","httpMethod":"GET","description":"Get related links for an activity","parameters":{"alt":{"restParameterType":"query","description":"Specifies an alternative representation type.","type":"string","enum":["atom","json"],"enumDescriptions":["Use Atom XML format","Use JSON format"],"default":"atom"},"hl":{"restParameterType":"query","description":"Language code to limit language results.","type":"string"},"postId":{"restParameterType":"path","required":true,"description":"ID of the activity to which to get related links.","type":"string"},"scope":{"restParameterType":"path","required":true,"description":"The collection to which the activity belongs.","type":"string","enum":["@self"],"enumDescriptions":["Activities posted by the user."]},"userId":{"restParameterType":"path","required":true,"description":"ID of the user being referenced.","type":"string"}},"parameterOrder":["userId","scope","postId"],"response":{"$ref":"RelatedFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/buzz","https:\/\/www.googleapis.com\/auth\/buzz.readonly"]}}}', true));
   }
 
   /**
@@ -59,8 +59,10 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $url   string URLs for which to get share counts.
    */
-  public function countActivities($hl = null, $url = null) {
-    return $this->activities->__call('count', array(array('hl' => $hl, 'url' => $url)));
+  public function countActivities($hl = null,
+        $url = null) {
+    return $this->activities->__call('count', array(array('hl' => $hl,
+        'url' => $url)));
   }
 
   /**
@@ -74,8 +76,14 @@ class apiBuzzService {
    * @param $userId   string ID of the user whose post to delete.
    * @param $hl   string Language code to limit language results.
    */
-  public function deleteActivities($postId, $scope, $userId, $hl = null) {
-    return $this->activities->__call('delete', array(array('postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'hl' => $hl)));
+  public function deleteActivities($postId,
+        $scope,
+        $userId,
+        $hl = null) {
+    return $this->activities->__call('delete', array(array('postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -91,22 +99,48 @@ class apiBuzzService {
    * @param $q   string Full-text search query string.
    * @param $radius   string Radius to use in a geographic location query.
    */
-  public function extractPeopleFromSearchActivities($bbox = null, $c = null, $hl = null, $lat = null, $lon = null, $max_results = null, $pid = null, $q = null, $radius = null) {
-    return $this->activities->__call('extractPeopleFromSearch', array(array('bbox' => $bbox, 'c' => $c, 'hl' => $hl, 'lat' => $lat, 'lon' => $lon, 'max-results' => $max_results, 'pid' => $pid, 'q' => $q, 'radius' => $radius)));
+  public function extractPeopleFromSearchActivities($bbox = null,
+        $c = null,
+        $hl = null,
+        $lat = null,
+        $lon = null,
+        $max_results = null,
+        $pid = null,
+        $q = null,
+        $radius = null) {
+    return $this->activities->__call('extractPeopleFromSearch', array(array('bbox' => $bbox,
+        'c' => $c,
+        'hl' => $hl,
+        'lat' => $lat,
+        'lon' => $lon,
+        'max-results' => $max_results,
+        'pid' => $pid,
+        'q' => $q,
+        'radius' => $radius)));
   }
 
   /**
    * Get an activity
    *
-   * @param $postId   string ID of the user to get.
+   * @param $postId   string ID of the post to get.
    * @param $userId   string ID of the user whose post to get.
    * @param $hl   string Language code to limit language results.
    * @param $max_comments   integer Maximum number of comments to include.
    * @param $max_liked   integer Maximum number of likes to include.
    * @param $truncateAtom   boolean Truncate the value of the atom:content element.
    */
-  public function getActivities($postId, $userId, $hl = null, $max_comments = null, $max_liked = null, $truncateAtom = null) {
-    return $this->activities->__call('get', array(array('postId' => $postId, 'userId' => $userId, 'hl' => $hl, 'max-comments' => $max_comments, 'max-liked' => $max_liked, 'truncateAtom' => $truncateAtom)));
+  public function getActivities($postId,
+        $userId,
+        $hl = null,
+        $max_comments = null,
+        $max_liked = null,
+        $truncateAtom = null) {
+    return $this->activities->__call('get', array(array('postId' => $postId,
+        'userId' => $userId,
+        'hl' => $hl,
+        'max-comments' => $max_comments,
+        'max-liked' => $max_liked,
+        'truncateAtom' => $truncateAtom)));
   }
 
   /**
@@ -117,8 +151,14 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $preview   boolean If true, only preview the action.
    */
-  public function insertActivities($userId, $postBody, $hl = null, $preview = null) {
-    return $this->activities->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'hl' => $hl, 'preview' => $preview)));
+  public function insertActivities($userId,
+        $postBody,
+        $hl = null,
+        $preview = null) {
+    return $this->activities->__call('insert', array(array('userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl,
+        'preview' => $preview)));
   }
 
   /**
@@ -138,8 +178,22 @@ class apiBuzzService {
    * @param $max_results   integer Maximum number of results to include.
    * @param $truncateAtom   boolean Truncate the value of the atom:content element.
    */
-  public function listActivities($scope, $userId, $c = null, $hl = null, $max_comments = null, $max_liked = null, $max_results = null, $truncateAtom = null) {
-    return $this->activities->__call('list', array(array('scope' => $scope, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-comments' => $max_comments, 'max-liked' => $max_liked, 'max-results' => $max_results, 'truncateAtom' => $truncateAtom)));
+  public function listActivities($scope,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_comments = null,
+        $max_liked = null,
+        $max_results = null,
+        $truncateAtom = null) {
+    return $this->activities->__call('list', array(array('scope' => $scope,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-comments' => $max_comments,
+        'max-liked' => $max_liked,
+        'max-results' => $max_results,
+        'truncateAtom' => $truncateAtom)));
   }
 
   /**
@@ -156,8 +210,26 @@ class apiBuzzService {
    * @param $radius   string Radius to use in a geographic location query.
    * @param $truncateAtom   boolean Truncate the value of the atom:content element.
    */
-  public function searchActivities($bbox = null, $c = null, $hl = null, $lat = null, $lon = null, $max_results = null, $pid = null, $q = null, $radius = null, $truncateAtom = null) {
-    return $this->activities->__call('search', array(array('bbox' => $bbox, 'c' => $c, 'hl' => $hl, 'lat' => $lat, 'lon' => $lon, 'max-results' => $max_results, 'pid' => $pid, 'q' => $q, 'radius' => $radius, 'truncateAtom' => $truncateAtom)));
+  public function searchActivities($bbox = null,
+        $c = null,
+        $hl = null,
+        $lat = null,
+        $lon = null,
+        $max_results = null,
+        $pid = null,
+        $q = null,
+        $radius = null,
+        $truncateAtom = null) {
+    return $this->activities->__call('search', array(array('bbox' => $bbox,
+        'c' => $c,
+        'hl' => $hl,
+        'lat' => $lat,
+        'lon' => $lon,
+        'max-results' => $max_results,
+        'pid' => $pid,
+        'q' => $q,
+        'radius' => $radius,
+        'truncateAtom' => $truncateAtom)));
   }
 
   /**
@@ -173,8 +245,24 @@ class apiBuzzService {
    * @param $q   string Full-text search query string.
    * @param $radius   string Radius to use in a geographic location query.
    */
-  public function trackActivities($bbox = null, $c = null, $hl = null, $lat = null, $lon = null, $max_results = null, $pid = null, $q = null, $radius = null) {
-    return $this->activities->__call('track', array(array('bbox' => $bbox, 'c' => $c, 'hl' => $hl, 'lat' => $lat, 'lon' => $lon, 'max-results' => $max_results, 'pid' => $pid, 'q' => $q, 'radius' => $radius)));
+  public function trackActivities($bbox = null,
+        $c = null,
+        $hl = null,
+        $lat = null,
+        $lon = null,
+        $max_results = null,
+        $pid = null,
+        $q = null,
+        $radius = null) {
+    return $this->activities->__call('track', array(array('bbox' => $bbox,
+        'c' => $c,
+        'hl' => $hl,
+        'lat' => $lat,
+        'lon' => $lon,
+        'max-results' => $max_results,
+        'pid' => $pid,
+        'q' => $q,
+        'radius' => $radius)));
   }
 
   /**
@@ -191,8 +279,18 @@ class apiBuzzService {
    * @param $abuseType   string 
    * @param $hl   string Language code to limit language results.
    */
-  public function updateActivities($postId, $scope, $userId, $postBody, $abuseType = null, $hl = null) {
-    return $this->activities->__call('update', array(array('postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'postBody' => $postBody, 'abuseType' => $abuseType, 'hl' => $hl)));
+  public function updateActivities($postId,
+        $scope,
+        $userId,
+        $postBody,
+        $abuseType = null,
+        $hl = null) {
+    return $this->activities->__call('update', array(array('postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'abuseType' => $abuseType,
+        'hl' => $hl)));
   }
 
   /**
@@ -203,8 +301,14 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function deleteComments($commentId, $postId, $userId, $hl = null) {
-    return $this->comments->__call('delete', array(array('commentId' => $commentId, 'postId' => $postId, 'userId' => $userId, 'hl' => $hl)));
+  public function deleteComments($commentId,
+        $postId,
+        $userId,
+        $hl = null) {
+    return $this->comments->__call('delete', array(array('commentId' => $commentId,
+        'postId' => $postId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -215,8 +319,14 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function getComments($commentId, $postId, $userId, $hl = null) {
-    return $this->comments->__call('get', array(array('commentId' => $commentId, 'postId' => $postId, 'userId' => $userId, 'hl' => $hl)));
+  public function getComments($commentId,
+        $postId,
+        $userId,
+        $hl = null) {
+    return $this->comments->__call('get', array(array('commentId' => $commentId,
+        'postId' => $postId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -227,8 +337,14 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function insertComments($postId, $userId, $postBody, $hl = null) {
-    return $this->comments->__call('insert', array(array('postId' => $postId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function insertComments($postId,
+        $userId,
+        $postBody,
+        $hl = null) {
+    return $this->comments->__call('insert', array(array('postId' => $postId,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -242,8 +358,18 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function listComments($postId, $scope, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->comments->__call('list', array(array('postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function listComments($postId,
+        $scope,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->comments->__call('list', array(array('postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -259,8 +385,20 @@ class apiBuzzService {
    * @param $abuseType   string 
    * @param $hl   string Language code to limit language results.
    */
-  public function updateComments($commentId, $postId, $scope, $userId, $postBody, $abuseType = null, $hl = null) {
-    return $this->comments->__call('update', array(array('commentId' => $commentId, 'postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'postBody' => $postBody, 'abuseType' => $abuseType, 'hl' => $hl)));
+  public function updateComments($commentId,
+        $postId,
+        $scope,
+        $userId,
+        $postBody,
+        $abuseType = null,
+        $hl = null) {
+    return $this->comments->__call('update', array(array('commentId' => $commentId,
+        'postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'abuseType' => $abuseType,
+        'hl' => $hl)));
   }
 
   /**
@@ -270,8 +408,12 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function deleteGroups($groupId, $userId, $hl = null) {
-    return $this->groups->__call('delete', array(array('groupId' => $groupId, 'userId' => $userId, 'hl' => $hl)));
+  public function deleteGroups($groupId,
+        $userId,
+        $hl = null) {
+    return $this->groups->__call('delete', array(array('groupId' => $groupId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -281,8 +423,12 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function getGroups($groupId, $userId, $hl = null) {
-    return $this->groups->__call('get', array(array('groupId' => $groupId, 'userId' => $userId, 'hl' => $hl)));
+  public function getGroups($groupId,
+        $userId,
+        $hl = null) {
+    return $this->groups->__call('get', array(array('groupId' => $groupId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -292,8 +438,12 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function insertGroups($userId, $postBody, $hl = null) {
-    return $this->groups->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function insertGroups($userId,
+        $postBody,
+        $hl = null) {
+    return $this->groups->__call('insert', array(array('userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -304,8 +454,14 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function listGroups($userId, $c = null, $hl = null, $max_results = null) {
-    return $this->groups->__call('list', array(array('userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function listGroups($userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->groups->__call('list', array(array('userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -316,8 +472,14 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function updateGroups($groupId, $userId, $postBody, $hl = null) {
-    return $this->groups->__call('update', array(array('groupId' => $groupId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function updateGroups($groupId,
+        $userId,
+        $postBody,
+        $hl = null) {
+    return $this->groups->__call('update', array(array('groupId' => $groupId,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -328,8 +490,14 @@ class apiBuzzService {
    * @param $userId   string ID of the owner of the group.
    * @param $hl   string Language code to limit language results.
    */
-  public function deletePeople($groupId, $personId, $userId, $hl = null) {
-    return $this->people->__call('delete', array(array('groupId' => $groupId, 'personId' => $personId, 'userId' => $userId, 'hl' => $hl)));
+  public function deletePeople($groupId,
+        $personId,
+        $userId,
+        $hl = null) {
+    return $this->people->__call('delete', array(array('groupId' => $groupId,
+        'personId' => $personId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -338,8 +506,10 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function getPeople($userId, $hl = null) {
-    return $this->people->__call('get', array(array('userId' => $userId, 'hl' => $hl)));
+  public function getPeople($userId,
+        $hl = null) {
+    return $this->people->__call('get', array(array('userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -354,8 +524,20 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function likedPeople($groupId, $postId, $scope, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->people->__call('liked', array(array('groupId' => $groupId, 'postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function likedPeople($groupId,
+        $postId,
+        $scope,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->people->__call('liked', array(array('groupId' => $groupId,
+        'postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -367,8 +549,16 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function listPeople($groupId, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->people->__call('list', array(array('groupId' => $groupId, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function listPeople($groupId,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->people->__call('list', array(array('groupId' => $groupId,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -383,8 +573,20 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function resharedPeople($groupId, $postId, $scope, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->people->__call('reshared', array(array('groupId' => $groupId, 'postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function resharedPeople($groupId,
+        $postId,
+        $scope,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->people->__call('reshared', array(array('groupId' => $groupId,
+        'postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -395,8 +597,14 @@ class apiBuzzService {
    * @param $max_results   integer Maximum number of results to include.
    * @param $q   string Full-text search query string.
    */
-  public function searchPeople($c = null, $hl = null, $max_results = null, $q = null) {
-    return $this->people->__call('search', array(array('c' => $c, 'hl' => $hl, 'max-results' => $max_results, 'q' => $q)));
+  public function searchPeople($c = null,
+        $hl = null,
+        $max_results = null,
+        $q = null) {
+    return $this->people->__call('search', array(array('c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results,
+        'q' => $q)));
   }
 
   /**
@@ -408,8 +616,16 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function updatePeople($groupId, $personId, $userId, $postBody, $hl = null) {
-    return $this->people->__call('update', array(array('groupId' => $groupId, 'personId' => $personId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function updatePeople($groupId,
+        $personId,
+        $userId,
+        $postBody,
+        $hl = null) {
+    return $this->people->__call('update', array(array('groupId' => $groupId,
+        'personId' => $personId,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -419,8 +635,12 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function deletePhotoAlbums($albumId, $userId, $hl = null) {
-    return $this->photoAlbums->__call('delete', array(array('albumId' => $albumId, 'userId' => $userId, 'hl' => $hl)));
+  public function deletePhotoAlbums($albumId,
+        $userId,
+        $hl = null) {
+    return $this->photoAlbums->__call('delete', array(array('albumId' => $albumId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -430,8 +650,12 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function getPhotoAlbums($albumId, $userId, $hl = null) {
-    return $this->photoAlbums->__call('get', array(array('albumId' => $albumId, 'userId' => $userId, 'hl' => $hl)));
+  public function getPhotoAlbums($albumId,
+        $userId,
+        $hl = null) {
+    return $this->photoAlbums->__call('get', array(array('albumId' => $albumId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -441,8 +665,12 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function insertPhotoAlbums($userId, $postBody, $hl = null) {
-    return $this->photoAlbums->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function insertPhotoAlbums($userId,
+        $postBody,
+        $hl = null) {
+    return $this->photoAlbums->__call('insert', array(array('userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -455,8 +683,16 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function listPhotoAlbums($scope, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->photoAlbums->__call('list', array(array('scope' => $scope, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function listPhotoAlbums($scope,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->photoAlbums->__call('list', array(array('scope' => $scope,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -467,20 +703,32 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function deletePhotos($albumId, $photoId, $userId, $hl = null) {
-    return $this->photos->__call('delete', array(array('albumId' => $albumId, 'photoId' => $photoId, 'userId' => $userId, 'hl' => $hl)));
+  public function deletePhotos($albumId,
+        $photoId,
+        $userId,
+        $hl = null) {
+    return $this->photos->__call('delete', array(array('albumId' => $albumId,
+        'photoId' => $photoId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
    * Get photo metadata
    *
-   * @param $albumId   string ID of the photo for which to get metadata.
-   * @param $photoId   string ID of the album containing the photo.
+   * @param $albumId   string ID of the album containing the photo.
+   * @param $photoId   string ID of the photo for which to get metadata.
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function getPhotos($albumId, $photoId, $userId, $hl = null) {
-    return $this->photos->__call('get', array(array('albumId' => $albumId, 'photoId' => $photoId, 'userId' => $userId, 'hl' => $hl)));
+  public function getPhotos($albumId,
+        $photoId,
+        $userId,
+        $hl = null) {
+    return $this->photos->__call('get', array(array('albumId' => $albumId,
+        'photoId' => $photoId,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**
@@ -491,8 +739,14 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function insertPhotos($albumId, $userId, $postBody, $hl = null) {
-    return $this->photos->__call('insert', array(array('albumId' => $albumId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function insertPhotos($albumId,
+        $userId,
+        $postBody,
+        $hl = null) {
+    return $this->photos->__call('insert', array(array('albumId' => $albumId,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -503,8 +757,14 @@ class apiBuzzService {
    * @param $postBody 
    * @param $hl   string Language code to limit language results.
    */
-  public function insert2Photos($albumId, $userId, $postBody, $hl = null) {
-    return $this->photos->__call('insert2', array(array('albumId' => $albumId, 'userId' => $userId, 'postBody' => $postBody, 'hl' => $hl)));
+  public function insert2Photos($albumId,
+        $userId,
+        $postBody,
+        $hl = null) {
+    return $this->photos->__call('insert2', array(array('albumId' => $albumId,
+        'userId' => $userId,
+        'postBody' => $postBody,
+        'hl' => $hl)));
   }
 
   /**
@@ -516,8 +776,16 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function listByAlbumPhotos($albumId, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->photos->__call('listByAlbum', array(array('albumId' => $albumId, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function listByAlbumPhotos($albumId,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->photos->__call('listByAlbum', array(array('albumId' => $albumId,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -530,8 +798,16 @@ class apiBuzzService {
    * @param $hl   string Language code to limit language results.
    * @param $max_results   integer Maximum number of results to include.
    */
-  public function listByScopePhotos($scope, $userId, $c = null, $hl = null, $max_results = null) {
-    return $this->photos->__call('listByScope', array(array('scope' => $scope, 'userId' => $userId, 'c' => $c, 'hl' => $hl, 'max-results' => $max_results)));
+  public function listByScopePhotos($scope,
+        $userId,
+        $c = null,
+        $hl = null,
+        $max_results = null) {
+    return $this->photos->__call('listByScope', array(array('scope' => $scope,
+        'userId' => $userId,
+        'c' => $c,
+        'hl' => $hl,
+        'max-results' => $max_results)));
   }
 
   /**
@@ -543,8 +819,14 @@ class apiBuzzService {
    * @param $userId   string ID of the user being referenced.
    * @param $hl   string Language code to limit language results.
    */
-  public function listRelated($postId, $scope, $userId, $hl = null) {
-    return $this->related->__call('list', array(array('postId' => $postId, 'scope' => $scope, 'userId' => $userId, 'hl' => $hl)));
+  public function listRelated($postId,
+        $scope,
+        $userId,
+        $hl = null) {
+    return $this->related->__call('list', array(array('postId' => $postId,
+        'scope' => $scope,
+        'userId' => $userId,
+        'hl' => $hl)));
   }
 
   /**

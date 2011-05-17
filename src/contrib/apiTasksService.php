@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,8 +76,10 @@ class apiTasksService {
    * @param $maxResults   integer Maximum number of task lists returned on one page. Optional. The default is 100.
    * @param $pageToken   string Token specifying the result page to return. Optional.
    */
-  public function listTasklists($maxResults = null, $pageToken = null) {
-    return $this->tasklists->__call('list', array(array('maxResults' => $maxResults, 'pageToken' => $pageToken)));
+  public function listTasklists($maxResults = null,
+        $pageToken = null) {
+    return $this->tasklists->__call('list', array(array('maxResults' => $maxResults,
+        'pageToken' => $pageToken)));
   }
 
   /**
@@ -86,8 +88,10 @@ class apiTasksService {
    * @param $tasklist   string Task list identifier.
    * @param $postBody 
    */
-  public function updateTasklists($tasklist, $postBody) {
-    return $this->tasklists->__call('update', array(array('tasklist' => $tasklist, 'postBody' => $postBody)));
+  public function updateTasklists($tasklist,
+        $postBody) {
+    return $this->tasklists->__call('update', array(array('tasklist' => $tasklist,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -96,8 +100,10 @@ class apiTasksService {
    * @param $tasklist   string Task list identifier.
    * @param $postBody 
    */
-  public function clearTasks($tasklist, $postBody) {
-    return $this->tasks->__call('clear', array(array('tasklist' => $tasklist, 'postBody' => $postBody)));
+  public function clearTasks($tasklist,
+        $postBody) {
+    return $this->tasks->__call('clear', array(array('tasklist' => $tasklist,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -106,8 +112,10 @@ class apiTasksService {
    * @param $task   string Task identifier.
    * @param $tasklist   string Task list identifier.
    */
-  public function deleteTasks($task, $tasklist) {
-    return $this->tasks->__call('delete', array(array('task' => $task, 'tasklist' => $tasklist)));
+  public function deleteTasks($task,
+        $tasklist) {
+    return $this->tasks->__call('delete', array(array('task' => $task,
+        'tasklist' => $tasklist)));
   }
 
   /**
@@ -116,8 +124,10 @@ class apiTasksService {
    * @param $task   string Task identifier.
    * @param $tasklist   string Task list identifier.
    */
-  public function getTasks($task, $tasklist) {
-    return $this->tasks->__call('get', array(array('task' => $task, 'tasklist' => $tasklist)));
+  public function getTasks($task,
+        $tasklist) {
+    return $this->tasks->__call('get', array(array('task' => $task,
+        'tasklist' => $tasklist)));
   }
 
   /**
@@ -128,8 +138,14 @@ class apiTasksService {
    * @param $parent   string Parent task identifier. If the task is created at the top level, this parameter is omitted. Optional.
    * @param $previous   string Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional.
    */
-  public function insertTasks($tasklist, $postBody, $parent = null, $previous = null) {
-    return $this->tasks->__call('insert', array(array('tasklist' => $tasklist, 'postBody' => $postBody, 'parent' => $parent, 'previous' => $previous)));
+  public function insertTasks($tasklist,
+        $postBody,
+        $parent = null,
+        $previous = null) {
+    return $this->tasks->__call('insert', array(array('tasklist' => $tasklist,
+        'postBody' => $postBody,
+        'parent' => $parent,
+        'previous' => $previous)));
   }
 
   /**
@@ -147,8 +163,28 @@ class apiTasksService {
    * @param $showHidden   boolean Flag indicating whether hidden tasks are returned in the result. Optional. The default is False.
    * @param $updatedMin   string Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by last modification time.
    */
-  public function listTasks($tasklist, $completedMax = null, $completedMin = null, $dueMax = null, $dueMin = null, $maxResults = null, $pageToken = null, $showCompleted = null, $showDeleted = null, $showHidden = null, $updatedMin = null) {
-    return $this->tasks->__call('list', array(array('tasklist' => $tasklist, 'completedMax' => $completedMax, 'completedMin' => $completedMin, 'dueMax' => $dueMax, 'dueMin' => $dueMin, 'maxResults' => $maxResults, 'pageToken' => $pageToken, 'showCompleted' => $showCompleted, 'showDeleted' => $showDeleted, 'showHidden' => $showHidden, 'updatedMin' => $updatedMin)));
+  public function listTasks($tasklist,
+        $completedMax = null,
+        $completedMin = null,
+        $dueMax = null,
+        $dueMin = null,
+        $maxResults = null,
+        $pageToken = null,
+        $showCompleted = null,
+        $showDeleted = null,
+        $showHidden = null,
+        $updatedMin = null) {
+    return $this->tasks->__call('list', array(array('tasklist' => $tasklist,
+        'completedMax' => $completedMax,
+        'completedMin' => $completedMin,
+        'dueMax' => $dueMax,
+        'dueMin' => $dueMin,
+        'maxResults' => $maxResults,
+        'pageToken' => $pageToken,
+        'showCompleted' => $showCompleted,
+        'showDeleted' => $showDeleted,
+        'showHidden' => $showHidden,
+        'updatedMin' => $updatedMin)));
   }
 
   /**
@@ -160,8 +196,16 @@ class apiTasksService {
    * @param $parent   string New parent task identifier. If the task is moved to the top level, this parameter is omitted. Optional.
    * @param $previous   string New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. Optional.
    */
-  public function moveTasks($task, $tasklist, $postBody, $parent = null, $previous = null) {
-    return $this->tasks->__call('move', array(array('task' => $task, 'tasklist' => $tasklist, 'postBody' => $postBody, 'parent' => $parent, 'previous' => $previous)));
+  public function moveTasks($task,
+        $tasklist,
+        $postBody,
+        $parent = null,
+        $previous = null) {
+    return $this->tasks->__call('move', array(array('task' => $task,
+        'tasklist' => $tasklist,
+        'postBody' => $postBody,
+        'parent' => $parent,
+        'previous' => $previous)));
   }
 
   /**
@@ -171,8 +215,12 @@ class apiTasksService {
    * @param $tasklist   string Task list identifier.
    * @param $postBody 
    */
-  public function updateTasks($task, $tasklist, $postBody) {
-    return $this->tasks->__call('update', array(array('task' => $task, 'tasklist' => $tasklist, 'postBody' => $postBody)));
+  public function updateTasks($task,
+        $tasklist,
+        $postBody) {
+    return $this->tasks->__call('update', array(array('task' => $task,
+        'tasklist' => $tasklist,
+        'postBody' => $postBody)));
   }
 
   /**

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ class apiDiacritizeService {
   // Variables that the apiServiceResource implementation depends on
   private $serviceName = 'diacritize';
   private $version = 'v1';
-  private $restBasePath = 'https://www.googleapis.com/language/diacritize/';
-  private $rpcPath = 'https://www.googleapis.com/rpc';
+  private $restBasePath = '/language/diacritize/';
+  private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
   private $diacritize;
@@ -38,7 +38,7 @@ class apiDiacritizeService {
   public function __construct(apiClient $apiClient) {
     $apiClient->addService('diacritize', 'v1');
     $this->io = $apiClient->getIo();
-    $this->diacritize = new apiServiceResource($this, $this->serviceName, 'diacritize', json_decode('{"resources":{"corpus":{"methods":{"get":{"restPath":"v1","rpcMethod":"language.diacritize.corpus.get","httpMethod":"GET","description":"Adds diacritical marks to the given message.","parameters":{"lang":{"restParameterType":"query","required":true,"description":"Language of the message","type":"string"},"last_letter":{"restParameterType":"query","required":true,"description":"Flag to indicate whether the last letter in a word should be diacritized or not","type":"boolean"},"message":{"restParameterType":"query","required":true,"description":"Message to be diacritized","type":"string"}},"parameterOrder":["lang","last_letter","message"],"response":{"$ref":"LanguageDiacritizeCorpusResource"}}}}}}', true));
+    $this->diacritize = new apiServiceResource($this, $this->serviceName, 'diacritize', json_decode('{"resources":{"corpus":{"methods":{"get":{"restPath":"v1","rpcMethod":"language.diacritize.corpus.get","httpMethod":"GET","description":"Adds diacritical marks to the given message.","parameters":{"lang":{"restParameterType":"query","required":true,"description":"Language of the message","type":"string"},"last_letter":{"restParameterType":"query","required":true,"description":"Flag to indicate whether the last letter in a word should be diacritized or not","type":"boolean"},"message":{"restParameterType":"query","required":true,"description":"Message to be diacritized","type":"string"}},"parameterOrder":["message","last_letter","lang"],"response":{"$ref":"LanguageDiacritizeCorpusResource"}}}}}}', true));
   }
 
   /**

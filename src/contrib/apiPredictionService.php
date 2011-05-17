@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ class apiPredictionService {
   // Variables that the apiServiceResource implementation depends on
   private $serviceName = 'prediction';
   private $version = 'v1.1';
-  private $restBasePath = 'https://www.googleapis.com/prediction/v1.1/';
-  private $rpcPath = 'https://www.googleapis.com/rpc';
+  private $restBasePath = '/prediction/v1.1/';
+  private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
   private $training;
@@ -38,11 +38,11 @@ class apiPredictionService {
   public function __construct(apiClient $apiClient) {
     $apiClient->addService('prediction', 'v1.1');
     $this->io = $apiClient->getIo();
-    $this->training = new apiServiceResource($this, $this->serviceName, 'training', json_decode('{"methods":{"delete":{"restPath":"training\/{data}","rpcMethod":"prediction.training.delete","httpMethod":"DELETE","parameters":{"data":{"restParameterType":"path","required":true,"description":"mybucket%2Fmydata resource in Google Storage","type":"string"}},"parameterOrder":["data"]},"get":{"restPath":"training\/{data}","rpcMethod":"prediction.training.get","httpMethod":"GET","parameters":{"data":{"restParameterType":"path","required":true,"description":"mybucket%2Fmydata resource in Google Storage","type":"string"}},"parameterOrder":["data"],"response":{"$ref":"PredictionTrainingGet"}},"insert":{"restPath":"training","rpcMethod":"prediction.training.insert","httpMethod":"POST","parameters":{"data":{"restParameterType":"query","required":true,"description":"mybucket%2Fmydata resource in Google Storage","type":"string"}},"parameterOrder":["data"],"request":{"$ref":"PredictionTrainingInsert"},"response":{"$ref":"PredictionTrainingInsert"}}}}', true));
+    $this->training = new apiServiceResource($this, $this->serviceName, 'training', json_decode('{"methods":{"delete":{"restPath":"training\/{data}","rpcMethod":"prediction.training.delete","httpMethod":"DELETE","description":"Delete a trained model","parameters":{"data":{"restParameterType":"path","required":true,"description":"mybucket%2Fmydata resource in Google Storage","type":"string"}},"parameterOrder":["data"],"scopes":["https:\/\/www.googleapis.com\/auth\/prediction"]},"get":{"restPath":"training\/{data}","rpcMethod":"prediction.training.get","httpMethod":"GET","description":"Check training status of your model","parameters":{"data":{"restParameterType":"path","required":true,"description":"mybucket%2Fmydata resource in Google Storage","type":"string"}},"parameterOrder":["data"],"response":{"$ref":"PredictionTrainingGet"},"scopes":["https:\/\/www.googleapis.com\/auth\/prediction"]},"insert":{"restPath":"training","rpcMethod":"prediction.training.insert","httpMethod":"POST","description":"Begin training your model","parameters":{"data":{"restParameterType":"query","required":true,"description":"mybucket%2Fmydata resource in Google Storage","type":"string"}},"parameterOrder":["data"],"request":{"$ref":"PredictionTrainingInsert"},"response":{"$ref":"PredictionTrainingInsert"},"scopes":["https:\/\/www.googleapis.com\/auth\/prediction"]}}}', true));
   }
 
   /**
-   * Implementation of the prediction.training.delete method.
+   * Delete a trained model
    *
    * @param $data   string mybucket%2Fmydata resource in Google Storage
    */
@@ -51,7 +51,7 @@ class apiPredictionService {
   }
 
   /**
-   * Implementation of the prediction.training.get method.
+   * Check training status of your model
    *
    * @param $data   string mybucket%2Fmydata resource in Google Storage
    */
@@ -60,13 +60,15 @@ class apiPredictionService {
   }
 
   /**
-   * Implementation of the prediction.training.insert method.
+   * Begin training your model
    *
    * @param $data   string mybucket%2Fmydata resource in Google Storage
    * @param $postBody 
    */
-  public function insertTraining($data, $postBody) {
-    return $this->training->__call('insert', array(array('data' => $data, 'postBody' => $postBody)));
+  public function insertTraining($data,
+        $postBody) {
+    return $this->training->__call('insert', array(array('data' => $data,
+        'postBody' => $postBody)));
   }
 
   /**

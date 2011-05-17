@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ class apiModeratorService {
   // Variables that the apiServiceResource implementation depends on
   private $serviceName = 'moderator';
   private $version = 'v1';
-  private $restBasePath = 'https://www.googleapis.com/moderator/v1/';
-  private $rpcPath = 'https://www.googleapis.com/rpc';
+  private $restBasePath = '/moderator/v1/';
+  private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
   private $featured;
@@ -48,17 +48,17 @@ class apiModeratorService {
   public function __construct(apiClient $apiClient) {
     $apiClient->addService('moderator', 'v1');
     $this->io = $apiClient->getIo();
-    $this->featured = new apiServiceResource($this, $this->serviceName, 'featured', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/featured","rpcMethod":"moderator.featured.series.list","httpMethod":"GET","description":"Lists the featured series.","response":{"$ref":"SeriesList"}}}}}}', true));
-    $this->global = new apiServiceResource($this, $this->serviceName, 'global', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"search","rpcMethod":"moderator.global.series.list","httpMethod":"GET","description":"Searches the public series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"response":{"$ref":"SeriesList"}}}}}}', true));
-    $this->my = new apiServiceResource($this, $this->serviceName, 'my', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/@me\/mine","rpcMethod":"moderator.my.series.list","httpMethod":"GET","description":"Lists all series created by the authenticated user.","response":{"$ref":"SeriesList"}}}}}}', true));
-    $this->myrecent = new apiServiceResource($this, $this->serviceName, 'myrecent', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/@me\/recent","rpcMethod":"moderator.myrecent.series.list","httpMethod":"GET","description":"Lists the series the authenticated user has visited.","response":{"$ref":"SeriesList"}}}}}}', true));
-    $this->profiles = new apiServiceResource($this, $this->serviceName, 'profiles', json_decode('{"methods":{"get":{"restPath":"profiles\/@me","rpcMethod":"moderator.profiles.get","httpMethod":"GET","description":"Returns the profile information for the authenticated user.","response":{"$ref":"Profile"}},"update":{"restPath":"profiles\/@me","rpcMethod":"moderator.profiles.update","httpMethod":"PUT","description":"Updates the profile information for the authenticated user.","request":{"$ref":"Profile"},"response":{"$ref":"Profile"}}}}', true));
-    $this->responses = new apiServiceResource($this, $this->serviceName, 'responses', json_decode('{"methods":{"insert":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions\/{parentSubmissionId}\/responses","rpcMethod":"moderator.responses.insert","httpMethod":"POST","description":"Inserts a response for the specified submission in the specified topic within the specified series.","parameters":{"anonymous":{"restParameterType":"query","description":"Set to true to mark the new submission as anonymous.","type":"boolean"},"parentSubmissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the parent Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId","parentSubmissionId"],"request":{"$ref":"Submission"},"response":{"$ref":"Submission"}},"list":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/responses","rpcMethod":"moderator.responses.list","httpMethod":"GET","description":"Lists or searches the responses for the specified submission within the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"SubmissionList"}}}}', true));
-    $this->series = new apiServiceResource($this, $this->serviceName, 'series', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}","rpcMethod":"moderator.series.get","httpMethod":"GET","description":"Returns the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"Series"}},"insert":{"restPath":"series","rpcMethod":"moderator.series.insert","httpMethod":"POST","description":"Inserts a new series.","request":{"$ref":"Series"},"response":{"$ref":"Series"}},"list":{"restPath":"series","rpcMethod":"moderator.series.list","httpMethod":"GET","description":"Searches the series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"response":{"$ref":"SeriesList"}},"update":{"restPath":"series\/{seriesId}","rpcMethod":"moderator.series.update","httpMethod":"PUT","description":"Updates the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"request":{"$ref":"Series"},"response":{"$ref":"Series"}}},"resources":{"responses":{"methods":{"list":{"restPath":"series\/{seriesId}\/responses","rpcMethod":"moderator.series.responses.list","httpMethod":"GET","description":"Searches the responses for the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"SeriesList"}}}},"submissions":{"methods":{"list":{"restPath":"series\/{seriesId}\/submissions","rpcMethod":"moderator.series.submissions.list","httpMethod":"GET","description":"Searches the submissions for the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"lang":{"restParameterType":"query","description":"The language code for the language the client prefers resuls in.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"SubmissionList"}}}}}}', true));
-    $this->submissions = new apiServiceResource($this, $this->serviceName, 'submissions', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}","rpcMethod":"moderator.submissions.get","httpMethod":"GET","description":"Returns the specified submission within the specified series.","parameters":{"lang":{"restParameterType":"query","description":"The language code for the language the client prefers resuls in.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"Submission"}},"insert":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions","rpcMethod":"moderator.submissions.insert","httpMethod":"POST","description":"Inserts a new submission in the specified topic within the specified series.","parameters":{"anonymous":{"restParameterType":"query","description":"Set to true to mark the new submission as anonymous.","type":"boolean"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"request":{"$ref":"Submission"},"response":{"$ref":"Submission"}}}}', true));
-    $this->tags = new apiServiceResource($this, $this->serviceName, 'tags', json_decode('{"methods":{"delete":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags\/{tagId}","rpcMethod":"moderator.tags.delete","httpMethod":"DELETE","description":"Deletes the specified tag from the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"tagId":{"restParameterType":"path","required":true,"type":"string"}},"parameterOrder":["seriesId","submissionId","tagId"]},"insert":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags","rpcMethod":"moderator.tags.insert","httpMethod":"POST","description":"Inserts a new tag for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Tag"},"response":{"$ref":"Tag"}},"list":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags","rpcMethod":"moderator.tags.list","httpMethod":"GET","description":"Lists all tags for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"TagList"}}}}', true));
-    $this->topics = new apiServiceResource($this, $this->serviceName, 'topics', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/topics\/{topicId}","rpcMethod":"moderator.topics.get","httpMethod":"GET","description":"Returns the specified topic from the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"response":{"$ref":"Topic2"}},"insert":{"restPath":"series\/{seriesId}\/topics","rpcMethod":"moderator.topics.insert","httpMethod":"POST","description":"Inserts a new topic into the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"request":{"$ref":"Topic"},"response":{"$ref":"Topic"}},"list":{"restPath":"series\/{seriesId}\/topics","rpcMethod":"moderator.topics.list","httpMethod":"GET","description":"Searches the topics within the specified series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"mode":{"restParameterType":"query","type":"string"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"TopicList"}},"update":{"restPath":"series\/{seriesId}\/topics\/{topicId}","rpcMethod":"moderator.topics.update","httpMethod":"PUT","description":"Updates the specified topic within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"request":{"$ref":"Topic"},"response":{"$ref":"Topic"}}},"resources":{"submissions":{"methods":{"list":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions","rpcMethod":"moderator.topics.submissions.list","httpMethod":"GET","description":"Searches the submissions for the specified topic within the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"response":{"$ref":"SubmissionList"}}}}}}', true));
-    $this->votes = new apiServiceResource($this, $this->serviceName, 'votes', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.get","httpMethod":"GET","description":"Returns the votes by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"userId":{"restParameterType":"query","type":"string"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"Vote"}},"insert":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.insert","httpMethod":"POST","description":"Inserts a new vote by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Vote"},"response":{"$ref":"Vote"}},"list":{"restPath":"series\/{seriesId}\/votes\/@me","rpcMethod":"moderator.votes.list","httpMethod":"GET","description":"Lists the votes by the authenticated user for the given series.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"VoteList"}},"update":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.update","httpMethod":"PUT","description":"Updates the votes by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"userId":{"restParameterType":"query","type":"string"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Vote"},"response":{"$ref":"Vote"}}}}', true));
+    $this->featured = new apiServiceResource($this, $this->serviceName, 'featured', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/featured","rpcMethod":"moderator.featured.series.list","httpMethod":"GET","description":"Lists the featured series.","response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
+    $this->global = new apiServiceResource($this, $this->serviceName, 'global', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"search","rpcMethod":"moderator.global.series.list","httpMethod":"GET","description":"Searches the public series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
+    $this->my = new apiServiceResource($this, $this->serviceName, 'my', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/@me\/mine","rpcMethod":"moderator.my.series.list","httpMethod":"GET","description":"Lists all series created by the authenticated user.","response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
+    $this->myrecent = new apiServiceResource($this, $this->serviceName, 'myrecent', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/@me\/recent","rpcMethod":"moderator.myrecent.series.list","httpMethod":"GET","description":"Lists the series the authenticated user has visited.","response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
+    $this->profiles = new apiServiceResource($this, $this->serviceName, 'profiles', json_decode('{"methods":{"get":{"restPath":"profiles\/@me","rpcMethod":"moderator.profiles.get","httpMethod":"GET","description":"Returns the profile information for the authenticated user.","response":{"$ref":"Profile"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"profiles\/@me","rpcMethod":"moderator.profiles.update","httpMethod":"PUT","description":"Updates the profile information for the authenticated user.","request":{"$ref":"Profile"},"response":{"$ref":"Profile"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
+    $this->responses = new apiServiceResource($this, $this->serviceName, 'responses', json_decode('{"methods":{"insert":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions\/{parentSubmissionId}\/responses","rpcMethod":"moderator.responses.insert","httpMethod":"POST","description":"Inserts a response for the specified submission in the specified topic within the specified series.","parameters":{"anonymous":{"restParameterType":"query","description":"Set to true to mark the new submission as anonymous.","type":"boolean"},"parentSubmissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the parent Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId","parentSubmissionId"],"request":{"$ref":"Submission"},"response":{"$ref":"Submission"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/responses","rpcMethod":"moderator.responses.list","httpMethod":"GET","description":"Lists or searches the responses for the specified submission within the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"SubmissionList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
+    $this->series = new apiServiceResource($this, $this->serviceName, 'series', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}","rpcMethod":"moderator.series.get","httpMethod":"GET","description":"Returns the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"Series"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series","rpcMethod":"moderator.series.insert","httpMethod":"POST","description":"Inserts a new series.","request":{"$ref":"Series"},"response":{"$ref":"Series"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series","rpcMethod":"moderator.series.list","httpMethod":"GET","description":"Searches the series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"series\/{seriesId}","rpcMethod":"moderator.series.update","httpMethod":"PUT","description":"Updates the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"request":{"$ref":"Series"},"response":{"$ref":"Series"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}},"resources":{"responses":{"methods":{"list":{"restPath":"series\/{seriesId}\/responses","rpcMethod":"moderator.series.responses.list","httpMethod":"GET","description":"Searches the responses for the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}},"submissions":{"methods":{"list":{"restPath":"series\/{seriesId}\/submissions","rpcMethod":"moderator.series.submissions.list","httpMethod":"GET","description":"Searches the submissions for the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"includeVotes":{"restParameterType":"query","description":"Specifies whether to include the current user\'s vote","type":"boolean"},"lang":{"restParameterType":"query","description":"The language code for the language the client prefers resuls in.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"SubmissionList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
+    $this->submissions = new apiServiceResource($this, $this->serviceName, 'submissions', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}","rpcMethod":"moderator.submissions.get","httpMethod":"GET","description":"Returns the specified submission within the specified series.","parameters":{"includeVotes":{"restParameterType":"query","description":"Specifies whether to include the current user\'s vote","type":"boolean"},"lang":{"restParameterType":"query","description":"The language code for the language the client prefers resuls in.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"Submission"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions","rpcMethod":"moderator.submissions.insert","httpMethod":"POST","description":"Inserts a new submission in the specified topic within the specified series.","parameters":{"anonymous":{"restParameterType":"query","description":"Set to true to mark the new submission as anonymous.","type":"boolean"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"request":{"$ref":"Submission"},"response":{"$ref":"Submission"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
+    $this->tags = new apiServiceResource($this, $this->serviceName, 'tags', json_decode('{"methods":{"delete":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags\/{tagId}","rpcMethod":"moderator.tags.delete","httpMethod":"DELETE","description":"Deletes the specified tag from the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"tagId":{"restParameterType":"path","required":true,"type":"string"}},"parameterOrder":["seriesId","submissionId","tagId"],"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags","rpcMethod":"moderator.tags.insert","httpMethod":"POST","description":"Inserts a new tag for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Tag"},"response":{"$ref":"Tag"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags","rpcMethod":"moderator.tags.list","httpMethod":"GET","description":"Lists all tags for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"TagList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
+    $this->topics = new apiServiceResource($this, $this->serviceName, 'topics', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/topics\/{topicId}","rpcMethod":"moderator.topics.get","httpMethod":"GET","description":"Returns the specified topic from the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"response":{"$ref":"Topic2"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/topics","rpcMethod":"moderator.topics.insert","httpMethod":"POST","description":"Inserts a new topic into the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"request":{"$ref":"Topic"},"response":{"$ref":"Topic"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/topics","rpcMethod":"moderator.topics.list","httpMethod":"GET","description":"Searches the topics within the specified series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"mode":{"restParameterType":"query","type":"string"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"TopicList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"series\/{seriesId}\/topics\/{topicId}","rpcMethod":"moderator.topics.update","httpMethod":"PUT","description":"Updates the specified topic within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"request":{"$ref":"Topic"},"response":{"$ref":"Topic"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}},"resources":{"submissions":{"methods":{"list":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions","rpcMethod":"moderator.topics.submissions.list","httpMethod":"GET","description":"Searches the submissions for the specified topic within the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"includeVotes":{"restParameterType":"query","description":"Specifies whether to include the current user\'s vote","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"response":{"$ref":"SubmissionList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
+    $this->votes = new apiServiceResource($this, $this->serviceName, 'votes', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.get","httpMethod":"GET","description":"Returns the votes by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"userId":{"restParameterType":"query","type":"string"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"Vote"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.insert","httpMethod":"POST","description":"Inserts a new vote by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Vote"},"response":{"$ref":"Vote"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/votes\/@me","rpcMethod":"moderator.votes.list","httpMethod":"GET","description":"Lists the votes by the authenticated user for the given series.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"VoteList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.update","httpMethod":"PUT","description":"Updates the votes by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"userId":{"restParameterType":"query","type":"string"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Vote"},"response":{"$ref":"Vote"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
   }
 
   /**
@@ -87,8 +87,16 @@ class apiModeratorService {
    * @param $postBody 
    * @param $anonymous   boolean Set to true to mark the new submission as anonymous.
    */
-  public function insertResponses($parentSubmissionId, $seriesId, $topicId, $postBody, $anonymous = null) {
-    return $this->responses->__call('insert', array(array('parentSubmissionId' => $parentSubmissionId, 'seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody, 'anonymous' => $anonymous)));
+  public function insertResponses($parentSubmissionId,
+        $seriesId,
+        $topicId,
+        $postBody,
+        $anonymous = null) {
+    return $this->responses->__call('insert', array(array('parentSubmissionId' => $parentSubmissionId,
+        'seriesId' => $seriesId,
+        'topicId' => $topicId,
+        'postBody' => $postBody,
+        'anonymous' => $anonymous)));
   }
 
   /**
@@ -103,8 +111,22 @@ class apiModeratorService {
    * @param $sort   string Sort order.
    * @param $start_index   integer Index of the first result to be retrieved.
    */
-  public function listResponses($seriesId, $submissionId, $author = null, $hasAttachedVideo = null, $max_results = null, $q = null, $sort = null, $start_index = null) {
-    return $this->responses->__call('list', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'author' => $author, 'hasAttachedVideo' => $hasAttachedVideo, 'max-results' => $max_results, 'q' => $q, 'sort' => $sort, 'start-index' => $start_index)));
+  public function listResponses($seriesId,
+        $submissionId,
+        $author = null,
+        $hasAttachedVideo = null,
+        $max_results = null,
+        $q = null,
+        $sort = null,
+        $start_index = null) {
+    return $this->responses->__call('list', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'author' => $author,
+        'hasAttachedVideo' => $hasAttachedVideo,
+        'max-results' => $max_results,
+        'q' => $q,
+        'sort' => $sort,
+        'start-index' => $start_index)));
   }
 
   /**
@@ -132,8 +154,12 @@ class apiModeratorService {
    * @param $q   string Search query.
    * @param $start_index   integer Index of the first result to be retrieved.
    */
-  public function listSeries($max_results = null, $q = null, $start_index = null) {
-    return $this->series->__call('list', array(array('max-results' => $max_results, 'q' => $q, 'start-index' => $start_index)));
+  public function listSeries($max_results = null,
+        $q = null,
+        $start_index = null) {
+    return $this->series->__call('list', array(array('max-results' => $max_results,
+        'q' => $q,
+        'start-index' => $start_index)));
   }
 
   /**
@@ -142,8 +168,10 @@ class apiModeratorService {
    * @param $seriesId   integer The decimal ID of the Series.
    * @param $postBody 
    */
-  public function updateSeries($seriesId, $postBody) {
-    return $this->series->__call('update', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
+  public function updateSeries($seriesId,
+        $postBody) {
+    return $this->series->__call('update', array(array('seriesId' => $seriesId,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -151,10 +179,17 @@ class apiModeratorService {
    *
    * @param $seriesId   integer The decimal ID of the Series.
    * @param $submissionId   integer The decimal ID of the Submission within the Series.
+   * @param $includeVotes   boolean Specifies whether to include the current user's vote
    * @param $lang   string The language code for the language the client prefers resuls in.
    */
-  public function getSubmissions($seriesId, $submissionId, $lang = null) {
-    return $this->submissions->__call('get', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'lang' => $lang)));
+  public function getSubmissions($seriesId,
+        $submissionId,
+        $includeVotes = null,
+        $lang = null) {
+    return $this->submissions->__call('get', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'includeVotes' => $includeVotes,
+        'lang' => $lang)));
   }
 
   /**
@@ -165,8 +200,14 @@ class apiModeratorService {
    * @param $postBody 
    * @param $anonymous   boolean Set to true to mark the new submission as anonymous.
    */
-  public function insertSubmissions($seriesId, $topicId, $postBody, $anonymous = null) {
-    return $this->submissions->__call('insert', array(array('seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody, 'anonymous' => $anonymous)));
+  public function insertSubmissions($seriesId,
+        $topicId,
+        $postBody,
+        $anonymous = null) {
+    return $this->submissions->__call('insert', array(array('seriesId' => $seriesId,
+        'topicId' => $topicId,
+        'postBody' => $postBody,
+        'anonymous' => $anonymous)));
   }
 
   /**
@@ -176,8 +217,12 @@ class apiModeratorService {
    * @param $submissionId   integer The decimal ID of the Submission within the Series.
    * @param $tagId   string 
    */
-  public function deleteTags($seriesId, $submissionId, $tagId) {
-    return $this->tags->__call('delete', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'tagId' => $tagId)));
+  public function deleteTags($seriesId,
+        $submissionId,
+        $tagId) {
+    return $this->tags->__call('delete', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'tagId' => $tagId)));
   }
 
   /**
@@ -187,8 +232,12 @@ class apiModeratorService {
    * @param $submissionId   integer The decimal ID of the Submission within the Series.
    * @param $postBody 
    */
-  public function insertTags($seriesId, $submissionId, $postBody) {
-    return $this->tags->__call('insert', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
+  public function insertTags($seriesId,
+        $submissionId,
+        $postBody) {
+    return $this->tags->__call('insert', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -197,8 +246,10 @@ class apiModeratorService {
    * @param $seriesId   integer The decimal ID of the Series.
    * @param $submissionId   integer The decimal ID of the Submission within the Series.
    */
-  public function listTags($seriesId, $submissionId) {
-    return $this->tags->__call('list', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId)));
+  public function listTags($seriesId,
+        $submissionId) {
+    return $this->tags->__call('list', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId)));
   }
 
   /**
@@ -207,8 +258,10 @@ class apiModeratorService {
    * @param $seriesId   integer The decimal ID of the Series.
    * @param $topicId   integer The decimal ID of the Topic within the Series.
    */
-  public function getTopics($seriesId, $topicId) {
-    return $this->topics->__call('get', array(array('seriesId' => $seriesId, 'topicId' => $topicId)));
+  public function getTopics($seriesId,
+        $topicId) {
+    return $this->topics->__call('get', array(array('seriesId' => $seriesId,
+        'topicId' => $topicId)));
   }
 
   /**
@@ -217,8 +270,10 @@ class apiModeratorService {
    * @param $seriesId   integer The decimal ID of the Series.
    * @param $postBody 
    */
-  public function insertTopics($seriesId, $postBody) {
-    return $this->topics->__call('insert', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
+  public function insertTopics($seriesId,
+        $postBody) {
+    return $this->topics->__call('insert', array(array('seriesId' => $seriesId,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -230,8 +285,16 @@ class apiModeratorService {
    * @param $q   string Search query.
    * @param $start_index   integer Index of the first result to be retrieved.
    */
-  public function listTopics($seriesId, $max_results = null, $mode = null, $q = null, $start_index = null) {
-    return $this->topics->__call('list', array(array('seriesId' => $seriesId, 'max-results' => $max_results, 'mode' => $mode, 'q' => $q, 'start-index' => $start_index)));
+  public function listTopics($seriesId,
+        $max_results = null,
+        $mode = null,
+        $q = null,
+        $start_index = null) {
+    return $this->topics->__call('list', array(array('seriesId' => $seriesId,
+        'max-results' => $max_results,
+        'mode' => $mode,
+        'q' => $q,
+        'start-index' => $start_index)));
   }
 
   /**
@@ -241,8 +304,12 @@ class apiModeratorService {
    * @param $topicId   integer The decimal ID of the Topic within the Series.
    * @param $postBody 
    */
-  public function updateTopics($seriesId, $topicId, $postBody) {
-    return $this->topics->__call('update', array(array('seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody)));
+  public function updateTopics($seriesId,
+        $topicId,
+        $postBody) {
+    return $this->topics->__call('update', array(array('seriesId' => $seriesId,
+        'topicId' => $topicId,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -252,8 +319,12 @@ class apiModeratorService {
    * @param $submissionId   integer The decimal ID of the Submission within the Series.
    * @param $userId   string 
    */
-  public function getVotes($seriesId, $submissionId, $userId = null) {
-    return $this->votes->__call('get', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'userId' => $userId)));
+  public function getVotes($seriesId,
+        $submissionId,
+        $userId = null) {
+    return $this->votes->__call('get', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'userId' => $userId)));
   }
 
   /**
@@ -263,8 +334,12 @@ class apiModeratorService {
    * @param $submissionId   integer The decimal ID of the Submission within the Series.
    * @param $postBody 
    */
-  public function insertVotes($seriesId, $submissionId, $postBody) {
-    return $this->votes->__call('insert', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
+  public function insertVotes($seriesId,
+        $submissionId,
+        $postBody) {
+    return $this->votes->__call('insert', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'postBody' => $postBody)));
   }
 
   /**
@@ -274,8 +349,12 @@ class apiModeratorService {
    * @param $max_results   integer Maximum number of results to return.
    * @param $start_index   integer Index of the first result to be retrieved.
    */
-  public function listVotes($seriesId, $max_results = null, $start_index = null) {
-    return $this->votes->__call('list', array(array('seriesId' => $seriesId, 'max-results' => $max_results, 'start-index' => $start_index)));
+  public function listVotes($seriesId,
+        $max_results = null,
+        $start_index = null) {
+    return $this->votes->__call('list', array(array('seriesId' => $seriesId,
+        'max-results' => $max_results,
+        'start-index' => $start_index)));
   }
 
   /**
@@ -286,8 +365,14 @@ class apiModeratorService {
    * @param $postBody 
    * @param $userId   string 
    */
-  public function updateVotes($seriesId, $submissionId, $postBody, $userId = null) {
-    return $this->votes->__call('update', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody, 'userId' => $userId)));
+  public function updateVotes($seriesId,
+        $submissionId,
+        $postBody,
+        $userId = null) {
+    return $this->votes->__call('update', array(array('seriesId' => $seriesId,
+        'submissionId' => $submissionId,
+        'postBody' => $postBody,
+        'userId' => $userId)));
   }
 
   /**

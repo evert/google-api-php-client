@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ class apiLatitudeService {
   // Variables that the apiServiceResource implementation depends on
   private $serviceName = 'latitude';
   private $version = 'v1';
-  private $restBasePath = 'https://www.googleapis.com/latitude/v1/';
-  private $rpcPath = 'https://www.googleapis.com/rpc';
+  private $restBasePath = '/latitude/v1/';
+  private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
   private $currentLocation;
@@ -39,8 +39,8 @@ class apiLatitudeService {
   public function __construct(apiClient $apiClient) {
     $apiClient->addService('latitude', 'v1');
     $this->io = $apiClient->getIo();
-    $this->currentLocation = new apiServiceResource($this, $this->serviceName, 'currentLocation', json_decode('{"methods":{"delete":{"restPath":"currentLocation","rpcMethod":"latitude.currentLocation.delete","httpMethod":"DELETE","description":"Deletes the authenticated user\'s current location."},"get":{"restPath":"currentLocation","rpcMethod":"latitude.currentLocation.get","httpMethod":"GET","description":"Returns the authenticated user\'s current location.","parameters":{"granularity":{"restParameterType":"query","description":"Granularity of the requested location.","type":"string"}},"response":{"$ref":"LatitudeCurrentlocationResourceJson"}},"insert":{"restPath":"currentLocation","rpcMethod":"latitude.currentLocation.insert","httpMethod":"POST","description":"Updates or creates the user\'s current location.","request":{"$ref":"LatitudeCurrentlocationResourceJson"},"response":{"$ref":"LatitudeCurrentlocationResourceJson"}}}}', true));
-    $this->location = new apiServiceResource($this, $this->serviceName, 'location', json_decode('{"methods":{"delete":{"restPath":"location\/{locationId}","rpcMethod":"latitude.location.delete","httpMethod":"DELETE","description":"Deletes a location from the user\'s location history.","parameters":{"locationId":{"restParameterType":"path","required":true,"description":"Timestamp of the location to delete (ms since epoch).","type":"string"}},"parameterOrder":["locationId"]},"get":{"restPath":"location\/{locationId}","rpcMethod":"latitude.location.get","httpMethod":"GET","description":"Reads a location from the user\'s location history.","parameters":{"granularity":{"restParameterType":"query","description":"Granularity of the location to return.","type":"string"},"locationId":{"restParameterType":"path","required":true,"description":"Timestamp of the location to read (ms since epoch).","type":"string"}},"parameterOrder":["locationId"],"response":{"$ref":"Location"}},"insert":{"restPath":"location","rpcMethod":"latitude.location.insert","httpMethod":"POST","description":"Inserts or updates a location in the user\'s location history.","request":{"$ref":"Location"},"response":{"$ref":"Location"}},"list":{"restPath":"location","rpcMethod":"latitude.location.list","httpMethod":"GET","description":"Lists the user\'s location history.","parameters":{"granularity":{"restParameterType":"query","description":"Granularity of the requested locations.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of locations to return.","type":"string"},"max-time":{"restParameterType":"query","description":"Maximum timestamp of locations to return (ms since epoch).","type":"string"},"min-time":{"restParameterType":"query","description":"Minimum timestamp of locations to return (ms since epoch).","type":"string"}},"response":{"$ref":"LocationFeed"}}}}', true));
+    $this->currentLocation = new apiServiceResource($this, $this->serviceName, 'currentLocation', json_decode('{"methods":{"delete":{"restPath":"currentLocation","rpcMethod":"latitude.currentLocation.delete","httpMethod":"DELETE","description":"Deletes the authenticated user\'s current location.","scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]},"get":{"restPath":"currentLocation","rpcMethod":"latitude.currentLocation.get","httpMethod":"GET","description":"Returns the authenticated user\'s current location.","parameters":{"granularity":{"restParameterType":"query","description":"Granularity of the requested location.","type":"string"}},"response":{"$ref":"LatitudeCurrentlocationResourceJson"},"scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]},"insert":{"restPath":"currentLocation","rpcMethod":"latitude.currentLocation.insert","httpMethod":"POST","description":"Updates or creates the user\'s current location.","request":{"$ref":"LatitudeCurrentlocationResourceJson"},"response":{"$ref":"LatitudeCurrentlocationResourceJson"},"scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]}}}', true));
+    $this->location = new apiServiceResource($this, $this->serviceName, 'location', json_decode('{"methods":{"delete":{"restPath":"location\/{locationId}","rpcMethod":"latitude.location.delete","httpMethod":"DELETE","description":"Deletes a location from the user\'s location history.","parameters":{"locationId":{"restParameterType":"path","required":true,"description":"Timestamp of the location to delete (ms since epoch).","type":"string"}},"parameterOrder":["locationId"],"scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]},"get":{"restPath":"location\/{locationId}","rpcMethod":"latitude.location.get","httpMethod":"GET","description":"Reads a location from the user\'s location history.","parameters":{"granularity":{"restParameterType":"query","description":"Granularity of the location to return.","type":"string"},"locationId":{"restParameterType":"path","required":true,"description":"Timestamp of the location to read (ms since epoch).","type":"string"}},"parameterOrder":["locationId"],"response":{"$ref":"Location"},"scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]},"insert":{"restPath":"location","rpcMethod":"latitude.location.insert","httpMethod":"POST","description":"Inserts or updates a location in the user\'s location history.","request":{"$ref":"Location"},"response":{"$ref":"Location"},"scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]},"list":{"restPath":"location","rpcMethod":"latitude.location.list","httpMethod":"GET","description":"Lists the user\'s location history.","parameters":{"granularity":{"restParameterType":"query","description":"Granularity of the requested locations.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of locations to return.","type":"string"},"max-time":{"restParameterType":"query","description":"Maximum timestamp of locations to return (ms since epoch).","type":"string"},"min-time":{"restParameterType":"query","description":"Minimum timestamp of locations to return (ms since epoch).","type":"string"}},"response":{"$ref":"LocationFeed"},"scopes":["https:\/\/www.googleapis.com\/auth\/latitude"]}}}', true));
   }
 
   /**
@@ -84,8 +84,10 @@ class apiLatitudeService {
    * @param $locationId   string Timestamp of the location to read (ms since epoch).
    * @param $granularity   string Granularity of the location to return.
    */
-  public function getLocation($locationId, $granularity = null) {
-    return $this->location->__call('get', array(array('locationId' => $locationId, 'granularity' => $granularity)));
+  public function getLocation($locationId,
+        $granularity = null) {
+    return $this->location->__call('get', array(array('locationId' => $locationId,
+        'granularity' => $granularity)));
   }
 
   /**
@@ -105,8 +107,14 @@ class apiLatitudeService {
    * @param $max_time   string Maximum timestamp of locations to return (ms since epoch).
    * @param $min_time   string Minimum timestamp of locations to return (ms since epoch).
    */
-  public function listLocation($granularity = null, $max_results = null, $max_time = null, $min_time = null) {
-    return $this->location->__call('list', array(array('granularity' => $granularity, 'max-results' => $max_results, 'max-time' => $max_time, 'min-time' => $min_time)));
+  public function listLocation($granularity = null,
+        $max_results = null,
+        $max_time = null,
+        $min_time = null) {
+    return $this->location->__call('list', array(array('granularity' => $granularity,
+        'max-results' => $max_results,
+        'max-time' => $max_time,
+        'min-time' => $min_time)));
   }
 
   /**
