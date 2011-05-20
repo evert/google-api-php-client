@@ -69,7 +69,7 @@ class apiClient {
   protected $auth;
   protected $io;
   protected $cache;
-  protected $scopes = false;
+  protected $scopes = array();
 
   // definitions of services that are discover()'rd
   protected $services = array();
@@ -123,7 +123,11 @@ class apiClient {
     } else {
       foreach ($this->services as $key => $val) {
         if (isset($val['scope'])) {
-          $scopes[] = $val['scope'];
+          if (is_array($val['scope'])) {
+            $scopes = array_merge($val['scope'], $scopes);
+          } else {
+            $scopes[] = $val['scope'];
+          }
         } else {
           $scopes[] = 'https://www.googleapis.com/auth/' . $key;
         }
@@ -158,10 +162,10 @@ class apiClient {
   /**
    * This function allows you to overrule the automatically generated scopes, so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!
-   * @param string $scopes, ie: "https://www.googleapis.com/auth/buzz https://www.googleapis.com/auth/latitude https://www.googleapis.com/auth/moderator"
+   * @param array $scopes, ie: array('https://www.googleapis.com/auth/buzz', 'https://www.googleapis.com/auth/latitude', 'https://www.googleapis.com/auth/moderator')
    */
   public function setScopes($scopes) {
-    $this->scopes = $scopes;
+    $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
   }
 
   private function discoverService($serviceName, $serviceURI) {
