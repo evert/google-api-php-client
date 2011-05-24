@@ -59,11 +59,26 @@ class apiServiceResource {
     // postBody is a special case since it's not defined in the discovery document as parameter, but we abuse the param entry for storing it
     $postBody = null;
     if (isset($parameters['postBody'])) {
-      // If the postBody is not a raw json string, json encode it for transport
+      if (is_object($parameters['postBody'])) {
+        $parameters['postBody'] = (array) $parameters['postBody'];
+        foreach($parameters['postBody'] as $k => $v) {
+          if (null === $v) {
+           unset($parameters['postBody'][$k]);
+          }
+        }
+      }
+
+      if (is_array($parameters['postBody'])) {
+        if (!isset($parameters['postBody']['data'])) {
+          $rawBody = $parameters['postBody'];
+          unset($parameters['postBody']);
+          $parameters['postBody']['data'] = $rawBody;
+        }
+      }
+
       $postBody = is_array($parameters['postBody']) || is_object($parameters['postBody']) ? json_encode($parameters['postBody']) : $parameters['postBody'];
       // remove from the parameter list so not to trip up the param entry checking & make sure it doesn't end up on the query
       unset($parameters['postBody']);
-      //FIXME Should really add the magic array('data' => ..real stuff ..) wrapper around the request as to not bother developers with it
     }
     foreach ($parameters as $key => $val) {
       if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
