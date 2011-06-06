@@ -68,7 +68,8 @@ class apiServiceResource {
         }
       }
 
-      if (is_array($parameters['postBody'])) {
+      // Some APIs require the postBody to be set under the data key.
+      if (is_array($parameters['postBody']) && 'buzz' == $this->serviceName) {
         if (!isset($parameters['postBody']['data'])) {
           $rawBody = $parameters['postBody'];
           unset($parameters['postBody']);
