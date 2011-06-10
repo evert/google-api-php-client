@@ -70,15 +70,19 @@ class apiOAuth2 extends apiAuth {
       }
     }
     // This is the initial authenticate() call, go through the authorization flow
+    $authUrl = $this->createAuthUrl($service);
+    header('Location: ' . $authUrl);
+  }
+
+  public function createAuthUrl($service) {
     $params = array(
     	'response_type=code',
     	'redirect_uri=' . urlencode($this->RedirectUri),
-        'client_id=' . urlencode($this->ClientId),
-        'scope=' . urlencode($service['scope'])
+      'client_id=' . urlencode($this->ClientId),
+      'scope=' . urlencode($service['scope'])
     );
     $params = implode('&', $params);
-    $authenticationUrl = "https://www.google.com/accounts/o8/oauth2/authorization?$params";
-    header('Location: ' . $authenticationUrl);
+    return "https://www.google.com/accounts/o8/oauth2/authorization?$params";
   }
 
   public function setAccessToken($accessToken) {
