@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,53 +16,58 @@
  */
 
 require_once '../src/apiClient.php';
-require_once '../src/contrib/apiBuzzService.php';
+require_once '../src/contrib/apiUrlshortenerService.php';
 
-// These variables are shared between all the buzz test cases as performance optimization
-$apiBuzzTest_apiClient = null;
-$apiBuzzTest_buzz = null;
+// These variables are shared between all the tasks
+// test cases as performance optimization.
+$apiClient = null;
+$tasks = null;
 
-class apiBuzzTest extends PHPUnit_Framework_TestCase {
-
+class UrlShortenerTests extends PHPUnit_Framework_TestCase {
   public $apiClient;
   public $oauthToken;
-  public $buzz;
-
+  public $service;
   private $origConfig = false;
 
   public function __construct() {
-    global $apiConfig, $apiBuzzTest_apiClient, $apiBuzzTest_buzz;
+    global $apiConfig, $apiClient, $service;
     parent::__construct();
 
-    if (! $apiBuzzTest_apiClient || ! $apiBuzzTest_buzz) {
-
+    if (! $apiClient || ! $service) {
       $this->origConfig = $apiConfig;
-      // Set up a predictable, default envirioment so the test results are predictable
+      // Set up a predictable, default environment so the test results are predictable
       //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
       //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
       $apiConfig['authClass'] = 'apiOAuth2';
-
-     
       $apiConfig['ioClass'] = 'apiCurlIO';
       $apiConfig['cacheClass'] = 'apiFileCache';
       $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
 
-      // create the global api and buzz clients (which are shared between the various buzz test suites for performance reasons)
-      $apiBuzzTest_apiClient = new apiClient();
-      $apiBuzzTest_buzz = new apiBuzzService($apiBuzzTest_apiClient);
-      $apiBuzzTest_apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      $apiClient = new apiClient();
+      $service = new apiUrlshortenerService($apiClient);
+      $apiClient->setAccessToken($apiConfig['oauth_test_token']);
     }
-    $this->apiClient = $apiBuzzTest_apiClient;
-    $this->buzz = $apiBuzzTest_buzz;
+    $this->apiClient = $apiClient;
+    $this->service = $service;
   }
 
   public function __destruct() {
     global $apiConfig;
-    $this->buzz = null;
+    $this->service = null;
     $this->apiClient = null;
     if ($this->origConfig) {
       $apiConfig = $this->origConfig;
     }
   }
 
+  public function testUrlShort() {
+    $urlApi = $this->service->url;
+    $url = new Url();
+    $url->longUrl = "http://google.com";
+
+    $shortUrl = $urlApi->insert($url);
+
+    $this->assertEquals('urlshortener#url', $shortUrl['kind']);
+    $this->assertEquals('http://google.com/', $shortUrl['longUrl']);
+  }
 }

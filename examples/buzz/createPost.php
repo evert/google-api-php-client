@@ -14,15 +14,13 @@ if (isset($_SESSION['oauth_access_token'])) {
   $_SESSION['oauth_access_token'] = $token;
 }
 
-$post = array(
-  'data' => array(
-     'object' => array(
-        'type' => 'note',
-        'content' => 'Testing the Google API PHP Client library'
-      )
-  )
-);
+$activityObj = new ActivityObject();
+$activityObj->setContent('Testing the Google API PHP Client library');
+$activityObj->setType('note');
 
-$newPost = $apiClient->buzz->activities->insert(array('userId' => '@me', 'postBody' => $post));
+$activity = new Activity();
+$activity->setObject($activityObj);
+
+$newPost = $buzz->activities->insert('@me', $activity);
 
 echo "<pre>post created:\n".print_r($newPost, true)."\n</pre>";

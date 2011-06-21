@@ -22,7 +22,7 @@ class ActivitiesTest extends apiBuzzTest {
 
   public function testGetPublicStream() {
     global $apiConfig;
-    $activities = $this->buzz->listActivities('@self', $apiConfig['oauth_test_user']);
+    $activities = $this->buzz->activities->listActivities('@self', $apiConfig['oauth_test_user']);
     $this->evaluateActivitiesStream($activities);
   }
 
@@ -31,13 +31,16 @@ class ActivitiesTest extends apiBuzzTest {
    */
   public function testInsertUpdateAndDeleteActivity() {
     global $apiConfig;
-    $post = array(
-        'data' => array(
-            'object' => array('type' => 'note',
-                'content' => 'Running Google API PHP Client unit-tests')));
+
+    $object = new ActivityObject();
+    $object->type = 'note';
+    $object->content = 'Running Google API PHP Client unit-tests';
+    
+    $activity = new Activity();
+    $activity->object = $object;
 
     // create an activity
-    $activity = $this->buzz->insertActivities($apiConfig['oauth_test_user'], $post);
+    $activity = $this->buzz->activities->insert($apiConfig['oauth_test_user'], $activity);
 
     // see if what we got back is actually an  activity
     $this->assertArrayHasKey('kind', $activity);
@@ -66,7 +69,7 @@ class ActivitiesTest extends apiBuzzTest {
 
     // see if the post shows up in the @me/@self activities
     $foundActivity = false;
-    $activities = $this->buzz->listActivities('@self', '@me');
+    $activities = $this->buzz->activities->listActivities('@self', '@me');
     foreach ($activities['items'] as $item) {
       if (isset($item['object']['content']) && $item['object']['content'] == 'Running Google API PHP Client unit-tests') {
         $foundActivity = true;
@@ -76,7 +79,7 @@ class ActivitiesTest extends apiBuzzTest {
     $this->assertTrue($foundActivity);
 
     // test single activity retrieving
-    $newActivity = $this->buzz->getActivities($activity['id'], $apiConfig['oauth_test_user']);
+    $newActivity = $this->buzz->activities->get($activity['id'], $apiConfig['oauth_test_user']);
 
     // when you are the author of a buzz post, it returns a 'originalContent' field with the non-link--and-names-expanded, original content (used for editing)
     $this->assertArrayHasKey('originalContent', $newActivity['object']);
@@ -89,7 +92,11 @@ class ActivitiesTest extends apiBuzzTest {
 
     // test updating the activity
     $activity['object']['content'] = 'Google API PHP Client unit-test with updated content';
-    $newActivity = $this->buzz->updateActivities($activity['id'], '@self', $apiConfig['oauth_test_user'], array('data' => $activity));
+
+    $updated = new Activity();
+    $updated->actor = $activity['actor'];
+    $updated->object = $activity['object'];
+    $newActivity = $this->buzz->activities->update($activity['id'], '@self', $apiConfig['oauth_test_user'], $updated);
 
     // see if the ID & published are the same, and published and the object are updated
     $this->assertEquals($newActivity['id'], $activity['id']);
@@ -99,7 +106,7 @@ class ActivitiesTest extends apiBuzzTest {
     $this->assertNotEquals($newActivity['updated'], $activity['updated']);
 
     // test deleteActivities
-    $this->buzz->deleteActivities($activity['id'], '@self', $apiConfig['oauth_test_user']);
+    $this->buzz->activities->delete($activity['id'], '@self', $apiConfig['oauth_test_user']);
   }
 
   /**
@@ -113,7 +120,7 @@ class ActivitiesTest extends apiBuzzTest {
     $buzz = new apiBuzzService($apiClient);
     $apiClient->setAccessToken($apiConfig['oauth_test_token']);
     // fetch the unauthenticated, public activity streamn
-    $activities = $buzz->listActivities('@public', $apiConfig['oauth_test_user']);
+    $activities = $buzz->activities->listActivities('@public', $apiConfig['oauth_test_user']);
     // and evaluate it
     $this->evaluateActivitiesStream($activities);
     // restore the default Auth class & clean up
@@ -122,7 +129,7 @@ class ActivitiesTest extends apiBuzzTest {
   }
 
   public function testKeywordSearch() {
-    $activities = $this->buzz->searchActivities(null, null, null, null, null, 10, null, 'google');
+    $activities = $this->buzz->activities->search(null, null, null, null, null, 10, null, 'google');
     $this->evaluateActivitiesStream($activities);
   }
 
@@ -131,7 +138,7 @@ class ActivitiesTest extends apiBuzzTest {
    */
   public function testLocationSearch() {
     // a 5000 meter radius around Mountain View, CA, USA
-    $activities = $this->buzz->searchActivities(null, null, null, '122.0843', '37.4220', 10, null, null, '5000');
+    $activities = $this->buzz->activities->search(null, null, null, '122.0843', '37.4220', 10, null, null, '5000');
     $this->evaluateActivitiesStream($activities);
   }
 

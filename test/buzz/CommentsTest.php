@@ -26,7 +26,7 @@ class CommentsTest extends apiBuzzTest {
   public function setUp() {
     if (! $this->activityId) {
       // find an activity in the @publicstream with comments that we can test with
-      $activities = $this->buzz->listActivities('@public', '@me', null, null, 100);
+      $activities = $this->buzz->activities->listActivities('@public', '@me', null, null, 100);
       if (isset($activities['items']) && count($activities['items'])) {
         foreach ($activities['items'] as $activity) {
           if (isset($activity['links']['replies'][0]) && (int)$activity['links']['replies'][0]['count'] > 0) {
@@ -43,7 +43,7 @@ class CommentsTest extends apiBuzzTest {
 
   public function testListAndGetComments() {
     // check the basic comments feed for the activity selected activity
-    $comments = $this->buzz->listComments($this->activityId, '@self', '@me', null, null, 20);
+    $comments = $this->buzz->comments->listComments($this->activityId, '@self', '@me', null, null, 20);
     $this->assertArrayHasKey('kind', $comments);
     $this->assertEquals('buzz#commentFeed', $comments['kind']);
     $this->assertArrayHasKey('links', $comments);
@@ -58,7 +58,7 @@ class CommentsTest extends apiBuzzTest {
     $this->evaluateComment($comment);
 
     // test getComments()
-    $comment = $this->buzz->getComments($comment['id'], $this->activityId, '@self');
+    $comment = $this->buzz->comments->get($comment['id'], $this->activityId, '@self');
     $this->evaluateComment($comment);
   }
 
@@ -67,19 +67,19 @@ class CommentsTest extends apiBuzzTest {
    */
   public function testInsertUpdateAndDeleteComments() {
     // test insert
-    $comment = $this->buzz->insertComments($this->activityId, '@self', array('data' => array('content' => 'Testing insertComment()')));
+    $comment = $this->buzz->comments->insert($this->activityId, '@self', array('data' => array('content' => 'Testing insertComment()')));
     $this->evaluateComment($comment);
     $this->assertEquals('Testing insertComment()', $comment['content']);
     $this->assertEquals('Testing insertComment()', $comment['originalContent']);
 
     // test update
-    $comment = $this->buzz->updateComments($comment['id'], $this->activityId, '@self', '@me', array('data' => array('content' => 'Testing updateComment()')));
+    $comment = $this->buzz->comments->update($comment['id'], $this->activityId, '@self', '@me', array('data' => array('content' => 'Testing updateComment()')));
     $this->evaluateComment($comment);
     $this->assertEquals('Testing updateComment()', $comment['content']);
     $this->assertEquals('Testing updateComment()', $comment['originalContent']);
 
     // test delete
-    $this->buzz->deleteComments($comment['id'], $this->activityId, '@me');
+    $this->buzz->comments->delete($comment['id'], $this->activityId, '@me');
   }
 
   private function evaluateComment($comment) {

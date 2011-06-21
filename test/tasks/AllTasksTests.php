@@ -18,27 +18,13 @@
  * under the License.
  */
 
-require_once "apiBuzzTest.php";
-require_once "ActivitiesTest.php";
-require_once "CommentsTest.php";
-require_once "RelatedTest.php";
-require_once "PeopleTest.php";
-require_once "GroupsTest.php";
-require_once "PhotosTest.php";
-require_once "FeedsTest.php";
+require_once 'TasksTest.php';
 
-class BuzzTests extends PHPUnit_Framework_TestSuite {
-
+class AllTasksTests extends PHPUnit_Framework_TestSuite {
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite();
-    $suite->setName('Google Buzz API tests');
-    $suite->addTestSuite('ActivitiesTest');
-    $suite->addTestSuite('CommentsTest');
-    $suite->addTestSuite('RelatedTest');
-    $suite->addTestSuite('GroupsTest');
-    $suite->addTestSuite('PeopleTest');
-    $suite->addTestSuite('PhotosTest');
-    $suite->addTestSuite('FeedsTest');
+    $suite->setName('Google Tasks API tests');
+    $suite->addTestSuite('TasksTest');
     return $suite;
   }
 }

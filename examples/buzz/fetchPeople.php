@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once "../src/apiClient.php";
-require_once "../src/contrib/apiBuzzService.php";
+require_once "../../src/apiClient.php";
+require_once "../../src/contrib/apiBuzzService.php";
 
 $apiClient = new apiClient();
 $buzz = new apiBuzzService($apiClient);
@@ -15,6 +15,6 @@ if (isset($_SESSION['oauth_access_token'])) {
   $_SESSION['oauth_access_token'] = $token;
 }
 
-$activities = $buzz->listActivities('@consumption', '@me');
+$people = $buzz->people->listPeople('@following', '@me');
 
-echo "<pre>" . print_r($activities, true) . "</pre>";
+echo "<pre>" . print_r($people, true) . "</pre>";

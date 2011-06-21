@@ -15,627 +15,2097 @@
  * limitations under the License.
  */
 
+
+require_once 'service/apiServiceRequest.php';
+
+
+  /**
+   * The "votes" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $votes = $moderatorService->votes;
+   *  </code>
+   */
+  class VotesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a new vote by the authenticated user for the specified submission within the specified
+     * series. (votes.insert)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     * @param $postBody the {@link Vote}
+     */
+    public function insert($seriesId, $submissionId, Vote $postBody) {
+      return $this->__call('insert', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
+    }
+    /**
+     * Updates the votes by the authenticated user for the specified submission within the specified
+     * series. This method supports patch semantics. (votes.patch)
+     *
+     * @param  $userId
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     * @param $postBody the {@link Vote}
+     */
+    public function patch($seriesId, $submissionId, Vote $postBody, $userId = null) {
+      return $this->__call('patch', array(array('userId' => $userId, 'seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
+    }
+    /**
+     * Lists the votes by the authenticated user for the given series. (votes.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $start_index Index of the first result to be retrieved.
+     * @param  $seriesId The decimal ID of the Series.
+     */
+    public function listVotes($seriesId, $max_results = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'start-index' => $start_index, 'seriesId' => $seriesId)));
+    }
+    /**
+     * Updates the votes by the authenticated user for the specified submission within the specified
+     * series. (votes.update)
+     *
+     * @param  $userId
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     * @param $postBody the {@link Vote}
+     */
+    public function update($seriesId, $submissionId, Vote $postBody, $userId = null) {
+      return $this->__call('update', array(array('userId' => $userId, 'seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
+    }
+    /**
+     * Returns the votes by the authenticated user for the specified submission within the specified
+     * series. (votes.get)
+     *
+     * @param  $userId
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     */
+    public function get($seriesId, $submissionId, $userId = null) {
+      return $this->__call('get', array(array('userId' => $userId, 'seriesId' => $seriesId, 'submissionId' => $submissionId)));
+    }
+  }
+
+  /**
+   * The "responses" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $responses = $moderatorService->responses;
+   *  </code>
+   */
+  class ResponsesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a response for the specified submission in the specified topic within the specified
+     * series. (responses.insert)
+     *
+     * @param  $anonymous Set to true to mark the new submission as anonymous.
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $topicId The decimal ID of the Topic within the Series.
+     * @param  $parentSubmissionId The decimal ID of the parent Submission within the Series.
+     * @param $postBody the {@link Submission}
+     */
+    public function insert($parentSubmissionId, $seriesId, $topicId, Submission $postBody, $anonymous = null) {
+      return $this->__call('insert', array(array('anonymous' => $anonymous, 'seriesId' => $seriesId, 'topicId' => $topicId, 'parentSubmissionId' => $parentSubmissionId, 'postBody' => $postBody)));
+    }
+    /**
+     * Lists or searches the responses for the specified submission within the specified series and
+     * returns the search results. (responses.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $sort Sort order.
+     * @param  $author Restricts the results to submissions by a specific author.
+     * @param  $start_index Index of the first result to be retrieved.
+     * @param  $q Search query.
+     * @param  $hasAttachedVideo Specifies whether to restrict to submissions that have videos attached.
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     */
+    public function listResponses($seriesId, $submissionId, $author = null, $hasAttachedVideo = null, $max_results = null, $q = null, $sort = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'sort' => $sort, 'author' => $author, 'start-index' => $start_index, 'q' => $q, 'hasAttachedVideo' => $hasAttachedVideo, 'seriesId' => $seriesId, 'submissionId' => $submissionId)));
+    }
+  }
+
+  /**
+   * The "tags" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $tags = $moderatorService->tags;
+   *  </code>
+   */
+  class TagsServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a new tag for the specified submission within the specified series. (tags.insert)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     * @param $postBody the {@link Tag}
+     */
+    public function insert($seriesId, $submissionId, Tag $postBody) {
+      return $this->__call('insert', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody)));
+    }
+    /**
+     * Lists all tags for the specified submission within the specified series. (tags.list)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     */
+    public function listTags($seriesId, $submissionId) {
+      return $this->__call('list', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId)));
+    }
+    /**
+     * Deletes the specified tag from the specified submission within the specified series.
+     * (tags.delete)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     * @param  $tagId
+     */
+    public function delete($seriesId, $submissionId, $tagId) {
+      return $this->__call('delete', array(array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'tagId' => $tagId)));
+    }
+  }
+
+  /**
+   * The "series" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $series = $moderatorService->series;
+   *  </code>
+   */
+  class SeriesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a new series. (series.insert)
+     *
+     * @param $postBody the {@link Series}
+     */
+    public function insert(Series $postBody) {
+      return $this->__call('insert', array(array('postBody' => $postBody)));
+    }
+    /**
+     * Updates the specified series. This method supports patch semantics. (series.patch)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param $postBody the {@link Series}
+     */
+    public function patch($seriesId, Series $postBody) {
+      return $this->__call('patch', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
+    }
+    /**
+     * Searches the series and returns the search results. (series.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $q Search query.
+     * @param  $start_index Index of the first result to be retrieved.
+     */
+    public function listSeries($max_results = null, $q = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'q' => $q, 'start-index' => $start_index)));
+    }
+    /**
+     * Updates the specified series. (series.update)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param $postBody the {@link Series}
+     */
+    public function update($seriesId, Series $postBody) {
+      return $this->__call('update', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
+    }
+    /**
+     * Returns the specified series. (series.get)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     */
+    public function get($seriesId) {
+      return $this->__call('get', array(array('seriesId' => $seriesId)));
+    }
+  }
+
+
+  /**
+   * The "submissions" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $submissions = $moderatorService->submissions;
+   *  </code>
+   */
+  class SeriesSubmissionsServiceResource extends apiServiceResource {
+
+
+    /**
+     * Searches the submissions for the specified series and returns the search results.
+     * (submissions.list)
+     *
+     * @param  $lang The language code for the language the client prefers resuls in.
+     * @param  $max_results Maximum number of results to return.
+     * @param  $includeVotes Specifies whether to include the current user's vote
+     * @param  $start_index Index of the first result to be retrieved.
+     * @param  $author Restricts the results to submissions by a specific author.
+     * @param  $sort Sort order.
+     * @param  $q Search query.
+     * @param  $hasAttachedVideo Specifies whether to restrict to submissions that have videos attached.
+     * @param  $seriesId The decimal ID of the Series.
+     */
+    public function listSeriesSubmissions($seriesId, $author = null, $hasAttachedVideo = null, $includeVotes = null, $lang = null, $max_results = null, $q = null, $sort = null, $start_index = null) {
+      return $this->__call('list', array(array('lang' => $lang, 'max-results' => $max_results, 'includeVotes' => $includeVotes, 'start-index' => $start_index, 'author' => $author, 'sort' => $sort, 'q' => $q, 'hasAttachedVideo' => $hasAttachedVideo, 'seriesId' => $seriesId)));
+    }
+  }
+  /**
+   * The "responses" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $responses = $moderatorService->responses;
+   *  </code>
+   */
+  class SeriesResponsesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Searches the responses for the specified series and returns the search results. (responses.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $sort Sort order.
+     * @param  $author Restricts the results to submissions by a specific author.
+     * @param  $start_index Index of the first result to be retrieved.
+     * @param  $q Search query.
+     * @param  $hasAttachedVideo Specifies whether to restrict to submissions that have videos attached.
+     * @param  $seriesId The decimal ID of the Series.
+     */
+    public function listSeriesResponses($seriesId, $author = null, $hasAttachedVideo = null, $max_results = null, $q = null, $sort = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'sort' => $sort, 'author' => $author, 'start-index' => $start_index, 'q' => $q, 'hasAttachedVideo' => $hasAttachedVideo, 'seriesId' => $seriesId)));
+    }
+  }
+
+  /**
+   * The "topics" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $topics = $moderatorService->topics;
+   *  </code>
+   */
+  class TopicsServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a new topic into the specified series. (topics.insert)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param $postBody the {@link Topic}
+     */
+    public function insert($seriesId, Topic $postBody) {
+      return $this->__call('insert', array(array('seriesId' => $seriesId, 'postBody' => $postBody)));
+    }
+    /**
+     * Searches the topics within the specified series and returns the search results. (topics.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $q Search query.
+     * @param  $start_index Index of the first result to be retrieved.
+     * @param  $mode
+     * @param  $seriesId The decimal ID of the Series.
+     */
+    public function listTopics($seriesId, $max_results = null, $mode = null, $q = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'q' => $q, 'start-index' => $start_index, 'mode' => $mode, 'seriesId' => $seriesId)));
+    }
+    /**
+     * Updates the specified topic within the specified series. (topics.update)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $topicId The decimal ID of the Topic within the Series.
+     * @param $postBody the {@link Topic}
+     */
+    public function update($seriesId, $topicId, Topic $postBody) {
+      return $this->__call('update', array(array('seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody)));
+    }
+    /**
+     * Returns the specified topic from the specified series. (topics.get)
+     *
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $topicId The decimal ID of the Topic within the Series.
+     */
+    public function get($seriesId, $topicId) {
+      return $this->__call('get', array(array('seriesId' => $seriesId, 'topicId' => $topicId)));
+    }
+  }
+
+
+  /**
+   * The "submissions" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $submissions = $moderatorService->submissions;
+   *  </code>
+   */
+  class TopicsSubmissionsServiceResource extends apiServiceResource {
+
+
+    /**
+     * Searches the submissions for the specified topic within the specified series and returns the
+     * search results. (submissions.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $includeVotes Specifies whether to include the current user's vote
+     * @param  $start_index Index of the first result to be retrieved.
+     * @param  $author Restricts the results to submissions by a specific author.
+     * @param  $sort Sort order.
+     * @param  $q Search query.
+     * @param  $hasAttachedVideo Specifies whether to restrict to submissions that have videos attached.
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $topicId The decimal ID of the Topic within the Series.
+     */
+    public function listTopicsSubmissions($seriesId, $topicId, $author = null, $hasAttachedVideo = null, $includeVotes = null, $max_results = null, $q = null, $sort = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'includeVotes' => $includeVotes, 'start-index' => $start_index, 'author' => $author, 'sort' => $sort, 'q' => $q, 'hasAttachedVideo' => $hasAttachedVideo, 'seriesId' => $seriesId, 'topicId' => $topicId)));
+    }
+  }
+
+  /**
+   * The "global" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $global = $moderatorService->global;
+   *  </code>
+   */
+  class ModeratorGlobalServiceResource extends apiServiceResource {
+
+
+  }
+
+
+  /**
+   * The "series" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $series = $moderatorService->series;
+   *  </code>
+   */
+  class ModeratorGlobalSeriesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Searches the public series and returns the search results. (series.list)
+     *
+     * @param  $max_results Maximum number of results to return.
+     * @param  $q Search query.
+     * @param  $start_index Index of the first result to be retrieved.
+     */
+    public function listModeratorGlobalSeries($max_results = null, $q = null, $start_index = null) {
+      return $this->__call('list', array(array('max-results' => $max_results, 'q' => $q, 'start-index' => $start_index)));
+    }
+  }
+
+  /**
+   * The "profiles" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $profiles = $moderatorService->profiles;
+   *  </code>
+   */
+  class ProfilesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Updates the profile information for the authenticated user. This method supports patch semantics.
+     * (profiles.patch)
+     *
+     * @param $postBody the {@link Profile}
+     */
+    public function patch(Profile $postBody) {
+      return $this->__call('patch', array(array('postBody' => $postBody)));
+    }
+    /**
+     * Updates the profile information for the authenticated user. (profiles.update)
+     *
+     * @param $postBody the {@link Profile}
+     */
+    public function update(Profile $postBody) {
+      return $this->__call('update', array(array('postBody' => $postBody)));
+    }
+    /**
+     * Returns the profile information for the authenticated user. (profiles.get)
+     *
+     */
+    public function get() {
+      return $this->__call('get', array(array()));
+    }
+  }
+
+  /**
+   * The "featured" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $featured = $moderatorService->featured;
+   *  </code>
+   */
+  class FeaturedServiceResource extends apiServiceResource {
+
+
+  }
+
+
+  /**
+   * The "series" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $series = $moderatorService->series;
+   *  </code>
+   */
+  class FeaturedSeriesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Lists the featured series. (series.list)
+     *
+     */
+    public function listFeaturedSeries() {
+      return $this->__call('list', array(array()));
+    }
+  }
+
+  /**
+   * The "myrecent" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $myrecent = $moderatorService->myrecent;
+   *  </code>
+   */
+  class MyrecentServiceResource extends apiServiceResource {
+
+
+  }
+
+
+  /**
+   * The "series" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $series = $moderatorService->series;
+   *  </code>
+   */
+  class MyrecentSeriesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Lists the series the authenticated user has visited. (series.list)
+     *
+     */
+    public function listMyrecentSeries() {
+      return $this->__call('list', array(array()));
+    }
+  }
+
+  /**
+   * The "my" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $my = $moderatorService->my;
+   *  </code>
+   */
+  class MyServiceResource extends apiServiceResource {
+
+
+  }
+
+
+  /**
+   * The "series" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $series = $moderatorService->series;
+   *  </code>
+   */
+  class MySeriesServiceResource extends apiServiceResource {
+
+
+    /**
+     * Lists all series created by the authenticated user. (series.list)
+     *
+     */
+    public function listMySeries() {
+      return $this->__call('list', array(array()));
+    }
+  }
+
+  /**
+   * The "submissions" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $moderatorService = new apiModeratorService(...);
+   *   $submissions = $moderatorService->submissions;
+   *  </code>
+   */
+  class SubmissionsServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a new submission in the specified topic within the specified series. (submissions.insert)
+     *
+     * @param  $anonymous Set to true to mark the new submission as anonymous.
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $topicId The decimal ID of the Topic within the Series.
+     * @param $postBody the {@link Submission}
+     */
+    public function insert($seriesId, $topicId, Submission $postBody, $anonymous = null) {
+      return $this->__call('insert', array(array('anonymous' => $anonymous, 'seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody)));
+    }
+    /**
+     * Returns the specified submission within the specified series. (submissions.get)
+     *
+     * @param  $lang The language code for the language the client prefers resuls in.
+     * @param  $includeVotes Specifies whether to include the current user's vote
+     * @param  $seriesId The decimal ID of the Series.
+     * @param  $submissionId The decimal ID of the Submission within the Series.
+     */
+    public function get($seriesId, $submissionId, $includeVotes = null, $lang = null) {
+      return $this->__call('get', array(array('lang' => $lang, 'includeVotes' => $includeVotes, 'seriesId' => $seriesId, 'submissionId' => $submissionId)));
+    }
+  }
+
+
+
 /**
- * The Moderator service implementation
+ * Service definition for Moderator (v1).
  *
- * Generated by http://code.google.com/p/google-api-php-client/
- * Generated from: https://www.googleapis.com/discovery/v0.3/describe/moderator/v1
- **/
-class ModeratorTopicsResourcePartial {
-  public $id;
-}
-
-class ModeratorTopicsResourcePartialId {
-  public $seriesId;
-  public $topicId;
-}
-
-class ModeratorVotesResourcePartial {
-  public $flag;
-  public $vote;
-}
-
-class Profile {
-  public $attribution;
-  public $id;
-  public $kind;
-}
-
-class ProfileId {
-  public $user;
-}
-
-class ProfileAttribution {
-  public $avatarUrl;
-  public $displayName;
-  public $geo;
-  public $location;
-}
-
-class ProfileAttributionGeo {
-  public $latitude;
-  public $location;
-  public $longitude;
-}
-
-class Series {
-  public $anonymousSubmissionAllowed;
-  public $counters;
-  public $description;
-  public $id;
-  public $kind;
-  public $name;
-  public $numTopics;
-  public $videoSubmissionAllowed;
-}
-
-class SeriesId {
-  public $seriesId;
-}
-
-class SeriesCounters {
-  public $anonymousSubmissions;
-  public $minusVotes;
-  public $noneVotes;
-  public $plusVotes;
-  public $submissions;
-  public $users;
-  public $videoSubmissions;
-}
-
-class SeriesList {
-  public $items;
-  public $kind;
-}
-
-class Submission {
-  public $attachmentUrl;
-  public $attribution;
-  public $author;
-  public $counters;
-  public $created;
-  public $geo;
-  public $id;
-  public $kind;
-  public $parentSubmissionId;
-  public $text;
-  public $topics;
-  public $translations;
-  public $vote;
-}
-
-class SubmissionParentSubmissionId {
-  public $seriesId;
-  public $submissionId;
-}
-
-class SubmissionId {
-  public $seriesId;
-  public $submissionId;
-}
-
-class SubmissionGeo {
-  public $latitude;
-  public $location;
-  public $longitude;
-}
-
-class SubmissionCounters {
-  public $minusVotes;
-  public $noneVotes;
-  public $plusVotes;
-}
-
-class SubmissionAttribution {
-  public $avatarUrl;
-  public $displayName;
-  public $location;
-}
-
-class SubmissionList {
-  public $items;
-  public $kind;
-}
-
-class Tag {
-  public $id;
-  public $kind;
-  public $text;
-}
-
-class TagId {
-  public $seriesId;
-  public $submissionId;
-  public $tagId;
-}
-
-class TagList {
-  public $items;
-  public $kind;
-}
-
-class Topic {
-  public $counters;
-  public $description;
-  public $featuredSubmission;
-  public $id;
-  public $kind;
-  public $name;
-  public $presenter;
-  public $rules;
-}
-
-class TopicRules {
-  public $submissions;
-  public $votes;
-}
-
-class TopicRulesVotes {
-  public $close;
-  public $open;
-}
-
-class TopicRulesSubmissions {
-  public $close;
-  public $open;
-}
-
-class TopicId {
-  public $seriesId;
-  public $topicId;
-}
-
-class TopicCounters {
-  public $minusVotes;
-  public $noneVotes;
-  public $plusVotes;
-  public $submissions;
-  public $users;
-  public $videoSubmissions;
-}
-
-class Topic2 {
-  public $counters;
-  public $description;
-  public $featuredSubmission;
-  public $id;
-  public $kind;
-  public $name;
-  public $presenter;
-  public $rules;
-}
-
-class Topic2Rules {
-  public $submissions;
-  public $votes;
-}
-
-class Topic2RulesVotes {
-  public $close;
-  public $open;
-}
-
-class Topic2RulesSubmissions {
-  public $close;
-  public $open;
-}
-
-class Topic2Id {
-  public $seriesId;
-  public $topicId;
-}
-
-class Topic2Counters {
-  public $minusVotes;
-  public $noneVotes;
-  public $plusVotes;
-  public $submissions;
-  public $users;
-  public $videoSubmissions;
-}
-
-class TopicList {
-  public $items;
-  public $kind;
-}
-
-class Vote {
-  public $flag;
-  public $id;
-  public $kind;
-  public $vote;
-}
-
-class VoteId {
-  public $seriesId;
-  public $submissionId;
-}
-
-class VoteList {
-  public $items;
-  public $kind;
-}
-
+ * <p>
+ * Moderator API
+ * </p>
+ *
+ * <p>
+ * For more information about this service, see the
+ * <a href="" target="_blank">API Documentation</a>
+ * </p>
+ *
+ * @author Google, Inc.
+ */
 class apiModeratorService {
 
-  // Variables that the apiServiceResource implementation depends on
+  // Variables that the apiServiceResource implementation depends on.
   private $serviceName = 'moderator';
   private $version = 'v1';
   private $restBasePath = '/moderator/v1/';
   private $rpcPath = '/rpc';
   private $io;
   // apiServiceResource's that are used internally
-  private $featured;
-  private $global;
-  private $my;
-  private $myrecent;
-  private $profiles;
-  private $responses;
-  private $series;
-  private $submissions;
-  private $tags;
-  private $topics;
-  private $votes;
-
+  public $votes;
+  public $responses;
+  public $tags;
+  public $series;
+  public $topics;
+  public $global;
+  public $profiles;
+  public $featured;
+  public $myrecent;
+  public $my;
+  public $submissions;
   /**
-   * Constructs the internal service representations and does the auto-magic configuration required to drive them
+   * Constructs the internal representation of the Moderator service.
+   *
+   * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-    $apiClient->addService('moderator', 'v1');
-    $this->io = $apiClient->getIo();
-    $this->featured = new apiServiceResource($this, $this->serviceName, 'featured', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/featured","rpcMethod":"moderator.featured.series.list","httpMethod":"GET","description":"Lists the featured series.","response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
-    $this->global = new apiServiceResource($this, $this->serviceName, 'global', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"search","rpcMethod":"moderator.global.series.list","httpMethod":"GET","description":"Searches the public series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
-    $this->my = new apiServiceResource($this, $this->serviceName, 'my', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/@me\/mine","rpcMethod":"moderator.my.series.list","httpMethod":"GET","description":"Lists all series created by the authenticated user.","response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
-    $this->myrecent = new apiServiceResource($this, $this->serviceName, 'myrecent', json_decode('{"resources":{"series":{"methods":{"list":{"restPath":"series\/@me\/recent","rpcMethod":"moderator.myrecent.series.list","httpMethod":"GET","description":"Lists the series the authenticated user has visited.","response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
-    $this->profiles = new apiServiceResource($this, $this->serviceName, 'profiles', json_decode('{"methods":{"get":{"restPath":"profiles\/@me","rpcMethod":"moderator.profiles.get","httpMethod":"GET","description":"Returns the profile information for the authenticated user.","response":{"$ref":"Profile"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"profiles\/@me","rpcMethod":"moderator.profiles.update","httpMethod":"PUT","description":"Updates the profile information for the authenticated user.","request":{"$ref":"Profile"},"response":{"$ref":"Profile"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
-    $this->responses = new apiServiceResource($this, $this->serviceName, 'responses', json_decode('{"methods":{"insert":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions\/{parentSubmissionId}\/responses","rpcMethod":"moderator.responses.insert","httpMethod":"POST","description":"Inserts a response for the specified submission in the specified topic within the specified series.","parameters":{"anonymous":{"restParameterType":"query","description":"Set to true to mark the new submission as anonymous.","type":"boolean"},"parentSubmissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the parent Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId","parentSubmissionId"],"request":{"$ref":"Submission"},"response":{"$ref":"Submission"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/responses","rpcMethod":"moderator.responses.list","httpMethod":"GET","description":"Lists or searches the responses for the specified submission within the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"SubmissionList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
-    $this->series = new apiServiceResource($this, $this->serviceName, 'series', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}","rpcMethod":"moderator.series.get","httpMethod":"GET","description":"Returns the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"Series"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series","rpcMethod":"moderator.series.insert","httpMethod":"POST","description":"Inserts a new series.","request":{"$ref":"Series"},"response":{"$ref":"Series"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series","rpcMethod":"moderator.series.list","httpMethod":"GET","description":"Searches the series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"series\/{seriesId}","rpcMethod":"moderator.series.update","httpMethod":"PUT","description":"Updates the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"request":{"$ref":"Series"},"response":{"$ref":"Series"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}},"resources":{"responses":{"methods":{"list":{"restPath":"series\/{seriesId}\/responses","rpcMethod":"moderator.series.responses.list","httpMethod":"GET","description":"Searches the responses for the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"SeriesList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}},"submissions":{"methods":{"list":{"restPath":"series\/{seriesId}\/submissions","rpcMethod":"moderator.series.submissions.list","httpMethod":"GET","description":"Searches the submissions for the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"includeVotes":{"restParameterType":"query","description":"Specifies whether to include the current user\'s vote","type":"boolean"},"lang":{"restParameterType":"query","description":"The language code for the language the client prefers resuls in.","type":"string"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"SubmissionList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
-    $this->submissions = new apiServiceResource($this, $this->serviceName, 'submissions', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}","rpcMethod":"moderator.submissions.get","httpMethod":"GET","description":"Returns the specified submission within the specified series.","parameters":{"includeVotes":{"restParameterType":"query","description":"Specifies whether to include the current user\'s vote","type":"boolean"},"lang":{"restParameterType":"query","description":"The language code for the language the client prefers resuls in.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"Submission"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions","rpcMethod":"moderator.submissions.insert","httpMethod":"POST","description":"Inserts a new submission in the specified topic within the specified series.","parameters":{"anonymous":{"restParameterType":"query","description":"Set to true to mark the new submission as anonymous.","type":"boolean"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"request":{"$ref":"Submission"},"response":{"$ref":"Submission"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
-    $this->tags = new apiServiceResource($this, $this->serviceName, 'tags', json_decode('{"methods":{"delete":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags\/{tagId}","rpcMethod":"moderator.tags.delete","httpMethod":"DELETE","description":"Deletes the specified tag from the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"tagId":{"restParameterType":"path","required":true,"type":"string"}},"parameterOrder":["seriesId","submissionId","tagId"],"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags","rpcMethod":"moderator.tags.insert","httpMethod":"POST","description":"Inserts a new tag for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Tag"},"response":{"$ref":"Tag"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/tags","rpcMethod":"moderator.tags.list","httpMethod":"GET","description":"Lists all tags for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"TagList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
-    $this->topics = new apiServiceResource($this, $this->serviceName, 'topics', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/topics\/{topicId}","rpcMethod":"moderator.topics.get","httpMethod":"GET","description":"Returns the specified topic from the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"response":{"$ref":"Topic2"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/topics","rpcMethod":"moderator.topics.insert","httpMethod":"POST","description":"Inserts a new topic into the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"request":{"$ref":"Topic"},"response":{"$ref":"Topic"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/topics","rpcMethod":"moderator.topics.list","httpMethod":"GET","description":"Searches the topics within the specified series and returns the search results.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"mode":{"restParameterType":"query","type":"string"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"TopicList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"series\/{seriesId}\/topics\/{topicId}","rpcMethod":"moderator.topics.update","httpMethod":"PUT","description":"Updates the specified topic within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"request":{"$ref":"Topic"},"response":{"$ref":"Topic"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}},"resources":{"submissions":{"methods":{"list":{"restPath":"series\/{seriesId}\/topics\/{topicId}\/submissions","rpcMethod":"moderator.topics.submissions.list","httpMethod":"GET","description":"Searches the submissions for the specified topic within the specified series and returns the search results.","parameters":{"author":{"restParameterType":"query","description":"Restricts the results to submissions by a specific author.","type":"string"},"hasAttachedVideo":{"restParameterType":"query","description":"Specifies whether to restrict to submissions that have videos attached.","type":"boolean"},"includeVotes":{"restParameterType":"query","description":"Specifies whether to include the current user\'s vote","type":"boolean"},"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"q":{"restParameterType":"query","description":"Search query.","type":"string"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"sort":{"restParameterType":"query","description":"Sort order.","type":"string"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"},"topicId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Topic within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","topicId"],"response":{"$ref":"SubmissionList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}}}', true));
-    $this->votes = new apiServiceResource($this, $this->serviceName, 'votes', json_decode('{"methods":{"get":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.get","httpMethod":"GET","description":"Returns the votes by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"userId":{"restParameterType":"query","type":"string"}},"parameterOrder":["seriesId","submissionId"],"response":{"$ref":"Vote"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"insert":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.insert","httpMethod":"POST","description":"Inserts a new vote by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Vote"},"response":{"$ref":"Vote"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"list":{"restPath":"series\/{seriesId}\/votes\/@me","rpcMethod":"moderator.votes.list","httpMethod":"GET","description":"Lists the votes by the authenticated user for the given series.","parameters":{"max-results":{"restParameterType":"query","description":"Maximum number of results to return.","type":"integer","minimum":"0","maximum":"4294967295"},"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"start-index":{"restParameterType":"query","description":"Index of the first result to be retrieved.","type":"integer","minimum":"0","maximum":"4294967295"}},"parameterOrder":["seriesId"],"response":{"$ref":"VoteList"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]},"update":{"restPath":"series\/{seriesId}\/submissions\/{submissionId}\/votes\/@me","rpcMethod":"moderator.votes.update","httpMethod":"PUT","description":"Updates the votes by the authenticated user for the specified submission within the specified series.","parameters":{"seriesId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"submissionId":{"restParameterType":"path","required":true,"description":"The decimal ID of the Submission within the Series.","type":"integer","minimum":"0","maximum":"4294967295"},"userId":{"restParameterType":"query","type":"string"}},"parameterOrder":["seriesId","submissionId"],"request":{"$ref":"Vote"},"response":{"$ref":"Vote"},"scopes":["https:\/\/www.googleapis.com\/auth\/moderator"]}}}', true));
+     $apiClient->addService($this->serviceName, $this->version);
+     $this->io = $apiClient->getIo();
+     $this->votes = new VotesServiceResource($this, $this->serviceName, 'votes', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Vote"}, "rpcMethod": "moderator.votes.insert", "httpMethod": "POST", "response": {"$ref": "Vote"}, "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me"}, "get": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "userId": {"restParameterType": "query", "type": "string"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.votes.get", "httpMethod": "GET", "response": {"$ref": "Vote"}, "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me"}, "list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}}, "rpcMethod": "moderator.votes.list", "httpMethod": "GET", "response": {"$ref": "VoteList"}, "restPath": "series/{seriesId}/votes/@me"}, "update": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "userId": {"restParameterType": "query", "type": "string"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Vote"}, "rpcMethod": "moderator.votes.update", "httpMethod": "PUT", "response": {"$ref": "Vote"}, "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me"}, "patch": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "userId": {"restParameterType": "query", "type": "string"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Vote"}, "rpcMethod": "moderator.votes.patch", "httpMethod": "PATCH", "response": {"$ref": "Vote"}, "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me"}}}', true));
+     $this->responses = new ResponsesServiceResource($this, $this->serviceName, 'responses', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "parentSubmissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "anonymous": {"restParameterType": "query", "type": "boolean"}, "topicId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Submission"}, "rpcMethod": "moderator.responses.insert", "httpMethod": "POST", "response": {"$ref": "Submission"}, "restPath": "series/{seriesId}/topics/{topicId}/submissions/{parentSubmissionId}/responses"}, "list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "sort": {"restParameterType": "query", "type": "string"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "author": {"restParameterType": "query", "type": "string"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "q": {"restParameterType": "query", "type": "string"}, "hasAttachedVideo": {"restParameterType": "query", "type": "boolean"}}, "rpcMethod": "moderator.responses.list", "httpMethod": "GET", "response": {"$ref": "SubmissionList"}, "restPath": "series/{seriesId}/submissions/{submissionId}/responses"}}}', true));
+     $this->tags = new TagsServiceResource($this, $this->serviceName, 'tags', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Tag"}, "rpcMethod": "moderator.tags.insert", "httpMethod": "POST", "response": {"$ref": "Tag"}, "restPath": "series/{seriesId}/submissions/{submissionId}/tags"}, "list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.tags.list", "httpMethod": "GET", "response": {"$ref": "TagList"}, "restPath": "series/{seriesId}/submissions/{submissionId}/tags"}, "delete": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "tagId": {"restParameterType": "path", "required": true, "type": "string"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.tags.delete", "httpMethod": "DELETE", "restPath": "series/{seriesId}/submissions/{submissionId}/tags/{tagId}"}}}', true));
+     $this->series = new SeriesServiceResource($this, $this->serviceName, 'series', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/moderator"], "request": {"$ref": "Series"}, "rpcMethod": "moderator.series.insert", "httpMethod": "POST", "response": {"$ref": "Series"}, "restPath": "series"}, "get": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.series.get", "httpMethod": "GET", "response": {"$ref": "Series"}, "restPath": "series/{seriesId}"}, "list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "q": {"restParameterType": "query", "type": "string"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}}, "rpcMethod": "moderator.series.list", "httpMethod": "GET", "response": {"$ref": "SeriesList"}, "restPath": "series"}, "update": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Series"}, "rpcMethod": "moderator.series.update", "httpMethod": "PUT", "response": {"$ref": "Series"}, "restPath": "series/{seriesId}"}, "patch": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Series"}, "rpcMethod": "moderator.series.patch", "httpMethod": "PATCH", "response": {"$ref": "Series"}, "restPath": "series/{seriesId}"}}, "resources": {"submissions": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"lang": {"restParameterType": "query", "type": "string"}, "max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "author": {"restParameterType": "query", "type": "string"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "includeVotes": {"restParameterType": "query", "type": "boolean"}, "sort": {"restParameterType": "query", "type": "string"}, "q": {"restParameterType": "query", "type": "string"}, "hasAttachedVideo": {"restParameterType": "query", "type": "boolean"}}, "rpcMethod": "moderator.series.submissions.list", "httpMethod": "GET", "response": {"$ref": "SubmissionList"}, "restPath": "series/{seriesId}/submissions"}}}, "responses": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "sort": {"restParameterType": "query", "type": "string"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "author": {"restParameterType": "query", "type": "string"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "q": {"restParameterType": "query", "type": "string"}, "hasAttachedVideo": {"restParameterType": "query", "type": "boolean"}}, "rpcMethod": "moderator.series.responses.list", "httpMethod": "GET", "response": {"$ref": "SeriesList"}, "restPath": "series/{seriesId}/responses"}}}}}', true));
+     $this->topics = new TopicsServiceResource($this, $this->serviceName, 'topics', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Topic"}, "rpcMethod": "moderator.topics.insert", "httpMethod": "POST", "response": {"$ref": "Topic"}, "restPath": "series/{seriesId}/topics"}, "list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "q": {"restParameterType": "query", "type": "string"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "mode": {"restParameterType": "query", "type": "string"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.topics.list", "httpMethod": "GET", "response": {"$ref": "TopicList"}, "restPath": "series/{seriesId}/topics"}, "update": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "topicId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "request": {"$ref": "Topic"}, "rpcMethod": "moderator.topics.update", "httpMethod": "PUT", "response": {"$ref": "Topic"}, "restPath": "series/{seriesId}/topics/{topicId}"}, "get": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "topicId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.topics.get", "httpMethod": "GET", "response": {"$ref": "Topic2"}, "restPath": "series/{seriesId}/topics/{topicId}"}}, "resources": {"submissions": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "includeVotes": {"restParameterType": "query", "type": "boolean"}, "topicId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "author": {"restParameterType": "query", "type": "string"}, "sort": {"restParameterType": "query", "type": "string"}, "q": {"restParameterType": "query", "type": "string"}, "hasAttachedVideo": {"restParameterType": "query", "type": "boolean"}}, "rpcMethod": "moderator.topics.submissions.list", "httpMethod": "GET", "response": {"$ref": "SubmissionList"}, "restPath": "series/{seriesId}/topics/{topicId}/submissions"}}}}}', true));
+     $this->global = new ModeratorGlobalServiceResource($this, $this->serviceName, 'global', json_decode('{"resources": {"series": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"max-results": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "q": {"restParameterType": "query", "type": "string"}, "start-index": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}}, "rpcMethod": "moderator.global.series.list", "httpMethod": "GET", "response": {"$ref": "SeriesList"}, "restPath": "search"}}}}}', true));
+     $this->profiles = new ProfilesServiceResource($this, $this->serviceName, 'profiles', json_decode('{"methods": {"get": {"scopes": ["https://www.googleapis.com/auth/moderator"], "rpcMethod": "moderator.profiles.get", "httpMethod": "GET", "response": {"$ref": "Profile"}, "restPath": "profiles/@me"}, "update": {"scopes": ["https://www.googleapis.com/auth/moderator"], "request": {"$ref": "Profile"}, "rpcMethod": "moderator.profiles.update", "httpMethod": "PUT", "response": {"$ref": "Profile"}, "restPath": "profiles/@me"}, "patch": {"scopes": ["https://www.googleapis.com/auth/moderator"], "request": {"$ref": "Profile"}, "rpcMethod": "moderator.profiles.patch", "httpMethod": "PATCH", "response": {"$ref": "Profile"}, "restPath": "profiles/@me"}}}', true));
+     $this->featured = new FeaturedServiceResource($this, $this->serviceName, 'featured', json_decode('{"resources": {"series": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "rpcMethod": "moderator.featured.series.list", "httpMethod": "GET", "response": {"$ref": "SeriesList"}, "restPath": "series/featured"}}}}}', true));
+     $this->myrecent = new MyrecentServiceResource($this, $this->serviceName, 'myrecent', json_decode('{"resources": {"series": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "rpcMethod": "moderator.myrecent.series.list", "httpMethod": "GET", "response": {"$ref": "SeriesList"}, "restPath": "series/@me/recent"}}}}}', true));
+     $this->my = new MyServiceResource($this, $this->serviceName, 'my', json_decode('{"resources": {"series": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/moderator"], "rpcMethod": "moderator.my.series.list", "httpMethod": "GET", "response": {"$ref": "SeriesList"}, "restPath": "series/@me/mine"}}}}}', true));
+     $this->submissions = new SubmissionsServiceResource($this, $this->serviceName, 'submissions', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "topicId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "anonymous": {"restParameterType": "query", "type": "boolean"}}, "request": {"$ref": "Submission"}, "rpcMethod": "moderator.submissions.insert", "httpMethod": "POST", "response": {"$ref": "Submission"}, "restPath": "series/{seriesId}/topics/{topicId}/submissions"}, "get": {"scopes": ["https://www.googleapis.com/auth/moderator"], "parameters": {"lang": {"restParameterType": "query", "type": "string"}, "seriesId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "includeVotes": {"restParameterType": "query", "type": "boolean"}, "submissionId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}}, "rpcMethod": "moderator.submissions.get", "httpMethod": "GET", "response": {"$ref": "Submission"}, "restPath": "series/{seriesId}/submissions/{submissionId}"}}}', true));
   }
 
   /**
-   * Returns the profile information for the authenticated user.
-   *
-   */
-  public function getProfiles() {
-    return $this->profiles->__call('get', array(array()));
-  }
-
-  /**
-   * Updates the profile information for the authenticated user.
-   *
-   * @param $postBody 
-   */
-  public function updateProfiles($postBody) {
-    return $this->profiles->__call('update', array(array('postBody' => $postBody)));
-  }
-
-  /**
-   * Inserts a response for the specified submission in the specified topic within the specified series.
-   *
-   * @param $parentSubmissionId   integer The decimal ID of the parent Submission within the Series.
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $topicId   integer The decimal ID of the Topic within the Series.
-   * @param $postBody 
-   * @param $anonymous   boolean Set to true to mark the new submission as anonymous.
-   */
-  public function insertResponses($parentSubmissionId,
-        $seriesId,
-        $topicId,
-        $postBody,
-        $anonymous = null) {
-    return $this->responses->__call('insert', array(array('parentSubmissionId' => $parentSubmissionId,
-        'seriesId' => $seriesId,
-        'topicId' => $topicId,
-        'postBody' => $postBody,
-        'anonymous' => $anonymous)));
-  }
-
-  /**
-   * Lists or searches the responses for the specified submission within the specified series and returns the search results.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $author   string Restricts the results to submissions by a specific author.
-   * @param $hasAttachedVideo   boolean Specifies whether to restrict to submissions that have videos attached.
-   * @param $max_results   integer Maximum number of results to return.
-   * @param $q   string Search query.
-   * @param $sort   string Sort order.
-   * @param $start_index   integer Index of the first result to be retrieved.
-   */
-  public function listResponses($seriesId,
-        $submissionId,
-        $author = null,
-        $hasAttachedVideo = null,
-        $max_results = null,
-        $q = null,
-        $sort = null,
-        $start_index = null) {
-    return $this->responses->__call('list', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'author' => $author,
-        'hasAttachedVideo' => $hasAttachedVideo,
-        'max-results' => $max_results,
-        'q' => $q,
-        'sort' => $sort,
-        'start-index' => $start_index)));
-  }
-
-  /**
-   * Returns the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   */
-  public function getSeries($seriesId) {
-    return $this->series->__call('get', array(array('seriesId' => $seriesId)));
-  }
-
-  /**
-   * Inserts a new series.
-   *
-   * @param $postBody 
-   */
-  public function insertSeries($postBody) {
-    return $this->series->__call('insert', array(array('postBody' => $postBody)));
-  }
-
-  /**
-   * Searches the series and returns the search results.
-   *
-   * @param $max_results   integer Maximum number of results to return.
-   * @param $q   string Search query.
-   * @param $start_index   integer Index of the first result to be retrieved.
-   */
-  public function listSeries($max_results = null,
-        $q = null,
-        $start_index = null) {
-    return $this->series->__call('list', array(array('max-results' => $max_results,
-        'q' => $q,
-        'start-index' => $start_index)));
-  }
-
-  /**
-   * Updates the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $postBody 
-   */
-  public function updateSeries($seriesId,
-        $postBody) {
-    return $this->series->__call('update', array(array('seriesId' => $seriesId,
-        'postBody' => $postBody)));
-  }
-
-  /**
-   * Returns the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $includeVotes   boolean Specifies whether to include the current user's vote
-   * @param $lang   string The language code for the language the client prefers resuls in.
-   */
-  public function getSubmissions($seriesId,
-        $submissionId,
-        $includeVotes = null,
-        $lang = null) {
-    return $this->submissions->__call('get', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'includeVotes' => $includeVotes,
-        'lang' => $lang)));
-  }
-
-  /**
-   * Inserts a new submission in the specified topic within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $topicId   integer The decimal ID of the Topic within the Series.
-   * @param $postBody 
-   * @param $anonymous   boolean Set to true to mark the new submission as anonymous.
-   */
-  public function insertSubmissions($seriesId,
-        $topicId,
-        $postBody,
-        $anonymous = null) {
-    return $this->submissions->__call('insert', array(array('seriesId' => $seriesId,
-        'topicId' => $topicId,
-        'postBody' => $postBody,
-        'anonymous' => $anonymous)));
-  }
-
-  /**
-   * Deletes the specified tag from the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $tagId   string 
-   */
-  public function deleteTags($seriesId,
-        $submissionId,
-        $tagId) {
-    return $this->tags->__call('delete', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'tagId' => $tagId)));
-  }
-
-  /**
-   * Inserts a new tag for the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $postBody 
-   */
-  public function insertTags($seriesId,
-        $submissionId,
-        $postBody) {
-    return $this->tags->__call('insert', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'postBody' => $postBody)));
-  }
-
-  /**
-   * Lists all tags for the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   */
-  public function listTags($seriesId,
-        $submissionId) {
-    return $this->tags->__call('list', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId)));
-  }
-
-  /**
-   * Returns the specified topic from the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $topicId   integer The decimal ID of the Topic within the Series.
-   */
-  public function getTopics($seriesId,
-        $topicId) {
-    return $this->topics->__call('get', array(array('seriesId' => $seriesId,
-        'topicId' => $topicId)));
-  }
-
-  /**
-   * Inserts a new topic into the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $postBody 
-   */
-  public function insertTopics($seriesId,
-        $postBody) {
-    return $this->topics->__call('insert', array(array('seriesId' => $seriesId,
-        'postBody' => $postBody)));
-  }
-
-  /**
-   * Searches the topics within the specified series and returns the search results.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $max_results   integer Maximum number of results to return.
-   * @param $mode   string 
-   * @param $q   string Search query.
-   * @param $start_index   integer Index of the first result to be retrieved.
-   */
-  public function listTopics($seriesId,
-        $max_results = null,
-        $mode = null,
-        $q = null,
-        $start_index = null) {
-    return $this->topics->__call('list', array(array('seriesId' => $seriesId,
-        'max-results' => $max_results,
-        'mode' => $mode,
-        'q' => $q,
-        'start-index' => $start_index)));
-  }
-
-  /**
-   * Updates the specified topic within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $topicId   integer The decimal ID of the Topic within the Series.
-   * @param $postBody 
-   */
-  public function updateTopics($seriesId,
-        $topicId,
-        $postBody) {
-    return $this->topics->__call('update', array(array('seriesId' => $seriesId,
-        'topicId' => $topicId,
-        'postBody' => $postBody)));
-  }
-
-  /**
-   * Returns the votes by the authenticated user for the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $userId   string 
-   */
-  public function getVotes($seriesId,
-        $submissionId,
-        $userId = null) {
-    return $this->votes->__call('get', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'userId' => $userId)));
-  }
-
-  /**
-   * Inserts a new vote by the authenticated user for the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $postBody 
-   */
-  public function insertVotes($seriesId,
-        $submissionId,
-        $postBody) {
-    return $this->votes->__call('insert', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'postBody' => $postBody)));
-  }
-
-  /**
-   * Lists the votes by the authenticated user for the given series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $max_results   integer Maximum number of results to return.
-   * @param $start_index   integer Index of the first result to be retrieved.
-   */
-  public function listVotes($seriesId,
-        $max_results = null,
-        $start_index = null) {
-    return $this->votes->__call('list', array(array('seriesId' => $seriesId,
-        'max-results' => $max_results,
-        'start-index' => $start_index)));
-  }
-
-  /**
-   * Updates the votes by the authenticated user for the specified submission within the specified series.
-   *
-   * @param $seriesId   integer The decimal ID of the Series.
-   * @param $submissionId   integer The decimal ID of the Submission within the Series.
-   * @param $postBody 
-   * @param $userId   string 
-   */
-  public function updateVotes($seriesId,
-        $submissionId,
-        $postBody,
-        $userId = null) {
-    return $this->votes->__call('update', array(array('seriesId' => $seriesId,
-        'submissionId' => $submissionId,
-        'postBody' => $postBody,
-        'userId' => $userId)));
-  }
-
-  /**
-   * @return the $io
+   * @return $io
    */
   public function getIo() {
     return $this->io;
   }
-
   /**
-   * @return the $version
+   * @return $version
    */
   public function getVersion() {
     return $this->version;
   }
 
   /**
-   * @return the $restBasePath
+   * @return $restBasePath
    */
   public function getRestBasePath() {
     return $this->restBasePath;
   }
 
   /**
-   * @return the $rpcPath
+   * @return $rpcPath
    */
   public function getRpcPath() {
     return $this->rpcPath;
   }
+}
+
+class Topic2RulesVotes {
+
+  public $close;
+  public $open;
+
+  public function setClose($close) {
+    $this->close = $close;
+  }
+
+  public function getClose() {
+    return $this->close;
+  }
+  
+  public function setOpen($open) {
+    $this->open = $open;
+  }
+
+  public function getOpen() {
+    return $this->open;
+  }
+  
+}
+
+
+class ModeratorTopicsResourcePartial {
+
+  public $id;
+
+  public function setId( ModeratorTopicsResourcePartialId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class SubmissionGeo {
+
+  public $latitude;
+  public $location;
+  public $longitude;
+
+  public function setLatitude($latitude) {
+    $this->latitude = $latitude;
+  }
+
+  public function getLatitude() {
+    return $this->latitude;
+  }
+  
+  public function setLocation($location) {
+    $this->location = $location;
+  }
+
+  public function getLocation() {
+    return $this->location;
+  }
+  
+  public function setLongitude($longitude) {
+    $this->longitude = $longitude;
+  }
+
+  public function getLongitude() {
+    return $this->longitude;
+  }
+  
+}
+
+
+class ModeratorVotesResourcePartial {
+
+  public $vote;
+  public $flag;
+
+  public function setVote($vote) {
+    $this->vote = $vote;
+  }
+
+  public function getVote() {
+    return $this->vote;
+  }
+  
+  public function setFlag($flag) {
+    $this->flag = $flag;
+  }
+
+  public function getFlag() {
+    return $this->flag;
+  }
+  
+}
+
+
+class SubmissionParentSubmissionId {
+
+  public $seriesId;
+  public $submissionId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setSubmissionId($submissionId) {
+    $this->submissionId = $submissionId;
+  }
+
+  public function getSubmissionId() {
+    return $this->submissionId;
+  }
+  
+}
+
+
+class VoteId {
+
+  public $seriesId;
+  public $submissionId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setSubmissionId($submissionId) {
+    $this->submissionId = $submissionId;
+  }
+
+  public function getSubmissionId() {
+    return $this->submissionId;
+  }
+  
+}
+
+
+class SeriesList {
+
+  public $items;
+  public $kind;
+
+  public function setItems( Series $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class ProfileId {
+
+  public $user;
+
+  public function setUser($user) {
+    $this->user = $user;
+  }
+
+  public function getUser() {
+    return $this->user;
+  }
+  
+}
+
+
+class Profile {
+
+  public $kind;
+  public $attribution;
+  public $id;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setAttribution( ProfileAttribution $attribution) {
+    $this->attribution = $attribution;
+  }
+
+  public function getAttribution() {
+    return $this->attribution;
+  }
+  
+  public function setId( ProfileId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class Topic2Rules {
+
+  public $votes;
+  public $submissions;
+
+  public function setVotes( Topic2RulesVotes $votes) {
+    $this->votes = $votes;
+  }
+
+  public function getVotes() {
+    return $this->votes;
+  }
+  
+  public function setSubmissions( Topic2RulesSubmissions $submissions) {
+    $this->submissions = $submissions;
+  }
+
+  public function getSubmissions() {
+    return $this->submissions;
+  }
+  
+}
+
+
+class Topic2Id {
+
+  public $seriesId;
+  public $topicId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setTopicId($topicId) {
+    $this->topicId = $topicId;
+  }
+
+  public function getTopicId() {
+    return $this->topicId;
+  }
+  
+}
+
+
+class Topic2 {
+
+  public $kind;
+  public $description;
+  public $rules;
+  public $featuredSubmission;
+  public $presenter;
+  public $counters;
+  public $id;
+  public $name;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setDescription($description) {
+    $this->description = $description;
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
+  
+  public function setRules( Topic2Rules $rules) {
+    $this->rules = $rules;
+  }
+
+  public function getRules() {
+    return $this->rules;
+  }
+  
+  public function setFeaturedSubmission( Submission $featuredSubmission) {
+    $this->featuredSubmission = $featuredSubmission;
+  }
+
+  public function getFeaturedSubmission() {
+    return $this->featuredSubmission;
+  }
+  
+  public function setPresenter($presenter) {
+    $this->presenter = $presenter;
+  }
+
+  public function getPresenter() {
+    return $this->presenter;
+  }
+  
+  public function setCounters( Topic2Counters $counters) {
+    $this->counters = $counters;
+  }
+
+  public function getCounters() {
+    return $this->counters;
+  }
+  
+  public function setId( Topic2Id $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+}
+
+
+class VoteList {
+
+  public $items;
+  public $kind;
+
+  public function setItems( Vote $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class SubmissionId {
+
+  public $seriesId;
+  public $submissionId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setSubmissionId($submissionId) {
+    $this->submissionId = $submissionId;
+  }
+
+  public function getSubmissionId() {
+    return $this->submissionId;
+  }
+  
+}
+
+
+class TopicRulesVotes {
+
+  public $close;
+  public $open;
+
+  public function setClose($close) {
+    $this->close = $close;
+  }
+
+  public function getClose() {
+    return $this->close;
+  }
+  
+  public function setOpen($open) {
+    $this->open = $open;
+  }
+
+  public function getOpen() {
+    return $this->open;
+  }
+  
+}
+
+
+class SeriesRules {
+
+  public $votes;
+  public $submissions;
+
+  public function setVotes( SeriesRulesVotes $votes) {
+    $this->votes = $votes;
+  }
+
+  public function getVotes() {
+    return $this->votes;
+  }
+  
+  public function setSubmissions( SeriesRulesSubmissions $submissions) {
+    $this->submissions = $submissions;
+  }
+
+  public function getSubmissions() {
+    return $this->submissions;
+  }
+  
+}
+
+
+class TopicList {
+
+  public $items;
+  public $kind;
+
+  public function setItems( Topic $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class SeriesCounters {
+
+  public $users;
+  public $noneVotes;
+  public $videoSubmissions;
+  public $minusVotes;
+  public $anonymousSubmissions;
+  public $submissions;
+  public $plusVotes;
+
+  public function setUsers($users) {
+    $this->users = $users;
+  }
+
+  public function getUsers() {
+    return $this->users;
+  }
+  
+  public function setNoneVotes($noneVotes) {
+    $this->noneVotes = $noneVotes;
+  }
+
+  public function getNoneVotes() {
+    return $this->noneVotes;
+  }
+  
+  public function setVideoSubmissions($videoSubmissions) {
+    $this->videoSubmissions = $videoSubmissions;
+  }
+
+  public function getVideoSubmissions() {
+    return $this->videoSubmissions;
+  }
+  
+  public function setMinusVotes($minusVotes) {
+    $this->minusVotes = $minusVotes;
+  }
+
+  public function getMinusVotes() {
+    return $this->minusVotes;
+  }
+  
+  public function setAnonymousSubmissions($anonymousSubmissions) {
+    $this->anonymousSubmissions = $anonymousSubmissions;
+  }
+
+  public function getAnonymousSubmissions() {
+    return $this->anonymousSubmissions;
+  }
+  
+  public function setSubmissions($submissions) {
+    $this->submissions = $submissions;
+  }
+
+  public function getSubmissions() {
+    return $this->submissions;
+  }
+  
+  public function setPlusVotes($plusVotes) {
+    $this->plusVotes = $plusVotes;
+  }
+
+  public function getPlusVotes() {
+    return $this->plusVotes;
+  }
+  
+}
+
+
+class ModeratorTopicsResourcePartialId {
+
+  public $seriesId;
+  public $topicId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setTopicId($topicId) {
+    $this->topicId = $topicId;
+  }
+
+  public function getTopicId() {
+    return $this->topicId;
+  }
+  
+}
+
+
+class ProfileAttributionGeo {
+
+  public $latitude;
+  public $location;
+  public $longitude;
+
+  public function setLatitude($latitude) {
+    $this->latitude = $latitude;
+  }
+
+  public function getLatitude() {
+    return $this->latitude;
+  }
+  
+  public function setLocation($location) {
+    $this->location = $location;
+  }
+
+  public function getLocation() {
+    return $this->location;
+  }
+  
+  public function setLongitude($longitude) {
+    $this->longitude = $longitude;
+  }
+
+  public function getLongitude() {
+    return $this->longitude;
+  }
+  
+}
+
+
+class SeriesId {
+
+  public $seriesId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+}
+
+
+class Submission {
+
+  public $kind;
+  public $attribution;
+  public $created;
+  public $text;
+  public $topics;
+  public $author;
+  public $translations;
+  public $parentSubmissionId;
+  public $vote;
+  public $attachmentUrl;
+  public $geo;
+  public $id;
+  public $counters;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setAttribution( SubmissionAttribution $attribution) {
+    $this->attribution = $attribution;
+  }
+
+  public function getAttribution() {
+    return $this->attribution;
+  }
+  
+  public function setCreated($created) {
+    $this->created = $created;
+  }
+
+  public function getCreated() {
+    return $this->created;
+  }
+  
+  public function setText($text) {
+    $this->text = $text;
+  }
+
+  public function getText() {
+    return $this->text;
+  }
+  
+  public function setTopics( ModeratorTopicsResourcePartial $topics) {
+    $this->topics = $topics;
+  }
+
+  public function getTopics() {
+    return $this->topics;
+  }
+  
+  public function setAuthor($author) {
+    $this->author = $author;
+  }
+
+  public function getAuthor() {
+    return $this->author;
+  }
+  
+  public function setTranslations( SubmissionTranslations $translations) {
+    $this->translations = $translations;
+  }
+
+  public function getTranslations() {
+    return $this->translations;
+  }
+  
+  public function setParentSubmissionId( SubmissionParentSubmissionId $parentSubmissionId) {
+    $this->parentSubmissionId = $parentSubmissionId;
+  }
+
+  public function getParentSubmissionId() {
+    return $this->parentSubmissionId;
+  }
+  
+  public function setVote( ModeratorVotesResourcePartial $vote) {
+    $this->vote = $vote;
+  }
+
+  public function getVote() {
+    return $this->vote;
+  }
+  
+  public function setAttachmentUrl($attachmentUrl) {
+    $this->attachmentUrl = $attachmentUrl;
+  }
+
+  public function getAttachmentUrl() {
+    return $this->attachmentUrl;
+  }
+  
+  public function setGeo( SubmissionGeo $geo) {
+    $this->geo = $geo;
+  }
+
+  public function getGeo() {
+    return $this->geo;
+  }
+  
+  public function setId( SubmissionId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setCounters( SubmissionCounters $counters) {
+    $this->counters = $counters;
+  }
+
+  public function getCounters() {
+    return $this->counters;
+  }
+  
+}
+
+
+class SubmissionTranslations {
+
+  public $lang;
+  public $text;
+
+  public function setLang($lang) {
+    $this->lang = $lang;
+  }
+
+  public function getLang() {
+    return $this->lang;
+  }
+  
+  public function setText($text) {
+    $this->text = $text;
+  }
+
+  public function getText() {
+    return $this->text;
+  }
+  
+}
+
+
+class Topic2RulesSubmissions {
+
+  public $close;
+  public $open;
+
+  public function setClose($close) {
+    $this->close = $close;
+  }
+
+  public function getClose() {
+    return $this->close;
+  }
+  
+  public function setOpen($open) {
+    $this->open = $open;
+  }
+
+  public function getOpen() {
+    return $this->open;
+  }
+  
+}
+
+
+class TopicRules {
+
+  public $votes;
+  public $submissions;
+
+  public function setVotes( TopicRulesVotes $votes) {
+    $this->votes = $votes;
+  }
+
+  public function getVotes() {
+    return $this->votes;
+  }
+  
+  public function setSubmissions( TopicRulesSubmissions $submissions) {
+    $this->submissions = $submissions;
+  }
+
+  public function getSubmissions() {
+    return $this->submissions;
+  }
+  
+}
+
+
+class TopicRulesSubmissions {
+
+  public $close;
+  public $open;
+
+  public function setClose($close) {
+    $this->close = $close;
+  }
+
+  public function getClose() {
+    return $this->close;
+  }
+  
+  public function setOpen($open) {
+    $this->open = $open;
+  }
+
+  public function getOpen() {
+    return $this->open;
+  }
+  
+}
+
+
+class SubmissionAttribution {
+
+  public $displayName;
+  public $location;
+  public $avatarUrl;
+
+  public function setDisplayName($displayName) {
+    $this->displayName = $displayName;
+  }
+
+  public function getDisplayName() {
+    return $this->displayName;
+  }
+  
+  public function setLocation($location) {
+    $this->location = $location;
+  }
+
+  public function getLocation() {
+    return $this->location;
+  }
+  
+  public function setAvatarUrl($avatarUrl) {
+    $this->avatarUrl = $avatarUrl;
+  }
+
+  public function getAvatarUrl() {
+    return $this->avatarUrl;
+  }
+  
+}
+
+
+class SubmissionCounters {
+
+  public $noneVotes;
+  public $minusVotes;
+  public $plusVotes;
+
+  public function setNoneVotes($noneVotes) {
+    $this->noneVotes = $noneVotes;
+  }
+
+  public function getNoneVotes() {
+    return $this->noneVotes;
+  }
+  
+  public function setMinusVotes($minusVotes) {
+    $this->minusVotes = $minusVotes;
+  }
+
+  public function getMinusVotes() {
+    return $this->minusVotes;
+  }
+  
+  public function setPlusVotes($plusVotes) {
+    $this->plusVotes = $plusVotes;
+  }
+
+  public function getPlusVotes() {
+    return $this->plusVotes;
+  }
+  
+}
+
+
+class TopicCounters {
+
+  public $users;
+  public $noneVotes;
+  public $videoSubmissions;
+  public $minusVotes;
+  public $submissions;
+  public $plusVotes;
+
+  public function setUsers($users) {
+    $this->users = $users;
+  }
+
+  public function getUsers() {
+    return $this->users;
+  }
+  
+  public function setNoneVotes($noneVotes) {
+    $this->noneVotes = $noneVotes;
+  }
+
+  public function getNoneVotes() {
+    return $this->noneVotes;
+  }
+  
+  public function setVideoSubmissions($videoSubmissions) {
+    $this->videoSubmissions = $videoSubmissions;
+  }
+
+  public function getVideoSubmissions() {
+    return $this->videoSubmissions;
+  }
+  
+  public function setMinusVotes($minusVotes) {
+    $this->minusVotes = $minusVotes;
+  }
+
+  public function getMinusVotes() {
+    return $this->minusVotes;
+  }
+  
+  public function setSubmissions($submissions) {
+    $this->submissions = $submissions;
+  }
+
+  public function getSubmissions() {
+    return $this->submissions;
+  }
+  
+  public function setPlusVotes($plusVotes) {
+    $this->plusVotes = $plusVotes;
+  }
+
+  public function getPlusVotes() {
+    return $this->plusVotes;
+  }
+  
+}
+
+
+class ProfileAttribution {
+
+  public $geo;
+  public $displayName;
+  public $location;
+  public $avatarUrl;
+
+  public function setGeo( ProfileAttributionGeo $geo) {
+    $this->geo = $geo;
+  }
+
+  public function getGeo() {
+    return $this->geo;
+  }
+  
+  public function setDisplayName($displayName) {
+    $this->displayName = $displayName;
+  }
+
+  public function getDisplayName() {
+    return $this->displayName;
+  }
+  
+  public function setLocation($location) {
+    $this->location = $location;
+  }
+
+  public function getLocation() {
+    return $this->location;
+  }
+  
+  public function setAvatarUrl($avatarUrl) {
+    $this->avatarUrl = $avatarUrl;
+  }
+
+  public function getAvatarUrl() {
+    return $this->avatarUrl;
+  }
+  
+}
+
+
+class TopicId {
+
+  public $seriesId;
+  public $topicId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setTopicId($topicId) {
+    $this->topicId = $topicId;
+  }
+
+  public function getTopicId() {
+    return $this->topicId;
+  }
+  
+}
+
+
+class Topic2Counters {
+
+  public $users;
+  public $noneVotes;
+  public $videoSubmissions;
+  public $minusVotes;
+  public $submissions;
+  public $plusVotes;
+
+  public function setUsers($users) {
+    $this->users = $users;
+  }
+
+  public function getUsers() {
+    return $this->users;
+  }
+  
+  public function setNoneVotes($noneVotes) {
+    $this->noneVotes = $noneVotes;
+  }
+
+  public function getNoneVotes() {
+    return $this->noneVotes;
+  }
+  
+  public function setVideoSubmissions($videoSubmissions) {
+    $this->videoSubmissions = $videoSubmissions;
+  }
+
+  public function getVideoSubmissions() {
+    return $this->videoSubmissions;
+  }
+  
+  public function setMinusVotes($minusVotes) {
+    $this->minusVotes = $minusVotes;
+  }
+
+  public function getMinusVotes() {
+    return $this->minusVotes;
+  }
+  
+  public function setSubmissions($submissions) {
+    $this->submissions = $submissions;
+  }
+
+  public function getSubmissions() {
+    return $this->submissions;
+  }
+  
+  public function setPlusVotes($plusVotes) {
+    $this->plusVotes = $plusVotes;
+  }
+
+  public function getPlusVotes() {
+    return $this->plusVotes;
+  }
+  
+}
+
+
+class Series {
+
+  public $kind;
+  public $description;
+  public $rules;
+  public $videoSubmissionAllowed;
+  public $name;
+  public $numTopics;
+  public $anonymousSubmissionAllowed;
+  public $id;
+  public $counters;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setDescription($description) {
+    $this->description = $description;
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
+  
+  public function setRules( SeriesRules $rules) {
+    $this->rules = $rules;
+  }
+
+  public function getRules() {
+    return $this->rules;
+  }
+  
+  public function setVideoSubmissionAllowed($videoSubmissionAllowed) {
+    $this->videoSubmissionAllowed = $videoSubmissionAllowed;
+  }
+
+  public function getVideoSubmissionAllowed() {
+    return $this->videoSubmissionAllowed;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+  public function setNumTopics($numTopics) {
+    $this->numTopics = $numTopics;
+  }
+
+  public function getNumTopics() {
+    return $this->numTopics;
+  }
+  
+  public function setAnonymousSubmissionAllowed($anonymousSubmissionAllowed) {
+    $this->anonymousSubmissionAllowed = $anonymousSubmissionAllowed;
+  }
+
+  public function getAnonymousSubmissionAllowed() {
+    return $this->anonymousSubmissionAllowed;
+  }
+  
+  public function setId( SeriesId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setCounters( SeriesCounters $counters) {
+    $this->counters = $counters;
+  }
+
+  public function getCounters() {
+    return $this->counters;
+  }
+  
+}
+
+
+class TagId {
+
+  public $seriesId;
+  public $tagId;
+  public $submissionId;
+
+  public function setSeriesId($seriesId) {
+    $this->seriesId = $seriesId;
+  }
+
+  public function getSeriesId() {
+    return $this->seriesId;
+  }
+  
+  public function setTagId($tagId) {
+    $this->tagId = $tagId;
+  }
+
+  public function getTagId() {
+    return $this->tagId;
+  }
+  
+  public function setSubmissionId($submissionId) {
+    $this->submissionId = $submissionId;
+  }
+
+  public function getSubmissionId() {
+    return $this->submissionId;
+  }
+  
+}
+
+
+class SeriesRulesVotes {
+
+  public $close;
+  public $open;
+
+  public function setClose($close) {
+    $this->close = $close;
+  }
+
+  public function getClose() {
+    return $this->close;
+  }
+  
+  public function setOpen($open) {
+    $this->open = $open;
+  }
+
+  public function getOpen() {
+    return $this->open;
+  }
+  
+}
+
+
+class Topic {
+
+  public $kind;
+  public $description;
+  public $rules;
+  public $featuredSubmission;
+  public $presenter;
+  public $counters;
+  public $id;
+  public $name;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setDescription($description) {
+    $this->description = $description;
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
+  
+  public function setRules( TopicRules $rules) {
+    $this->rules = $rules;
+  }
+
+  public function getRules() {
+    return $this->rules;
+  }
+  
+  public function setFeaturedSubmission($featuredSubmission) {
+    $this->featuredSubmission = $featuredSubmission;
+  }
+
+  public function getFeaturedSubmission() {
+    return $this->featuredSubmission;
+  }
+  
+  public function setPresenter($presenter) {
+    $this->presenter = $presenter;
+  }
+
+  public function getPresenter() {
+    return $this->presenter;
+  }
+  
+  public function setCounters( TopicCounters $counters) {
+    $this->counters = $counters;
+  }
+
+  public function getCounters() {
+    return $this->counters;
+  }
+  
+  public function setId( TopicId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+}
+
+
+class Tag {
+
+  public $text;
+  public $kind;
+  public $id;
+
+  public function setText($text) {
+    $this->text = $text;
+  }
+
+  public function getText() {
+    return $this->text;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setId( TagId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class Vote {
+
+  public $vote;
+  public $flag;
+  public $id;
+  public $kind;
+
+  public function setVote($vote) {
+    $this->vote = $vote;
+  }
+
+  public function getVote() {
+    return $this->vote;
+  }
+  
+  public function setFlag($flag) {
+    $this->flag = $flag;
+  }
+
+  public function getFlag() {
+    return $this->flag;
+  }
+  
+  public function setId( VoteId $id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class SeriesRulesSubmissions {
+
+  public $close;
+  public $open;
+
+  public function setClose($close) {
+    $this->close = $close;
+  }
+
+  public function getClose() {
+    return $this->close;
+  }
+  
+  public function setOpen($open) {
+    $this->open = $open;
+  }
+
+  public function getOpen() {
+    return $this->open;
+  }
+  
+}
+
+
+class SubmissionList {
+
+  public $items;
+  public $kind;
+
+  public function setItems( Submission $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class TagList {
+
+  public $items;
+  public $kind;
+
+  public function setItems( Tag $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
 }
 

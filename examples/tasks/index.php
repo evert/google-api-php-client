@@ -15,62 +15,50 @@
  * limitations under the License.
  */
 session_start();
-
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiBuzzService.php';
-
-global $apiConfig;
+require_once '../../src/contrib/apiTasksService.php';
 
 // Visit https://code.google.com/apis/console to
 // generate your oauth2_client_id, oauth2_client_secret, and to
 // register your oauth2_redirect_uri.
-//$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
-//$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
-//$apiConfig['oauth2_redirect_uri'] = 'http://YOUR_REDIRECT_URI';
-$apiconfig['authClass'] = 'apiOAuth2';
-
+// $apiConfig['oauth2_client_id'] = 'YOUR_OAUTH2_CLIENT_ID';
+// $apiConfig['oauth2_client_secret'] = 'YOUR_OAUTH2_CLIENT_SECRET';
+// $apiConfig['oauth2_redirect_uri'] = 'YOUR_REDIRECT_URI';
+global $apiConfig;
+$apiConfig['authClass'] = 'apiOAuth2';
 $client = new apiClient();
-$buzz = new apiBuzzService($client);
+$tasksService = new apiTasksService($client);
 
 if (isset($_SESSION['access_token'])) {
   $client->setAccessToken($_SESSION['access_token']);
 } else {
   $client->setAccessToken($client->authenticate());
 }
-$_SESSION['access_token'] = $client->getAccessToken();
+
+if (isset($_GET['code'])) {
+  header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+}
 ?>
 <!doctype html>
 <html>
 <head>
-  <title>OAuth2 Sample</title>
+  <title>Tasks API Sample</title>
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Droid+Serif|Droid+Sans:regular,bold' />
   <link rel='stylesheet' href='css/style.css' />
 </head>
 <body>
 <div id='container'>
-  <div id='top'>
-    <div id='identity'>
-    <?php if ($client->getAccessToken()) {
-      $me = $buzz->people->get('@me');
-      $ident = '<img alt="photo" src="%s"> <a href="%s">%s</a>';
-      printf($ident, $me['thumbnailUrl'], $me['profileUrl'], $me['displayName']);
-    }?>
-    </div>
-    <h1>Google APIs Client Library for PHP: OAuth2 Sample</h1>
-  </div>
+  <div id='top'><h1>Tasks API Sample</h1></div>
   <div id='main'>
-<?php if ($client->getAccessToken()) {
-  $activities = $buzz->activities->listActivities('@consumption', '@me');
-  foreach ($activities['items'] as $activity) {
-    $actor = $activity['actor'];
-    echo <<<HTML
-<div id='person'>
-  <div><p id='name'><a href='{$actor['profileUrl']}'>{$actor['name']}</a></p></div>
-  <p id='post'>{$activity['object']['content']}</p>
-</div>
-HTML;
+<?php
+  $lists = $tasksService->tasklists->listTasklists();
+  foreach ($lists['items'] as $list) {
+    print "<h3>{$list['name']}</h3>";
+    $tasks = $tasksService->tasks->listTasks($list['id']);
+    foreach ($tasks['items'] as $task) {
+      print "<p id='post'>{$task['title']}</p>";
+    }
   }
-}
 ?>
   </div>
 </div>

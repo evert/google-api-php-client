@@ -22,15 +22,20 @@
  * # phpunit AllTests.php
  */
 
-require_once "general/GeneralTests.php";
-require_once "buzz/BuzzTests.php";
+require_once 'general/GeneralTests.php';
+require_once 'buzz/BuzzTests.php';
+require_once 'tasks/AllTasksTests.php';
+require_once 'pagespeed/AllPageSpeedTests.php';
+require_once 'urlshortener/AllUrlShortenerTests.php';
 
 class AllTests {
-
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite();
     $suite->setName('All Google API PHP Client tests');
     $suite->addTestSuite(BuzzTests::suite());
+    $suite->addTestSuite(AllTasksTests::suite());
+    $suite->addTestSuite(AllPageSpeedTests::suite());
+    $suite->addTestSuite(AllUrlShortenerTests::suite());
     $suite->addTestSuite(GeneralTests::suite());
     return $suite;
   }

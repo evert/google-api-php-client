@@ -115,7 +115,18 @@ class apiClient {
   }
 
   public function authenticate() {
+    $service = $this->prepareService();
     $this->authenticated = true;
+    return $this->auth->authenticate($this->cache, $this->io, $service);
+  }
+
+  
+  public function createAuthUrl() {
+    $service = $this->prepareService();
+    return $this->auth->createAuthUrl($service);
+  }
+
+  private function prepareService() {
     $service = $this->defaultService;
     $scopes = array();
     if ($this->scopes) {
@@ -137,7 +148,7 @@ class apiClient {
       }
     }
     $service['scope'] = implode(' ', $scopes);
-    return $this->auth->authenticate($this->cache, $this->io, $service);
+    return $service;
   }
 
   /**
@@ -162,7 +173,7 @@ class apiClient {
   /**
    * This function allows you to overrule the automatically generated scopes, so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!
-   * @param array $scopes, ie: array('https://www.googleapis.com/auth/buzz', 'https://www.googleapis.com/auth/latitude', 'https://www.googleapis.com/auth/moderator')
+   * @param array $scopes, ie: array("https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/latitude", "https://www.googleapis.com/auth/moderator")
    */
   public function setScopes($scopes) {
     $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
@@ -171,12 +182,12 @@ class apiClient {
   private function discoverService($serviceName, $serviceURI) {
     $request = $this->io->makeRequest(new apiHttpRequest($serviceURI));
     if ($request->getResponseHttpCode() != 200) {
-      throw new apiException("Could not fetch discovery document for $service, http code: " . $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
+      throw new apiException("Could not fetch discovery document for $serviceName, http code: " . $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
     }
     $discoveryResponse = $request->getResponseBody();
     $discoveryDocument = json_decode($discoveryResponse, true);
     if ($discoveryDocument == NULL) {
-      throw new apiException("Invalid json returned for $service");
+      throw new apiException("Invalid json returned for $serviceName");
     }
     return new apiService($serviceName, $discoveryDocument, $this->io);
   }

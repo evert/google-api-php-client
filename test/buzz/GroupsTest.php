@@ -28,11 +28,13 @@ class GroupsTest extends apiBuzzTest {
     if (! $this->cleanedGroups) {
       try {
         // clean up from any failed previous runs which that wouldve left test groups behind
-        $groups = $this->buzz->listGroups('@me', null, null, 50);
+        $groups = $this->buzz->groups->listGroups('@me', null, null, 50);
         foreach ($groups['items'] as $group) {
-          if ($group['title'] == 'Google API Client Test Group' || $group['title'] == 'Google API Client Updated Group' || $group['title'] == 'Google API Client Duplicate Group') {
+          if ($group['title'] == 'Google API Client Test Group'
+              || $group['title'] == 'Google API Client Updated Group'
+              || $group['title'] == 'Google API Client Duplicate Group') {
             try {
-              $this->buzz->deleteGroups($group['id'], '@me');
+              $this->buzz->groups->delete($group['id'], '@me');
             } catch (apiServiceException $e) {
               // ignore, group didn't exist
             }
@@ -46,7 +48,7 @@ class GroupsTest extends apiBuzzTest {
   }
 
   public function testListGroups() {
-    $groups = $this->buzz->listGroups('@me', null, null, 50);
+    $groups = $this->buzz->groups->listGroups('@me', null, null, 50);
     $this->assertTrue(is_array($groups));
     $this->assertArrayHasKey('kind', $groups);
     $this->assertEquals('buzz#groupFeed', $groups['kind']);
@@ -60,14 +62,17 @@ class GroupsTest extends apiBuzzTest {
    * @depends testListGroups
    */
   public function testDuplicateGroup() {
-    $group = $this->buzz->insertGroups('@me', array('data' => array('title' => 'Google API Client Duplicate Group')));
+    $group = new Group();
+    $group->setTitle('Google API Client Duplicate Group');
+
+    $newGroup = $this->buzz->groups->insert('@me', $group);
     try {
-      $this->buzz->insertGroups('@me', array('data' => array('title' => 'Google API Client Duplicate Group')));
+      $this->buzz->groups->insert('@me', $group);
     } catch (apiServiceException $e) {
-      $this->buzz->deleteGroups($group['id'], '@me');
+      $this->buzz->groups->delete($newGroup['id'], '@me');
       return;
     }
-    $this->buzz->deleteGroups($group['id'], '@me');
+    $this->buzz->groups->delete($newGroup['id'], '@me');
     $this->fail('Missing apiServiceException on creating a duplicate group');
   }
 
@@ -75,19 +80,22 @@ class GroupsTest extends apiBuzzTest {
    * @depends testListGroups
    */
   public function testInsertUpdateAndDeleteGroups() {
-    $group = $this->buzz->insertGroups('@me', array('data' => array('title' => 'Google API Client Test Group')));
+    $group = new Group();
+    $group->setTitle('Google API Client Duplicate Group');
+    $group = $this->buzz->groups->insert('@me', $group);
+      
     $this->evaluateGroup($group);
 
-    $group = $this->buzz->updateGroups($group['id'], '@me', array(
+    $group = $this->buzz->groups->get($group['id'], '@me', array(
         'data' => array('title' => 'Google API Client Updated Group')));
     $this->evaluateGroup($group);
 
-    $validateGroup = $this->buzz->getGroups($group['id'], '@me');
+    $validateGroup = $this->buzz->groups->get($group['id'], '@me');
     $this->evaluateGroup($validateGroup);
     $this->assertEquals($validateGroup['title'], $group['title']);
     $this->assertEquals($validateGroup['id'], $group['id']);
 
-    $this->buzz->deleteGroups($group['id'], '@me');
+    $this->buzz->groups->delete($group['id'], '@me');
   }
 
   private function evaluateGroup($group) {

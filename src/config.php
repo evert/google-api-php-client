@@ -16,10 +16,8 @@
  */
 
 global $apiConfig;
-
 $apiConfig = array(
-
-    // Site name to show in the Google's oauth authentication screen
+    // Site name to show in the Google's OAuth authentication screen
     'site_name' => 'www.example.org',
 
     // OAuth2 Setting, you can get these keys at https://code.google.com/apis/console
@@ -57,11 +55,13 @@ $apiConfig = array(
 
     // Definition of service specific values like scopes, oauth token url's, etc
     'services' => array(
+      'books' => array('scope' => 'https://www.googleapis.com/auth/books'),
       'buzz' => array('scope' => 'https://www.googleapis.com/auth/buzz', 'authorization_token_url' => 'https://www.google.com/buzz/api/auth/OAuthAuthorizeToken'),
-      'easyhybrid' => array('scope' => 'https://www.googleapis.com/auth/userinfo#email'),
       'latitude' => array('scope' => 'https://www.googleapis.com/auth/latitude', 'authorization_token_url' => 'https://www.google.com/latitude/apps/OAuthAuthorizeToken'),
       'moderator' => array('scope' => 'https://www.googleapis.com/auth/moderator'),
+      'easyhybrid' => array('scope' => 'https://www.googleapis.com/auth/userinfo#email'),
       'siteVerification' => array('scope' => 'https://www.googleapis.com/auth/siteverification'),
-      'tasks' => array('scope' => 'https://www.googleapis.com/auth/tasks')
+      'tasks' => array('scope' => 'https://www.googleapis.com/auth/tasks'),
+      'urlshortener' => array('scope' => 'https://www.googleapis.com/auth/urlshortener')
     )
 );

@@ -19,7 +19,7 @@ if (isset($_SESSION['oauth_access_token'])) {
 
 //echo "<pre>" . print_r( $apiClient->buzz->activities->list(array('userId' => '@me', 'scope' => '@self')) , true) . "</pre>";
 
-echo "<pre>" . print_r( $buzz->listActivities('@consumption', '@me', 0, 10) , true) . "</pre>";
+echo "<pre>" . print_r( $buzz->activities->listActivities('@consumption', '@me', 0, 10) , true) . "</pre>";
 //echo "<pre>" . print_r( $apiClient->buzz->activities->list(array('scope' => '@consumption', 'userId' => '@me')) , true) . "</pre>";
 
 /*

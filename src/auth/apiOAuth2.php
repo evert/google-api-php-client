@@ -69,17 +69,17 @@ class apiOAuth2 extends apiAuth {
         throw new apiAuthException("Error fetching OAuth2 access token, message: '" . $response . "'", $request->getResponseHttpCode());
       }
     }
-    // This is the initial authenticate() call, go through the authorization flow
+
     $authUrl = $this->createAuthUrl($service);
     header('Location: ' . $authUrl);
-  }
+  } 
 
   public function createAuthUrl($service) {
     $params = array(
-    	'response_type=code',
-    	'redirect_uri=' . urlencode($this->RedirectUri),
-      'client_id=' . urlencode($this->ClientId),
-      'scope=' . urlencode($service['scope'])
+        'response_type=code',
+        'redirect_uri=' . urlencode($this->RedirectUri),
+        'client_id=' . urlencode($this->ClientId),
+        'scope=' . urlencode($service['scope'])
     );
     $params = implode('&', $params);
     return "https://www.google.com/accounts/o8/oauth2/authorization?$params";
@@ -119,6 +119,7 @@ class apiOAuth2 extends apiAuth {
           'refresh_token' => $this->accessToken['refresh_token'],
           'grant_type' => 'refresh_token'
       )));
+      
       if ((int)$refreshRequest->getResponseHttpCode() == 200) {
         $token = json_decode($refreshRequest->getResponseBody(), true);
         if ($token == null) {

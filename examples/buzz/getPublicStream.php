@@ -41,7 +41,7 @@ if (isset($_SESSION['auth_token'])) {
   $_SESSION['auth_token'] = $apiClient->authenticate();
 }
 // Get the consumption stream (the activities from the people you're following) for @me, which means 'the authenticated user', using $buzz->listActivities()
-$activities = $buzz->listActivities('@public', '@me');
+$activities = $buzz->activities->listActivities('@public', '@me');
 //echo "<pre>".print_r($activities, true)."</pre>";
 if (isset($activities['items'])) {
   foreach ($activities['items'] as $buzzPost) {

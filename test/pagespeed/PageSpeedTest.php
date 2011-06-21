@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,53 +16,59 @@
  */
 
 require_once '../src/apiClient.php';
-require_once '../src/contrib/apiBuzzService.php';
+require_once '../src/contrib/apiPagespeedonlineService.php';
 
-// These variables are shared between all the buzz test cases as performance optimization
-$apiBuzzTest_apiClient = null;
-$apiBuzzTest_buzz = null;
+// These variables are shared between all the tasks
+// test cases as performance optimization.
+$apiClient = null;
+$tasks = null;
 
-class apiBuzzTest extends PHPUnit_Framework_TestCase {
-
+class PageSpeedTest extends PHPUnit_Framework_TestCase {
   public $apiClient;
   public $oauthToken;
-  public $buzz;
-
+  public $pageSpeedService;
   private $origConfig = false;
 
   public function __construct() {
-    global $apiConfig, $apiBuzzTest_apiClient, $apiBuzzTest_buzz;
+    global $apiConfig, $apiClient, $pageSpeedService;
     parent::__construct();
 
-    if (! $apiBuzzTest_apiClient || ! $apiBuzzTest_buzz) {
-
+    if (! $apiClient || ! $pageSpeedService) {
       $this->origConfig = $apiConfig;
-      // Set up a predictable, default envirioment so the test results are predictable
+      // Set up a predictable, default environment so the test results are predictable
       //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
       //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
       $apiConfig['authClass'] = 'apiOAuth2';
-
-     
       $apiConfig['ioClass'] = 'apiCurlIO';
       $apiConfig['cacheClass'] = 'apiFileCache';
       $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
 
-      // create the global api and buzz clients (which are shared between the various buzz test suites for performance reasons)
-      $apiBuzzTest_apiClient = new apiClient();
-      $apiBuzzTest_buzz = new apiBuzzService($apiBuzzTest_apiClient);
-      $apiBuzzTest_apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      $apiClient = new apiClient();
+      $pageSpeedService = new apiPagespeedonlineService($apiClient);
+      $apiClient->setAccessToken($apiConfig['oauth_test_token']);
     }
-    $this->apiClient = $apiBuzzTest_apiClient;
-    $this->buzz = $apiBuzzTest_buzz;
+    $this->apiClient = $apiClient;
+    $this->pageSpeedService = $pageSpeedService;
   }
 
   public function __destruct() {
     global $apiConfig;
-    $this->buzz = null;
+    $this->pageSpeedService = null;
     $this->apiClient = null;
     if ($this->origConfig) {
       $apiConfig = $this->origConfig;
     }
   }
 
+  public function testPageSpeed() {
+    $psapi = $this->pageSpeedService->pagespeedapi;
+    $result = $psapi->runpagespeed('http://code.google.com');
+    $this->assertArrayHasKey('kind', $result);
+    $this->assertArrayHasKey('id', $result);
+    $this->assertArrayHasKey('responseCode', $result);
+    $this->assertArrayHasKey('title', $result);
+    $this->assertArrayHasKey('score', $result);
+    $this->assertArrayHasKey('pageStats', $result);
+    $this->assertArrayHasKey('version', $result);
+  }
 }

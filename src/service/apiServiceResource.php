@@ -42,7 +42,7 @@ class apiServiceResource {
       throw new apiException("apiClient method calls expect one or two parameter (for example: \$apiClient->buzz->activities->list( array('userId' => '@me')) or when executing a batch request: \$apiClient->buzz->activities->list( array('userId' => '@me'), 'batchKey')");
     }
     if (! is_array($arguments[0])) {
-      throw new apiException("apiClient method parameter should me an array (for example: \$apiClient->buzz->activities->list( array('userId' => '@me'))");
+      throw new apiException("apiClient method parameter should be an array (for example: \$apiClient->buzz->activities->list( array('userId' => '@me'))");
     }
     $batchKey = false;
     if (isset($arguments[1])) {
@@ -60,12 +60,7 @@ class apiServiceResource {
     $postBody = null;
     if (isset($parameters['postBody'])) {
       if (is_object($parameters['postBody'])) {
-        $parameters['postBody'] = (array) $parameters['postBody'];
-        foreach($parameters['postBody'] as $k => $v) {
-          if (null === $v) {
-           unset($parameters['postBody'][$k]);
-          }
-        }
+        $this->stripNull($parameters['postBody']);
       }
 
       // Some APIs require the postBody to be set under the data key.
@@ -115,6 +110,18 @@ class apiServiceResource {
       return $request;
     } else {
       return apiREST::execute($request);
+    }
+  }
+
+  private function stripNull(&$o) {
+    $o = (array) $o;
+    foreach ($o as $k => $v) {
+      if ($v === null) {
+        unset($o[$k]);
+      }
+      elseif ('object' == gettype($v) || 'array' == gettype($v)) {
+        $this->stripNull($o[$k]);
+      }
     }
   }
 }
