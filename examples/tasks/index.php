@@ -33,6 +33,7 @@ if (isset($_SESSION['access_token'])) {
   $client->setAccessToken($_SESSION['access_token']);
 } else {
   $client->setAccessToken($client->authenticate());
+  $_SESSION['access_token'] = $client->getAccessToken();
 }
 
 if (isset($_GET['code'])) {
