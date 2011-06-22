@@ -106,7 +106,7 @@ class apiCurlIO implements apiIO {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getPostBody());
     }
     if ($request->getHeaders() && is_array($request->getHeaders())) {
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $request->getHeaders());
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array_unique($request->getHeaders()));
     }
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -172,10 +172,10 @@ class apiCurlIO implements apiIO {
     // evaluate if the request can be cached
     $canCache = ! in_array('no-store', $cacheControl) &&                                            // If no Cache-Control: no-store is present, we can cache
               (($etag || $expires > $date) ||                                                       // if the response has an etag, or if it has an expiration date that is greater then the current date, we can check for a 304 NOT MODIFIED, so cache
-              (! $etag && ! $expires && ! $pagmaNoCache && ! in_array('no-cache', $cacheControl))); // or if there is no etag, and no expiration set, but also no pragma: no-cache and no cache-control: no-cache, we can cache (but we'll set our own expires header to make sure it's refreshed frequently)
+              (! $etag && ! $expires && ! $pragmaNoCache && ! in_array('no-cache', $cacheControl))); // or if there is no etag, and no expiration set, but also no pragma: no-cache and no cache-control: no-cache, we can cache (but we'll set our own expires header to make sure it's refreshed frequently)
     if ($canCache) {
       // Set an 1 hour expiration header if non exists, and no do-not-cache directives exist
-      if (! $etag && ! $expires && ! $pagmaNoCache && ! in_array('no-cache', $cacheControl)) {
+      if (! $etag && ! $expires && ! $pragmaNoCache && ! in_array('no-cache', $cacheControl)) {
         // Add Expires and Date headers to simplify the cache retrieval code path
         $request->setResponseHeaders(array_merge(array(
             'Expires' => date('r', time() + 60 * 60),
