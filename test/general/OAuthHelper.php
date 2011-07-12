@@ -45,4 +45,6 @@ print "Please enter the auth code:\n";
 $authCode = trim(fgets(STDIN));
 
 $_GET['code'] = $authCode;
-var_dump($client->authenticate());
+$accessToken = $client->authenticate();
+
+var_dump($accessToken);
