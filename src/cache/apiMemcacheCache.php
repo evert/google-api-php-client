@@ -68,14 +68,14 @@ class apiMemcacheCache extends apiCache {
       // 250 ms is a long time to sleep, but it does stop the server from burning all resources on polling locks..
       usleep(250);
       $cnt ++;
-    } while ($cnt <= $tries && $this->isLocked());
-    if ($this->isLocked()) {
+    } while ($cnt <= $tries && $this->isLocked($key));
+    if ($this->isLocked($key)) {
       // 5 seconds passed, assume the owning process died off and remove it
       $this->removeLock($key);
     }
   }
 
-  // I prefer lazy initalization since the cache isn't used every request
+  // I prefer lazy initialization since the cache isn't used every request
   // so this potentially saves a lot of overhead
   private function connect() {
     if (! $this->connection = @memcache_pconnect($this->host, $this->port)) {
@@ -109,7 +109,7 @@ class apiMemcacheCache extends apiCache {
    */
   public function set($key, $value) {
     $this->check();
-    // we store it with the cache_time default expiration so objects will atleast get cleaned eventually.
+    // we store it with the cache_time default expiration so objects will at least get cleaned eventually.
     if (@memcache_set($this->connection, $key, array('time' => time(),
         'data' => $value), false) == false) {
       throw new apiCacheException("Couldn't store data in cache");

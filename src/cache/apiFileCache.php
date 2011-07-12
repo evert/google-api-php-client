@@ -41,7 +41,7 @@ class apiFileCache extends apiCache {
     $storageDir = dirname($storageFile);
     if (! is_dir($storageDir)) {
       if (! @mkdir($storageDir, 0755, true)) {
-        // make sure the failure isn't because of a concurency issue
+        // make sure the failure isn't because of a concurrency issue
         if (! is_dir($storageDir)) {
           throw new apiCacheException("Could not create storage directory: $storageDir");
         }
