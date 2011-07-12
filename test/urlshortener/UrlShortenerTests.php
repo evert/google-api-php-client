@@ -48,6 +48,7 @@ class UrlShortenerTests extends PHPUnit_Framework_TestCase {
       $apiClient->setAccessToken($apiConfig['oauth_test_token']);
     }
     $this->apiClient = $apiClient;
+    $this->apiClient->discover('urlshortener');
     $this->service = $service;
   }
 
@@ -61,13 +62,31 @@ class UrlShortenerTests extends PHPUnit_Framework_TestCase {
   }
 
   public function testUrlShort() {
-    $urlApi = $this->service->url;
     $url = new Url();
     $url->longUrl = "http://google.com";
 
-    $shortUrl = $urlApi->insert($url);
-
+    $shortUrl = $this->service->url->insert($url);
     $this->assertEquals('urlshortener#url', $shortUrl['kind']);
     $this->assertEquals('http://google.com/', $shortUrl['longUrl']);
+  }
+
+  public function testRpcBatch() {
+    $url = new Url();
+    $url->longUrl = "http://google.com";
+    $short0 = $this->service->url->insert($url);
+
+    $url = new Url();
+    $url->longUrl = "http://www.google.com";
+    $short1 = $this->service->url->insert($url);
+
+    $ret = apiBatch::execute(
+      $this->apiClient->urlshortener->url->get(array('shortUrl' => $short0['id']), 'url0'),
+      $this->apiClient->urlshortener->url->get(array('shortUrl' => $short1['id']), 'url1')
+    );
+
+    $this->assertArrayHasKey('url0', $ret);
+    $this->assertArrayHasKey('url1', $ret);
+    $this->assertArrayHasKey('id', $ret['url0']);
+    $this->assertArrayHasKey('longUrl', $ret['url0']);
   }
 }
