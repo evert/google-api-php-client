@@ -36,6 +36,7 @@ class apiOAuth extends apiAuth {
   protected $developerKey;
   public $io;
   public $cache;
+  public $service;
 
   /**
    * Instantiates the class, but does not initiate the login flow, leaving it
