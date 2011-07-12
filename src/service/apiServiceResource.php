@@ -104,7 +104,18 @@ class apiServiceResource {
         }
       }
     }
-    $request = new apiServiceRequest($this->service->getIo(), $this->service->getRestBasePath(), $this->service->getRpcPath(), $method['restPath'], $method['rpcMethod'], $method['httpMethod'], $parameters, $postBody);
+
+    // Discovery v1.0 puts the canonical method id under the 'id' field.
+    if (! isset($method['id'])) {
+      $method['id'] = $method['rpcMethod'];
+    }
+
+    // Discovery v1.0 puts the canonical path under the 'path' field.
+    if (! isset($method['path'])) {
+      $method['path'] = $method['restPath'];
+    }
+
+    $request = new apiServiceRequest($this->service->getIo(), $this->service->getRestBasePath(), $this->service->getRpcPath(), $method['path'], $method['id'], $method['httpMethod'], $parameters, $postBody);
     if ($batchKey) {
       $request->setBatchKey($batchKey);
       return $request;

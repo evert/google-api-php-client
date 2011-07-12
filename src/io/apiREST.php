@@ -39,7 +39,12 @@ class apiREST {
     $uriTemplateVars = array();
     $queryVars = array();
     foreach ($request->getParameters() as $paramName => $paramSpec) {
-      if ($paramSpec['restParameterType'] == 'path') {
+      // Discovery v1.0 puts the canonical location under the 'location' field.
+      if (! isset($paramSpec['location'])) {
+        $paramSpec['location'] = $paramSpec['restParameterType'];
+      }
+      
+      if ($paramSpec['location'] == 'path') {
         $uriTemplateVars[$paramName] = $paramSpec['value'];
       } else {
         $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
@@ -66,7 +71,8 @@ class apiREST {
     $httpRequest = new apiHttpRequest($requestUrl, $request->getHttpMethod(), null, $request->getPostBody());
     // Add a content-type: application/json header so the server knows how to interpret the post body
     if ($request->getPostBody()) {
-      $contentTypeHeader = array('Content-Type: application/json; charset=UTF-8', 'Content-Length: ' . self::getStrLen($request->getPostBody()));
+      $contentTypeHeader = array('Content-Type: application/json; charset=UTF-8',
+                                 'Content-Length: ' . self::getStrLen($request->getPostBody()));
       if ($httpRequest->getHeaders()) {
         $contentTypeHeader = array_merge($httpRequest->getHeaders(), $contentTypeHeader);
       }
@@ -76,7 +82,7 @@ class apiREST {
     if ($httpRequest->getResponseHttpCode() != '200' && $httpRequest->getResponseHttpCode() != '201' && $httpRequest->getResponseHttpCode() != '204') {
       $responseBody = $httpRequest->getResponseBody();
       if (($responseBody = json_decode($responseBody, true)) != null && isset($responseBody['error']['message']) && isset($responseBody['error']['code'])) {
-        // if we're getting a json encoded error defintion, use that instead of the raw response body for improved readability
+        // if we're getting a json encoded error definition, use that instead of the raw response body for improved readability
         $errorMessage = "Error calling " . $httpRequest->getUrl() . ": ({$responseBody['error']['code']}) {$responseBody['error']['message']}";
       } else {
         $errorMessage = "Error calling " . $httpRequest->getMethod() . " " . $httpRequest->getUrl() . ": (" . $httpRequest->getResponseHttpCode() . ") " . $httpRequest->getResponseBody();
@@ -90,7 +96,7 @@ class apiREST {
         throw new apiServiceException("Invalid json in service response: " . $httpRequest->getResponseBody());
       }
     }
-    //FIXME currently everything is wrapped in a data enveloppe, but hopefully this might change some day
+    //FIXME currently everything is wrapped in a data envelope, but hopefully this might change some day
     $ret = isset($decodedResponse['data']) ? $decodedResponse['data'] : $decodedResponse;
     // Add a 'continuationToken' element to the response if the response contains a next link (so you can call it using the 'c' param)
     $ret = self::checkNextLink($ret);

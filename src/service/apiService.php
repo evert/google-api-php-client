@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once "service/apiServiceResource.php";
-require_once "service/apiServiceRequest.php";
-require_once "service/apiBatch.php";
+require_once 'service/apiServiceResource.php';
+require_once 'service/apiServiceRequest.php';
+require_once 'service/apiBatch.php';
 
 /**
  * This class parses the service end points of the api discovery document and constructs

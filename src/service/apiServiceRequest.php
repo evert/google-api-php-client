@@ -37,7 +37,7 @@ class apiServiceRequest {
   protected $batchKey;
 
   /**
-   * Only used internally, so using a quick-and-dirty constuctor
+   * Only used internally, so using a quick-and-dirty constructor
    */
   public function __construct(apiIO $io, $restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
     global $apiConfig;
@@ -153,27 +153,6 @@ class apiServiceRequest {
    */
   public function setRpcPath($rpcPath) {
     $this->rpcPath = $rpcPath;
-  }
-
-  /**
-   * @param $rpcName the $rpcName to set
-   */
-  public function setRpcName($rpcName) {
-    $this->rpcName = $rpcName;
-  }
-
-  /**
-   * @param $httpMethod the $httpMethod to set
-   */
-  public function setHttpMethod($httpMethod) {
-    $this->httpMethod = $httpMethod;
-  }
-
-  /**
-   * @param $parameters the $parameters to set
-   */
-  public function setParameters($parameters) {
-    $this->parameters = $parameters;
   }
 
   /**
