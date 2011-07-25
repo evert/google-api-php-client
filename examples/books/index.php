@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 session_start();
+
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiTasksService.php';
+require_once '../../src/contrib/apiBooksService.php';
+
+global $apiConfig;
 
 // Visit https://code.google.com/apis/console to
 // generate your oauth2_client_id, oauth2_client_secret, and to
@@ -24,21 +27,27 @@ require_once '../../src/contrib/apiTasksService.php';
 // $apiConfig['oauth2_client_id'] = 'YOUR_OAUTH2_CLIENT_ID';
 // $apiConfig['oauth2_client_secret'] = 'YOUR_OAUTH2_CLIENT_SECRET';
 // $apiConfig['oauth2_redirect_uri'] = 'YOUR_REDIRECT_URI';
-global $apiConfig;
 $apiConfig['authClass'] = 'apiOAuth2';
+
 $client = new apiClient();
-$tasksService = new apiTasksService($client);
+$service = new apiBooksService($client);
 
 if (isset($_SESSION['access_token'])) {
   $client->setAccessToken($_SESSION['access_token']);
 } else {
   $client->setAccessToken($client->authenticate());
-  $_SESSION['access_token'] = $client->getAccessToken();
 }
+$_SESSION['access_token'] = $client->getAccessToken();
 
 if (isset($_GET['code'])) {
   header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
 }
+
+$shelves = $service->bookshelves->listBookshelves('me');
+foreach ($shelves as $shelf) {
+  print_r($shelf);
+}
+
 ?>
 <!doctype html>
 <html>
@@ -49,23 +58,8 @@ if (isset($_GET['code'])) {
 </head>
 <body>
 <div id='container'>
-  <div id='top'><h1>Tasks API Sample</h1></div>
-  <div id='main'>
-<?php
-  $lists = $tasksService->tasklists->listTasklists();
-  foreach ($lists['items'] as $list) {
-    print "<h3>{$list['name']}</h3>";
-    $tasks = $tasksService->tasks->listTasks($list['id']);
-    foreach ($tasks['items'] as $task) {
-      $updated = new Task($task);
-      $updated->setNotes('Test');
-      $updated->setTitle($task['title'] + ' ' . time());
-      $tasksService->tasks->update($list['id'], $task['id'], $updated);
-      print "<p id='post'>{$task['title']}</p>";
-    }
-  }
-?>
-  </div>
+  <div id='top'><h1>Books API Sample</h1></div>
+  <div id='main'></div>
 </div>
 </body>
 </html>

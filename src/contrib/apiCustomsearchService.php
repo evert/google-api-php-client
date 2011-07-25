@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -34,17 +34,21 @@ require_once 'service/apiServiceRequest.php';
      * Returns metadata about the search performed, metadata about the custom search engine used for the
      * search, and the search results. (cse.list)
      *
-     * @param  $sort The sort expression to apply to the results
-     * @param  $cx The custom search engine ID to scope this search query
-     * @param  $safe Search safety level
-     * @param  $q Query
-     * @param  $start The index of the first result to return
-     * @param  $num Number of search results to return
-     * @param  $lr The language restriction for the search results
-     * @param  $cref The URL of a linked custom search engine
+     * @param string $q Query
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $sort The sort expression to apply to the results
+     * @opt_param string $cx The custom search engine ID to scope this search query
+     * @opt_param string $safe Search safety level
+     * @opt_param string $start The index of the first result to return
+     * @opt_param string $num Number of search results to return
+     * @opt_param string $lr The language restriction for the search results
+     * @opt_param string $cref The URL of a linked custom search engine
      */
-    public function listCse($q, $cref = null, $cx = null, $lr = null, $num = null, $safe = null, $sort = null, $start = null) {
-      return $this->__call('list', array(array('sort' => $sort, 'cx' => $cx, 'safe' => $safe, 'q' => $q, 'start' => $start, 'num' => $num, 'lr' => $lr, 'cref' => $cref)));
+    public function listCse($q, $optParams = array()) {
+      $params = array('q' => $q);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -59,7 +63,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/customsearch/v1/using_rest.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -82,7 +86,7 @@ class apiCustomsearchService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->cse = new CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"parameters": {"sort": {"restParameterType": "query", "type": "string"}, "num": {"default": "10", "restParameterType": "query", "type": "string"}, "safe": {"default": "off", "enum": ["high", "medium", "off"], "restParameterType": "query", "type": "string"}, "q": {"restParameterType": "query", "required": true, "type": "string"}, "start": {"restParameterType": "query", "type": "string"}, "cx": {"restParameterType": "query", "type": "string"}, "lr": {"restParameterType": "query", "enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "type": "string"}, "cref": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "search.cse.list", "httpMethod": "GET", "response": {"$ref": "Search"}, "restPath": "v1"}}}', true));
+     $this->cse = new CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"parameters": {"sort": {"type": "string", "location": "query"}, "num": {"default": "10", "type": "string", "location": "query"}, "safe": {"default": "off", "enum": ["high", "medium", "off"], "location": "query", "type": "string"}, "q": {"required": true, "type": "string", "location": "query"}, "start": {"type": "string", "location": "query"}, "cx": {"type": "string", "location": "query"}, "lr": {"enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "type": "string", "location": "query"}, "cref": {"type": "string", "location": "query"}}, "id": "search.cse.list", "httpMethod": "GET", "path": "v1", "response": {"$ref": "Search"}}}}', true));
   }
 
   /**
@@ -113,7 +117,7 @@ class apiCustomsearchService {
   }
 }
 
-class Search {
+class Search extends apiModel {
 
   public $promotions;
   public $kind;
@@ -122,7 +126,7 @@ class Search {
   public $context;
   public $queries;
 
-  public function setPromotions( Promotion $promotions) {
+  public function setPromotions(Promotion $promotions) {
     $this->promotions = $promotions;
   }
 
@@ -138,7 +142,7 @@ class Search {
     return $this->kind;
   }
   
-  public function setUrl( SearchUrl $url) {
+  public function setUrl(SearchUrl $url) {
     $this->url = $url;
   }
 
@@ -146,7 +150,7 @@ class Search {
     return $this->url;
   }
   
-  public function setItems( Result $items) {
+  public function setItems(Result $items) {
     $this->items = $items;
   }
 
@@ -154,7 +158,7 @@ class Search {
     return $this->items;
   }
   
-  public function setContext( Context $context) {
+  public function setContext(Context $context) {
     $this->context = $context;
   }
 
@@ -162,7 +166,7 @@ class Search {
     return $this->context;
   }
   
-  public function setQueries( SearchQueries $queries) {
+  public function setQueries(Query $queries) {
     $this->queries = $queries;
   }
 
@@ -173,7 +177,7 @@ class Search {
 }
 
 
-class PromotionImage {
+class PromotionImage extends apiModel {
 
   public $source;
   public $width;
@@ -206,7 +210,7 @@ class PromotionImage {
 }
 
 
-class ContextFacetsItems {
+class ContextFacetsItems extends apiModel {
 
   public $anchor;
   public $label;
@@ -230,7 +234,7 @@ class ContextFacetsItems {
 }
 
 
-class SearchUrl {
+class SearchUrl extends apiModel {
 
   public $type;
   public $template;
@@ -254,13 +258,13 @@ class SearchUrl {
 }
 
 
-class ResultPagemap {
+class ResultPagemap extends apiModel {
 
 
 }
 
 
-class PromotionBodyLines {
+class PromotionBodyLines extends apiModel {
 
   public $url;
   public $link;
@@ -293,7 +297,7 @@ class PromotionBodyLines {
 }
 
 
-class Result {
+class Result extends apiModel {
 
   public $kind;
   public $title;
@@ -337,7 +341,7 @@ class Result {
     return $this->cacheId;
   }
   
-  public function setPagemap( ResultPagemap $pagemap) {
+  public function setPagemap($pagemap) {
     $this->pagemap = $pagemap;
   }
 
@@ -380,12 +384,12 @@ class Result {
 }
 
 
-class Context {
+class Context extends apiModel {
 
   public $facets;
   public $title;
 
-  public function setFacets( ContextFacetsItems $facets) {
+  public function setFacets(ContextFacetsItems $facets) {
     $this->facets = $facets;
   }
 
@@ -404,13 +408,13 @@ class Context {
 }
 
 
-class SearchQueries {
+class SearchQueries extends apiModel {
 
 
 }
 
 
-class ContextFacets {
+class ContextFacets extends apiModel {
 
   public $items;
 
@@ -422,7 +426,7 @@ class ContextFacets {
 }
 
 
-class Query {
+class Query extends apiModel {
 
   public $count;
   public $sort;
@@ -545,7 +549,7 @@ class Query {
 }
 
 
-class Promotion {
+class Promotion extends apiModel {
 
   public $link;
   public $displayLink;
@@ -569,7 +573,7 @@ class Promotion {
     return $this->displayLink;
   }
   
-  public function setImage( PromotionImage $image) {
+  public function setImage(PromotionImage $image) {
     $this->image = $image;
   }
 
@@ -577,7 +581,7 @@ class Promotion {
     return $this->image;
   }
   
-  public function setBodyLines( PromotionBodyLines $bodyLines) {
+  public function setBodyLines(PromotionBodyLines $bodyLines) {
     $this->bodyLines = $bodyLines;
   }
 
@@ -593,5 +597,11 @@ class Promotion {
     return $this->title;
   }
   
+}
+
+
+class ResultPagemapItems extends apiModel {
+
+
 }
 

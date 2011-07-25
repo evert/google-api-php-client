@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -33,81 +33,89 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Returns a list of products and content modules (products.list)
      *
-     * @param  $sayt_useGcsConfig Google Internal
-     * @param  $rankBy Ranking specification
-     * @param  $debug_enableLogging Google Internal
-     * @param  $facets_enabled Whether to return facet information
-     * @param  $relatedQueries_useGcsConfig This parameter is currently ignored
-     * @param  $promotions_enabled Whether to return promotion information
-     * @param  $debug_enabled Google Internal
-     * @param  $facets_include Facets to include (applies when useGcsConfig == false)
-     * @param  $productFields Google Internal
-     * @param  $channels Channels specification
-     * @param  $currency Currency restriction (ISO 4217)
-     * @param  $startIndex Index (1-based) of first product to return
-     * @param  $facets_discover Facets to discover
-     * @param  $debug_searchResponse Google Internal
-     * @param  $crowdBy Crowding specification
-     * @param  $spelling_enabled Whether to return spelling suggestions
-     * @param  $debug_geocodeRequest Google Internal
-     * @param  $spelling_useGcsConfig This parameter is currently ignored
-     * @param  $shelfSpaceAds_useGcsConfig This parameter is currently ignored
-     * @param  $shelfSpaceAds_enabled Whether to return shelf space ads
-     * @param  $useCase One of CommerceSearchUseCase, ShoppingApiUseCase
-     * @param  $taxonomy Taxonomy name
-     * @param  $debug_rdcRequest Google Internal
-     * @param  $categories_include Category specification
-     * @param  $boostBy Boosting specification
-     * @param  $redirects_useGcsConfig Whether to return redirect information as configured in the GCS account
-     * @param  $safe Whether safe search is enabled. Default: true
-     * @param  $categories_useGcsConfig This parameter is currently ignored
-     * @param  $maxResults Maximum number of results to return
-     * @param  $facets_useGcsConfig Whether to return facet information as configured in the GCS account
-     * @param  $categories_enabled Whether to return category information
-     * @param  $attributeFilter Comma separated list of attributes to return
-     * @param  $sayt_enabled Google Internal
-     * @param  $thumbnails Image thumbnails specification
-     * @param  $language Language restriction (BCP 47)
-     * @param  $country Country restriction (ISO 3166)
-     * @param  $debug_geocodeResponse Google Internal
-     * @param  $restrictBy Restriction specification
-     * @param  $debug_rdcResponse Google Internal
-     * @param  $q Search query
-     * @param  $shelfSpaceAds_maxResults The maximum number of shelf space ads to return
-     * @param  $redirects_enabled Whether to return redirect information
-     * @param  $debug_searchRequest Google Internal
-     * @param  $relatedQueries_enabled Whether to return related queries
-     * @param  $minAvailability
-     * @param  $promotions_useGcsConfig Whether to return promotion information as configured in the GCS account
-     * @param  $source Query source
+     * @param string $source Query source
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param bool $sayt.useGcsConfig Google Internal
+     * @opt_param string $rankBy Ranking specification
+     * @opt_param bool $debug.enableLogging Google Internal
+     * @opt_param bool $facets.enabled Whether to return facet information
+     * @opt_param bool $relatedQueries.useGcsConfig This parameter is currently ignored
+     * @opt_param bool $promotions.enabled Whether to return promotion information
+     * @opt_param bool $debug.enabled Google Internal
+     * @opt_param string $facets.include Facets to include (applies when useGcsConfig == false)
+     * @opt_param string $productFields Google Internal
+     * @opt_param string $channels Channels specification
+     * @opt_param string $currency Currency restriction (ISO 4217)
+     * @opt_param int $startIndex Index (1-based) of first product to return
+     * @opt_param string $facets.discover Facets to discover
+     * @opt_param bool $debug.searchResponse Google Internal
+     * @opt_param string $crowdBy Crowding specification
+     * @opt_param bool $spelling.enabled Whether to return spelling suggestions
+     * @opt_param bool $debug.geocodeRequest Google Internal
+     * @opt_param bool $spelling.useGcsConfig This parameter is currently ignored
+     * @opt_param bool $shelfSpaceAds.useGcsConfig This parameter is currently ignored
+     * @opt_param bool $shelfSpaceAds.enabled Whether to return shelf space ads
+     * @opt_param string $useCase One of CommerceSearchUseCase, ShoppingApiUseCase
+     * @opt_param string $taxonomy Taxonomy name
+     * @opt_param bool $debug.rdcRequest Google Internal
+     * @opt_param string $categories.include Category specification
+     * @opt_param string $boostBy Boosting specification
+     * @opt_param bool $redirects.useGcsConfig Whether to return redirect information as configured in the GCS account
+     * @opt_param bool $safe Whether safe search is enabled. Default: true
+     * @opt_param bool $categories.useGcsConfig This parameter is currently ignored
+     * @opt_param int $maxResults Maximum number of results to return
+     * @opt_param bool $facets.useGcsConfig Whether to return facet information as configured in the GCS account
+     * @opt_param bool $categories.enabled Whether to return category information
+     * @opt_param string $attributeFilter Comma separated list of attributes to return
+     * @opt_param bool $sayt.enabled Google Internal
+     * @opt_param string $thumbnails Image thumbnails specification
+     * @opt_param string $language Language restriction (BCP 47)
+     * @opt_param string $country Country restriction (ISO 3166)
+     * @opt_param bool $debug.geocodeResponse Google Internal
+     * @opt_param string $restrictBy Restriction specification
+     * @opt_param bool $debug.rdcResponse Google Internal
+     * @opt_param string $q Search query
+     * @opt_param int $shelfSpaceAds.maxResults The maximum number of shelf space ads to return
+     * @opt_param bool $redirects.enabled Whether to return redirect information
+     * @opt_param bool $debug.searchRequest Google Internal
+     * @opt_param bool $relatedQueries.enabled Whether to return related queries
+     * @opt_param string $minAvailability
+     * @opt_param bool $promotions.useGcsConfig Whether to return promotion information as configured in the GCS account
      */
-    public function listProducts($source, $attributeFilter = null, $boostBy = null, $categories_enabled = null, $categories_include = null, $categories_useGcsConfig = null, $channels = null, $country = null, $crowdBy = null, $currency = null, $debug_enableLogging = null, $debug_enabled = null, $debug_geocodeRequest = null, $debug_geocodeResponse = null, $debug_rdcRequest = null, $debug_rdcResponse = null, $debug_searchRequest = null, $debug_searchResponse = null, $facets_discover = null, $facets_enabled = null, $facets_include = null, $facets_useGcsConfig = null, $language = null, $maxResults = null, $minAvailability = null, $productFields = null, $promotions_enabled = null, $promotions_useGcsConfig = null, $q = null, $rankBy = null, $redirects_enabled = null, $redirects_useGcsConfig = null, $relatedQueries_enabled = null, $relatedQueries_useGcsConfig = null, $restrictBy = null, $safe = null, $sayt_enabled = null, $sayt_useGcsConfig = null, $shelfSpaceAds_enabled = null, $shelfSpaceAds_maxResults = null, $shelfSpaceAds_useGcsConfig = null, $spelling_enabled = null, $spelling_useGcsConfig = null, $startIndex = null, $taxonomy = null, $thumbnails = null, $useCase = null) {
-      return $this->__call('list', array(array('sayt.useGcsConfig' => $sayt_useGcsConfig, 'rankBy' => $rankBy, 'debug.enableLogging' => $debug_enableLogging, 'facets.enabled' => $facets_enabled, 'relatedQueries.useGcsConfig' => $relatedQueries_useGcsConfig, 'promotions.enabled' => $promotions_enabled, 'debug.enabled' => $debug_enabled, 'facets.include' => $facets_include, 'productFields' => $productFields, 'channels' => $channels, 'currency' => $currency, 'startIndex' => $startIndex, 'facets.discover' => $facets_discover, 'debug.searchResponse' => $debug_searchResponse, 'crowdBy' => $crowdBy, 'spelling.enabled' => $spelling_enabled, 'debug.geocodeRequest' => $debug_geocodeRequest, 'spelling.useGcsConfig' => $spelling_useGcsConfig, 'shelfSpaceAds.useGcsConfig' => $shelfSpaceAds_useGcsConfig, 'shelfSpaceAds.enabled' => $shelfSpaceAds_enabled, 'useCase' => $useCase, 'taxonomy' => $taxonomy, 'debug.rdcRequest' => $debug_rdcRequest, 'categories.include' => $categories_include, 'boostBy' => $boostBy, 'redirects.useGcsConfig' => $redirects_useGcsConfig, 'safe' => $safe, 'categories.useGcsConfig' => $categories_useGcsConfig, 'maxResults' => $maxResults, 'facets.useGcsConfig' => $facets_useGcsConfig, 'categories.enabled' => $categories_enabled, 'attributeFilter' => $attributeFilter, 'sayt.enabled' => $sayt_enabled, 'thumbnails' => $thumbnails, 'language' => $language, 'country' => $country, 'debug.geocodeResponse' => $debug_geocodeResponse, 'restrictBy' => $restrictBy, 'debug.rdcResponse' => $debug_rdcResponse, 'q' => $q, 'shelfSpaceAds.maxResults' => $shelfSpaceAds_maxResults, 'redirects.enabled' => $redirects_enabled, 'debug.searchRequest' => $debug_searchRequest, 'relatedQueries.enabled' => $relatedQueries_enabled, 'minAvailability' => $minAvailability, 'promotions.useGcsConfig' => $promotions_useGcsConfig, 'source' => $source)));
+    public function listProducts($source, $optParams = array()) {
+      $params = array('source' => $source);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Returns a single product (products.get)
      *
-     * @param  $categories_include Category specification
-     * @param  $recommendations_enabled Whether to return recommendation information
-     * @param  $debug_enableLogging Google Internal
-     * @param  $taxonomy Merchant taxonomy
-     * @param  $categories_useGcsConfig This parameter is currently ignored
-     * @param  $debug_searchResponse Google Internal
-     * @param  $debug_enabled Google Internal
-     * @param  $recommendations_include Recommendation specification
-     * @param  $categories_enabled Whether to return category information
-     * @param  $debug_searchRequest Google Internal
-     * @param  $attributeFilter Comma separated list of attributes to return
-     * @param  $recommendations_useGcsConfig This parameter is currently ignored
-     * @param  $productFields Google Internal
-     * @param  $thumbnails Thumbnail specification
-     * @param  $source Query source
-     * @param  $accountId Merchant center account id
-     * @param  $productIdType Type of productId
-     * @param  $productId Id of product
+     * @param string $source Query source
+     * @param int $accountId Merchant center account id
+     * @param string $productIdType Type of productId
+     * @param string $productId Id of product
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $categories.include Category specification
+     * @opt_param bool $recommendations.enabled Whether to return recommendation information
+     * @opt_param bool $debug.enableLogging Google Internal
+     * @opt_param string $taxonomy Merchant taxonomy
+     * @opt_param bool $categories.useGcsConfig This parameter is currently ignored
+     * @opt_param bool $debug.searchResponse Google Internal
+     * @opt_param bool $debug.enabled Google Internal
+     * @opt_param string $recommendations.include Recommendation specification
+     * @opt_param bool $categories.enabled Whether to return category information
+     * @opt_param bool $debug.searchRequest Google Internal
+     * @opt_param string $attributeFilter Comma separated list of attributes to return
+     * @opt_param bool $recommendations.useGcsConfig This parameter is currently ignored
+     * @opt_param string $productFields Google Internal
+     * @opt_param string $thumbnails Thumbnail specification
      */
-    public function get($accountId, $productId, $productIdType, $source, $attributeFilter = null, $categories_enabled = null, $categories_include = null, $categories_useGcsConfig = null, $debug_enableLogging = null, $debug_enabled = null, $debug_searchRequest = null, $debug_searchResponse = null, $productFields = null, $recommendations_enabled = null, $recommendations_include = null, $recommendations_useGcsConfig = null, $taxonomy = null, $thumbnails = null) {
-      return $this->__call('get', array(array('categories.include' => $categories_include, 'recommendations.enabled' => $recommendations_enabled, 'debug.enableLogging' => $debug_enableLogging, 'taxonomy' => $taxonomy, 'categories.useGcsConfig' => $categories_useGcsConfig, 'debug.searchResponse' => $debug_searchResponse, 'debug.enabled' => $debug_enabled, 'recommendations.include' => $recommendations_include, 'categories.enabled' => $categories_enabled, 'debug.searchRequest' => $debug_searchRequest, 'attributeFilter' => $attributeFilter, 'recommendations.useGcsConfig' => $recommendations_useGcsConfig, 'productFields' => $productFields, 'thumbnails' => $thumbnails, 'source' => $source, 'accountId' => $accountId, 'productIdType' => $productIdType, 'productId' => $productId)));
+    public function get($source, $accountId, $productIdType, $productId, $optParams = array()) {
+      $params = array('source' => $source, 'accountId' => $accountId, 'productIdType' => $productIdType, 'productId' => $productId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
   }
 
@@ -122,7 +130,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/shopping/search/v1/getting_started.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -145,7 +153,7 @@ class apiShoppingService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->products = new ProductsServiceResource($this, $this->serviceName, 'products', json_decode('{"methods": {"list": {"parameters": {"sayt.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "debug.geocodeResponse": {"restParameterType": "query", "type": "boolean"}, "debug.enableLogging": {"restParameterType": "query", "type": "boolean"}, "facets.enabled": {"restParameterType": "query", "type": "boolean"}, "relatedQueries.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "promotions.enabled": {"restParameterType": "query", "type": "boolean"}, "debug.enabled": {"restParameterType": "query", "type": "boolean"}, "facets.include": {"restParameterType": "query", "type": "string"}, "productFields": {"restParameterType": "query", "type": "string"}, "channels": {"restParameterType": "query", "type": "string"}, "currency": {"restParameterType": "query", "type": "string"}, "startIndex": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "facets.discover": {"restParameterType": "query", "type": "string"}, "debug.searchResponse": {"restParameterType": "query", "type": "boolean"}, "crowdBy": {"restParameterType": "query", "type": "string"}, "spelling.enabled": {"restParameterType": "query", "type": "boolean"}, "debug.geocodeRequest": {"restParameterType": "query", "type": "boolean"}, "source": {"restParameterType": "path", "required": true, "type": "string"}, "shelfSpaceAds.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "shelfSpaceAds.enabled": {"restParameterType": "query", "type": "boolean"}, "spelling.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "useCase": {"restParameterType": "query", "type": "string"}, "taxonomy": {"restParameterType": "query", "type": "string"}, "debug.rdcRequest": {"restParameterType": "query", "type": "boolean"}, "categories.include": {"restParameterType": "query", "type": "string"}, "debug.searchRequest": {"restParameterType": "query", "type": "boolean"}, "boostBy": {"restParameterType": "query", "type": "string"}, "safe": {"restParameterType": "query", "type": "boolean"}, "categories.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "maxResults": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "facets.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "categories.enabled": {"restParameterType": "query", "type": "boolean"}, "attributeFilter": {"restParameterType": "query", "type": "string"}, "sayt.enabled": {"restParameterType": "query", "type": "boolean"}, "thumbnails": {"restParameterType": "query", "type": "string"}, "language": {"restParameterType": "query", "type": "string"}, "redirects.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "rankBy": {"restParameterType": "query", "type": "string"}, "restrictBy": {"restParameterType": "query", "type": "string"}, "debug.rdcResponse": {"restParameterType": "query", "type": "boolean"}, "q": {"restParameterType": "query", "type": "string"}, "shelfSpaceAds.maxResults": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "redirects.enabled": {"restParameterType": "query", "type": "boolean"}, "country": {"restParameterType": "query", "type": "string"}, "relatedQueries.enabled": {"restParameterType": "query", "type": "boolean"}, "minAvailability": {"restParameterType": "query", "enum": ["inStock", "limited", "outOfStock", "unknown"], "type": "string"}, "promotions.useGcsConfig": {"restParameterType": "query", "type": "boolean"}}, "rpcMethod": "shopping.products.list", "httpMethod": "GET", "response": {"$ref": "Products"}, "restPath": "{source}/products"}, "get": {"parameters": {"categories.include": {"restParameterType": "query", "type": "string"}, "recommendations.enabled": {"restParameterType": "query", "type": "boolean"}, "debug.enableLogging": {"restParameterType": "query", "type": "boolean"}, "thumbnails": {"restParameterType": "query", "type": "string"}, "recommendations.include": {"restParameterType": "query", "type": "string"}, "taxonomy": {"restParameterType": "query", "type": "string"}, "productIdType": {"restParameterType": "path", "required": true, "type": "string"}, "categories.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "attributeFilter": {"restParameterType": "query", "type": "string"}, "debug.enabled": {"restParameterType": "query", "type": "boolean"}, "source": {"restParameterType": "path", "required": true, "type": "string"}, "categories.enabled": {"restParameterType": "query", "type": "boolean"}, "debug.searchRequest": {"restParameterType": "query", "type": "boolean"}, "debug.searchResponse": {"restParameterType": "query", "type": "boolean"}, "recommendations.useGcsConfig": {"restParameterType": "query", "type": "boolean"}, "productFields": {"restParameterType": "query", "type": "string"}, "accountId": {"required": true, "maximum": "4294967295", "minimum": "0", "restParameterType": "path", "type": "integer"}, "productId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "shopping.products.get", "httpMethod": "GET", "response": {"$ref": "Product"}, "restPath": "{source}/products/{accountId}/{productIdType}/{productId}"}}}', true));
+     $this->products = new ProductsServiceResource($this, $this->serviceName, 'products', json_decode('{"methods": {"list": {"parameters": {"sayt.useGcsConfig": {"type": "boolean", "location": "query"}, "debug.geocodeResponse": {"type": "boolean", "location": "query"}, "debug.enableLogging": {"type": "boolean", "location": "query"}, "facets.enabled": {"type": "boolean", "location": "query"}, "relatedQueries.useGcsConfig": {"type": "boolean", "location": "query"}, "promotions.enabled": {"type": "boolean", "location": "query"}, "debug.enabled": {"type": "boolean", "location": "query"}, "facets.include": {"type": "string", "location": "query"}, "productFields": {"type": "string", "location": "query"}, "channels": {"type": "string", "location": "query"}, "currency": {"type": "string", "location": "query"}, "startIndex": {"minimum": "0", "type": "integer", "location": "query", "maximum": "4294967295"}, "facets.discover": {"type": "string", "location": "query"}, "debug.searchResponse": {"type": "boolean", "location": "query"}, "crowdBy": {"type": "string", "location": "query"}, "spelling.enabled": {"type": "boolean", "location": "query"}, "debug.geocodeRequest": {"type": "boolean", "location": "query"}, "source": {"required": true, "type": "string", "location": "path"}, "shelfSpaceAds.useGcsConfig": {"type": "boolean", "location": "query"}, "shelfSpaceAds.enabled": {"type": "boolean", "location": "query"}, "spelling.useGcsConfig": {"type": "boolean", "location": "query"}, "useCase": {"type": "string", "location": "query"}, "taxonomy": {"type": "string", "location": "query"}, "debug.rdcRequest": {"type": "boolean", "location": "query"}, "categories.include": {"type": "string", "location": "query"}, "debug.searchRequest": {"type": "boolean", "location": "query"}, "boostBy": {"type": "string", "location": "query"}, "safe": {"type": "boolean", "location": "query"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "maxResults": {"minimum": "0", "type": "integer", "location": "query", "maximum": "4294967295"}, "facets.useGcsConfig": {"type": "boolean", "location": "query"}, "categories.enabled": {"type": "boolean", "location": "query"}, "attributeFilter": {"type": "string", "location": "query"}, "sayt.enabled": {"type": "boolean", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}, "language": {"type": "string", "location": "query"}, "redirects.useGcsConfig": {"type": "boolean", "location": "query"}, "rankBy": {"type": "string", "location": "query"}, "restrictBy": {"type": "string", "location": "query"}, "debug.rdcResponse": {"type": "boolean", "location": "query"}, "q": {"type": "string", "location": "query"}, "shelfSpaceAds.maxResults": {"minimum": "0", "type": "integer", "location": "query", "maximum": "4294967295"}, "redirects.enabled": {"type": "boolean", "location": "query"}, "country": {"type": "string", "location": "query"}, "relatedQueries.enabled": {"type": "boolean", "location": "query"}, "minAvailability": {"enum": ["inStock", "limited", "outOfStock", "unknown"], "type": "string", "location": "query"}, "promotions.useGcsConfig": {"type": "boolean", "location": "query"}}, "id": "shopping.products.list", "httpMethod": "GET", "path": "{source}/products", "response": {"$ref": "Products"}}, "get": {"parameters": {"categories.include": {"type": "string", "location": "query"}, "recommendations.enabled": {"type": "boolean", "location": "query"}, "debug.enableLogging": {"type": "boolean", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}, "recommendations.include": {"type": "string", "location": "query"}, "taxonomy": {"type": "string", "location": "query"}, "productIdType": {"required": true, "type": "string", "location": "path"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "attributeFilter": {"type": "string", "location": "query"}, "debug.enabled": {"type": "boolean", "location": "query"}, "source": {"required": true, "type": "string", "location": "path"}, "categories.enabled": {"type": "boolean", "location": "query"}, "debug.searchRequest": {"type": "boolean", "location": "query"}, "debug.searchResponse": {"type": "boolean", "location": "query"}, "recommendations.useGcsConfig": {"type": "boolean", "location": "query"}, "productFields": {"type": "string", "location": "query"}, "accountId": {"required": true, "maximum": "4294967295", "minimum": "0", "location": "path", "type": "integer"}, "productId": {"required": true, "type": "string", "location": "path"}}, "id": "shopping.products.get", "httpMethod": "GET", "path": "{source}/products/{accountId}/{productIdType}/{productId}", "response": {"$ref": "Product"}}}}', true));
   }
 
   /**
@@ -176,7 +184,7 @@ class apiShoppingService {
   }
 }
 
-class ShoppingModelProductJsonV1Inventories {
+class ShoppingModelProductJsonV1Inventories extends apiModel {
 
   public $distance;
   public $price;
@@ -245,7 +253,7 @@ class ShoppingModelProductJsonV1Inventories {
 }
 
 
-class ProductsStores {
+class ProductsStores extends apiModel {
 
   public $storeCode;
   public $name;
@@ -305,7 +313,7 @@ class ProductsStores {
 }
 
 
-class ShoppingModelCategoryJsonV1 {
+class ShoppingModelCategoryJsonV1 extends apiModel {
 
   public $url;
   public $shortName;
@@ -347,7 +355,7 @@ class ShoppingModelCategoryJsonV1 {
 }
 
 
-class ShoppingModelProductJsonV1Images {
+class ShoppingModelProductJsonV1Images extends apiModel {
 
   public $link;
   public $thumbnails;
@@ -360,7 +368,7 @@ class ShoppingModelProductJsonV1Images {
     return $this->link;
   }
   
-  public function setThumbnails( ShoppingModelProductJsonV1ImagesThumbnails $thumbnails) {
+  public function setThumbnails(ShoppingModelProductJsonV1ImagesThumbnails $thumbnails) {
     $this->thumbnails = $thumbnails;
   }
 
@@ -371,7 +379,7 @@ class ShoppingModelProductJsonV1Images {
 }
 
 
-class ShoppingModelDebugJsonV1 {
+class ShoppingModelDebugJsonV1 extends apiModel {
 
   public $searchRequest;
   public $searchResponse;
@@ -404,7 +412,7 @@ class ShoppingModelDebugJsonV1 {
 }
 
 
-class ProductsFacetsBuckets {
+class ProductsFacetsBuckets extends apiModel {
 
   public $count;
   public $minExclusive;
@@ -464,7 +472,7 @@ class ProductsFacetsBuckets {
 }
 
 
-class Product {
+class Product extends apiModel {
 
   public $kind;
   public $product;
@@ -482,7 +490,7 @@ class Product {
     return $this->kind;
   }
   
-  public function setProduct( ShoppingModelProductJsonV1 $product) {
+  public function setProduct(ShoppingModelProductJsonV1 $product) {
     $this->product = $product;
   }
 
@@ -498,7 +506,7 @@ class Product {
     return $this->selfLink;
   }
   
-  public function setRecommendations( ProductRecommendations $recommendations) {
+  public function setRecommendations(ProductRecommendations $recommendations) {
     $this->recommendations = $recommendations;
   }
 
@@ -506,7 +514,7 @@ class Product {
     return $this->recommendations;
   }
   
-  public function setDebug( ShoppingModelDebugJsonV1 $debug) {
+  public function setDebug(ShoppingModelDebugJsonV1 $debug) {
     $this->debug = $debug;
   }
 
@@ -522,7 +530,7 @@ class Product {
     return $this->id;
   }
   
-  public function setCategories( ShoppingModelCategoryJsonV1 $categories) {
+  public function setCategories(ShoppingModelCategoryJsonV1 $categories) {
     $this->categories = $categories;
   }
 
@@ -533,7 +541,7 @@ class Product {
 }
 
 
-class ProductsFacets {
+class ProductsFacets extends apiModel {
 
   public $count;
   public $displayName;
@@ -567,7 +575,7 @@ class ProductsFacets {
     return $this->name;
   }
   
-  public function setBuckets( ProductsFacetsBuckets $buckets) {
+  public function setBuckets(ProductsFacetsBuckets $buckets) {
     $this->buckets = $buckets;
   }
 
@@ -602,11 +610,11 @@ class ProductsFacets {
 }
 
 
-class ProductsShelfSpaceAds {
+class ProductsShelfSpaceAds extends apiModel {
 
   public $product;
 
-  public function setProduct( ShoppingModelProductJsonV1 $product) {
+  public function setProduct(ShoppingModelProductJsonV1 $product) {
     $this->product = $product;
   }
 
@@ -617,12 +625,12 @@ class ProductsShelfSpaceAds {
 }
 
 
-class ProductRecommendations {
+class ProductRecommendations extends apiModel {
 
   public $recommendationList;
   public $type;
 
-  public function setRecommendationList( ProductRecommendationsRecommendationList $recommendationList) {
+  public function setRecommendationList(ProductRecommendationsRecommendationList $recommendationList) {
     $this->recommendationList = $recommendationList;
   }
 
@@ -641,7 +649,7 @@ class ProductRecommendations {
 }
 
 
-class ProductsSpelling {
+class ProductsSpelling extends apiModel {
 
   public $suggestion;
 
@@ -656,11 +664,11 @@ class ProductsSpelling {
 }
 
 
-class ProductRecommendationsRecommendationList {
+class ProductRecommendationsRecommendationList extends apiModel {
 
   public $product;
 
-  public function setProduct( ShoppingModelProductJsonV1 $product) {
+  public function setProduct(ShoppingModelProductJsonV1 $product) {
     $this->product = $product;
   }
 
@@ -671,7 +679,7 @@ class ProductRecommendationsRecommendationList {
 }
 
 
-class Products {
+class Products extends apiModel {
 
   public $promotions;
   public $kind;
@@ -694,7 +702,7 @@ class Products {
   public $id;
   public $categories;
 
-  public function setPromotions( ProductsPromotions $promotions) {
+  public function setPromotions(ProductsPromotions $promotions) {
     $this->promotions = $promotions;
   }
 
@@ -710,7 +718,7 @@ class Products {
     return $this->kind;
   }
   
-  public function setStores( ProductsStores $stores) {
+  public function setStores(ProductsStores $stores) {
     $this->stores = $stores;
   }
 
@@ -726,7 +734,7 @@ class Products {
     return $this->currentItemCount;
   }
   
-  public function setItems( Product $items) {
+  public function setItems(Product $items) {
     $this->items = $items;
   }
 
@@ -734,7 +742,7 @@ class Products {
     return $this->items;
   }
   
-  public function setFacets( ProductsFacets $facets) {
+  public function setFacets(ProductsFacets $facets) {
     $this->facets = $facets;
   }
 
@@ -766,7 +774,7 @@ class Products {
     return $this->nextLink;
   }
   
-  public function setShelfSpaceAds( ProductsShelfSpaceAds $shelfSpaceAds) {
+  public function setShelfSpaceAds(ProductsShelfSpaceAds $shelfSpaceAds) {
     $this->shelfSpaceAds = $shelfSpaceAds;
   }
 
@@ -806,7 +814,7 @@ class Products {
     return $this->relatedQueries;
   }
   
-  public function setDebug( ShoppingModelDebugJsonV1 $debug) {
+  public function setDebug(ShoppingModelDebugJsonV1 $debug) {
     $this->debug = $debug;
   }
 
@@ -814,7 +822,7 @@ class Products {
     return $this->debug;
   }
   
-  public function setSpelling( ProductsSpelling $spelling) {
+  public function setSpelling(ProductsSpelling $spelling) {
     $this->spelling = $spelling;
   }
 
@@ -846,7 +854,7 @@ class Products {
     return $this->id;
   }
   
-  public function setCategories( ShoppingModelCategoryJsonV1 $categories) {
+  public function setCategories(ShoppingModelCategoryJsonV1 $categories) {
     $this->categories = $categories;
   }
 
@@ -857,10 +865,11 @@ class Products {
 }
 
 
-class ShoppingModelProductJsonV1 {
+class ShoppingModelProductJsonV1 extends apiModel {
 
+  public $providedId;
   public $description;
-  public $language;
+  public $gtins;
   public $author;
   public $googleId;
   public $country;
@@ -868,7 +877,7 @@ class ShoppingModelProductJsonV1 {
   public $title;
   public $creationTime;
   public $modificationTime;
-  public $providedId;
+  public $language;
   public $gtin;
   public $categories;
   public $images;
@@ -877,6 +886,14 @@ class ShoppingModelProductJsonV1 {
   public $link;
   public $condition;
 
+  public function setProvidedId($providedId) {
+    $this->providedId = $providedId;
+  }
+
+  public function getProvidedId() {
+    return $this->providedId;
+  }
+  
   public function setDescription($description) {
     $this->description = $description;
   }
@@ -885,15 +902,15 @@ class ShoppingModelProductJsonV1 {
     return $this->description;
   }
   
-  public function setLanguage($language) {
-    $this->language = $language;
+  public function setGtins($gtins) {
+    $this->gtins = $gtins;
   }
 
-  public function getLanguage() {
-    return $this->language;
+  public function getGtins() {
+    return $this->gtins;
   }
   
-  public function setAuthor( ShoppingModelProductJsonV1Author $author) {
+  public function setAuthor(ShoppingModelProductJsonV1Author $author) {
     $this->author = $author;
   }
 
@@ -949,12 +966,12 @@ class ShoppingModelProductJsonV1 {
     return $this->modificationTime;
   }
   
-  public function setProvidedId($providedId) {
-    $this->providedId = $providedId;
+  public function setLanguage($language) {
+    $this->language = $language;
   }
 
-  public function getProvidedId() {
-    return $this->providedId;
+  public function getLanguage() {
+    return $this->language;
   }
   
   public function setGtin($gtin) {
@@ -973,7 +990,7 @@ class ShoppingModelProductJsonV1 {
     return $this->categories;
   }
   
-  public function setImages( ShoppingModelProductJsonV1Images $images) {
+  public function setImages(ShoppingModelProductJsonV1Images $images) {
     $this->images = $images;
   }
 
@@ -981,7 +998,7 @@ class ShoppingModelProductJsonV1 {
     return $this->images;
   }
   
-  public function setAttributes( ShoppingModelProductJsonV1Attributes $attributes) {
+  public function setAttributes(ShoppingModelProductJsonV1Attributes $attributes) {
     $this->attributes = $attributes;
   }
 
@@ -989,7 +1006,7 @@ class ShoppingModelProductJsonV1 {
     return $this->attributes;
   }
   
-  public function setInventories( ShoppingModelProductJsonV1Inventories $inventories) {
+  public function setInventories(ShoppingModelProductJsonV1Inventories $inventories) {
     $this->inventories = $inventories;
   }
 
@@ -1016,7 +1033,7 @@ class ShoppingModelProductJsonV1 {
 }
 
 
-class ProductsPromotions {
+class ProductsPromotions extends apiModel {
 
   public $product;
   public $description;
@@ -1028,7 +1045,7 @@ class ProductsPromotions {
   public $type;
   public $name;
 
-  public function setProduct( ShoppingModelProductJsonV1 $product) {
+  public function setProduct(ShoppingModelProductJsonV1 $product) {
     $this->product = $product;
   }
 
@@ -1076,7 +1093,7 @@ class ProductsPromotions {
     return $this->link;
   }
   
-  public function setCustomFields( ProductsPromotionsCustomFields $customFields) {
+  public function setCustomFields(ProductsPromotionsCustomFields $customFields) {
     $this->customFields = $customFields;
   }
 
@@ -1103,7 +1120,7 @@ class ProductsPromotions {
 }
 
 
-class ShoppingModelProductJsonV1ImagesThumbnails {
+class ShoppingModelProductJsonV1ImagesThumbnails extends apiModel {
 
   public $content;
   public $width;
@@ -1145,7 +1162,7 @@ class ShoppingModelProductJsonV1ImagesThumbnails {
 }
 
 
-class ProductsPromotionsCustomFields {
+class ProductsPromotionsCustomFields extends apiModel {
 
   public $name;
   public $value;
@@ -1169,7 +1186,7 @@ class ProductsPromotionsCustomFields {
 }
 
 
-class ShoppingModelProductJsonV1Author {
+class ShoppingModelProductJsonV1Author extends apiModel {
 
   public $aggregatorId;
   public $uri;
@@ -1220,7 +1237,7 @@ class ShoppingModelProductJsonV1Author {
 }
 
 
-class ShoppingModelProductJsonV1Attributes {
+class ShoppingModelProductJsonV1Attributes extends apiModel {
 
   public $type;
   public $value;

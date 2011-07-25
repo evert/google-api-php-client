@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -34,13 +34,17 @@ require_once 'service/apiServiceRequest.php';
      * Runs Page Speed analysis on the page at the specified URL, and returns a Page Speed score, a list
      * of suggestions to make that page faster, and other information. (pagespeedapi.runpagespeed)
      *
-     * @param  $locale The locale used to localize formatted results
-     * @param  $url The URL to fetch and analyze
-     * @param  $rule A Page Speed rule to run; if none are given, all rules are run
-     * @param  $strategy The analysis strategy to use
+     * @param string $url The URL to fetch and analyze
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $locale The locale used to localize formatted results
+     * @opt_param string $rule A Page Speed rule to run; if none are given, all rules are run
+     * @opt_param string $strategy The analysis strategy to use
      */
-    public function runpagespeed($url, $locale = null, $rule = null, $strategy = null) {
-      return $this->__call('runpagespeed', array(array('locale' => $locale, 'url' => $url, 'rule' => $rule, 'strategy' => $strategy)));
+    public function runpagespeed($url, $optParams = array()) {
+      $params = array('url' => $url);
+      $params = array_merge($params, $optParams);
+      return $this->__call('runpagespeed', array($params));
     }
   }
 
@@ -55,7 +59,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="https://code.google.com/apis/pagespeedonline/v1/getting_started.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -78,7 +82,7 @@ class apiPagespeedonlineService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->pagespeedapi = new PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"pattern": "[a-zA-Z]+(_[a-zA-Z]+)?", "restParameterType": "query", "type": "string"}, "url": {"pattern": "http(s)?://.*", "restParameterType": "query", "required": true, "type": "string"}, "rule": {"pattern": "[a-zA-Z]+", "restParameterType": "query", "type": "string", "repeated": true}, "strategy": {"restParameterType": "query", "enum": ["desktop", "mobile"], "type": "string"}}, "rpcMethod": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "response": {"$ref": "Result"}, "restPath": "runPagespeed"}}}', true));
+     $this->pagespeedapi = new PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"pattern": "[a-zA-Z]+(_[a-zA-Z]+)?", "type": "string", "location": "query"}, "url": {"pattern": "http(s)?://.*", "required": true, "type": "string", "location": "query"}, "rule": {"pattern": "[a-zA-Z]+", "repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
   }
 
   /**
@@ -109,7 +113,103 @@ class apiPagespeedonlineService {
   }
 }
 
-class ResultVersion {
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs extends apiModel {
+
+  public $type;
+  public $value;
+
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function setValue($value) {
+    $this->value = $value;
+  }
+
+  public function getValue() {
+    return $this->value;
+  }
+  
+}
+
+
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails extends apiModel {
+
+  public $args;
+  public $format;
+
+  public function setArgs(ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs $args) {
+    $this->args = $args;
+  }
+
+  public function getArgs() {
+    return $this->args;
+  }
+  
+  public function setFormat($format) {
+    $this->format = $format;
+  }
+
+  public function getFormat() {
+    return $this->format;
+  }
+  
+}
+
+
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs extends apiModel {
+
+  public $type;
+  public $value;
+
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function setValue($value) {
+    $this->value = $value;
+  }
+
+  public function getValue() {
+    return $this->value;
+  }
+  
+}
+
+
+class ResultFormattedResultsRuleResultsUrlBlocksUrls extends apiModel {
+
+  public $details;
+  public $result;
+
+  public function setDetails(ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails $details) {
+    $this->details = $details;
+  }
+
+  public function getDetails() {
+    return $this->details;
+  }
+  
+  public function setResult(ResultFormattedResultsRuleResultsUrlBlocksUrlsResult $result) {
+    $this->result = $result;
+  }
+
+  public function getResult() {
+    return $this->result;
+  }
+  
+}
+
+
+class ResultVersion extends apiModel {
 
   public $major;
   public $minor;
@@ -133,13 +233,220 @@ class ResultVersion {
 }
 
 
-class ResultFormattedResultsRuleResults {
+class ResultFormattedResultsRuleResults extends apiModel {
 
 
 }
 
 
-class ResultPageStats {
+class ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs extends apiModel {
+
+  public $type;
+  public $value;
+
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function setValue($value) {
+    $this->value = $value;
+  }
+
+  public function getValue() {
+    return $this->value;
+  }
+  
+}
+
+
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsResult extends apiModel {
+
+  public $args;
+  public $format;
+
+  public function setArgs(ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs $args) {
+    $this->args = $args;
+  }
+
+  public function getArgs() {
+    return $this->args;
+  }
+  
+  public function setFormat($format) {
+    $this->format = $format;
+  }
+
+  public function getFormat() {
+    return $this->format;
+  }
+  
+}
+
+
+class ResultFormattedResultsRuleResultsUrlBlocks extends apiModel {
+
+  public $header;
+  public $urls;
+
+  public function setHeader(ResultFormattedResultsRuleResultsUrlBlocksHeader $header) {
+    $this->header = $header;
+  }
+
+  public function getHeader() {
+    return $this->header;
+  }
+  
+  public function setUrls(ResultFormattedResultsRuleResultsUrlBlocksUrls $urls) {
+    $this->urls = $urls;
+  }
+
+  public function getUrls() {
+    return $this->urls;
+  }
+  
+}
+
+
+class ResultFormattedResultsRuleResultsUrlBlocksHeader extends apiModel {
+
+  public $args;
+  public $format;
+
+  public function setArgs(ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs $args) {
+    $this->args = $args;
+  }
+
+  public function getArgs() {
+    return $this->args;
+  }
+  
+  public function setFormat($format) {
+    $this->format = $format;
+  }
+
+  public function getFormat() {
+    return $this->format;
+  }
+  
+}
+
+
+class Result extends apiModel {
+
+  public $kind;
+  public $formattedResults;
+  public $title;
+  public $version;
+  public $score;
+  public $responseCode;
+  public $invalidRules;
+  public $pageStats;
+  public $id;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setFormattedResults(ResultFormattedResults $formattedResults) {
+    $this->formattedResults = $formattedResults;
+  }
+
+  public function getFormattedResults() {
+    return $this->formattedResults;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setVersion(ResultVersion $version) {
+    $this->version = $version;
+  }
+
+  public function getVersion() {
+    return $this->version;
+  }
+  
+  public function setScore($score) {
+    $this->score = $score;
+  }
+
+  public function getScore() {
+    return $this->score;
+  }
+  
+  public function setResponseCode($responseCode) {
+    $this->responseCode = $responseCode;
+  }
+
+  public function getResponseCode() {
+    return $this->responseCode;
+  }
+  
+  public function setInvalidRules($invalidRules) {
+    $this->invalidRules = $invalidRules;
+  }
+
+  public function getInvalidRules() {
+    return $this->invalidRules;
+  }
+  
+  public function setPageStats(ResultPageStats $pageStats) {
+    $this->pageStats = $pageStats;
+  }
+
+  public function getPageStats() {
+    return $this->pageStats;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class ResultFormattedResults extends apiModel {
+
+  public $locale;
+  public $ruleResults;
+
+  public function setLocale($locale) {
+    $this->locale = $locale;
+  }
+
+  public function getLocale() {
+    return $this->locale;
+  }
+  
+  public function setRuleResults(ResultFormattedResultsRuleResults $ruleResults) {
+    $this->ruleResults = $ruleResults;
+  }
+
+  public function getRuleResults() {
+    return $this->ruleResults;
+  }
+  
+}
+
+
+class ResultPageStats extends apiModel {
 
   public $otherResponseBytes;
   public $flashResponseBytes;
@@ -257,117 +564,6 @@ class ResultPageStats {
 
   public function getTextResponseBytes() {
     return $this->textResponseBytes;
-  }
-  
-}
-
-
-class Result {
-
-  public $kind;
-  public $formattedResults;
-  public $title;
-  public $version;
-  public $score;
-  public $responseCode;
-  public $invalidRules;
-  public $pageStats;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setFormattedResults( ResultFormattedResults $formattedResults) {
-    $this->formattedResults = $formattedResults;
-  }
-
-  public function getFormattedResults() {
-    return $this->formattedResults;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setVersion( ResultVersion $version) {
-    $this->version = $version;
-  }
-
-  public function getVersion() {
-    return $this->version;
-  }
-  
-  public function setScore($score) {
-    $this->score = $score;
-  }
-
-  public function getScore() {
-    return $this->score;
-  }
-  
-  public function setResponseCode($responseCode) {
-    $this->responseCode = $responseCode;
-  }
-
-  public function getResponseCode() {
-    return $this->responseCode;
-  }
-  
-  public function setInvalidRules($invalidRules) {
-    $this->invalidRules = $invalidRules;
-  }
-
-  public function getInvalidRules() {
-    return $this->invalidRules;
-  }
-  
-  public function setPageStats( ResultPageStats $pageStats) {
-    $this->pageStats = $pageStats;
-  }
-
-  public function getPageStats() {
-    return $this->pageStats;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class ResultFormattedResults {
-
-  public $locale;
-  public $ruleResults;
-
-  public function setLocale($locale) {
-    $this->locale = $locale;
-  }
-
-  public function getLocale() {
-    return $this->locale;
-  }
-  
-  public function setRuleResults( ResultFormattedResultsRuleResults $ruleResults) {
-    $this->ruleResults = $ruleResults;
-  }
-
-  public function getRuleResults() {
-    return $this->ruleResults;
   }
   
 }

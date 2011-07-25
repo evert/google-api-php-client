@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -36,25 +36,34 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Url}
      */
     public function insert(Url $postBody) {
-      return $this->__call('insert', array(array('postBody' => $postBody)));
+      $params = array('postBody' => $postBody);
+      return $this->__call('insert', array($params));
     }
     /**
      * Retrieves a list of URLs shortened by a user. (url.list)
      *
-     * @param  $start_token Token for requesting successive pages of results.
-     * @param  $projection Additional information to return.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $start-token Token for requesting successive pages of results.
+     * @opt_param string $projection Additional information to return.
      */
-    public function listUrl($projection = null, $start_token = null) {
-      return $this->__call('list', array(array('start-token' => $start_token, 'projection' => $projection)));
+    public function listUrl($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Expands a short URL or gets creation time and analytics. (url.get)
      *
-     * @param  $shortUrl The short URL, including the protocol.
-     * @param  $projection Additional information to return.
+     * @param string $shortUrl The short URL, including the protocol.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $projection Additional information to return.
      */
-    public function get($shortUrl, $projection = null) {
-      return $this->__call('get', array(array('shortUrl' => $shortUrl, 'projection' => $projection)));
+    public function get($shortUrl, $optParams = array()) {
+      $params = array('shortUrl' => $shortUrl);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
   }
 
@@ -69,7 +78,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/urlshortener/v1/getting_started.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -92,7 +101,7 @@ class apiUrlshortenerService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->url = new UrlServiceResource($this, $this->serviceName, 'url', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "request": {"$ref": "Url"}, "rpcMethod": "urlshortener.url.insert", "httpMethod": "POST", "response": {"$ref": "Url"}, "restPath": "url"}, "list": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "parameters": {"start-token": {"restParameterType": "query", "type": "string"}, "projection": {"restParameterType": "query", "enum": ["ANALYTICS_CLICKS", "FULL"], "type": "string"}}, "rpcMethod": "urlshortener.url.list", "httpMethod": "GET", "response": {"$ref": "UrlHistory"}, "restPath": "url/history"}, "get": {"parameters": {"shortUrl": {"restParameterType": "query", "required": true, "type": "string"}, "projection": {"restParameterType": "query", "enum": ["ANALYTICS_CLICKS", "ANALYTICS_TOP_STRINGS", "FULL"], "type": "string"}}, "rpcMethod": "urlshortener.url.get", "httpMethod": "GET", "response": {"$ref": "Url"}, "restPath": "url"}}}', true));
+     $this->url = new UrlServiceResource($this, $this->serviceName, 'url', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "request": {"$ref": "Url"}, "response": {"$ref": "Url"}, "httpMethod": "POST", "path": "url", "id": "urlshortener.url.insert"}, "list": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "parameters": {"start-token": {"type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "FULL"], "type": "string", "location": "query"}}, "response": {"$ref": "UrlHistory"}, "httpMethod": "GET", "path": "url/history", "id": "urlshortener.url.list"}, "get": {"parameters": {"shortUrl": {"required": true, "type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "ANALYTICS_TOP_STRINGS", "FULL"], "type": "string", "location": "query"}}, "id": "urlshortener.url.get", "httpMethod": "GET", "path": "url", "response": {"$ref": "Url"}}}}', true));
   }
 
   /**
@@ -123,7 +132,7 @@ class apiUrlshortenerService {
   }
 }
 
-class AnalyticsSummary {
+class AnalyticsSummary extends apiModel {
 
   public $week;
   public $allTime;
@@ -131,7 +140,7 @@ class AnalyticsSummary {
   public $day;
   public $month;
 
-  public function setWeek( AnalyticsSnapshot $week) {
+  public function setWeek(AnalyticsSnapshot $week) {
     $this->week = $week;
   }
 
@@ -139,7 +148,7 @@ class AnalyticsSummary {
     return $this->week;
   }
   
-  public function setAllTime( AnalyticsSnapshot $allTime) {
+  public function setAllTime(AnalyticsSnapshot $allTime) {
     $this->allTime = $allTime;
   }
 
@@ -147,7 +156,7 @@ class AnalyticsSummary {
     return $this->allTime;
   }
   
-  public function setTwoHours( AnalyticsSnapshot $twoHours) {
+  public function setTwoHours(AnalyticsSnapshot $twoHours) {
     $this->twoHours = $twoHours;
   }
 
@@ -155,7 +164,7 @@ class AnalyticsSummary {
     return $this->twoHours;
   }
   
-  public function setDay( AnalyticsSnapshot $day) {
+  public function setDay(AnalyticsSnapshot $day) {
     $this->day = $day;
   }
 
@@ -163,7 +172,7 @@ class AnalyticsSummary {
     return $this->day;
   }
   
-  public function setMonth( AnalyticsSnapshot $month) {
+  public function setMonth(AnalyticsSnapshot $month) {
     $this->month = $month;
   }
 
@@ -174,7 +183,7 @@ class AnalyticsSummary {
 }
 
 
-class Url {
+class Url extends apiModel {
 
   public $status;
   public $kind;
@@ -207,7 +216,7 @@ class Url {
     return $this->created;
   }
   
-  public function setAnalytics( AnalyticsSummary $analytics) {
+  public function setAnalytics(AnalyticsSummary $analytics) {
     $this->analytics = $analytics;
   }
 
@@ -234,7 +243,7 @@ class Url {
 }
 
 
-class UrlHistory {
+class UrlHistory extends apiModel {
 
   public $nextPageToken;
   public $items;
@@ -250,7 +259,7 @@ class UrlHistory {
     return $this->nextPageToken;
   }
   
-  public function setItems( Url $items) {
+  public function setItems(Url $items) {
     $this->items = $items;
   }
 
@@ -285,7 +294,7 @@ class UrlHistory {
 }
 
 
-class AnalyticsSnapshot {
+class AnalyticsSnapshot extends apiModel {
 
   public $shortUrlClicks;
   public $countries;
@@ -302,7 +311,7 @@ class AnalyticsSnapshot {
     return $this->shortUrlClicks;
   }
   
-  public function setCountries( StringCount $countries) {
+  public function setCountries(StringCount $countries) {
     $this->countries = $countries;
   }
 
@@ -310,7 +319,7 @@ class AnalyticsSnapshot {
     return $this->countries;
   }
   
-  public function setPlatforms( StringCount $platforms) {
+  public function setPlatforms(StringCount $platforms) {
     $this->platforms = $platforms;
   }
 
@@ -318,7 +327,7 @@ class AnalyticsSnapshot {
     return $this->platforms;
   }
   
-  public function setBrowsers( StringCount $browsers) {
+  public function setBrowsers(StringCount $browsers) {
     $this->browsers = $browsers;
   }
 
@@ -326,7 +335,7 @@ class AnalyticsSnapshot {
     return $this->browsers;
   }
   
-  public function setReferrers( StringCount $referrers) {
+  public function setReferrers(StringCount $referrers) {
     $this->referrers = $referrers;
   }
 
@@ -345,7 +354,7 @@ class AnalyticsSnapshot {
 }
 
 
-class StringCount {
+class StringCount extends apiModel {
 
   public $count;
   public $id;

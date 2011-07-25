@@ -75,6 +75,13 @@ class apiServiceResource {
       $postBody = is_array($parameters['postBody']) || is_object($parameters['postBody']) ? json_encode($parameters['postBody']) : $parameters['postBody'];
       // remove from the parameter list so not to trip up the param entry checking & make sure it doesn't end up on the query
       unset($parameters['postBody']);
+
+      if (isset($parameters['optParams'])) {
+        $optParams = $parameters['optParams'];
+        unset($parameters['optParams']);
+
+        $parameters = array_merge($parameters, $optParams);
+      }
     }
     foreach ($parameters as $key => $val) {
       if ($key != 'postBody' && ! isset($method['parameters'][$key])) {

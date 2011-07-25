@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -33,92 +33,109 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Creates a new task on the specified task list. (tasks.insert)
      *
-     * @param  $parent Parent task identifier. If the task is created at the top level, this parameter is omitted. Optional.
-     * @param  $previous Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional.
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
      * @param $postBody the {@link Task}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $parent Parent task identifier. If the task is created at the top level, this parameter is omitted. Optional.
+     * @opt_param string $previous Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional.
      */
-    public function insert($tasklist, Task $postBody, $parent = null, $previous = null) {
-      return $this->__call('insert', array(array('parent' => $parent, 'previous' => $previous, 'tasklist' => $tasklist, 'postBody' => $postBody)));
+    public function insert($tasklist, Task $postBody, $optParams = array()) {
+      $params = array('tasklist' => $tasklist, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert', array($params));
     }
     /**
      * Returns the specified task. (tasks.get)
      *
-     * @param  $tasklist Task list identifier.
-     * @param  $task Task identifier.
+     * @param string $tasklist Task list identifier.
+     * @param string $task Task identifier.
      */
-    public function get($task, $tasklist) {
-      return $this->__call('get', array(array('tasklist' => $tasklist, 'task' => $task)));
+    public function get($tasklist, $task) {
+      $params = array('tasklist' => $tasklist, 'task' => $task);
+      return $this->__call('get', array($params));
     }
     /**
      * Clears all completed tasks from the specified task list. The affected tasks will be marked as
      * 'hidden' and no longer be returned by default when retrieving all tasks for a task list.
      * (tasks.clear)
      *
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
      */
     public function clear($tasklist) {
-      return $this->__call('clear', array(array('tasklist' => $tasklist)));
+      $params = array('tasklist' => $tasklist);
+      return $this->__call('clear', array($params));
     }
     /**
      * Moves the specified task to another position in the task list. This can include putting it as a
      * child task under a new parent and/or move it to a different position among its sibling tasks.
      * (tasks.move)
      *
-     * @param  $parent New parent task identifier. If the task is moved to the top level, this parameter is omitted. Optional.
-     * @param  $previous New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. Optional.
-     * @param  $tasklist Task list identifier.
-     * @param  $task Task identifier.
+     * @param string $tasklist Task list identifier.
+     * @param string $task Task identifier.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $parent New parent task identifier. If the task is moved to the top level, this parameter is omitted. Optional.
+     * @opt_param string $previous New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. Optional.
      */
-    public function move($task, $tasklist, $parent = null, $previous = null) {
-      return $this->__call('move', array(array('parent' => $parent, 'previous' => $previous, 'tasklist' => $tasklist, 'task' => $task)));
+    public function move($tasklist, $task, $optParams = array()) {
+      $params = array('tasklist' => $tasklist, 'task' => $task);
+      $params = array_merge($params, $optParams);
+      return $this->__call('move', array($params));
     }
     /**
      * Returns all tasks in the specified task list. (tasks.list)
      *
-     * @param  $dueMax Upper bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date.
-     * @param  $showDeleted Flag indicating whether deleted tasks are returned in the result. Optional. The default is False.
-     * @param  $updatedMin Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by last modification time.
-     * @param  $completedMin Lower bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date.
-     * @param  $maxResults Maximum number of task lists returned on one page. Optional. The default is 100.
-     * @param  $showCompleted Flag indicating whether completed tasks are returned in the result. Optional. The default is True.
-     * @param  $pageToken Token specifying the result page to return. Optional.
-     * @param  $completedMax Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date.
-     * @param  $showHidden Flag indicating whether hidden tasks are returned in the result. Optional. The default is False.
-     * @param  $dueMin Lower bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date.
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $dueMax Upper bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date.
+     * @opt_param bool $showDeleted Flag indicating whether deleted tasks are returned in the result. Optional. The default is False.
+     * @opt_param string $updatedMin Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by last modification time.
+     * @opt_param string $completedMin Lower bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date.
+     * @opt_param int $maxResults Maximum number of task lists returned on one page. Optional. The default is 100.
+     * @opt_param bool $showCompleted Flag indicating whether completed tasks are returned in the result. Optional. The default is True.
+     * @opt_param string $pageToken Token specifying the result page to return. Optional.
+     * @opt_param string $completedMax Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date.
+     * @opt_param bool $showHidden Flag indicating whether hidden tasks are returned in the result. Optional. The default is False.
+     * @opt_param string $dueMin Lower bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date.
      */
-    public function listTasks($tasklist, $completedMax = null, $completedMin = null, $dueMax = null, $dueMin = null, $maxResults = null, $pageToken = null, $showCompleted = null, $showDeleted = null, $showHidden = null, $updatedMin = null) {
-      return $this->__call('list', array(array('dueMax' => $dueMax, 'showDeleted' => $showDeleted, 'updatedMin' => $updatedMin, 'completedMin' => $completedMin, 'maxResults' => $maxResults, 'showCompleted' => $showCompleted, 'pageToken' => $pageToken, 'completedMax' => $completedMax, 'showHidden' => $showHidden, 'dueMin' => $dueMin, 'tasklist' => $tasklist)));
+    public function listTasks($tasklist, $optParams = array()) {
+      $params = array('tasklist' => $tasklist);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Updates the specified task. (tasks.update)
      *
-     * @param  $tasklist Task list identifier.
-     * @param  $task Task identifier.
+     * @param string $tasklist Task list identifier.
+     * @param string $task Task identifier.
      * @param $postBody the {@link Task}
      */
-    public function update($task, $tasklist, Task $postBody) {
-      return $this->__call('update', array(array('tasklist' => $tasklist, 'task' => $task, 'postBody' => $postBody)));
+    public function update($tasklist, $task, Task $postBody) {
+      $params = array('tasklist' => $tasklist, 'task' => $task, 'postBody' => $postBody);
+      return $this->__call('update', array($params));
     }
     /**
      * Updates the specified task. This method supports patch semantics. (tasks.patch)
      *
-     * @param  $tasklist Task list identifier.
-     * @param  $task Task identifier.
+     * @param string $tasklist Task list identifier.
+     * @param string $task Task identifier.
      * @param $postBody the {@link Task}
      */
-    public function patch($task, $tasklist, Task $postBody) {
-      return $this->__call('patch', array(array('tasklist' => $tasklist, 'task' => $task, 'postBody' => $postBody)));
+    public function patch($tasklist, $task, Task $postBody) {
+      $params = array('tasklist' => $tasklist, 'task' => $task, 'postBody' => $postBody);
+      return $this->__call('patch', array($params));
     }
     /**
      * Deletes the specified task from the task list. (tasks.delete)
      *
-     * @param  $tasklist Task list identifier.
-     * @param  $task Task identifier.
+     * @param string $tasklist Task list identifier.
+     * @param string $task Task identifier.
      */
-    public function delete($task, $tasklist) {
-      return $this->__call('delete', array(array('tasklist' => $tasklist, 'task' => $task)));
+    public function delete($tasklist, $task) {
+      $params = array('tasklist' => $tasklist, 'task' => $task);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -139,51 +156,60 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link TaskList}
      */
     public function insert(TaskList $postBody) {
-      return $this->__call('insert', array(array('postBody' => $postBody)));
+      $params = array('postBody' => $postBody);
+      return $this->__call('insert', array($params));
     }
     /**
      * Returns the authenticated user's specified task list. (tasklists.get)
      *
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
      */
     public function get($tasklist) {
-      return $this->__call('get', array(array('tasklist' => $tasklist)));
+      $params = array('tasklist' => $tasklist);
+      return $this->__call('get', array($params));
     }
     /**
      * Returns all the authenticated user's task lists. (tasklists.list)
      *
-     * @param  $pageToken Token specifying the result page to return. Optional.
-     * @param  $maxResults Maximum number of task lists returned on one page. Optional. The default is 100.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $pageToken Token specifying the result page to return. Optional.
+     * @opt_param int $maxResults Maximum number of task lists returned on one page. Optional. The default is 100.
      */
-    public function listTasklists($maxResults = null, $pageToken = null) {
-      return $this->__call('list', array(array('pageToken' => $pageToken, 'maxResults' => $maxResults)));
+    public function listTasklists($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Updates the authenticated user's specified task list. (tasklists.update)
      *
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
      * @param $postBody the {@link TaskList}
      */
     public function update($tasklist, TaskList $postBody) {
-      return $this->__call('update', array(array('tasklist' => $tasklist, 'postBody' => $postBody)));
+      $params = array('tasklist' => $tasklist, 'postBody' => $postBody);
+      return $this->__call('update', array($params));
     }
     /**
      * Updates the authenticated user's specified task list. This method supports patch semantics.
      * (tasklists.patch)
      *
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
      * @param $postBody the {@link TaskList}
      */
     public function patch($tasklist, TaskList $postBody) {
-      return $this->__call('patch', array(array('tasklist' => $tasklist, 'postBody' => $postBody)));
+      $params = array('tasklist' => $tasklist, 'postBody' => $postBody);
+      return $this->__call('patch', array($params));
     }
     /**
      * Deletes the authenticated user's specified task list. (tasklists.delete)
      *
-     * @param  $tasklist Task list identifier.
+     * @param string $tasklist Task list identifier.
      */
     public function delete($tasklist) {
-      return $this->__call('delete', array(array('tasklist' => $tasklist)));
+      $params = array('tasklist' => $tasklist);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -198,7 +224,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/tasks/v1/using.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -222,39 +248,39 @@ class apiTasksService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->tasks = new TasksServiceResource($this, $this->serviceName, 'tasks', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "parent": {"restParameterType": "query", "type": "string"}, "previous": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Task"}, "rpcMethod": "tasks.tasks.insert", "httpMethod": "POST", "response": {"$ref": "Task"}, "restPath": "lists/{tasklist}/tasks"}, "get": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "task": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "tasks.tasks.get", "httpMethod": "GET", "response": {"$ref": "Task"}, "restPath": "lists/{tasklist}/tasks/{task}"}, "clear": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "tasks.tasks.clear", "httpMethod": "POST", "restPath": "lists/{tasklist}/clear"}, "move": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"previous": {"restParameterType": "query", "type": "string"}, "tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "parent": {"restParameterType": "query", "type": "string"}, "task": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "tasks.tasks.move", "httpMethod": "POST", "response": {"$ref": "Task"}, "restPath": "lists/{tasklist}/tasks/{task}/move"}, "list": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"dueMax": {"restParameterType": "query", "type": "string"}, "tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "pageToken": {"restParameterType": "query", "type": "string"}, "updatedMin": {"restParameterType": "query", "type": "string"}, "completedMin": {"restParameterType": "query", "type": "string"}, "maxResults": {"restParameterType": "query", "minimum": "-9223372036854775808", "type": "integer", "maximum": "9223372036854775807"}, "showCompleted": {"restParameterType": "query", "type": "boolean"}, "showDeleted": {"restParameterType": "query", "type": "boolean"}, "completedMax": {"restParameterType": "query", "type": "string"}, "showHidden": {"restParameterType": "query", "type": "boolean"}, "dueMin": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "tasks.tasks.list", "httpMethod": "GET", "response": {"$ref": "Tasks"}, "restPath": "lists/{tasklist}/tasks"}, "update": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "task": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "Task"}, "rpcMethod": "tasks.tasks.update", "httpMethod": "PUT", "response": {"$ref": "Task"}, "restPath": "lists/{tasklist}/tasks/{task}"}, "patch": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "task": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "Task"}, "rpcMethod": "tasks.tasks.patch", "httpMethod": "PATCH", "response": {"$ref": "Task"}, "restPath": "lists/{tasklist}/tasks/{task}"}, "delete": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}, "task": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "tasks.tasks.delete", "httpMethod": "DELETE", "restPath": "lists/{tasklist}/tasks/{task}"}}}', true));
-     $this->tasklists = new TasklistsServiceResource($this, $this->serviceName, 'tasklists', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/tasks"], "request": {"$ref": "TaskList"}, "rpcMethod": "tasks.tasklists.insert", "httpMethod": "POST", "response": {"$ref": "TaskList"}, "restPath": "users/@me/lists"}, "get": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "tasks.tasklists.get", "httpMethod": "GET", "response": {"$ref": "TaskList"}, "restPath": "users/@me/lists/{tasklist}"}, "list": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"pageToken": {"restParameterType": "query", "type": "string"}, "maxResults": {"restParameterType": "query", "minimum": "-9223372036854775808", "type": "integer", "maximum": "9223372036854775807"}}, "rpcMethod": "tasks.tasklists.list", "httpMethod": "GET", "response": {"$ref": "TaskLists"}, "restPath": "users/@me/lists"}, "update": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "TaskList"}, "rpcMethod": "tasks.tasklists.update", "httpMethod": "PUT", "response": {"$ref": "TaskList"}, "restPath": "users/@me/lists/{tasklist}"}, "patch": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "TaskList"}, "rpcMethod": "tasks.tasklists.patch", "httpMethod": "PATCH", "response": {"$ref": "TaskList"}, "restPath": "users/@me/lists/{tasklist}"}, "delete": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "tasks.tasklists.delete", "httpMethod": "DELETE", "restPath": "users/@me/lists/{tasklist}"}}}', true));
+     $this->tasks = new TasksServiceResource($this, $this->serviceName, 'tasks', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}, "parent": {"type": "string", "location": "query"}, "previous": {"type": "string", "location": "query"}}, "request": {"$ref": "Task"}, "id": "tasks.tasks.insert", "httpMethod": "POST", "path": "lists/{tasklist}/tasks", "response": {"$ref": "Task"}}, "get": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}, "task": {"required": true, "type": "string", "location": "path"}}, "id": "tasks.tasks.get", "httpMethod": "GET", "path": "lists/{tasklist}/tasks/{task}", "response": {"$ref": "Task"}}, "clear": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "POST", "path": "lists/{tasklist}/clear", "id": "tasks.tasks.clear"}, "move": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"previous": {"type": "string", "location": "query"}, "tasklist": {"required": true, "type": "string", "location": "path"}, "parent": {"type": "string", "location": "query"}, "task": {"required": true, "type": "string", "location": "path"}}, "id": "tasks.tasks.move", "httpMethod": "POST", "path": "lists/{tasklist}/tasks/{task}/move", "response": {"$ref": "Task"}}, "list": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"dueMax": {"type": "string", "location": "query"}, "tasklist": {"required": true, "type": "string", "location": "path"}, "pageToken": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "completedMin": {"type": "string", "location": "query"}, "maxResults": {"minimum": "-9223372036854775808", "type": "integer", "location": "query", "maximum": "9223372036854775807"}, "showCompleted": {"type": "boolean", "location": "query"}, "showDeleted": {"type": "boolean", "location": "query"}, "completedMax": {"type": "string", "location": "query"}, "showHidden": {"type": "boolean", "location": "query"}, "dueMin": {"type": "string", "location": "query"}}, "id": "tasks.tasks.list", "httpMethod": "GET", "path": "lists/{tasklist}/tasks", "response": {"$ref": "Tasks"}}, "update": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}, "task": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Task"}, "id": "tasks.tasks.update", "httpMethod": "PUT", "path": "lists/{tasklist}/tasks/{task}", "response": {"$ref": "Task"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}, "task": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Task"}, "id": "tasks.tasks.patch", "httpMethod": "PATCH", "path": "lists/{tasklist}/tasks/{task}", "response": {"$ref": "Task"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}, "task": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "lists/{tasklist}/tasks/{task}", "id": "tasks.tasks.delete"}}}', true));
+     $this->tasklists = new TasklistsServiceResource($this, $this->serviceName, 'tasklists', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/tasks"], "request": {"$ref": "TaskList"}, "response": {"$ref": "TaskList"}, "httpMethod": "POST", "path": "users/@me/lists", "id": "tasks.tasklists.insert"}, "get": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}}, "id": "tasks.tasklists.get", "httpMethod": "GET", "path": "users/@me/lists/{tasklist}", "response": {"$ref": "TaskList"}}, "list": {"scopes": ["https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"], "parameters": {"pageToken": {"type": "string", "location": "query"}, "maxResults": {"minimum": "-9223372036854775808", "type": "integer", "location": "query", "maximum": "9223372036854775807"}}, "response": {"$ref": "TaskLists"}, "httpMethod": "GET", "path": "users/@me/lists", "id": "tasks.tasklists.list"}, "update": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "TaskList"}, "id": "tasks.tasklists.update", "httpMethod": "PUT", "path": "users/@me/lists/{tasklist}", "response": {"$ref": "TaskList"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "TaskList"}, "id": "tasks.tasklists.patch", "httpMethod": "PATCH", "path": "users/@me/lists/{tasklist}", "response": {"$ref": "TaskList"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/tasks"], "parameters": {"tasklist": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "users/@me/lists/{tasklist}", "id": "tasks.tasklists.delete"}}}', true));
   }
 
   /**
-   * @return the $io
+   * @return $io
    */
   public function getIo() {
     return $this->io;
   }
   /**
-   * @return the $version
+   * @return $version
    */
   public function getVersion() {
     return $this->version;
   }
 
   /**
-   * @return the $restBasePath
+   * @return $restBasePath
    */
   public function getRestBasePath() {
     return $this->restBasePath;
   }
 
   /**
-   * @return the $rpcPath
+   * @return $rpcPath
    */
   public function getRpcPath() {
     return $this->rpcPath;
   }
 }
 
-class Task {
+class Task extends apiModel {
 
   public $status;
   public $kind;
@@ -386,7 +412,7 @@ class Task {
 }
 
 
-class TaskList {
+class TaskList extends apiModel {
 
   public $kind;
   public $etag;
@@ -437,7 +463,7 @@ class TaskList {
 }
 
 
-class TaskLists {
+class TaskLists extends apiModel {
 
   public $nextPageToken;
   public $items;
@@ -452,7 +478,7 @@ class TaskLists {
     return $this->nextPageToken;
   }
   
-  public function setItems( TaskList $items) {
+  public function setItems(TaskList $items) {
     $this->items = $items;
   }
 
@@ -479,7 +505,7 @@ class TaskLists {
 }
 
 
-class Tasks {
+class Tasks extends apiModel {
 
   public $nextPageToken;
   public $items;
@@ -494,7 +520,7 @@ class Tasks {
     return $this->nextPageToken;
   }
   
-  public function setItems( Task $items) {
+  public function setItems(Task $items) {
     $this->items = $items;
   }
 

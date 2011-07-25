@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -33,10 +33,14 @@ require_once 'service/apiServiceRequest.php';
     /**
      * List the source/target languages supported by the API (languages.list)
      *
-     * @param  $target the language and collation in which the localized results should be returned
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $target the language and collation in which the localized results should be returned
      */
-    public function listLanguages($target = null) {
-      return $this->__call('list', array(array('target' => $target)));
+    public function listLanguages($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -54,10 +58,11 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Detect the language of text. (detections.list)
      *
-     * @param  $q The text to detect
+     * @param string $q The text to detect
      */
     public function listDetections($q) {
-      return $this->__call('list', array(array('q' => $q)));
+      $params = array('q' => $q);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -75,13 +80,18 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Returns text translations from one language to another. (translations.list)
      *
-     * @param  $q The text to translate
-     * @param  $source The source language of the text
-     * @param  $target The target language into which the text should be translated
-     * @param  $format The format of the text
+     * @param string $q The text to translate
+     * @param string $target The target language into which the text should be translated
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source The source language of the text
+     * @opt_param string $format The format of the text
+     * @opt_param string $cid The customization id for translate
      */
-    public function listTranslations($q, $target, $format = null, $source = null) {
-      return $this->__call('list', array(array('q' => $q, 'source' => $source, 'target' => $target, 'format' => $format)));
+    public function listTranslations($q, $target, $optParams = array()) {
+      $params = array('q' => $q, 'target' => $target);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -96,7 +106,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/language/translate/v2/using_rest.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -121,9 +131,9 @@ class apiTranslateService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->languages = new LanguagesServiceResource($this, $this->serviceName, 'languages', json_decode('{"methods": {"list": {"parameters": {"target": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "language.languages.list", "httpMethod": "GET", "response": {"$ref": "LanguagesListResponse"}, "restPath": "v2/languages"}}}', true));
-     $this->detections = new DetectionsServiceResource($this, $this->serviceName, 'detections', json_decode('{"methods": {"list": {"parameters": {"q": {"restParameterType": "query", "required": true, "type": "string", "repeated": true}}, "rpcMethod": "language.detections.list", "httpMethod": "GET", "response": {"$ref": "DetectionsListResponse"}, "restPath": "v2/detect"}}}', true));
-     $this->translations = new TranslationsServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods": {"list": {"parameters": {"q": {"restParameterType": "query", "required": true, "type": "string", "repeated": true}, "source": {"restParameterType": "query", "type": "string"}, "target": {"restParameterType": "query", "required": true, "type": "string"}, "format": {"restParameterType": "query", "enum": ["html", "text"], "type": "string"}}, "rpcMethod": "language.translations.list", "httpMethod": "GET", "response": {"$ref": "TranslationsListResponse"}, "restPath": "v2"}}}', true));
+     $this->languages = new LanguagesServiceResource($this, $this->serviceName, 'languages', json_decode('{"methods": {"list": {"parameters": {"target": {"type": "string", "location": "query"}}, "id": "language.languages.list", "httpMethod": "GET", "path": "v2/languages", "response": {"$ref": "LanguagesListResponse"}}}}', true));
+     $this->detections = new DetectionsServiceResource($this, $this->serviceName, 'detections', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}}, "id": "language.detections.list", "httpMethod": "GET", "path": "v2/detect", "response": {"$ref": "DetectionsListResponse"}}}}', true));
+     $this->translations = new TranslationsServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "cid": {"repeated": true, "type": "string", "location": "query"}, "target": {"required": true, "type": "string", "location": "query"}, "format": {"enum": ["html", "text"], "type": "string", "location": "query"}}, "id": "language.translations.list", "httpMethod": "GET", "path": "v2", "response": {"$ref": "TranslationsListResponse"}}}}', true));
   }
 
   /**
@@ -154,11 +164,11 @@ class apiTranslateService {
   }
 }
 
-class DetectionsListResponse {
+class DetectionsListResponse extends apiModel {
 
   public $detections;
 
-  public function setDetections( DetectionsResource $detections) {
+  public function setDetections(DetectionsResource $detections) {
     $this->detections = $detections;
   }
 
@@ -169,11 +179,11 @@ class DetectionsListResponse {
 }
 
 
-class LanguagesListResponse {
+class LanguagesListResponse extends apiModel {
 
   public $languages;
 
-  public function setLanguages( LanguagesResource $languages) {
+  public function setLanguages(LanguagesResource $languages) {
     $this->languages = $languages;
   }
 
@@ -184,7 +194,7 @@ class LanguagesListResponse {
 }
 
 
-class DetectionsResource {
+class DetectionsResource extends apiModel {
 
   public $items;
 
@@ -196,7 +206,7 @@ class DetectionsResource {
 }
 
 
-class DetectionsResourceItems {
+class DetectionsResourceItems extends apiModel {
 
   public $isReliable;
   public $confidence;
@@ -229,7 +239,7 @@ class DetectionsResourceItems {
 }
 
 
-class LanguagesResource {
+class LanguagesResource extends apiModel {
 
   public $name;
   public $language;
@@ -253,7 +263,7 @@ class LanguagesResource {
 }
 
 
-class TranslationsResource {
+class TranslationsResource extends apiModel {
 
   public $detectedSourceLanguage;
   public $translatedText;
@@ -277,11 +287,11 @@ class TranslationsResource {
 }
 
 
-class TranslationsListResponse {
+class TranslationsListResponse extends apiModel {
 
   public $translations;
 
-  public function setTranslations( TranslationsResource $translations) {
+  public function setTranslations(TranslationsResource $translations) {
     $this->translations = $translations;
   }
 

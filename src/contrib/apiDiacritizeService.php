@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -47,12 +47,13 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Adds diacritical marks to the given message. (corpus.get)
      *
-     * @param  $lang Language of the message
-     * @param  $message Message to be diacritized
-     * @param  $last_letter Flag to indicate whether the last letter in a word should be diacritized or not
+     * @param string $message Message to be diacritized
+     * @param bool $last_letter Flag to indicate whether the last letter in a word should be diacritized or not
+     * @param string $lang Language of the message
      */
-    public function get($lang, $last_letter, $message) {
-      return $this->__call('get', array(array('lang' => $lang, 'message' => $message, 'last_letter' => $last_letter)));
+    public function get($message, $last_letter, $lang) {
+      $params = array('message' => $message, 'last_letter' => $last_letter, 'lang' => $lang);
+      return $this->__call('get', array($params));
     }
   }
 
@@ -67,7 +68,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/language/diacritize/v1/using_rest.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -90,7 +91,7 @@ class apiDiacritizeService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->diacritize = new DiacritizeServiceResource($this, $this->serviceName, 'diacritize', json_decode('{"resources": {"corpus": {"methods": {"get": {"parameters": {"lang": {"restParameterType": "query", "required": true, "type": "string"}, "message": {"restParameterType": "query", "required": true, "type": "string"}, "last_letter": {"restParameterType": "query", "required": true, "type": "boolean"}}, "rpcMethod": "language.diacritize.corpus.get", "httpMethod": "GET", "response": {"$ref": "LanguageDiacritizeCorpusResource"}, "restPath": "v1"}}}}}', true));
+     $this->diacritize = new DiacritizeServiceResource($this, $this->serviceName, 'diacritize', json_decode('{"resources": {"corpus": {"methods": {"get": {"parameters": {"lang": {"required": true, "type": "string", "location": "query"}, "message": {"required": true, "type": "string", "location": "query"}, "last_letter": {"required": true, "type": "boolean", "location": "query"}}, "id": "language.diacritize.corpus.get", "httpMethod": "GET", "path": "v1", "response": {"$ref": "LanguageDiacritizeCorpusResource"}}}}}}', true));
   }
 
   /**
@@ -121,7 +122,7 @@ class apiDiacritizeService {
   }
 }
 
-class LanguageDiacritizeCorpusResource {
+class LanguageDiacritizeCorpusResource extends apiModel {
 
   public $diacritized_text;
 

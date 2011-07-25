@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -33,21 +33,29 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Retrieves a list of public bookshelves for the specified user. (bookshelves.list)
      *
-     * @param  $source String to identify the originator of this request.
-     * @param  $userId Id of user for whom to retrieve bookshelves.
+     * @param string $userId Id of user for whom to retrieve bookshelves.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function listBookshelves($userId, $source = null) {
-      return $this->__call('list', array(array('source' => $source, 'userId' => $userId)));
+    public function listBookshelves($userId, $optParams = array()) {
+      $params = array('userId' => $userId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Retrieves a specific bookshelf for the specified user. (bookshelves.get)
      *
-     * @param  $source String to identify the originator of this request.
-     * @param  $userId Id of user for whom to retrieve bookshelves.
-     * @param  $shelf Id of bookshelf to retrieve.
+     * @param string $userId Id of user for whom to retrieve bookshelves.
+     * @param string $shelf Id of bookshelf to retrieve.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function get($shelf, $userId, $source = null) {
-      return $this->__call('get', array(array('source' => $source, 'userId' => $userId, 'shelf' => $shelf)));
+    public function get($userId, $shelf, $optParams = array()) {
+      $params = array('userId' => $userId, 'shelf' => $shelf);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
   }
 
@@ -66,12 +74,16 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Retrieves volumes in a specific bookshelf for the specified user. (volumes.list)
      *
-     * @param  $source String to identify the originator of this request.
-     * @param  $userId Id of user for whom to retrieve bookshelf volumes.
-     * @param  $shelf Id of bookshelf to retrieve volumes.
+     * @param string $userId Id of user for whom to retrieve bookshelf volumes.
+     * @param string $shelf Id of bookshelf to retrieve volumes.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function listBookshelvesVolumes($shelf, $userId, $source = null) {
-      return $this->__call('list', array(array('source' => $source, 'userId' => $userId, 'shelf' => $shelf)));
+    public function listBookshelvesVolumes($userId, $shelf, $optParams = array()) {
+      $params = array('userId' => $userId, 'shelf' => $shelf);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -89,29 +101,37 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Performs a book search. (volumes.list)
      *
-     * @param  $orderBy Sort search results.
-     * @param  $q Full-text search query string.
-     * @param  $projection Restrict information returned to a set of selected fields.
-     * @param  $langRestrict Restrict results to books with this language code.
-     * @param  $printType Restrict to books or magazines.
-     * @param  $maxResults Maximum number of results to return.
-     * @param  $filter Filter search results.
-     * @param  $source String to identify the originator of this request.
-     * @param  $startIndex Index of the first result to return (starts at 0)
-     * @param  $download Restrict to volumes by download availability.
+     * @param string $q Full-text search query string.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $orderBy Sort search results.
+     * @opt_param string $projection Restrict information returned to a set of selected fields.
+     * @opt_param string $langRestrict Restrict results to books with this language code.
+     * @opt_param string $printType Restrict to books or magazines.
+     * @opt_param int $maxResults Maximum number of results to return.
+     * @opt_param string $filter Filter search results.
+     * @opt_param string $source String to identify the originator of this request.
+     * @opt_param int $startIndex Index of the first result to return (starts at 0)
+     * @opt_param string $download Restrict to volumes by download availability.
      */
-    public function listVolumes($q, $download = null, $filter = null, $langRestrict = null, $maxResults = null, $orderBy = null, $printType = null, $projection = null, $source = null, $startIndex = null) {
-      return $this->__call('list', array(array('orderBy' => $orderBy, 'q' => $q, 'projection' => $projection, 'langRestrict' => $langRestrict, 'printType' => $printType, 'maxResults' => $maxResults, 'filter' => $filter, 'source' => $source, 'startIndex' => $startIndex, 'download' => $download)));
+    public function listVolumes($q, $optParams = array()) {
+      $params = array('q' => $q);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Gets volume information for a single volume. (volumes.get)
      *
-     * @param  $source String to identify the originator of this request.
-     * @param  $projection Restrict information returned to a set of selected fields.
-     * @param  $volumeId Id of volume to retrieve.
+     * @param string $volumeId Id of volume to retrieve.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
+     * @opt_param string $projection Restrict information returned to a set of selected fields.
      */
-    public function get($volumeId, $projection = null, $source = null) {
-      return $this->__call('get', array(array('source' => $source, 'projection' => $projection, 'volumeId' => $volumeId)));
+    public function get($volumeId, $optParams = array()) {
+      $params = array('volumeId' => $volumeId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
   }
 
@@ -143,48 +163,68 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Clears all volumes from a bookshelf. (bookshelves.clearVolumes)
      *
-     * @param  $source String to identify the originator of this request.
-     * @param  $shelf Id of bookshelf from which to remove a volume.
+     * @param string $shelf Id of bookshelf from which to remove a volume.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function clearVolumes($shelf, $source = null) {
-      return $this->__call('clearVolumes', array(array('source' => $source, 'shelf' => $shelf)));
+    public function clearVolumes($shelf, $optParams = array()) {
+      $params = array('shelf' => $shelf);
+      $params = array_merge($params, $optParams);
+      return $this->__call('clearVolumes', array($params));
     }
     /**
      * Removes a volume from a bookshelf. (bookshelves.removeVolume)
      *
-     * @param  $volumeId Id of volume to remove.
-     * @param  $source String to identify the originator of this request.
-     * @param  $shelf Id of bookshelf from which to remove a volume.
+     * @param string $shelf Id of bookshelf from which to remove a volume.
+     * @param string $volumeId Id of volume to remove.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function removeVolume($shelf, $volumeId, $source = null) {
-      return $this->__call('removeVolume', array(array('volumeId' => $volumeId, 'source' => $source, 'shelf' => $shelf)));
+    public function removeVolume($shelf, $volumeId, $optParams = array()) {
+      $params = array('shelf' => $shelf, 'volumeId' => $volumeId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('removeVolume', array($params));
     }
     /**
      * Retrieves a list of bookshelves belonging to the authenticated user. (bookshelves.list)
      *
-     * @param  $source String to identify the originator of this request.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function listMylibraryBookshelves($source = null) {
-      return $this->__call('list', array(array('source' => $source)));
+    public function listMylibraryBookshelves($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Adds a volume to a bookshelf. (bookshelves.addVolume)
      *
-     * @param  $volumeId Id of volume to add.
-     * @param  $source String to identify the originator of this request.
-     * @param  $shelf Id of bookshelf to which to add a volume.
+     * @param string $shelf Id of bookshelf to which to add a volume.
+     * @param string $volumeId Id of volume to add.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function addVolume($shelf, $volumeId, $source = null) {
-      return $this->__call('addVolume', array(array('volumeId' => $volumeId, 'source' => $source, 'shelf' => $shelf)));
+    public function addVolume($shelf, $volumeId, $optParams = array()) {
+      $params = array('shelf' => $shelf, 'volumeId' => $volumeId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('addVolume', array($params));
     }
     /**
      * Retrieves a specific bookshelf belonging to the authenticated user. (bookshelves.get)
      *
-     * @param  $source String to identify the originator of this request.
-     * @param  $shelf Id of bookshelf to retrieve.
+     * @param string $shelf Id of bookshelf to retrieve.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function get($shelf, $source = null) {
-      return $this->__call('get', array(array('source' => $source, 'shelf' => $shelf)));
+    public function get($shelf, $optParams = array()) {
+      $params = array('shelf' => $shelf);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
   }
 
@@ -203,14 +243,18 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Gets volume information for volumes on a bookshelf. (volumes.list)
      *
-     * @param  $startIndex Index of the first element to return (starts at 0)
-     * @param  $projection Restrict information returned to a set of selected fields.
-     * @param  $maxResults Maximum number of results to return
-     * @param  $source String to identify the originator of this request.
-     * @param  $shelf The bookshelf id or name retrieve volumes for.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $shelf The bookshelf id or name retrieve volumes for.
+     * @opt_param int $startIndex Index of the first element to return (starts at 0)
+     * @opt_param string $projection Restrict information returned to a set of selected fields.
+     * @opt_param int $maxResults Maximum number of results to return
+     * @opt_param string $source String to identify the originator of this request.
      */
-    public function listMylibraryBookshelvesVolumes($maxResults = null, $projection = null, $shelf = null, $source = null, $startIndex = null) {
-      return $this->__call('list', array(array('startIndex' => $startIndex, 'projection' => $projection, 'maxResults' => $maxResults, 'source' => $source, 'shelf' => $shelf)));
+    public function listMylibraryBookshelvesVolumes($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -225,7 +269,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="https://code.google.com/apis/books/docs/v1/getting_started.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -250,9 +294,9 @@ class apiBooksService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->bookshelves = new BookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"source": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "books.bookshelves.list", "httpMethod": "GET", "response": {"$ref": "Bookshelves"}, "restPath": "users/{userId}/bookshelves"}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.bookshelves.get", "httpMethod": "GET", "response": {"$ref": "Bookshelf"}, "restPath": "users/{userId}/bookshelves/{shelf}"}}, "resources": {"volumes": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.bookshelves.volumes.list", "httpMethod": "GET", "response": {"$ref": "Volumes"}, "restPath": "users/{userId}/bookshelves/{shelf}/volumes"}}}}}', true));
-     $this->volumes = new VolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"orderBy": {"restParameterType": "query", "enum": ["newest", "relevance"], "type": "string"}, "filter": {"restParameterType": "query", "enum": ["ebooks", "free-ebooks", "full", "paid-ebooks", "partial"], "type": "string"}, "projection": {"restParameterType": "query", "enum": ["full", "lite"], "type": "string"}, "langRestrict": {"restParameterType": "query", "type": "string"}, "printType": {"restParameterType": "query", "enum": ["all", "books", "magazines"], "type": "string"}, "maxResults": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "40"}, "q": {"restParameterType": "query", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}, "startIndex": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "download": {"restParameterType": "query", "enum": ["epub"], "type": "string"}}, "rpcMethod": "books.volumes.list", "httpMethod": "GET", "response": {"$ref": "Volumes"}, "restPath": "volumes"}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"source": {"restParameterType": "query", "type": "string"}, "projection": {"restParameterType": "query", "enum": ["full", "lite"], "type": "string"}, "volumeId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "books.volumes.get", "httpMethod": "GET", "response": {"$ref": "Volume"}, "restPath": "volumes/{volumeId}"}}}', true));
-     $this->mylibrary = new MylibraryServiceResource($this, $this->serviceName, 'mylibrary', json_decode('{"resources": {"bookshelves": {"methods": {"clearVolumes": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.mylibrary.bookshelves.clearVolumes", "httpMethod": "POST", "restPath": "mylibrary/bookshelves/{shelf}/clearVolumes"}, "removeVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "required": true, "type": "string"}, "volumeId": {"restParameterType": "query", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.mylibrary.bookshelves.removeVolume", "httpMethod": "POST", "restPath": "mylibrary/bookshelves/{shelf}/removeVolume"}, "list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.mylibrary.bookshelves.list", "httpMethod": "GET", "response": {"$ref": "Bookshelves"}, "restPath": "mylibrary/bookshelves"}, "addVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "required": true, "type": "string"}, "volumeId": {"restParameterType": "query", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.mylibrary.bookshelves.addVolume", "httpMethod": "POST", "restPath": "mylibrary/bookshelves/{shelf}/addVolume"}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "required": true, "type": "string"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.mylibrary.bookshelves.get", "httpMethod": "GET", "response": {"$ref": "Bookshelf"}, "restPath": "mylibrary/bookshelves/{shelf}"}}, "resources": {"volumes": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"restParameterType": "path", "type": "string"}, "startIndex": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "projection": {"restParameterType": "query", "enum": ["full", "lite"], "type": "string"}, "maxResults": {"restParameterType": "query", "minimum": "0", "type": "integer", "maximum": "4294967295"}, "source": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "books.mylibrary.bookshelves.volumes.list", "httpMethod": "GET", "response": {"$ref": "Volumes"}, "restPath": "mylibrary/bookshelves/{shelf}/volumes"}}}}}}}', true));
+     $this->bookshelves = new BookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"source": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "books.bookshelves.list", "httpMethod": "GET", "path": "users/{userId}/bookshelves", "response": {"$ref": "Bookshelves"}}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.bookshelves.get", "httpMethod": "GET", "path": "users/{userId}/bookshelves/{shelf}", "response": {"$ref": "Bookshelf"}}}, "resources": {"volumes": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.bookshelves.volumes.list", "httpMethod": "GET", "path": "users/{userId}/bookshelves/{shelf}/volumes", "response": {"$ref": "Volumes"}}}}}}', true));
+     $this->volumes = new VolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"orderBy": {"enum": ["newest", "relevance"], "type": "string", "location": "query"}, "filter": {"enum": ["ebooks", "free-ebooks", "full", "paid-ebooks", "partial"], "type": "string", "location": "query"}, "projection": {"enum": ["full", "lite"], "type": "string", "location": "query"}, "langRestrict": {"type": "string", "location": "query"}, "printType": {"enum": ["all", "books", "magazines"], "type": "string", "location": "query"}, "maxResults": {"minimum": "0", "type": "integer", "location": "query", "maximum": "40"}, "q": {"required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"minimum": "0", "type": "integer", "location": "query", "maximum": "4294967295"}, "download": {"enum": ["epub"], "type": "string", "location": "query"}}, "id": "books.volumes.list", "httpMethod": "GET", "path": "volumes", "response": {"$ref": "Volumes"}}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"source": {"type": "string", "location": "query"}, "projection": {"enum": ["full", "lite"], "type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "path"}}, "id": "books.volumes.get", "httpMethod": "GET", "path": "volumes/{volumeId}", "response": {"$ref": "Volume"}}}}', true));
+     $this->mylibrary = new MylibraryServiceResource($this, $this->serviceName, 'mylibrary', json_decode('{"resources": {"bookshelves": {"methods": {"clearVolumes": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/clearVolumes", "id": "books.mylibrary.bookshelves.clearVolumes"}, "removeVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"required": true, "type": "string", "location": "path"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/removeVolume", "id": "books.mylibrary.bookshelves.removeVolume"}, "list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelves"}, "httpMethod": "GET", "path": "mylibrary/bookshelves", "id": "books.mylibrary.bookshelves.list"}, "addVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"required": true, "type": "string", "location": "path"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/addVolume", "id": "books.mylibrary.bookshelves.addVolume"}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.mylibrary.bookshelves.get", "httpMethod": "GET", "path": "mylibrary/bookshelves/{shelf}", "response": {"$ref": "Bookshelf"}}}, "resources": {"volumes": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"shelf": {"type": "string", "location": "path"}, "startIndex": {"minimum": "0", "type": "integer", "location": "query", "maximum": "4294967295"}, "projection": {"enum": ["full", "lite"], "type": "string", "location": "query"}, "maxResults": {"minimum": "0", "type": "integer", "location": "query", "maximum": "4294967295"}, "source": {"type": "string", "location": "query"}}, "id": "books.mylibrary.bookshelves.volumes.list", "httpMethod": "GET", "path": "mylibrary/bookshelves/{shelf}/volumes", "response": {"$ref": "Volumes"}}}}}}}}', true));
   }
 
   /**
@@ -283,7 +327,7 @@ class apiBooksService {
   }
 }
 
-class ReviewAuthor {
+class ReviewAuthor extends apiModel {
 
   public $displayName;
 
@@ -298,7 +342,7 @@ class ReviewAuthor {
 }
 
 
-class Review {
+class Review extends apiModel {
 
   public $rating;
   public $kind;
@@ -327,7 +371,7 @@ class Review {
     return $this->kind;
   }
   
-  public function setAuthor( ReviewAuthor $author) {
+  public function setAuthor(ReviewAuthor $author) {
     $this->author = $author;
   }
 
@@ -359,7 +403,7 @@ class Review {
     return $this->content;
   }
   
-  public function setSource( ReviewSource $source) {
+  public function setSource(ReviewSource $source) {
     $this->source = $source;
   }
 
@@ -394,7 +438,7 @@ class Review {
 }
 
 
-class VolumeVolumeInfoIndustryIdentifiers {
+class VolumeVolumeInfoIndustryIdentifiers extends apiModel {
 
   public $identifier;
   public $type;
@@ -418,7 +462,7 @@ class VolumeVolumeInfoIndustryIdentifiers {
 }
 
 
-class VolumeVolumeInfoImageLinks {
+class VolumeVolumeInfoImageLinks extends apiModel {
 
   public $medium;
   public $smallThumbnail;
@@ -478,7 +522,7 @@ class VolumeVolumeInfoImageLinks {
 }
 
 
-class VolumeAccessInfoEpub {
+class VolumeAccessInfoEpub extends apiModel {
 
   public $downloadLink;
   public $acsTokenLink;
@@ -502,7 +546,7 @@ class VolumeAccessInfoEpub {
 }
 
 
-class VolumeAccessInfoPdf {
+class VolumeAccessInfoPdf extends apiModel {
 
   public $downloadLink;
   public $acsTokenLink;
@@ -526,12 +570,12 @@ class VolumeAccessInfoPdf {
 }
 
 
-class Bookshelves {
+class Bookshelves extends apiModel {
 
   public $items;
   public $kind;
 
-  public function setItems( Bookshelf $items) {
+  public function setItems(Bookshelf $items) {
     $this->items = $items;
   }
 
@@ -550,7 +594,7 @@ class Bookshelves {
 }
 
 
-class VolumeVolumeInfoDimensions {
+class VolumeVolumeInfoDimensions extends apiModel {
 
   public $width;
   public $thickness;
@@ -583,7 +627,7 @@ class VolumeVolumeInfoDimensions {
 }
 
 
-class Volume {
+class Volume extends apiModel {
 
   public $kind;
   public $accessInfo;
@@ -602,7 +646,7 @@ class Volume {
     return $this->kind;
   }
   
-  public function setAccessInfo( VolumeAccessInfo $accessInfo) {
+  public function setAccessInfo(VolumeAccessInfo $accessInfo) {
     $this->accessInfo = $accessInfo;
   }
 
@@ -610,7 +654,7 @@ class Volume {
     return $this->accessInfo;
   }
   
-  public function setSaleInfo( VolumeSaleInfo $saleInfo) {
+  public function setSaleInfo(VolumeSaleInfo $saleInfo) {
     $this->saleInfo = $saleInfo;
   }
 
@@ -626,7 +670,7 @@ class Volume {
     return $this->etag;
   }
   
-  public function setUserInfo( VolumeUserInfo $userInfo) {
+  public function setUserInfo(VolumeUserInfo $userInfo) {
     $this->userInfo = $userInfo;
   }
 
@@ -634,7 +678,7 @@ class Volume {
     return $this->userInfo;
   }
   
-  public function setVolumeInfo( VolumeVolumeInfo $volumeInfo) {
+  public function setVolumeInfo(VolumeVolumeInfo $volumeInfo) {
     $this->volumeInfo = $volumeInfo;
   }
 
@@ -661,7 +705,7 @@ class Volume {
 }
 
 
-class Bookshelf {
+class Bookshelf extends apiModel {
 
   public $kind;
   public $description;
@@ -757,7 +801,7 @@ class Bookshelf {
 }
 
 
-class VolumeUserInfo {
+class VolumeUserInfo extends apiModel {
 
   public $updated;
   public $readingPosition;
@@ -772,7 +816,7 @@ class VolumeUserInfo {
     return $this->updated;
   }
   
-  public function setReadingPosition( ReadingPosition $readingPosition) {
+  public function setReadingPosition(ReadingPosition $readingPosition) {
     $this->readingPosition = $readingPosition;
   }
 
@@ -788,7 +832,7 @@ class VolumeUserInfo {
     return $this->isPurchased;
   }
   
-  public function setReview( Review $review) {
+  public function setReview(Review $review) {
     $this->review = $review;
   }
 
@@ -799,7 +843,7 @@ class VolumeUserInfo {
 }
 
 
-class VolumeSaleInfoRetailPrice {
+class VolumeSaleInfoRetailPrice extends apiModel {
 
   public $amount;
   public $currencyCode;
@@ -823,7 +867,7 @@ class VolumeSaleInfoRetailPrice {
 }
 
 
-class DownloadAccessRestriction {
+class DownloadAccessRestriction extends apiModel {
 
   public $nonce;
   public $kind;
@@ -928,7 +972,7 @@ class DownloadAccessRestriction {
 }
 
 
-class ReviewSource {
+class ReviewSource extends apiModel {
 
   public $extraDescription;
   public $url;
@@ -961,7 +1005,7 @@ class ReviewSource {
 }
 
 
-class VolumeSaleInfoListPrice {
+class VolumeSaleInfoListPrice extends apiModel {
 
   public $amount;
   public $currencyCode;
@@ -985,7 +1029,7 @@ class VolumeSaleInfoListPrice {
 }
 
 
-class VolumeSaleInfo {
+class VolumeSaleInfo extends apiModel {
 
   public $country;
   public $retailPrice;
@@ -1002,7 +1046,7 @@ class VolumeSaleInfo {
     return $this->country;
   }
   
-  public function setRetailPrice( VolumeSaleInfoRetailPrice $retailPrice) {
+  public function setRetailPrice(VolumeSaleInfoRetailPrice $retailPrice) {
     $this->retailPrice = $retailPrice;
   }
 
@@ -1034,7 +1078,7 @@ class VolumeSaleInfo {
     return $this->buyLink;
   }
   
-  public function setListPrice( VolumeSaleInfoListPrice $listPrice) {
+  public function setListPrice(VolumeSaleInfoListPrice $listPrice) {
     $this->listPrice = $listPrice;
   }
 
@@ -1045,13 +1089,12 @@ class VolumeSaleInfo {
 }
 
 
-class VolumeAccessInfo {
+class VolumeAccessInfo extends apiModel {
 
   public $publicDomain;
   public $embeddable;
   public $downloadAccess;
   public $country;
-  public $textToSpeechAllowed;
   public $pdf;
   public $viewability;
   public $epub;
@@ -1073,7 +1116,7 @@ class VolumeAccessInfo {
     return $this->embeddable;
   }
   
-  public function setDownloadAccess( DownloadAccessRestriction $downloadAccess) {
+  public function setDownloadAccess(DownloadAccessRestriction $downloadAccess) {
     $this->downloadAccess = $downloadAccess;
   }
 
@@ -1089,15 +1132,7 @@ class VolumeAccessInfo {
     return $this->country;
   }
   
-  public function setTextToSpeechAllowed($textToSpeechAllowed) {
-    $this->textToSpeechAllowed = $textToSpeechAllowed;
-  }
-
-  public function getTextToSpeechAllowed() {
-    return $this->textToSpeechAllowed;
-  }
-  
-  public function setPdf( VolumeAccessInfoPdf $pdf) {
+  public function setPdf(VolumeAccessInfoPdf $pdf) {
     $this->pdf = $pdf;
   }
 
@@ -1113,7 +1148,7 @@ class VolumeAccessInfo {
     return $this->viewability;
   }
   
-  public function setEpub( VolumeAccessInfoEpub $epub) {
+  public function setEpub(VolumeAccessInfoEpub $epub) {
     $this->epub = $epub;
   }
 
@@ -1132,7 +1167,7 @@ class VolumeAccessInfo {
 }
 
 
-class ReadingPosition {
+class ReadingPosition extends apiModel {
 
   public $kind;
   public $gbImagePosition;
@@ -1201,7 +1236,7 @@ class ReadingPosition {
 }
 
 
-class Volumes {
+class Volumes extends apiModel {
 
   public $totalItems;
   public $items;
@@ -1215,7 +1250,7 @@ class Volumes {
     return $this->totalItems;
   }
   
-  public function setItems( Volume $items) {
+  public function setItems(Volume $items) {
     $this->items = $items;
   }
 
@@ -1234,7 +1269,7 @@ class Volumes {
 }
 
 
-class VolumeVolumeInfo {
+class VolumeVolumeInfo extends apiModel {
 
   public $publishedDate;
   public $subtitle;
@@ -1272,7 +1307,7 @@ class VolumeVolumeInfo {
     return $this->subtitle;
   }
   
-  public function setDimensions( VolumeVolumeInfoDimensions $dimensions) {
+  public function setDimensions(VolumeVolumeInfoDimensions $dimensions) {
     $this->dimensions = $dimensions;
   }
 
@@ -1296,7 +1331,7 @@ class VolumeVolumeInfo {
     return $this->pageCount;
   }
   
-  public function setImageLinks( VolumeVolumeInfoImageLinks $imageLinks) {
+  public function setImageLinks(VolumeVolumeInfoImageLinks $imageLinks) {
     $this->imageLinks = $imageLinks;
   }
 
@@ -1344,7 +1379,7 @@ class VolumeVolumeInfo {
     return $this->contentVersion;
   }
   
-  public function setIndustryIdentifiers( VolumeVolumeInfoIndustryIdentifiers $industryIdentifiers) {
+  public function setIndustryIdentifiers(VolumeVolumeInfoIndustryIdentifiers $industryIdentifiers) {
     $this->industryIdentifiers = $industryIdentifiers;
   }
 

@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -33,126 +33,176 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Get a count of link shares (activities.count)
      *
-     * @param  $url URLs for which to get share counts.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $url URLs for which to get share counts.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function count($url = null) {
-      return $this->__call('count', array(array('url' => $url)));
+    public function count($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('count', array($params));
     }
     /**
      * Create a new activity (activities.insert)
      *
-     * @param  $preview If true, only preview the action.
-     * @param  $userId ID of the user being referenced.
+     * @param string $userId ID of the user being referenced.
      * @param $postBody the {@link Activity}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param bool $preview If true, only preview the action.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function insert($userId, Activity $postBody, $preview = null) {
-      return $this->__call('insert', array(array('preview' => $preview, 'userId' => $userId, 'postBody' => $postBody)));
+    public function insert($userId, Activity $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert', array($params));
     }
     /**
      * Search for activities (activities.search)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $pid ID of a place to use in a geographic location query.
-     * @param  $lon Longitude to use in a geographic location query.
-     * @param  $q Full-text search query string.
-     * @param  $truncateAtom Truncate the value of the atom:content element.
-     * @param  $radius Radius to use in a geographic location query.
-     * @param  $bbox Bounding box to use in a geographic location query.
-     * @param  $lat Latitude to use in a geographic location query.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $pid ID of a place to use in a geographic location query.
+     * @opt_param string $lon Longitude to use in a geographic location query.
+     * @opt_param string $q Full-text search query string.
+     * @opt_param bool $truncateAtom Truncate the value of the atom:content element.
+     * @opt_param string $radius Radius to use in a geographic location query.
+     * @opt_param string $bbox Bounding box to use in a geographic location query.
+     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string $lat Latitude to use in a geographic location query.
      */
-    public function search($bbox = null, $c = null, $lat = null, $lon = null, $max_results = null, $pid = null, $q = null, $radius = null, $truncateAtom = null) {
-      return $this->__call('search', array(array('max-results' => $max_results, 'c' => $c, 'pid' => $pid, 'lon' => $lon, 'q' => $q, 'truncateAtom' => $truncateAtom, 'radius' => $radius, 'bbox' => $bbox, 'lat' => $lat)));
+    public function search($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('search', array($params));
     }
     /**
      * Get an activity (activities.get)
      *
-     * @param  $truncateAtom Truncate the value of the atom:content element.
-     * @param  $max_comments Maximum number of comments to include.
-     * @param  $max_liked Maximum number of likes to include.
-     * @param  $userId ID of the user whose post to get.
-     * @param  $postId ID of the post to get.
+     * @param string $userId ID of the user whose post to get.
+     * @param string $postId ID of the post to get.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param bool $truncateAtom Truncate the value of the atom:content element.
+     * @opt_param int $max-comments Maximum number of comments to include.
+     * @opt_param string $hl Language code to limit language results.
+     * @opt_param int $max-liked Maximum number of likes to include.
      */
-    public function get($postId, $userId, $max_comments = null, $max_liked = null, $truncateAtom = null) {
-      return $this->__call('get', array(array('truncateAtom' => $truncateAtom, 'max-comments' => $max_comments, 'max-liked' => $max_liked, 'userId' => $userId, 'postId' => $postId)));
+    public function get($userId, $postId, $optParams = array()) {
+      $params = array('userId' => $userId, 'postId' => $postId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
     /**
      * Get real-time activity tracking information (activities.track)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $pid ID of a place to use in a geographic location query.
-     * @param  $lon Longitude to use in a geographic location query.
-     * @param  $q Full-text search query string.
-     * @param  $radius Radius to use in a geographic location query.
-     * @param  $bbox Bounding box to use in a geographic location query.
-     * @param  $lat Latitude to use in a geographic location query.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $pid ID of a place to use in a geographic location query.
+     * @opt_param string $lon Longitude to use in a geographic location query.
+     * @opt_param string $q Full-text search query string.
+     * @opt_param string $radius Radius to use in a geographic location query.
+     * @opt_param string $bbox Bounding box to use in a geographic location query.
+     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string $lat Latitude to use in a geographic location query.
      */
-    public function track($bbox = null, $c = null, $lat = null, $lon = null, $max_results = null, $pid = null, $q = null, $radius = null) {
-      return $this->__call('track', array(array('max-results' => $max_results, 'c' => $c, 'pid' => $pid, 'lon' => $lon, 'q' => $q, 'radius' => $radius, 'bbox' => $bbox, 'lat' => $lat)));
+    public function track($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('track', array($params));
     }
     /**
      * List activities (activities.list)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $truncateAtom Truncate the value of the atom:content element.
-     * @param  $max_comments Maximum number of comments to include.
-     * @param  $max_liked Maximum number of likes to include.
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope The collection of activities to list.
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope The collection of activities to list.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param bool $truncateAtom Truncate the value of the atom:content element.
+     * @opt_param int $max-comments Maximum number of comments to include.
+     * @opt_param string $hl Language code to limit language results.
+     * @opt_param int $max-liked Maximum number of likes to include.
      */
-    public function listActivities($scope, $userId, $c = null, $max_comments = null, $max_liked = null, $max_results = null, $truncateAtom = null) {
-      return $this->__call('list', array(array('max-results' => $max_results, 'c' => $c, 'truncateAtom' => $truncateAtom, 'max-comments' => $max_comments, 'max-liked' => $max_liked, 'userId' => $userId, 'scope' => $scope)));
+    public function listActivities($userId, $scope, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Update an activity (activities.update)
      *
-     * @param  $abuseType
-     * @param  $userId ID of the user whose post to update.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity to update.
+     * @param string $userId ID of the user whose post to update.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity to update.
      * @param $postBody the {@link Activity}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $abuseType
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function update($postId, $scope, $userId, Activity $postBody, $abuseType = null) {
-      return $this->__call('update', array(array('abuseType' => $abuseType, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'postBody' => $postBody)));
+    public function update($userId, $scope, $postId, Activity $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('update', array($params));
     }
     /**
      * Update an activity. This method supports patch semantics. (activities.patch)
      *
-     * @param  $abuseType
-     * @param  $userId ID of the user whose post to update.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity to update.
+     * @param string $userId ID of the user whose post to update.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity to update.
      * @param $postBody the {@link Activity}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $abuseType
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function patch($postId, $scope, $userId, Activity $postBody, $abuseType = null) {
-      return $this->__call('patch', array(array('abuseType' => $abuseType, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'postBody' => $postBody)));
+    public function patch($userId, $scope, $postId, Activity $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('patch', array($params));
     }
     /**
      * Search for people by topic (activities.extractPeopleFromSearch)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $pid ID of a place to use in a geographic location query.
-     * @param  $lon Longitude to use in a geographic location query.
-     * @param  $q Full-text search query string.
-     * @param  $radius Radius to use in a geographic location query.
-     * @param  $bbox Bounding box to use in a geographic location query.
-     * @param  $lat Latitude to use in a geographic location query.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $pid ID of a place to use in a geographic location query.
+     * @opt_param string $lon Longitude to use in a geographic location query.
+     * @opt_param string $q Full-text search query string.
+     * @opt_param string $radius Radius to use in a geographic location query.
+     * @opt_param string $bbox Bounding box to use in a geographic location query.
+     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string $lat Latitude to use in a geographic location query.
      */
-    public function extractPeopleFromSearch($bbox = null, $c = null, $lat = null, $lon = null, $max_results = null, $pid = null, $q = null, $radius = null) {
-      return $this->__call('extractPeopleFromSearch', array(array('max-results' => $max_results, 'c' => $c, 'pid' => $pid, 'lon' => $lon, 'q' => $q, 'radius' => $radius, 'bbox' => $bbox, 'lat' => $lat)));
+    public function extractPeopleFromSearch($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('extractPeopleFromSearch', array($params));
     }
     /**
      * Delete an activity (activities.delete)
      *
-     * @param  $userId ID of the user whose post to delete.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity to delete.
+     * @param string $userId ID of the user whose post to delete.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity to delete.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function delete($postId, $scope, $userId) {
-      return $this->__call('delete', array(array('userId' => $userId, 'scope' => $scope, 'postId' => $postId)));
+    public function delete($userId, $scope, $postId, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -170,89 +220,129 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Get people who liked an activity (people.liked)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope
-     * @param  $postId ID of the activity that was liked.
-     * @param  $groupId
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope
+     * @param string $postId ID of the activity that was liked.
+     * @param string $groupId
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function liked($groupId, $postId, $scope, $userId, $c = null, $max_results = null) {
-      return $this->__call('liked', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'groupId' => $groupId)));
+    public function liked($userId, $scope, $postId, $groupId, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'groupId' => $groupId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('liked', array($params));
     }
     /**
      * Get a user profile (people.get)
      *
-     * @param  $userId ID of the user being referenced.
+     * @param string $userId ID of the user being referenced.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function get($userId) {
-      return $this->__call('get', array(array('userId' => $userId)));
+    public function get($userId, $optParams = array()) {
+      $params = array('userId' => $userId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
     /**
      * Add a person to a group (people.update)
      *
-     * @param  $userId ID of the owner of the group.
-     * @param  $groupId ID of the group to which to add the person.
-     * @param  $personId ID of the person to add to the group.
+     * @param string $userId ID of the owner of the group.
+     * @param string $groupId ID of the group to which to add the person.
+     * @param string $personId ID of the person to add to the group.
      * @param $postBody the {@link Person}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function update($groupId, $personId, $userId, Person $postBody) {
-      return $this->__call('update', array(array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId, 'postBody' => $postBody)));
+    public function update($userId, $groupId, $personId, Person $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('update', array($params));
     }
     /**
      * Get people in a group (people.list)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
-     * @param  $groupId ID of the group for which to list users.
+     * @param string $userId ID of the user being referenced.
+     * @param string $groupId ID of the group for which to list users.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listPeople($groupId, $userId, $c = null, $max_results = null) {
-      return $this->__call('list', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'groupId' => $groupId)));
+    public function listPeople($userId, $groupId, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Search for people (people.search)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $q Full-text search query string.
-     * @param  $c A continuation token that allows pagination.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $q Full-text search query string.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function search($c = null, $max_results = null, $q = null) {
-      return $this->__call('search', array(array('max-results' => $max_results, 'q' => $q, 'c' => $c)));
+    public function search($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      return $this->__call('search', array($params));
     }
     /**
      * Add a person to a group. This method supports patch semantics. (people.patch)
      *
-     * @param  $userId ID of the owner of the group.
-     * @param  $groupId ID of the group to which to add the person.
-     * @param  $personId ID of the person to add to the group.
+     * @param string $userId ID of the owner of the group.
+     * @param string $groupId ID of the group to which to add the person.
+     * @param string $personId ID of the person to add to the group.
      * @param $postBody the {@link Person}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function patch($groupId, $personId, $userId, Person $postBody) {
-      return $this->__call('patch', array(array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId, 'postBody' => $postBody)));
+    public function patch($userId, $groupId, $personId, Person $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('patch', array($params));
     }
     /**
      * Get people who reshared an activity (people.reshared)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope
-     * @param  $postId ID of the activity that was reshared.
-     * @param  $groupId
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope
+     * @param string $postId ID of the activity that was reshared.
+     * @param string $groupId
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function reshared($groupId, $postId, $scope, $userId, $c = null, $max_results = null) {
-      return $this->__call('reshared', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'groupId' => $groupId)));
+    public function reshared($userId, $scope, $postId, $groupId, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'groupId' => $groupId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('reshared', array($params));
     }
     /**
      * Remove a person from a group (people.delete)
      *
-     * @param  $userId ID of the owner of the group.
-     * @param  $groupId ID of the group from which to remove the person.
-     * @param  $personId ID of the person to remove from the group.
+     * @param string $userId ID of the owner of the group.
+     * @param string $groupId ID of the group from which to remove the person.
+     * @param string $personId ID of the person to remove from the group.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function delete($groupId, $personId, $userId) {
-      return $this->__call('delete', array(array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId)));
+    public function delete($userId, $groupId, $personId, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -270,40 +360,60 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Create a photo album (photoAlbums.insert)
      *
-     * @param  $userId ID of the user being referenced.
+     * @param string $userId ID of the user being referenced.
      * @param $postBody the {@link Album}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function insert($userId, Album $postBody) {
-      return $this->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody)));
+    public function insert($userId, Album $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert', array($params));
     }
     /**
      * Get a photo album (photoAlbums.get)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album to get.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album to get.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function get($albumId, $userId) {
-      return $this->__call('get', array(array('userId' => $userId, 'albumId' => $albumId)));
+    public function get($userId, $albumId, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
     /**
      * List a user's photo albums (photoAlbums.list)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope The collection of albums to list.
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope The collection of albums to list.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listPhotoAlbums($scope, $userId, $c = null, $max_results = null) {
-      return $this->__call('list', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'scope' => $scope)));
+    public function listPhotoAlbums($userId, $scope, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Delete a photo album (photoAlbums.delete)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album to delete.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album to delete.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function delete($albumId, $userId) {
-      return $this->__call('delete', array(array('userId' => $userId, 'albumId' => $albumId)));
+    public function delete($userId, $albumId, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -321,70 +431,100 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Create a comment (comments.insert)
      *
-     * @param  $userId ID of the user on whose behalf to comment.
-     * @param  $postId ID of the activity on which to comment.
+     * @param string $userId ID of the user on whose behalf to comment.
+     * @param string $postId ID of the activity on which to comment.
      * @param $postBody the {@link Comment}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function insert($postId, $userId, Comment $postBody) {
-      return $this->__call('insert', array(array('userId' => $userId, 'postId' => $postId, 'postBody' => $postBody)));
+    public function insert($userId, $postId, Comment $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'postId' => $postId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert', array($params));
     }
     /**
      * Get a comment (comments.get)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $postId ID of the activity for which to get comments.
-     * @param  $commentId ID of the comment being referenced.
+     * @param string $userId ID of the user being referenced.
+     * @param string $postId ID of the activity for which to get comments.
+     * @param string $commentId ID of the comment being referenced.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function get($commentId, $postId, $userId) {
-      return $this->__call('get', array(array('userId' => $userId, 'postId' => $postId, 'commentId' => $commentId)));
+    public function get($userId, $postId, $commentId, $optParams = array()) {
+      $params = array('userId' => $userId, 'postId' => $postId, 'commentId' => $commentId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
     /**
      * List comments (comments.list)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user for whose post to get comments.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity for which to get comments.
+     * @param string $userId ID of the user for whose post to get comments.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity for which to get comments.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listComments($postId, $scope, $userId, $c = null, $max_results = null) {
-      return $this->__call('list', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId)));
+    public function listComments($userId, $scope, $postId, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Update a comment (comments.update)
      *
-     * @param  $abuseType
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity for which to update the comment.
-     * @param  $commentId ID of the comment being referenced.
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity for which to update the comment.
+     * @param string $commentId ID of the comment being referenced.
      * @param $postBody the {@link Comment}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $abuseType
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function update($commentId, $postId, $scope, $userId, Comment $postBody, $abuseType = null) {
-      return $this->__call('update', array(array('abuseType' => $abuseType, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'commentId' => $commentId, 'postBody' => $postBody)));
+    public function update($userId, $scope, $postId, $commentId, Comment $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'commentId' => $commentId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('update', array($params));
     }
     /**
      * Update a comment. This method supports patch semantics. (comments.patch)
      *
-     * @param  $abuseType
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity for which to update the comment.
-     * @param  $commentId ID of the comment being referenced.
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity for which to update the comment.
+     * @param string $commentId ID of the comment being referenced.
      * @param $postBody the {@link Comment}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $abuseType
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function patch($commentId, $postId, $scope, $userId, Comment $postBody, $abuseType = null) {
-      return $this->__call('patch', array(array('abuseType' => $abuseType, 'userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'commentId' => $commentId, 'postBody' => $postBody)));
+    public function patch($userId, $scope, $postId, $commentId, Comment $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'commentId' => $commentId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('patch', array($params));
     }
     /**
      * Delete a comment (comments.delete)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $postId ID of the activity for which to delete the comment.
-     * @param  $commentId ID of the comment being referenced.
+     * @param string $userId ID of the user being referenced.
+     * @param string $postId ID of the activity for which to delete the comment.
+     * @param string $commentId ID of the comment being referenced.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function delete($commentId, $postId, $userId) {
-      return $this->__call('delete', array(array('userId' => $userId, 'postId' => $postId, 'commentId' => $commentId)));
+    public function delete($userId, $postId, $commentId, $optParams = array()) {
+      $params = array('userId' => $userId, 'postId' => $postId, 'commentId' => $commentId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -402,64 +542,94 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Upload a photo to an album (photos.insert2)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album to which to upload.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album to which to upload.
      * @param $postBody the {@link ChiliPhotosResourceJson}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function insert2($albumId, $userId, ChiliPhotosResourceJson $postBody) {
-      return $this->__call('insert2', array(array('userId' => $userId, 'albumId' => $albumId, 'postBody' => $postBody)));
+    public function insert2($userId, $albumId, ChiliPhotosResourceJson $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert2', array($params));
     }
     /**
      * Upload a photo to an album (photos.insert)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album to which to upload.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album to which to upload.
      * @param $postBody the {@link AlbumLite}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function insert($albumId, $userId, AlbumLite $postBody) {
-      return $this->__call('insert', array(array('userId' => $userId, 'albumId' => $albumId, 'postBody' => $postBody)));
+    public function insert($userId, $albumId, AlbumLite $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert', array($params));
     }
     /**
      * Get photo metadata (photos.get)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album containing the photo.
-     * @param  $photoId ID of the photo for which to get metadata.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album containing the photo.
+     * @param string $photoId ID of the photo for which to get metadata.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function get($albumId, $photoId, $userId) {
-      return $this->__call('get', array(array('userId' => $userId, 'albumId' => $albumId, 'photoId' => $photoId)));
+    public function get($userId, $albumId, $photoId, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId, 'photoId' => $photoId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
     /**
      * Get a user's photos (photos.listByScope)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope The collection of photos to list.
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope The collection of photos to list.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listByScope($scope, $userId, $c = null, $max_results = null) {
-      return $this->__call('listByScope', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'scope' => $scope)));
+    public function listByScope($userId, $scope, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope);
+      $params = array_merge($params, $optParams);
+      return $this->__call('listByScope', array($params));
     }
     /**
      * Delete a photo (photos.delete)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album to which to photo belongs.
-     * @param  $photoId ID of the photo to delete.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album to which to photo belongs.
+     * @param string $photoId ID of the photo to delete.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function delete($albumId, $photoId, $userId) {
-      return $this->__call('delete', array(array('userId' => $userId, 'albumId' => $albumId, 'photoId' => $photoId)));
+    public function delete($userId, $albumId, $photoId, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId, 'photoId' => $photoId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('delete', array($params));
     }
     /**
      * List photos in an album (photos.listByAlbum)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
-     * @param  $albumId ID of the album for which to list photos.
+     * @param string $userId ID of the user being referenced.
+     * @param string $albumId ID of the album for which to list photos.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listByAlbum($albumId, $userId, $c = null, $max_results = null) {
-      return $this->__call('listByAlbum', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId, 'albumId' => $albumId)));
+    public function listByAlbum($userId, $albumId, $optParams = array()) {
+      $params = array('userId' => $userId, 'albumId' => $albumId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('listByAlbum', array($params));
     }
   }
 
@@ -477,12 +647,17 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Get related links for an activity (related.list)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $scope The collection to which the activity belongs.
-     * @param  $postId ID of the activity to which to get related links.
+     * @param string $userId ID of the user being referenced.
+     * @param string $scope The collection to which the activity belongs.
+     * @param string $postId ID of the activity to which to get related links.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listRelated($postId, $scope, $userId) {
-      return $this->__call('list', array(array('userId' => $userId, 'scope' => $scope, 'postId' => $postId)));
+    public function listRelated($userId, $scope, $postId, $optParams = array()) {
+      $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
   }
 
@@ -500,59 +675,89 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Create a group (groups.insert)
      *
-     * @param  $userId ID of the user being referenced.
+     * @param string $userId ID of the user being referenced.
      * @param $postBody the {@link Group}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function insert($userId, Group $postBody) {
-      return $this->__call('insert', array(array('userId' => $userId, 'postBody' => $postBody)));
+    public function insert($userId, Group $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('insert', array($params));
     }
     /**
      * Get a group (groups.get)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $groupId ID of the group to get.
+     * @param string $userId ID of the user being referenced.
+     * @param string $groupId ID of the group to get.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function get($groupId, $userId) {
-      return $this->__call('get', array(array('userId' => $userId, 'groupId' => $groupId)));
+    public function get($userId, $groupId, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('get', array($params));
     }
     /**
      * Get a user's groups (groups.list)
      *
-     * @param  $max_results Maximum number of results to include.
-     * @param  $c A continuation token that allows pagination.
-     * @param  $userId ID of the user being referenced.
+     * @param string $userId ID of the user being referenced.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param int $max-results Maximum number of results to include.
+     * @opt_param string $c A continuation token that allows pagination.
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function listGroups($userId, $c = null, $max_results = null) {
-      return $this->__call('list', array(array('max-results' => $max_results, 'c' => $c, 'userId' => $userId)));
+    public function listGroups($userId, $optParams = array()) {
+      $params = array('userId' => $userId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('list', array($params));
     }
     /**
      * Update a group (groups.update)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $groupId ID of the group to update.
+     * @param string $userId ID of the user being referenced.
+     * @param string $groupId ID of the group to update.
      * @param $postBody the {@link Group}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function update($groupId, $userId, Group $postBody) {
-      return $this->__call('update', array(array('userId' => $userId, 'groupId' => $groupId, 'postBody' => $postBody)));
+    public function update($userId, $groupId, Group $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('update', array($params));
     }
     /**
      * Update a group. This method supports patch semantics. (groups.patch)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $groupId ID of the group to update.
+     * @param string $userId ID of the user being referenced.
+     * @param string $groupId ID of the group to update.
      * @param $postBody the {@link Group}
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function patch($groupId, $userId, Group $postBody) {
-      return $this->__call('patch', array(array('userId' => $userId, 'groupId' => $groupId, 'postBody' => $postBody)));
+    public function patch($userId, $groupId, Group $postBody, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      return $this->__call('patch', array($params));
     }
     /**
      * Delete a group (groups.delete)
      *
-     * @param  $userId ID of the user being referenced.
-     * @param  $groupId ID of the group to delete.
+     * @param string $userId ID of the user being referenced.
+     * @param string $groupId ID of the group to delete.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string $hl Language code to limit language results.
      */
-    public function delete($groupId, $userId) {
-      return $this->__call('delete', array(array('userId' => $userId, 'groupId' => $groupId)));
+    public function delete($userId, $groupId, $optParams = array()) {
+      $params = array('userId' => $userId, 'groupId' => $groupId);
+      $params = array_merge($params, $optParams);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -567,7 +772,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/buzz/v1/using_rest.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -596,13 +801,13 @@ class apiBuzzService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"count": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"url": {"restParameterType": "query", "type": "string", "repeated": true}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.activities.count", "httpMethod": "GET", "response": {"$ref": "CountFeed"}, "restPath": "activities/count"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "preview": {"default": "false", "restParameterType": "query", "type": "boolean"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Activity"}, "rpcMethod": "chili.activities.insert", "httpMethod": "POST", "response": {"$ref": "Activity"}, "restPath": "activities/{userId}/@self"}, "search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "pid": {"restParameterType": "query", "type": "string"}, "lon": {"restParameterType": "query", "type": "string"}, "q": {"restParameterType": "query", "type": "string"}, "truncateAtom": {"restParameterType": "query", "type": "boolean"}, "radius": {"restParameterType": "query", "type": "string"}, "bbox": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "lat": {"restParameterType": "query", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.activities.search", "httpMethod": "GET", "response": {"$ref": "ActivityFeed"}, "restPath": "activities/search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"userId": {"restParameterType": "path", "required": true, "type": "string"}, "truncateAtom": {"restParameterType": "query", "type": "boolean"}, "max-comments": {"default": "0", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "hl": {"restParameterType": "query", "type": "string"}, "max-liked": {"default": "0", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "chili.activities.get", "httpMethod": "GET", "response": {"$ref": "Activity"}, "restPath": "activities/{userId}/@self/{postId}"}, "track": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "pid": {"restParameterType": "query", "type": "string"}, "lon": {"restParameterType": "query", "type": "string"}, "q": {"restParameterType": "query", "type": "string"}, "radius": {"restParameterType": "query", "type": "string"}, "bbox": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "lat": {"restParameterType": "query", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.activities.track", "httpMethod": "GET", "response": {"$ref": "ActivityFeed"}, "restPath": "activities/track"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "truncateAtom": {"restParameterType": "query", "type": "boolean"}, "max-comments": {"default": "0", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "hl": {"restParameterType": "query", "type": "string"}, "max-liked": {"default": "0", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "scope": {"required": true, "enum": ["@comments", "@consumption", "@liked", "@public", "@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.activities.list", "httpMethod": "GET", "response": {"$ref": "ActivityFeed"}, "restPath": "activities/{userId}/{scope}"}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"restParameterType": "path", "required": true, "type": "string"}, "abuseType": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "Activity"}, "rpcMethod": "chili.activities.update", "httpMethod": "PUT", "response": {"$ref": "Activity"}, "restPath": "activities/{userId}/{scope}/{postId}"}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"restParameterType": "path", "required": true, "type": "string"}, "abuseType": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "Activity"}, "rpcMethod": "chili.activities.patch", "httpMethod": "PATCH", "response": {"$ref": "Activity"}, "restPath": "activities/{userId}/{scope}/{postId}"}, "extractPeopleFromSearch": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "pid": {"restParameterType": "query", "type": "string"}, "lon": {"restParameterType": "query", "type": "string"}, "q": {"restParameterType": "query", "type": "string"}, "radius": {"restParameterType": "query", "type": "string"}, "bbox": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "lat": {"restParameterType": "query", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.activities.extractPeopleFromSearch", "httpMethod": "GET", "response": {"$ref": "PeopleFeed"}, "restPath": "activities/search/@people"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"scope": {"required": true, "enum": ["@liked", "@muted", "@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.activities.delete", "httpMethod": "DELETE", "restPath": "activities/{userId}/{scope}/{postId}"}}}', true));
-     $this->people = new PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "q": {"restParameterType": "query", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "c": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.people.search", "httpMethod": "GET", "response": {"$ref": "PeopleFeed"}, "restPath": "people/search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.people.get", "httpMethod": "GET", "response": {"$ref": "Person"}, "restPath": "people/{userId}/@self"}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Person"}, "rpcMethod": "chili.people.update", "httpMethod": "PUT", "response": {"$ref": "Person"}, "restPath": "people/{userId}/@groups/{groupId}/{personId}"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "chili.people.list", "httpMethod": "GET", "response": {"$ref": "PeopleFeed"}, "restPath": "people/{userId}/@groups/{groupId}"}, "liked": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string", "enum": ["@liked"]}}, "rpcMethod": "chili.people.liked", "httpMethod": "GET", "response": {"$ref": "PeopleFeed"}, "restPath": "activities/{userId}/{scope}/{postId}/{groupId}"}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Person"}, "rpcMethod": "chili.people.patch", "httpMethod": "PATCH", "response": {"$ref": "Person"}, "restPath": "people/{userId}/@groups/{groupId}/{personId}"}, "reshared": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string", "enum": ["@reshared"]}}, "rpcMethod": "chili.people.reshared", "httpMethod": "GET", "response": {"$ref": "PeopleFeed"}, "restPath": "activities/{userId}/{scope}/{postId}/{groupId}"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.people.delete", "httpMethod": "DELETE", "restPath": "people/{userId}/@groups/{groupId}/{personId}"}}}', true));
-     $this->photoAlbums = new PhotoAlbumsServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Album"}, "rpcMethod": "chili.photoAlbums.insert", "httpMethod": "POST", "response": {"$ref": "Album"}, "restPath": "photos/{userId}/@self"}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.photoAlbums.delete", "httpMethod": "DELETE", "restPath": "photos/{userId}/@self/{albumId}"}, "list": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"required": true, "enum": ["@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.photoAlbums.list", "httpMethod": "GET", "response": {"$ref": "AlbumsFeed"}, "restPath": "photos/{userId}/{scope}"}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.photoAlbums.get", "httpMethod": "GET", "response": {"$ref": "Album"}, "restPath": "photos/{userId}/@self/{albumId}"}}}', true));
-     $this->comments = new CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Comment"}, "rpcMethod": "chili.comments.insert", "httpMethod": "POST", "response": {"$ref": "Comment"}, "restPath": "activities/{userId}/@self/{postId}/@comments"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"commentId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.comments.get", "httpMethod": "GET", "response": {"$ref": "Comment"}, "restPath": "activities/{userId}/@self/{postId}/@comments/{commentId}"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"required": true, "enum": ["@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "chili.comments.list", "httpMethod": "GET", "response": {"$ref": "CommentFeed"}, "restPath": "activities/{userId}/{scope}/{postId}/@comments"}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"restParameterType": "path", "required": true, "type": "string"}, "abuseType": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "commentId": {"restParameterType": "path", "required": true, "type": "string"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "Comment"}, "rpcMethod": "chili.comments.update", "httpMethod": "PUT", "response": {"$ref": "Comment"}, "restPath": "activities/{userId}/{scope}/{postId}/@comments/{commentId}"}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"restParameterType": "path", "required": true, "type": "string"}, "abuseType": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "commentId": {"restParameterType": "path", "required": true, "type": "string"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}}, "request": {"$ref": "Comment"}, "rpcMethod": "chili.comments.patch", "httpMethod": "PATCH", "response": {"$ref": "Comment"}, "restPath": "activities/{userId}/{scope}/{postId}/@comments/{commentId}"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"commentId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.comments.delete", "httpMethod": "DELETE", "restPath": "activities/{userId}/@self/{postId}/@comments/{commentId}"}}}', true));
-     $this->photos = new PhotosServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods": {"insert2": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "ChiliPhotosResourceJson"}, "rpcMethod": "chili.photos.insert2", "httpMethod": "POST", "response": {"$ref": "ChiliPhotosResourceJson"}, "restPath": "photos/{userId}/@self/{albumId}/@photos"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"albumId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "AlbumLite"}, "rpcMethod": "chili.photos.insert", "httpMethod": "POST", "response": {"$ref": "AlbumLite"}, "restPath": "photos/{userId}/{albumId}"}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "photoId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "chili.photos.get", "httpMethod": "GET", "response": {"$ref": "ChiliPhotosResourceJson"}, "restPath": "photos/{userId}/@self/{albumId}/@photos/{photoId}"}, "listByScope": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "scope": {"required": true, "enum": ["@recent"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.photos.listByScope", "httpMethod": "GET", "response": {"$ref": "PhotosFeed"}, "restPath": "photos/{userId}/@self/{scope}/@photos"}, "listByAlbum": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "c": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "albumId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.photos.listByAlbum", "httpMethod": "GET", "response": {"$ref": "PhotosFeed"}, "restPath": "photos/{userId}/@self/{albumId}/@photos"}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"restParameterType": "path", "required": true, "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "photoId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "chili.photos.delete", "httpMethod": "DELETE", "restPath": "photos/{userId}/@self/{albumId}/@photos/{photoId}"}}}', true));
-     $this->related = new RelatedServiceResource($this, $this->serviceName, 'related', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"scope": {"required": true, "enum": ["@self"], "restParameterType": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "postId": {"restParameterType": "path", "required": true, "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.related.list", "httpMethod": "GET", "response": {"$ref": "RelatedFeed"}, "restPath": "activities/{userId}/{scope}/{postId}/@related"}}}', true));
-     $this->groups = new GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Group"}, "rpcMethod": "chili.groups.insert", "httpMethod": "POST", "response": {"$ref": "Group"}, "restPath": "people/{userId}/@groups"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.groups.get", "httpMethod": "GET", "response": {"$ref": "Group"}, "restPath": "people/{userId}/@groups/{groupId}/@self"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "restParameterType": "query", "type": "integer"}, "alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "c": {"restParameterType": "query", "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.groups.list", "httpMethod": "GET", "response": {"$ref": "GroupFeed"}, "restPath": "people/{userId}/@groups"}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Group"}, "rpcMethod": "chili.groups.update", "httpMethod": "PUT", "response": {"$ref": "Group"}, "restPath": "people/{userId}/@groups/{groupId}/@self"}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "request": {"$ref": "Group"}, "rpcMethod": "chili.groups.patch", "httpMethod": "PATCH", "response": {"$ref": "Group"}, "restPath": "people/{userId}/@groups/{groupId}/@self"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "restParameterType": "query", "type": "string"}, "userId": {"restParameterType": "path", "required": true, "type": "string"}, "groupId": {"restParameterType": "path", "required": true, "type": "string"}, "hl": {"restParameterType": "query", "type": "string"}}, "rpcMethod": "chili.groups.delete", "httpMethod": "DELETE", "restPath": "people/{userId}/@groups/{groupId}"}}}', true));
+     $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"count": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"url": {"repeated": true, "type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CountFeed"}, "httpMethod": "GET", "path": "activities/count", "id": "chili.activities.count"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "preview": {"default": "false", "type": "boolean", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "10MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/activities/{userId}/@self", "multipart": true}, "resumable": {"path": "resumable/upload/activities/{userId}/@self", "multipart": true}}}, "request": {"$ref": "Activity"}, "id": "chili.activities.insert", "httpMethod": "POST", "path": "activities/{userId}/@self", "response": {"$ref": "Activity"}}, "search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "truncateAtom": {"type": "boolean", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/search", "id": "chili.activities.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.activities.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}", "response": {"$ref": "Activity"}}, "track": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/track", "id": "chili.activities.track"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "scope": {"required": true, "enum": ["@comments", "@consumption", "@liked", "@public", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.activities.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}", "response": {"$ref": "ActivityFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "extractPeopleFromSearch": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "activities/search/@people", "id": "chili.activities.extractPeopleFromSearch"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"scope": {"required": true, "enum": ["@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/{scope}/{postId}", "id": "chili.activities.delete"}}}', true));
+     $this->people = new PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "q": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "people/search", "id": "chili.people.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.people.get", "httpMethod": "GET", "path": "people/{userId}/@self", "response": {"$ref": "Person"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "groupId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.people.list", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}", "response": {"$ref": "PeopleFeed"}}, "liked": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@liked"]}}, "id": "chili.people.liked", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "reshared": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@reshared"]}}, "id": "chili.people.reshared", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}/{personId}", "id": "chili.people.delete"}}}', true));
+     $this->photoAlbums = new PhotoAlbumsServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Album"}, "id": "chili.photoAlbums.insert", "httpMethod": "POST", "path": "photos/{userId}/@self", "response": {"$ref": "Album"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}", "id": "chili.photoAlbums.delete"}, "list": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photoAlbums.list", "httpMethod": "GET", "path": "photos/{userId}/{scope}", "response": {"$ref": "AlbumsFeed"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.photoAlbums.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}", "response": {"$ref": "Album"}}}}', true));
+     $this->comments = new CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.insert", "httpMethod": "POST", "path": "activities/{userId}/@self/{postId}/@comments", "response": {"$ref": "Comment"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.comments.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.comments.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@comments", "response": {"$ref": "CommentFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "id": "chili.comments.delete"}}}', true));
+     $this->photos = new PhotosServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods": {"insert2": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}}}, "request": {"$ref": "ChiliPhotosResourceJson"}, "id": "chili.photos.insert2", "httpMethod": "POST", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "ChiliPhotosResourceJson"}}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/{albumId}", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/{albumId}", "multipart": true}}}, "request": {"$ref": "AlbumLite"}, "id": "chili.photos.insert", "httpMethod": "POST", "path": "photos/{userId}/{albumId}", "response": {"$ref": "AlbumLite"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.photos.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "response": {"$ref": "ChiliPhotosResourceJson"}}, "listByScope": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@recent"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByScope", "httpMethod": "GET", "path": "photos/{userId}/@self/{scope}/@photos", "response": {"$ref": "PhotosFeed"}}, "listByAlbum": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "albumId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByAlbum", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "PhotosFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "id": "chili.photos.delete"}}}', true));
+     $this->related = new RelatedServiceResource($this, $this->serviceName, 'related', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.related.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@related", "response": {"$ref": "RelatedFeed"}}}}', true));
+     $this->groups = new GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.insert", "httpMethod": "POST", "path": "people/{userId}/@groups", "response": {"$ref": "Group"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.get", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.list", "httpMethod": "GET", "path": "people/{userId}/@groups", "response": {"$ref": "GroupFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}", "id": "chili.groups.delete"}}}', true));
   }
 
   /**
@@ -633,373 +838,40 @@ class apiBuzzService {
   }
 }
 
-class Album {
+class PersonUrls extends apiModel {
 
-  public $kind;
-  public $description;
-  public $links;
-  public $created;
-  public $lastModified;
-  public $tags;
-  public $version;
-  public $firstPhotoId;
-  public $owner;
-  public $title;
-  public $id;
+  public $type;
+  public $primary;
+  public $value;
 
-  public function setKind($kind) {
-    $this->kind = $kind;
+  public function setType($type) {
+    $this->type = $type;
   }
 
-  public function getKind() {
-    return $this->kind;
+  public function getType() {
+    return $this->type;
   }
   
-  public function setDescription($description) {
-    $this->description = $description;
+  public function setPrimary($primary) {
+    $this->primary = $primary;
   }
 
-  public function getDescription() {
-    return $this->description;
+  public function getPrimary() {
+    return $this->primary;
   }
   
-  public function setLinks( AlbumLinks $links) {
-    $this->links = $links;
+  public function setValue($value) {
+    $this->value = $value;
   }
 
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setCreated($created) {
-    $this->created = $created;
-  }
-
-  public function getCreated() {
-    return $this->created;
-  }
-  
-  public function setLastModified($lastModified) {
-    $this->lastModified = $lastModified;
-  }
-
-  public function getLastModified() {
-    return $this->lastModified;
-  }
-  
-  public function setTags($tags) {
-    $this->tags = $tags;
-  }
-
-  public function getTags() {
-    return $this->tags;
-  }
-  
-  public function setVersion($version) {
-    $this->version = $version;
-  }
-
-  public function getVersion() {
-    return $this->version;
-  }
-  
-  public function setFirstPhotoId($firstPhotoId) {
-    $this->firstPhotoId = $firstPhotoId;
-  }
-
-  public function getFirstPhotoId() {
-    return $this->firstPhotoId;
-  }
-  
-  public function setOwner( AlbumOwner $owner) {
-    $this->owner = $owner;
-  }
-
-  public function getOwner() {
-    return $this->owner;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
+  public function getValue() {
+    return $this->value;
   }
   
 }
 
 
-class PersonAccounts {
-
-  public $username;
-  public $domain;
-  public $userid;
-
-  public function setUsername($username) {
-    $this->username = $username;
-  }
-
-  public function getUsername() {
-    return $this->username;
-  }
-  
-  public function setDomain($domain) {
-    $this->domain = $domain;
-  }
-
-  public function getDomain() {
-    return $this->domain;
-  }
-  
-  public function setUserid($userid) {
-    $this->userid = $userid;
-  }
-
-  public function getUserid() {
-    return $this->userid;
-  }
-  
-}
-
-
-class ActivityFeed {
-
-  public $kind;
-  public $links;
-  public $title;
-  public $items;
-  public $updated;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks( ActivityFeedLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setItems( Activity $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class Group {
-
-  public $memberCount;
-  public $kind;
-  public $id;
-  public $links;
-  public $title;
-
-  public function setMemberCount($memberCount) {
-    $this->memberCount = $memberCount;
-  }
-
-  public function getMemberCount() {
-    return $this->memberCount;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setLinks( GroupLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-}
-
-
-class RelatedFeed {
-
-  public $kind;
-  public $links;
-  public $title;
-  public $items;
-  public $updated;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks( RelatedFeedLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setItems( Related $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class AlbumsFeed {
-
-  public $items;
-  public $kind;
-
-  public function setItems( Album $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-}
-
-
-class CommentLinksInReplyTo {
-
-  public $source;
-  public $href;
-  public $ref;
-
-  public function setSource($source) {
-    $this->source = $source;
-  }
-
-  public function getSource() {
-    return $this->source;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setRef($ref) {
-    $this->ref = $ref;
-  }
-
-  public function getRef() {
-    return $this->ref;
-  }
-  
-}
-
-
-class PersonOrganizations {
+class PersonOrganizations extends apiModel {
 
   public $startDate;
   public $endDate;
@@ -1086,334 +958,7 @@ class PersonOrganizations {
 }
 
 
-class ActivitySource {
-
-  public $title;
-
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-}
-
-
-class PhotosFeed {
-
-  public $items;
-  public $kind;
-
-  public function setItems( ChiliPhotosResourceJson $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-}
-
-
-class PeopleFeed {
-
-  public $totalResults;
-  public $entry;
-  public $kind;
-  public $itemsPerPage;
-  public $startIndex;
-
-  public function setTotalResults($totalResults) {
-    $this->totalResults = $totalResults;
-  }
-
-  public function getTotalResults() {
-    return $this->totalResults;
-  }
-  
-  public function setEntry( Person $entry) {
-    $this->entry = $entry;
-  }
-
-  public function getEntry() {
-    return $this->entry;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setItemsPerPage($itemsPerPage) {
-    $this->itemsPerPage = $itemsPerPage;
-  }
-
-  public function getItemsPerPage() {
-    return $this->itemsPerPage;
-  }
-  
-  public function setStartIndex($startIndex) {
-    $this->startIndex = $startIndex;
-  }
-
-  public function getStartIndex() {
-    return $this->startIndex;
-  }
-  
-}
-
-
-class ActivityObjectActor {
-
-  public $profileUrl;
-  public $thumbnailUrl;
-  public $id;
-  public $name;
-
-  public function setProfileUrl($profileUrl) {
-    $this->profileUrl = $profileUrl;
-  }
-
-  public function getProfileUrl() {
-    return $this->profileUrl;
-  }
-  
-  public function setThumbnailUrl($thumbnailUrl) {
-    $this->thumbnailUrl = $thumbnailUrl;
-  }
-
-  public function getThumbnailUrl() {
-    return $this->thumbnailUrl;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class ActivityCategories {
-
-  public $term;
-  public $schema;
-  public $label;
-
-  public function setTerm($term) {
-    $this->term = $term;
-  }
-
-  public function getTerm() {
-    return $this->term;
-  }
-  
-  public function setSchema($schema) {
-    $this->schema = $schema;
-  }
-
-  public function getSchema() {
-    return $this->schema;
-  }
-  
-  public function setLabel($label) {
-    $this->label = $label;
-  }
-
-  public function getLabel() {
-    return $this->label;
-  }
-  
-}
-
-
-class ChiliPhotosResourceJsonOwner {
-
-  public $profileUrl;
-  public $thumbnailUrl;
-  public $id;
-  public $name;
-
-  public function setProfileUrl($profileUrl) {
-    $this->profileUrl = $profileUrl;
-  }
-
-  public function getProfileUrl() {
-    return $this->profileUrl;
-  }
-  
-  public function setThumbnailUrl($thumbnailUrl) {
-    $this->thumbnailUrl = $thumbnailUrl;
-  }
-
-  public function getThumbnailUrl() {
-    return $this->thumbnailUrl;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class ActivityLinksLiked {
-
-  public $count;
-  public $href;
-  public $type;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class ActivityVisibilityEntries {
-
-  public $id;
-  public $title;
-
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-}
-
-
-class CommentActor {
-
-  public $profileUrl;
-  public $thumbnailUrl;
-  public $id;
-  public $name;
-
-  public function setProfileUrl($profileUrl) {
-    $this->profileUrl = $profileUrl;
-  }
-
-  public function getProfileUrl() {
-    return $this->profileUrl;
-  }
-  
-  public function setThumbnailUrl($thumbnailUrl) {
-    $this->thumbnailUrl = $thumbnailUrl;
-  }
-
-  public function getThumbnailUrl() {
-    return $this->thumbnailUrl;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class AlbumLiteCollectionPhoto {
-
-  public $photoUrl;
-
-  public function setPhotoUrl($photoUrl) {
-    $this->photoUrl = $photoUrl;
-  }
-
-  public function getPhotoUrl() {
-    return $this->photoUrl;
-  }
-  
-}
-
-
-class CommentFeedLinks {
-
-
-}
-
-
-class PersonUrls {
+class PersonPhoneNumbers extends apiModel {
 
   public $type;
   public $primary;
@@ -1446,7 +991,511 @@ class PersonUrls {
 }
 
 
-class PersonPhotos {
+class ActivityObjectActor extends apiModel {
+
+  public $profileUrl;
+  public $thumbnailUrl;
+  public $id;
+  public $name;
+
+  public function setProfileUrl($profileUrl) {
+    $this->profileUrl = $profileUrl;
+  }
+
+  public function getProfileUrl() {
+    return $this->profileUrl;
+  }
+  
+  public function setThumbnailUrl($thumbnailUrl) {
+    $this->thumbnailUrl = $thumbnailUrl;
+  }
+
+  public function getThumbnailUrl() {
+    return $this->thumbnailUrl;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+}
+
+
+class ChiliPhotosResourceJsonOwner extends apiModel {
+
+  public $profileUrl;
+  public $thumbnailUrl;
+  public $id;
+  public $name;
+
+  public function setProfileUrl($profileUrl) {
+    $this->profileUrl = $profileUrl;
+  }
+
+  public function getProfileUrl() {
+    return $this->profileUrl;
+  }
+  
+  public function setThumbnailUrl($thumbnailUrl) {
+    $this->thumbnailUrl = $thumbnailUrl;
+  }
+
+  public function getThumbnailUrl() {
+    return $this->thumbnailUrl;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+}
+
+
+class ActivityLinks extends apiModel {
+
+  public $liked;
+
+  public function setLiked(ActivityLinksLiked $liked) {
+    $this->liked = $liked;
+  }
+
+  public function getLiked() {
+    return $this->liked;
+  }
+  
+}
+
+
+class ActivityVisibilityEntries extends apiModel {
+
+  public $id;
+  public $title;
+
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+}
+
+
+class GroupFeedLinks extends apiModel {
+
+
+}
+
+
+class ActivityObjectAttachmentsLinks extends apiModel {
+
+
+}
+
+
+class AlbumLite extends apiModel {
+
+  public $kind;
+  public $collection;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setCollection(AlbumLiteCollection $collection) {
+    $this->collection = $collection;
+  }
+
+  public function getCollection() {
+    return $this->collection;
+  }
+  
+}
+
+
+class CountFeedCounts extends apiModel {
+
+
+}
+
+
+class AlbumsFeed extends apiModel {
+
+  public $items;
+  public $kind;
+
+  public function setItems(Album $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class Related extends apiModel {
+
+  public $title;
+  public $kind;
+  public $href;
+  public $id;
+  public $summary;
+
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setSummary($summary) {
+    $this->summary = $summary;
+  }
+
+  public function getSummary() {
+    return $this->summary;
+  }
+  
+}
+
+
+class ActivityObject extends apiModel {
+
+  public $targetLang;
+  public $liked;
+  public $attachments;
+  public $links;
+  public $originalContent;
+  public $actor;
+  public $shareOriginal;
+  public $content;
+  public $detectedlLang;
+  public $comments;
+  public $type;
+  public $id;
+  public $untranslatedContent;
+
+  public function setTargetLang($targetLang) {
+    $this->targetLang = $targetLang;
+  }
+
+  public function getTargetLang() {
+    return $this->targetLang;
+  }
+  
+  public function setLiked(Person $liked) {
+    $this->liked = $liked;
+  }
+
+  public function getLiked() {
+    return $this->liked;
+  }
+  
+  public function setAttachments(ActivityObjectAttachments $attachments) {
+    $this->attachments = $attachments;
+  }
+
+  public function getAttachments() {
+    return $this->attachments;
+  }
+  
+  public function setLinks(ActivityObjectLinksItems $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setOriginalContent($originalContent) {
+    $this->originalContent = $originalContent;
+  }
+
+  public function getOriginalContent() {
+    return $this->originalContent;
+  }
+  
+  public function setActor(ActivityObjectActor $actor) {
+    $this->actor = $actor;
+  }
+
+  public function getActor() {
+    return $this->actor;
+  }
+  
+  public function setShareOriginal(Activity $shareOriginal) {
+    $this->shareOriginal = $shareOriginal;
+  }
+
+  public function getShareOriginal() {
+    return $this->shareOriginal;
+  }
+  
+  public function setContent($content) {
+    $this->content = $content;
+  }
+
+  public function getContent() {
+    return $this->content;
+  }
+  
+  public function setDetectedlLang($detectedlLang) {
+    $this->detectedlLang = $detectedlLang;
+  }
+
+  public function getDetectedlLang() {
+    return $this->detectedlLang;
+  }
+  
+  public function setComments(Comment $comments) {
+    $this->comments = $comments;
+  }
+
+  public function getComments() {
+    return $this->comments;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setUntranslatedContent($untranslatedContent) {
+    $this->untranslatedContent = $untranslatedContent;
+  }
+
+  public function getUntranslatedContent() {
+    return $this->untranslatedContent;
+  }
+  
+}
+
+
+class ActivityFeed extends apiModel {
+
+  public $kind;
+  public $links;
+  public $title;
+  public $items;
+  public $updated;
+  public $id;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setLinks(ActivityFeedLinksItems $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setItems(Activity $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class PersonEmails extends apiModel {
+
+  public $type;
+  public $primary;
+  public $value;
+
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+
+  public function getPrimary() {
+    return $this->primary;
+  }
+  
+  public function setValue($value) {
+    $this->value = $value;
+  }
+
+  public function getValue() {
+    return $this->value;
+  }
+  
+}
+
+
+class CommentActor extends apiModel {
+
+  public $profileUrl;
+  public $thumbnailUrl;
+  public $id;
+  public $name;
+
+  public function setProfileUrl($profileUrl) {
+    $this->profileUrl = $profileUrl;
+  }
+
+  public function getProfileUrl() {
+    return $this->profileUrl;
+  }
+  
+  public function setThumbnailUrl($thumbnailUrl) {
+    $this->thumbnailUrl = $thumbnailUrl;
+  }
+
+  public function getThumbnailUrl() {
+    return $this->thumbnailUrl;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+}
+
+
+class CommentFeedLinks extends apiModel {
+
+
+}
+
+
+class PersonPhotos extends apiModel {
 
   public $width;
   public $type;
@@ -1497,7 +1546,7 @@ class PersonPhotos {
 }
 
 
-class ChiliPhotosResourceJson {
+class ChiliPhotosResourceJson extends apiModel {
 
   public $album;
   public $kind;
@@ -1513,7 +1562,7 @@ class ChiliPhotosResourceJson {
   public $owner;
   public $id;
 
-  public function setAlbum( ChiliPhotosResourceJsonAlbum $album) {
+  public function setAlbum(ChiliPhotosResourceJsonAlbum $album) {
     $this->album = $album;
   }
 
@@ -1537,7 +1586,7 @@ class ChiliPhotosResourceJson {
     return $this->description;
   }
   
-  public function setLinks( ChiliPhotosResourceJsonLinks $links) {
+  public function setLinks(ChiliPhotosResourceJsonLinks $links) {
     $this->links = $links;
   }
 
@@ -1577,7 +1626,7 @@ class ChiliPhotosResourceJson {
     return $this->version;
   }
   
-  public function setVideo( Video $video) {
+  public function setVideo(Video $video) {
     $this->video = $video;
   }
 
@@ -1601,7 +1650,7 @@ class ChiliPhotosResourceJson {
     return $this->timestamp;
   }
   
-  public function setOwner( ChiliPhotosResourceJsonOwner $owner) {
+  public function setOwner(ChiliPhotosResourceJsonOwner $owner) {
     $this->owner = $owner;
   }
 
@@ -1620,46 +1669,13 @@ class ChiliPhotosResourceJson {
 }
 
 
-class GroupFeedLinks {
+class RelatedFeedLinks extends apiModel {
 
 
 }
 
 
-class PersonEmails {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class AlbumOwner {
+class AlbumOwner extends apiModel {
 
   public $profileUrl;
   public $thumbnailUrl;
@@ -1701,13 +1717,22 @@ class AlbumOwner {
 }
 
 
-class ActivityObjectAttachmentsLinks {
+class CommentLinks extends apiModel {
 
+  public $inReplyTo;
 
+  public function setInReplyTo(CommentLinksInReplyTo $inReplyTo) {
+    $this->inReplyTo = $inReplyTo;
+  }
+
+  public function getInReplyTo() {
+    return $this->inReplyTo;
+  }
+  
 }
 
 
-class Link {
+class ActivityFeedLinksItems extends apiModel {
 
   public $count;
   public $updated;
@@ -1776,22 +1801,781 @@ class Link {
 }
 
 
-class ActivityLinks {
+class ChiliPhotosResourceJsonAlbum extends apiModel {
 
-  public $liked;
+  public $id;
+  public $page_link;
 
-  public function setLiked( ActivityLinksLiked $liked) {
-    $this->liked = $liked;
+  public function setId($id) {
+    $this->id = $id;
   }
 
-  public function getLiked() {
-    return $this->liked;
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setPage_link(Link $page_link) {
+    $this->page_link = $page_link;
+  }
+
+  public function getPage_link() {
+    return $this->page_link;
   }
   
 }
 
 
-class ActivityObjectAttachments {
+class GroupLinksSelf extends apiModel {
+
+  public $href;
+  public $type;
+
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class ActivityObjectAttachmentsLinksItems extends apiModel {
+
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+
+  public function setCount($count) {
+    $this->count = $count;
+  }
+
+  public function getCount() {
+    return $this->count;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+
+  public function getHeight() {
+    return $this->height;
+  }
+  
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+
+  public function getWidth() {
+    return $this->width;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class ActivityObjectLinks extends apiModel {
+
+
+}
+
+
+class CommentFeed extends apiModel {
+
+  public $kind;
+  public $links;
+  public $title;
+  public $items;
+  public $updated;
+  public $id;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setLinks(CommentFeedLinksItems $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setItems(Comment $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class Comment extends apiModel {
+
+  public $targetLang;
+  public $kind;
+  public $untranslatedContent;
+  public $links;
+  public $originalContent;
+  public $updated;
+  public $actor;
+  public $content;
+  public $published;
+  public $detectedLang;
+  public $placeholder;
+  public $id;
+
+  public function setTargetLang($targetLang) {
+    $this->targetLang = $targetLang;
+  }
+
+  public function getTargetLang() {
+    return $this->targetLang;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setUntranslatedContent($untranslatedContent) {
+    $this->untranslatedContent = $untranslatedContent;
+  }
+
+  public function getUntranslatedContent() {
+    return $this->untranslatedContent;
+  }
+  
+  public function setLinks(CommentLinks $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setOriginalContent($originalContent) {
+    $this->originalContent = $originalContent;
+  }
+
+  public function getOriginalContent() {
+    return $this->originalContent;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setActor(CommentActor $actor) {
+    $this->actor = $actor;
+  }
+
+  public function getActor() {
+    return $this->actor;
+  }
+  
+  public function setContent($content) {
+    $this->content = $content;
+  }
+
+  public function getContent() {
+    return $this->content;
+  }
+  
+  public function setPublished($published) {
+    $this->published = $published;
+  }
+
+  public function getPublished() {
+    return $this->published;
+  }
+  
+  public function setDetectedLang($detectedLang) {
+    $this->detectedLang = $detectedLang;
+  }
+
+  public function getDetectedLang() {
+    return $this->detectedLang;
+  }
+  
+  public function setPlaceholder($placeholder) {
+    $this->placeholder = $placeholder;
+  }
+
+  public function getPlaceholder() {
+    return $this->placeholder;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class Link extends apiModel {
+
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+
+  public function setCount($count) {
+    $this->count = $count;
+  }
+
+  public function getCount() {
+    return $this->count;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+
+  public function getHeight() {
+    return $this->height;
+  }
+  
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+
+  public function getWidth() {
+    return $this->width;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class AlbumLinks extends apiModel {
+
+  public $alternate;
+  public $enclosure;
+
+  public function setAlternate(Link $alternate) {
+    $this->alternate = $alternate;
+  }
+
+  public function getAlternate() {
+    return $this->alternate;
+  }
+  
+  public function setEnclosure(Link $enclosure) {
+    $this->enclosure = $enclosure;
+  }
+
+  public function getEnclosure() {
+    return $this->enclosure;
+  }
+  
+}
+
+
+class CommentFeedLinksItems extends apiModel {
+
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+
+  public function setCount($count) {
+    $this->count = $count;
+  }
+
+  public function getCount() {
+    return $this->count;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+
+  public function getHeight() {
+    return $this->height;
+  }
+  
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+
+  public function getWidth() {
+    return $this->width;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class GroupFeed extends apiModel {
+
+  public $items;
+  public $kind;
+  public $links;
+
+  public function setItems(Group $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setLinks(GroupFeedLinksItems $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+}
+
+
+class ActivityActor extends apiModel {
+
+  public $profileUrl;
+  public $thumbnailUrl;
+  public $id;
+  public $name;
+
+  public function setProfileUrl($profileUrl) {
+    $this->profileUrl = $profileUrl;
+  }
+
+  public function getProfileUrl() {
+    return $this->profileUrl;
+  }
+  
+  public function setThumbnailUrl($thumbnailUrl) {
+    $this->thumbnailUrl = $thumbnailUrl;
+  }
+
+  public function getThumbnailUrl() {
+    return $this->thumbnailUrl;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+  
+}
+
+
+class Group extends apiModel {
+
+  public $memberCount;
+  public $kind;
+  public $id;
+  public $links;
+  public $title;
+
+  public function setMemberCount($memberCount) {
+    $this->memberCount = $memberCount;
+  }
+
+  public function getMemberCount() {
+    return $this->memberCount;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setLinks(GroupLinks $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+}
+
+
+class CommentLinksInReplyTo extends apiModel {
+
+  public $source;
+  public $href;
+  public $ref;
+
+  public function setSource($source) {
+    $this->source = $source;
+  }
+
+  public function getSource() {
+    return $this->source;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setRef($ref) {
+    $this->ref = $ref;
+  }
+
+  public function getRef() {
+    return $this->ref;
+  }
+  
+}
+
+
+class ActivitySource extends apiModel {
+
+  public $title;
+
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+}
+
+
+class ActivityCategories extends apiModel {
+
+  public $term;
+  public $schema;
+  public $label;
+
+  public function setTerm($term) {
+    $this->term = $term;
+  }
+
+  public function getTerm() {
+    return $this->term;
+  }
+  
+  public function setSchema($schema) {
+    $this->schema = $schema;
+  }
+
+  public function getSchema() {
+    return $this->schema;
+  }
+  
+  public function setLabel($label) {
+    $this->label = $label;
+  }
+
+  public function getLabel() {
+    return $this->label;
+  }
+  
+}
+
+
+class PeopleFeed extends apiModel {
+
+  public $totalResults;
+  public $entry;
+  public $kind;
+  public $itemsPerPage;
+  public $startIndex;
+
+  public function setTotalResults($totalResults) {
+    $this->totalResults = $totalResults;
+  }
+
+  public function getTotalResults() {
+    return $this->totalResults;
+  }
+  
+  public function setEntry(Person $entry) {
+    $this->entry = $entry;
+  }
+
+  public function getEntry() {
+    return $this->entry;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setItemsPerPage($itemsPerPage) {
+    $this->itemsPerPage = $itemsPerPage;
+  }
+
+  public function getItemsPerPage() {
+    return $this->itemsPerPage;
+  }
+  
+  public function setStartIndex($startIndex) {
+    $this->startIndex = $startIndex;
+  }
+
+  public function getStartIndex() {
+    return $this->startIndex;
+  }
+  
+}
+
+
+class ActivityLinksLiked extends apiModel {
+
+  public $count;
+  public $href;
+  public $type;
+
+  public function setCount($count) {
+    $this->count = $count;
+  }
+
+  public function getCount() {
+    return $this->count;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class PhotosFeed extends apiModel {
+
+  public $items;
+  public $kind;
+
+  public function setItems(ChiliPhotosResourceJson $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+}
+
+
+class ActivityObjectAttachments extends apiModel {
 
   public $content;
   public $type;
@@ -1823,7 +2607,7 @@ class ActivityObjectAttachments {
     return $this->id;
   }
   
-  public function setLinks( ActivityObjectAttachmentsLinks $links) {
+  public function setLinks(ActivityObjectAttachmentsLinksItems $links) {
     $this->links = $links;
   }
 
@@ -1842,94 +2626,76 @@ class ActivityObjectAttachments {
 }
 
 
-class AlbumLiteCollection {
+class GroupFeedLinksItems extends apiModel {
 
-  public $album;
-  public $albumId;
-  public $photo;
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
 
-  public function setAlbum($album) {
-    $this->album = $album;
+  public function setCount($count) {
+    $this->count = $count;
   }
 
-  public function getAlbum() {
-    return $this->album;
-  }
-  
-  public function setAlbumId($albumId) {
-    $this->albumId = $albumId;
-  }
-
-  public function getAlbumId() {
-    return $this->albumId;
+  public function getCount() {
+    return $this->count;
   }
   
-  public function setPhoto( AlbumLiteCollectionPhoto $photo) {
-    $this->photo = $photo;
+  public function setUpdated($updated) {
+    $this->updated = $updated;
   }
 
-  public function getPhoto() {
-    return $this->photo;
-  }
-  
-}
-
-
-class CommentLinks {
-
-  public $inReplyTo;
-
-  public function setInReplyTo( CommentLinksInReplyTo $inReplyTo) {
-    $this->inReplyTo = $inReplyTo;
-  }
-
-  public function getInReplyTo() {
-    return $this->inReplyTo;
+  public function getUpdated() {
+    return $this->updated;
   }
   
-}
-
-
-class ChiliPhotosResourceJsonLinks {
-
-  public $alternate;
-
-  public function setAlternate( Link $alternate) {
-    $this->alternate = $alternate;
+  public function setTitle($title) {
+    $this->title = $title;
   }
 
-  public function getAlternate() {
-    return $this->alternate;
+  public function getTitle() {
+    return $this->title;
   }
   
-}
-
-
-class AlbumLite {
-
-  public $kind;
-  public $collection;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
+  public function setHeight($height) {
+    $this->height = $height;
   }
 
-  public function getKind() {
-    return $this->kind;
+  public function getHeight() {
+    return $this->height;
   }
   
-  public function setCollection( AlbumLiteCollection $collection) {
-    $this->collection = $collection;
+  public function setWidth($width) {
+    $this->width = $width;
   }
 
-  public function getCollection() {
-    return $this->collection;
+  public function getWidth() {
+    return $this->width;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
   }
   
 }
 
 
-class Person {
+class Person extends apiModel {
 
   public $status;
   public $phoneNumbers;
@@ -2005,7 +2771,7 @@ class Person {
     return $this->status;
   }
   
-  public function setPhoneNumbers( PersonPhoneNumbers $phoneNumbers) {
+  public function setPhoneNumbers(PersonPhoneNumbers $phoneNumbers) {
     $this->phoneNumbers = $phoneNumbers;
   }
 
@@ -2021,7 +2787,7 @@ class Person {
     return $this->fashion;
   }
   
-  public function setAddresses( PersonAddresses $addresses) {
+  public function setAddresses(PersonAddresses $addresses) {
     $this->addresses = $addresses;
   }
 
@@ -2069,7 +2835,7 @@ class Person {
     return $this->books;
   }
   
-  public function setAccounts( PersonAccounts $accounts) {
+  public function setAccounts(PersonAccounts $accounts) {
     $this->accounts = $accounts;
   }
 
@@ -2221,7 +2987,7 @@ class Person {
     return $this->religion;
   }
   
-  public function setIms( PersonIms $ims) {
+  public function setIms(PersonIms $ims) {
     $this->ims = $ims;
   }
 
@@ -2325,7 +3091,7 @@ class Person {
     return $this->kind;
   }
   
-  public function setPhotos( PersonPhotos $photos) {
+  public function setPhotos(PersonPhotos $photos) {
     $this->photos = $photos;
   }
 
@@ -2373,7 +3139,7 @@ class Person {
     return $this->nickname;
   }
   
-  public function setEmails( PersonEmails $emails) {
+  public function setEmails(PersonEmails $emails) {
     $this->emails = $emails;
   }
 
@@ -2381,7 +3147,7 @@ class Person {
     return $this->emails;
   }
   
-  public function setOrganizations( PersonOrganizations $organizations) {
+  public function setOrganizations(PersonOrganizations $organizations) {
     $this->organizations = $organizations;
   }
 
@@ -2405,7 +3171,7 @@ class Person {
     return $this->displayName;
   }
   
-  public function setName( PersonName $name) {
+  public function setName(PersonName $name) {
     $this->name = $name;
   }
 
@@ -2485,7 +3251,7 @@ class Person {
     return $this->utcOffset;
   }
   
-  public function setUrls( PersonUrls $urls) {
+  public function setUrls(PersonUrls $urls) {
     $this->urls = $urls;
   }
 
@@ -2520,416 +3286,17 @@ class Person {
 }
 
 
-class ActivityFeedLinks {
+class ActivityFeedLinks extends apiModel {
 
 
 }
 
 
-class GroupLinksSelf {
-
-  public $href;
-  public $type;
-
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class CountFeedCounts {
-
-
-}
-
-
-class Activity {
-
-  public $untranslatedTitle;
-  public $links;
-  public $radius;
-  public $id;
-  public $title;
-  public $geocode;
-  public $actor;
-  public $source;
-  public $verbs;
-  public $crosspostSource;
-  public $placeName;
-  public $updated;
-  public $object;
-  public $visibility;
-  public $detectedlLang;
-  public $address;
-  public $placeholder;
-  public $annotation;
-  public $categories;
-  public $targetLang;
-  public $kind;
-  public $placeId;
-  public $published;
-
-  public function setUntranslatedTitle($untranslatedTitle) {
-    $this->untranslatedTitle = $untranslatedTitle;
-  }
-
-  public function getUntranslatedTitle() {
-    return $this->untranslatedTitle;
-  }
-  
-  public function setLinks( ActivityLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setRadius($radius) {
-    $this->radius = $radius;
-  }
-
-  public function getRadius() {
-    return $this->radius;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setGeocode($geocode) {
-    $this->geocode = $geocode;
-  }
-
-  public function getGeocode() {
-    return $this->geocode;
-  }
-  
-  public function setActor( ActivityActor $actor) {
-    $this->actor = $actor;
-  }
-
-  public function getActor() {
-    return $this->actor;
-  }
-  
-  public function setSource( ActivitySource $source) {
-    $this->source = $source;
-  }
-
-  public function getSource() {
-    return $this->source;
-  }
-  
-  public function setVerbs($verbs) {
-    $this->verbs = $verbs;
-  }
-
-  public function getVerbs() {
-    return $this->verbs;
-  }
-  
-  public function setCrosspostSource($crosspostSource) {
-    $this->crosspostSource = $crosspostSource;
-  }
-
-  public function getCrosspostSource() {
-    return $this->crosspostSource;
-  }
-  
-  public function setPlaceName($placeName) {
-    $this->placeName = $placeName;
-  }
-
-  public function getPlaceName() {
-    return $this->placeName;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setObject( ActivityObject $object) {
-    $this->object = $object;
-  }
-
-  public function getObject() {
-    return $this->object;
-  }
-  
-  public function setVisibility( ActivityVisibility $visibility) {
-    $this->visibility = $visibility;
-  }
-
-  public function getVisibility() {
-    return $this->visibility;
-  }
-  
-  public function setDetectedlLang($detectedlLang) {
-    $this->detectedlLang = $detectedlLang;
-  }
-
-  public function getDetectedlLang() {
-    return $this->detectedlLang;
-  }
-  
-  public function setAddress($address) {
-    $this->address = $address;
-  }
-
-  public function getAddress() {
-    return $this->address;
-  }
-  
-  public function setPlaceholder($placeholder) {
-    $this->placeholder = $placeholder;
-  }
-
-  public function getPlaceholder() {
-    return $this->placeholder;
-  }
-  
-  public function setAnnotation($annotation) {
-    $this->annotation = $annotation;
-  }
-
-  public function getAnnotation() {
-    return $this->annotation;
-  }
-  
-  public function setCategories( ActivityCategories $categories) {
-    $this->categories = $categories;
-  }
-
-  public function getCategories() {
-    return $this->categories;
-  }
-  
-  public function setTargetLang($targetLang) {
-    $this->targetLang = $targetLang;
-  }
-
-  public function getTargetLang() {
-    return $this->targetLang;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setPlaceId($placeId) {
-    $this->placeId = $placeId;
-  }
-
-  public function getPlaceId() {
-    return $this->placeId;
-  }
-  
-  public function setPublished($published) {
-    $this->published = $published;
-  }
-
-  public function getPublished() {
-    return $this->published;
-  }
-  
-}
-
-
-class ActivityVisibility {
-
-  public $entries;
-
-  public function setEntries( ActivityVisibilityEntries $entries) {
-    $this->entries = $entries;
-  }
-
-  public function getEntries() {
-    return $this->entries;
-  }
-  
-}
-
-
-class ActivityActor {
-
-  public $profileUrl;
-  public $thumbnailUrl;
-  public $id;
-  public $name;
-
-  public function setProfileUrl($profileUrl) {
-    $this->profileUrl = $profileUrl;
-  }
-
-  public function getProfileUrl() {
-    return $this->profileUrl;
-  }
-  
-  public function setThumbnailUrl($thumbnailUrl) {
-    $this->thumbnailUrl = $thumbnailUrl;
-  }
-
-  public function getThumbnailUrl() {
-    return $this->thumbnailUrl;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class ActivityObjectLinks {
-
-
-}
-
-
-class PersonPhoneNumbers {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class CommentFeed {
-
-  public $kind;
-  public $links;
-  public $title;
-  public $items;
-  public $updated;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks( CommentFeedLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setItems( Comment $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class GroupLinks {
+class GroupLinks extends apiModel {
 
   public $self;
 
-  public function setSelf( GroupLinksSelf $self) {
+  public function setSelf(GroupLinksSelf $self) {
     $this->self = $self;
   }
 
@@ -2940,442 +3307,7 @@ class GroupLinks {
 }
 
 
-class Comment {
-
-  public $targetLang;
-  public $kind;
-  public $untranslatedContent;
-  public $links;
-  public $originalContent;
-  public $updated;
-  public $actor;
-  public $content;
-  public $published;
-  public $detectedLang;
-  public $placeholder;
-  public $id;
-
-  public function setTargetLang($targetLang) {
-    $this->targetLang = $targetLang;
-  }
-
-  public function getTargetLang() {
-    return $this->targetLang;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setUntranslatedContent($untranslatedContent) {
-    $this->untranslatedContent = $untranslatedContent;
-  }
-
-  public function getUntranslatedContent() {
-    return $this->untranslatedContent;
-  }
-  
-  public function setLinks( CommentLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setOriginalContent($originalContent) {
-    $this->originalContent = $originalContent;
-  }
-
-  public function getOriginalContent() {
-    return $this->originalContent;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setActor( CommentActor $actor) {
-    $this->actor = $actor;
-  }
-
-  public function getActor() {
-    return $this->actor;
-  }
-  
-  public function setContent($content) {
-    $this->content = $content;
-  }
-
-  public function getContent() {
-    return $this->content;
-  }
-  
-  public function setPublished($published) {
-    $this->published = $published;
-  }
-
-  public function getPublished() {
-    return $this->published;
-  }
-  
-  public function setDetectedLang($detectedLang) {
-    $this->detectedLang = $detectedLang;
-  }
-
-  public function getDetectedLang() {
-    return $this->detectedLang;
-  }
-  
-  public function setPlaceholder($placeholder) {
-    $this->placeholder = $placeholder;
-  }
-
-  public function getPlaceholder() {
-    return $this->placeholder;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class PersonIms {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class ActivityObject {
-
-  public $targetLang;
-  public $liked;
-  public $attachments;
-  public $links;
-  public $originalContent;
-  public $actor;
-  public $shareOriginal;
-  public $content;
-  public $detectedlLang;
-  public $comments;
-  public $type;
-  public $id;
-  public $untranslatedContent;
-
-  public function setTargetLang($targetLang) {
-    $this->targetLang = $targetLang;
-  }
-
-  public function getTargetLang() {
-    return $this->targetLang;
-  }
-  
-  public function setLiked( Person $liked) {
-    $this->liked = $liked;
-  }
-
-  public function getLiked() {
-    return $this->liked;
-  }
-  
-  public function setAttachments( ActivityObjectAttachments $attachments) {
-    $this->attachments = $attachments;
-  }
-
-  public function getAttachments() {
-    return $this->attachments;
-  }
-  
-  public function setLinks( ActivityObjectLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setOriginalContent($originalContent) {
-    $this->originalContent = $originalContent;
-  }
-
-  public function getOriginalContent() {
-    return $this->originalContent;
-  }
-  
-  public function setActor( ActivityObjectActor $actor) {
-    $this->actor = $actor;
-  }
-
-  public function getActor() {
-    return $this->actor;
-  }
-  
-  public function setShareOriginal( Activity $shareOriginal) {
-    $this->shareOriginal = $shareOriginal;
-  }
-
-  public function getShareOriginal() {
-    return $this->shareOriginal;
-  }
-  
-  public function setContent($content) {
-    $this->content = $content;
-  }
-
-  public function getContent() {
-    return $this->content;
-  }
-  
-  public function setDetectedlLang($detectedlLang) {
-    $this->detectedlLang = $detectedlLang;
-  }
-
-  public function getDetectedlLang() {
-    return $this->detectedlLang;
-  }
-  
-  public function setComments( Comment $comments) {
-    $this->comments = $comments;
-  }
-
-  public function getComments() {
-    return $this->comments;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setUntranslatedContent($untranslatedContent) {
-    $this->untranslatedContent = $untranslatedContent;
-  }
-
-  public function getUntranslatedContent() {
-    return $this->untranslatedContent;
-  }
-  
-}
-
-
-class RelatedFeedLinks {
-
-
-}
-
-
-class Related {
-
-  public $title;
-  public $kind;
-  public $href;
-  public $id;
-  public $summary;
-
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setSummary($summary) {
-    $this->summary = $summary;
-  }
-
-  public function getSummary() {
-    return $this->summary;
-  }
-  
-}
-
-
-class CountFeed {
-
-  public $counts;
-  public $kind;
-
-  public function setCounts( CountFeedCounts $counts) {
-    $this->counts = $counts;
-  }
-
-  public function getCounts() {
-    return $this->counts;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-}
-
-
-class PersonName {
-
-  public $honorificPrefix;
-  public $middleName;
-  public $familyName;
-  public $formatted;
-  public $givenName;
-  public $honorificSuffix;
-
-  public function setHonorificPrefix($honorificPrefix) {
-    $this->honorificPrefix = $honorificPrefix;
-  }
-
-  public function getHonorificPrefix() {
-    return $this->honorificPrefix;
-  }
-  
-  public function setMiddleName($middleName) {
-    $this->middleName = $middleName;
-  }
-
-  public function getMiddleName() {
-    return $this->middleName;
-  }
-  
-  public function setFamilyName($familyName) {
-    $this->familyName = $familyName;
-  }
-
-  public function getFamilyName() {
-    return $this->familyName;
-  }
-  
-  public function setFormatted($formatted) {
-    $this->formatted = $formatted;
-  }
-
-  public function getFormatted() {
-    return $this->formatted;
-  }
-  
-  public function setGivenName($givenName) {
-    $this->givenName = $givenName;
-  }
-
-  public function getGivenName() {
-    return $this->givenName;
-  }
-  
-  public function setHonorificSuffix($honorificSuffix) {
-    $this->honorificSuffix = $honorificSuffix;
-  }
-
-  public function getHonorificSuffix() {
-    return $this->honorificSuffix;
-  }
-  
-}
-
-
-class ChiliPhotosResourceJsonAlbum {
-
-  public $id;
-  public $page_link;
-
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setPage_link( Link $page_link) {
-    $this->page_link = $page_link;
-  }
-
-  public function getPage_link() {
-    return $this->page_link;
-  }
-  
-}
-
-
-class Video {
+class Video extends apiModel {
 
   public $duration;
   public $status;
@@ -3398,7 +3330,7 @@ class Video {
     return $this->status;
   }
   
-  public function setStreams( Link $streams) {
+  public function setStreams(Link $streams) {
     $this->streams = $streams;
   }
 
@@ -3417,64 +3349,7 @@ class Video {
 }
 
 
-class AlbumLinks {
-
-  public $alternate;
-  public $enclosure;
-
-  public function setAlternate( Link $alternate) {
-    $this->alternate = $alternate;
-  }
-
-  public function getAlternate() {
-    return $this->alternate;
-  }
-  
-  public function setEnclosure( Link $enclosure) {
-    $this->enclosure = $enclosure;
-  }
-
-  public function getEnclosure() {
-    return $this->enclosure;
-  }
-  
-}
-
-
-class GroupFeed {
-
-  public $items;
-  public $kind;
-  public $links;
-
-  public function setItems( Group $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks( GroupFeedLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-}
-
-
-class PersonAddresses {
+class PersonAddresses extends apiModel {
 
   public $locality;
   public $country;
@@ -3547,6 +3422,729 @@ class PersonAddresses {
 
   public function getType() {
     return $this->type;
+  }
+  
+}
+
+
+class Album extends apiModel {
+
+  public $kind;
+  public $description;
+  public $links;
+  public $created;
+  public $lastModified;
+  public $tags;
+  public $version;
+  public $firstPhotoId;
+  public $owner;
+  public $title;
+  public $id;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setDescription($description) {
+    $this->description = $description;
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
+  
+  public function setLinks(AlbumLinks $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setCreated($created) {
+    $this->created = $created;
+  }
+
+  public function getCreated() {
+    return $this->created;
+  }
+  
+  public function setLastModified($lastModified) {
+    $this->lastModified = $lastModified;
+  }
+
+  public function getLastModified() {
+    return $this->lastModified;
+  }
+  
+  public function setTags($tags) {
+    $this->tags = $tags;
+  }
+
+  public function getTags() {
+    return $this->tags;
+  }
+  
+  public function setVersion($version) {
+    $this->version = $version;
+  }
+
+  public function getVersion() {
+    return $this->version;
+  }
+  
+  public function setFirstPhotoId($firstPhotoId) {
+    $this->firstPhotoId = $firstPhotoId;
+  }
+
+  public function getFirstPhotoId() {
+    return $this->firstPhotoId;
+  }
+  
+  public function setOwner(AlbumOwner $owner) {
+    $this->owner = $owner;
+  }
+
+  public function getOwner() {
+    return $this->owner;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class PersonAccounts extends apiModel {
+
+  public $username;
+  public $domain;
+  public $userid;
+
+  public function setUsername($username) {
+    $this->username = $username;
+  }
+
+  public function getUsername() {
+    return $this->username;
+  }
+  
+  public function setDomain($domain) {
+    $this->domain = $domain;
+  }
+
+  public function getDomain() {
+    return $this->domain;
+  }
+  
+  public function setUserid($userid) {
+    $this->userid = $userid;
+  }
+
+  public function getUserid() {
+    return $this->userid;
+  }
+  
+}
+
+
+class ActivityVisibility extends apiModel {
+
+  public $entries;
+
+  public function setEntries(ActivityVisibilityEntries $entries) {
+    $this->entries = $entries;
+  }
+
+  public function getEntries() {
+    return $this->entries;
+  }
+  
+}
+
+
+class RelatedFeedLinksItems extends apiModel {
+
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+
+  public function setCount($count) {
+    $this->count = $count;
+  }
+
+  public function getCount() {
+    return $this->count;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+
+  public function getHeight() {
+    return $this->height;
+  }
+  
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+
+  public function getWidth() {
+    return $this->width;
+  }
+  
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class AlbumLiteCollectionPhoto extends apiModel {
+
+  public $photoUrl;
+
+  public function setPhotoUrl($photoUrl) {
+    $this->photoUrl = $photoUrl;
+  }
+
+  public function getPhotoUrl() {
+    return $this->photoUrl;
+  }
+  
+}
+
+
+class AlbumLiteCollection extends apiModel {
+
+  public $album;
+  public $albumId;
+  public $photo;
+
+  public function setAlbum($album) {
+    $this->album = $album;
+  }
+
+  public function getAlbum() {
+    return $this->album;
+  }
+  
+  public function setAlbumId($albumId) {
+    $this->albumId = $albumId;
+  }
+
+  public function getAlbumId() {
+    return $this->albumId;
+  }
+  
+  public function setPhoto(AlbumLiteCollectionPhoto $photo) {
+    $this->photo = $photo;
+  }
+
+  public function getPhoto() {
+    return $this->photo;
+  }
+  
+}
+
+
+class ChiliPhotosResourceJsonLinks extends apiModel {
+
+  public $alternate;
+
+  public function setAlternate(Link $alternate) {
+    $this->alternate = $alternate;
+  }
+
+  public function getAlternate() {
+    return $this->alternate;
+  }
+  
+}
+
+
+class RelatedFeed extends apiModel {
+
+  public $kind;
+  public $links;
+  public $title;
+  public $items;
+  public $updated;
+  public $id;
+
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setLinks(RelatedFeedLinksItems $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setItems(Related $items) {
+    $this->items = $items;
+  }
+
+  public function getItems() {
+    return $this->items;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+}
+
+
+class Activity extends apiModel {
+
+  public $untranslatedTitle;
+  public $links;
+  public $radius;
+  public $id;
+  public $title;
+  public $geocode;
+  public $actor;
+  public $source;
+  public $verbs;
+  public $crosspostSource;
+  public $placeName;
+  public $updated;
+  public $object;
+  public $visibility;
+  public $detectedlLang;
+  public $address;
+  public $placeholder;
+  public $annotation;
+  public $categories;
+  public $targetLang;
+  public $kind;
+  public $placeId;
+  public $published;
+
+  public function setUntranslatedTitle($untranslatedTitle) {
+    $this->untranslatedTitle = $untranslatedTitle;
+  }
+
+  public function getUntranslatedTitle() {
+    return $this->untranslatedTitle;
+  }
+  
+  public function setLinks(ActivityLinks $links) {
+    $this->links = $links;
+  }
+
+  public function getLinks() {
+    return $this->links;
+  }
+  
+  public function setRadius($radius) {
+    $this->radius = $radius;
+  }
+
+  public function getRadius() {
+    return $this->radius;
+  }
+  
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+  
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+
+  public function getTitle() {
+    return $this->title;
+  }
+  
+  public function setGeocode($geocode) {
+    $this->geocode = $geocode;
+  }
+
+  public function getGeocode() {
+    return $this->geocode;
+  }
+  
+  public function setActor(ActivityActor $actor) {
+    $this->actor = $actor;
+  }
+
+  public function getActor() {
+    return $this->actor;
+  }
+  
+  public function setSource(ActivitySource $source) {
+    $this->source = $source;
+  }
+
+  public function getSource() {
+    return $this->source;
+  }
+  
+  public function setVerbs($verbs) {
+    $this->verbs = $verbs;
+  }
+
+  public function getVerbs() {
+    return $this->verbs;
+  }
+  
+  public function setCrosspostSource($crosspostSource) {
+    $this->crosspostSource = $crosspostSource;
+  }
+
+  public function getCrosspostSource() {
+    return $this->crosspostSource;
+  }
+  
+  public function setPlaceName($placeName) {
+    $this->placeName = $placeName;
+  }
+
+  public function getPlaceName() {
+    return $this->placeName;
+  }
+  
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated() {
+    return $this->updated;
+  }
+  
+  public function setObject(ActivityObject $object) {
+    $this->object = $object;
+  }
+
+  public function getObject() {
+    return $this->object;
+  }
+  
+  public function setVisibility(ActivityVisibility $visibility) {
+    $this->visibility = $visibility;
+  }
+
+  public function getVisibility() {
+    return $this->visibility;
+  }
+  
+  public function setDetectedlLang($detectedlLang) {
+    $this->detectedlLang = $detectedlLang;
+  }
+
+  public function getDetectedlLang() {
+    return $this->detectedlLang;
+  }
+  
+  public function setAddress($address) {
+    $this->address = $address;
+  }
+
+  public function getAddress() {
+    return $this->address;
+  }
+  
+  public function setPlaceholder($placeholder) {
+    $this->placeholder = $placeholder;
+  }
+
+  public function getPlaceholder() {
+    return $this->placeholder;
+  }
+  
+  public function setAnnotation($annotation) {
+    $this->annotation = $annotation;
+  }
+
+  public function getAnnotation() {
+    return $this->annotation;
+  }
+  
+  public function setCategories(ActivityCategories $categories) {
+    $this->categories = $categories;
+  }
+
+  public function getCategories() {
+    return $this->categories;
+  }
+  
+  public function setTargetLang($targetLang) {
+    $this->targetLang = $targetLang;
+  }
+
+  public function getTargetLang() {
+    return $this->targetLang;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
+  }
+  
+  public function setPlaceId($placeId) {
+    $this->placeId = $placeId;
+  }
+
+  public function getPlaceId() {
+    return $this->placeId;
+  }
+  
+  public function setPublished($published) {
+    $this->published = $published;
+  }
+
+  public function getPublished() {
+    return $this->published;
+  }
+  
+}
+
+
+class PersonIms extends apiModel {
+
+  public $type;
+  public $primary;
+  public $value;
+
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+
+  public function getPrimary() {
+    return $this->primary;
+  }
+  
+  public function setValue($value) {
+    $this->value = $value;
+  }
+
+  public function getValue() {
+    return $this->value;
+  }
+  
+}
+
+
+class CountFeedCountsItems extends apiModel {
+
+  public $count;
+  public $timestamp;
+
+  public function setCount($count) {
+    $this->count = $count;
+  }
+
+  public function getCount() {
+    return $this->count;
+  }
+  
+  public function setTimestamp($timestamp) {
+    $this->timestamp = $timestamp;
+  }
+
+  public function getTimestamp() {
+    return $this->timestamp;
+  }
+  
+}
+
+
+class ActivityObjectLinksItems extends apiModel {
+
+  public $href;
+  public $type;
+
+  public function setHref($href) {
+    $this->href = $href;
+  }
+
+  public function getHref() {
+    return $this->href;
+  }
+  
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function getType() {
+    return $this->type;
+  }
+  
+}
+
+
+class PersonName extends apiModel {
+
+  public $honorificPrefix;
+  public $middleName;
+  public $familyName;
+  public $formatted;
+  public $givenName;
+  public $honorificSuffix;
+
+  public function setHonorificPrefix($honorificPrefix) {
+    $this->honorificPrefix = $honorificPrefix;
+  }
+
+  public function getHonorificPrefix() {
+    return $this->honorificPrefix;
+  }
+  
+  public function setMiddleName($middleName) {
+    $this->middleName = $middleName;
+  }
+
+  public function getMiddleName() {
+    return $this->middleName;
+  }
+  
+  public function setFamilyName($familyName) {
+    $this->familyName = $familyName;
+  }
+
+  public function getFamilyName() {
+    return $this->familyName;
+  }
+  
+  public function setFormatted($formatted) {
+    $this->formatted = $formatted;
+  }
+
+  public function getFormatted() {
+    return $this->formatted;
+  }
+  
+  public function setGivenName($givenName) {
+    $this->givenName = $givenName;
+  }
+
+  public function getGivenName() {
+    return $this->givenName;
+  }
+  
+  public function setHonorificSuffix($honorificSuffix) {
+    $this->honorificSuffix = $honorificSuffix;
+  }
+
+  public function getHonorificSuffix() {
+    return $this->honorificSuffix;
+  }
+  
+}
+
+
+class CountFeed extends apiModel {
+
+  public $counts;
+  public $kind;
+
+  public function setCounts(CountFeedCountsItems $counts) {
+    $this->counts = $counts;
+  }
+
+  public function getCounts() {
+    return $this->counts;
+  }
+  
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+
+  public function getKind() {
+    return $this->kind;
   }
   
 }

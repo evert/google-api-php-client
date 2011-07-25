@@ -1,21 +1,21 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright (c) 2010 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-
+require_once 'service/apiModel.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -33,27 +33,30 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Begin training your model (training.insert)
      *
-     * @param  $data mybucket%2Fmydata resource in Google Storage
+     * @param string $data mybucket%2Fmydata resource in Google Storage
      * @param $postBody the {@link PredictionTrainingInsert}
      */
     public function insert($data, PredictionTrainingInsert $postBody) {
-      return $this->__call('insert', array(array('data' => $data, 'postBody' => $postBody)));
+      $params = array('data' => $data, 'postBody' => $postBody);
+      return $this->__call('insert', array($params));
     }
     /**
      * Check training status of your model (training.get)
      *
-     * @param  $data mybucket%2Fmydata resource in Google Storage
+     * @param string $data mybucket%2Fmydata resource in Google Storage
      */
     public function get($data) {
-      return $this->__call('get', array(array('data' => $data)));
+      $params = array('data' => $data);
+      return $this->__call('get', array($params));
     }
     /**
      * Delete a trained model (training.delete)
      *
-     * @param  $data mybucket%2Fmydata resource in Google Storage
+     * @param string $data mybucket%2Fmydata resource in Google Storage
      */
     public function delete($data) {
-      return $this->__call('delete', array(array('data' => $data)));
+      $params = array('data' => $data);
+      return $this->__call('delete', array($params));
     }
   }
 
@@ -70,11 +73,12 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Submit data and request a prediction (predict.predict)
      *
-     * @param  $data mybucket%2Fmydata resource in Google Storage
+     * @param string $data mybucket%2Fmydata resource in Google Storage
      * @param $postBody the {@link PredictionPredictRequest}
      */
     public function predict($data, PredictionPredictRequest $postBody) {
-      return $this->__call('predict', array(array('data' => $data, 'postBody' => $postBody)));
+      $params = array('data' => $data, 'postBody' => $postBody);
+      return $this->__call('predict', array($params));
     }
 
   }
@@ -89,7 +93,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * <p>
  * For more information about this service, see the
- * <a href="" target="_blank">API Documentation</a>
+ * <a href="http://code.google.com/apis/predict/docs/developer-guide.html" target="_blank">API Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -112,7 +116,7 @@ class apiPredictionService {
   public function __construct(apiClient $apiClient) {
      $apiClient->addService($this->serviceName, $this->version);
      $this->io = $apiClient->getIo();
-     $this->training = new TrainingServiceResource($this, $this->serviceName, 'training', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/prediction"], "parameters": {"data": {"restParameterType": "query", "required": true, "type": "string"}}, "request": {"$ref": "PredictionTrainingInsert"}, "rpcMethod": "prediction.training.insert", "httpMethod": "POST", "response": {"$ref": "PredictionTrainingInsert"}, "restPath": "training"}, "delete": {"scopes": ["https://www.googleapis.com/auth/prediction"], "parameters": {"data": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "prediction.training.delete", "httpMethod": "DELETE", "restPath": "training/{data}"}, "get": {"scopes": ["https://www.googleapis.com/auth/prediction"], "parameters": {"data": {"restParameterType": "path", "required": true, "type": "string"}}, "rpcMethod": "prediction.training.get", "httpMethod": "GET", "response": {"$ref": "PredictionTrainingGet"}, "restPath": "training/{data}"}}}', true));
+     $this->training = new TrainingServiceResource($this, $this->serviceName, 'training', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/prediction"], "parameters": {"data": {"required": true, "type": "string", "location": "query"}}, "request": {"$ref": "PredictionTrainingInsert"}, "id": "prediction.training.insert", "httpMethod": "POST", "path": "training", "response": {"$ref": "PredictionTrainingInsert"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/prediction"], "parameters": {"data": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "training/{data}", "id": "prediction.training.delete"}, "get": {"scopes": ["https://www.googleapis.com/auth/prediction"], "parameters": {"data": {"required": true, "type": "string", "location": "path"}}, "id": "prediction.training.get", "httpMethod": "GET", "path": "training/{data}", "response": {"$ref": "PredictionTrainingGet"}}}}', true));
   }
 
   /**
@@ -143,7 +147,7 @@ class apiPredictionService {
   }
 }
 
-class PredictionPredictRequestInput {
+class PredictionPredictRequestInput extends apiModel {
 
   public $text;
   public $mixture;
@@ -176,7 +180,7 @@ class PredictionPredictRequestInput {
 }
 
 
-class PredictionTrainingInsert {
+class PredictionTrainingInsert extends apiModel {
 
   public $data;
 
@@ -191,7 +195,7 @@ class PredictionTrainingInsert {
 }
 
 
-class OutputOutputMulti {
+class OutputOutputMulti extends apiModel {
 
   public $score;
   public $label;
@@ -215,11 +219,11 @@ class OutputOutputMulti {
 }
 
 
-class PredictionPredictRequest {
+class PredictionPredictRequest extends apiModel {
 
   public $input;
 
-  public function setInput( PredictionPredictRequestInput $input) {
+  public function setInput(PredictionPredictRequestInput $input) {
     $this->input = $input;
   }
 
@@ -230,7 +234,7 @@ class PredictionPredictRequest {
 }
 
 
-class Output {
+class Output extends apiModel {
 
   public $kind;
   public $outputLabel;
@@ -253,7 +257,7 @@ class Output {
     return $this->outputLabel;
   }
   
-  public function setOutputMulti( OutputOutputMulti $outputMulti) {
+  public function setOutputMulti(OutputOutputMulti $outputMulti) {
     $this->outputMulti = $outputMulti;
   }
 
@@ -272,7 +276,7 @@ class Output {
 }
 
 
-class PredictionTrainingGet {
+class PredictionTrainingGet extends apiModel {
 
   public $data;
   public $modelinfo;
