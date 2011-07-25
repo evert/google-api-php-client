@@ -1,7 +1,6 @@
 <?php
 
 function displayBuzzPost($post) {
-  $titleLink = isset($post['links']['alternate'][0]['href']) ? $post['links']['alternate'][0]['href'] : '#';
   $content = '';
   if (isset($post['object'])) {
     switch ($post['object']['type']) {
@@ -21,7 +20,7 @@ function displayBuzzPost($post) {
     }
   } else {
     echo "[displayBuzzPost] object not set!<br>";
-    // this happens on posts with a visibility set, currently private posts are not accessable through the REST API
+    // this happens on posts with a visibility set, currently private posts are not accessible through the REST API
   }
 
   $photoContent = $articleContent = $videoContent = '';

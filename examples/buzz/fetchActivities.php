@@ -15,6 +15,6 @@ if (isset($_SESSION['oauth_access_token'])) {
   $_SESSION['oauth_access_token'] = $token;
 }
 
-$activities = $buzz->activities->listActivities('@consumption', '@me');
+$activities = $buzz->activities->listActivities('@me', '@consumption');
 
 echo "<pre>" . print_r($activities, true) . "</pre>";
