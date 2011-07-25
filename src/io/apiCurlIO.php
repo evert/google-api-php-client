@@ -231,7 +231,6 @@ class apiCurlIO implements apiIO {
         $cacheControl[$key] = strtolower($val);
       }
     }
-    $url = $request->getUrl();
     return (in_array('must-revalidate', $cacheControl) || ($etag && ! $expires) || $expires > $date);
   }
 
