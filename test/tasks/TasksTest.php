@@ -36,7 +36,7 @@ class TasksTest extends PHPUnit_Framework_TestCase {
 
     if (! $apiClient || ! $taskService) {
       $this->origConfig = $apiConfig;
-      // Set up a predictable, default envirioment so the test results are predictable
+      // Set up a predictable, default environment so the test results are predictable
       //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
       //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
       $apiConfig['authClass'] = 'apiOAuth2';
@@ -63,19 +63,16 @@ class TasksTest extends PHPUnit_Framework_TestCase {
   
   public function testInsertTask() {
     $list = $this->createTaskList('List: ' . __METHOD__);
-            
     $task = $this->createTask('Task: '.__METHOD__, $list['id']);
     $this->assertIsTask($task);
   }
 
   public function testGetTask() {
     $tasks = $this->taskService->tasks;
-    $taskList = $this->taskService->tasklists;
-
     $list = $this->createTaskList('List: ' . __METHOD__);
     $task = $this->createTask('Task: '.__METHOD__, $list['id']);
 
-    $task = $tasks->get($task['id'], $list['id']);
+    $task = $tasks->get($list['id'], $task['id']);
     $this->assertIsTask($task);
   }
 
@@ -105,7 +102,6 @@ class TasksTest extends PHPUnit_Framework_TestCase {
   private function createTask($title, $listId) {
     $tasks = $this->taskService->tasks;
     $task = new Task();
-
     $task->title = $title;
     return $tasks->insert($listId, $task);
   }

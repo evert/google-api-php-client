@@ -37,7 +37,7 @@ class apiBuzzTest extends PHPUnit_Framework_TestCase {
     if (! $apiBuzzTest_apiClient || ! $apiBuzzTest_buzz) {
 
       $this->origConfig = $apiConfig;
-      // Set up a predictable, default envirioment so the test results are predictable
+      // Set up a predictable, default environment so the test results are predictable
       //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
       //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
       $apiConfig['authClass'] = 'apiOAuth2';

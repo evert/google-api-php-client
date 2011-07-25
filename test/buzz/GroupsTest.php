@@ -27,8 +27,9 @@ class GroupsTest extends apiBuzzTest {
     parent::setUp();
     if (! $this->cleanedGroups) {
       try {
-        // clean up from any failed previous runs which that wouldve left test groups behind
-        $groups = $this->buzz->groups->listGroups('@me', null, null, 50);
+        // clean up from any failed previous runs which that would have left test groups behind
+        $opt = array('max-results' => 50);
+        $groups = $this->buzz->groups->listGroups('@me', $opt);
         foreach ($groups['items'] as $group) {
           if ($group['title'] == 'Google API Client Test Group'
               || $group['title'] == 'Google API Client Updated Group'
@@ -48,7 +49,8 @@ class GroupsTest extends apiBuzzTest {
   }
 
   public function testListGroups() {
-    $groups = $this->buzz->groups->listGroups('@me', null, null, 50);
+    $opt = array('max-results' => 50);
+    $groups = $this->buzz->groups->listGroups('@me', $opt);
     $this->assertTrue(is_array($groups));
     $this->assertArrayHasKey('kind', $groups);
     $this->assertEquals('buzz#groupFeed', $groups['kind']);

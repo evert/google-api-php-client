@@ -22,7 +22,7 @@ class ActivitiesTest extends apiBuzzTest {
 
   public function testGetPublicStream() {
     global $apiConfig;
-    $activities = $this->buzz->activities->listActivities('@self', $apiConfig['oauth_test_user']);
+    $activities = $this->buzz->activities->listActivities($apiConfig['oauth_test_user'], '@self');
     $this->evaluateActivitiesStream($activities);
   }
 
@@ -79,7 +79,7 @@ class ActivitiesTest extends apiBuzzTest {
     $this->assertTrue($foundActivity);
 
     // test single activity retrieving
-    $newActivity = $this->buzz->activities->get($activity['id'], $apiConfig['oauth_test_user']);
+    $newActivity = $this->buzz->activities->get($apiConfig['oauth_test_user'], $activity['id']);
 
     // when you are the author of a buzz post, it returns a 'originalContent' field with the non-link--and-names-expanded, original content (used for editing)
     $this->assertArrayHasKey('originalContent', $newActivity['object']);
@@ -96,7 +96,7 @@ class ActivitiesTest extends apiBuzzTest {
     $updated = new Activity();
     $updated->actor = $activity['actor'];
     $updated->object = $activity['object'];
-    $newActivity = $this->buzz->activities->update($activity['id'], '@self', $apiConfig['oauth_test_user'], $updated);
+    $newActivity = $this->buzz->activities->update($apiConfig['oauth_test_user'], '@self', $activity['id'], $updated);
 
     // see if the ID & published are the same, and published and the object are updated
     $this->assertEquals($newActivity['id'], $activity['id']);
@@ -129,7 +129,11 @@ class ActivitiesTest extends apiBuzzTest {
   }
 
   public function testKeywordSearch() {
-    $activities = $this->buzz->activities->search(null, null, null, null, null, 10, null, 'google');
+    $activities = $this->buzz->activities->search(
+      array(
+           'max-results' => 10,
+           'q' => 'google'
+      ));
     $this->evaluateActivitiesStream($activities);
   }
 
@@ -138,21 +142,14 @@ class ActivitiesTest extends apiBuzzTest {
    */
   public function testLocationSearch() {
     // a 5000 meter radius around Mountain View, CA, USA
-    $activities = $this->buzz->activities->search(null, null, null, '122.0843', '37.4220', 10, null, null, '5000');
+    $opt_params = array(
+      'lat' => '122.0843',
+      'lon' => '37.4220',
+      'radius' => '5000'
+    );
+    $activities = $this->buzz->activities->search($opt_params);
     $this->evaluateActivitiesStream($activities);
   }
-
-
-  /**
-   * @depends testKeywordSearch
-   */
-  /* this example is giving an error, disabling for now
-  public function testBoundingBoxSearch() {
-    // A search within a region that encompasses the city of Mountain View, California
-    $activities = $this->buzz->searchActivities(null, null, 10, null, '122.113,37.429,-122.060,37.346', null, null, null, null);
-    $this->evaluateActivitiesStream($activities);
-  }
-  */
 
   /**
    * used by both the authenticated and unauthenticated stream tests

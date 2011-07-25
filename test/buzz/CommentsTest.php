@@ -26,7 +26,7 @@ class CommentsTest extends apiBuzzTest {
   public function setUp() {
     if (! $this->activityId) {
       // find an activity in the @publicstream with comments that we can test with
-      $activities = $this->buzz->activities->listActivities('@public', '@me', null, null, 100);
+      $activities = $this->buzz->activities->listActivities('@me', '@public', array('max-results' => 100));
       if (isset($activities['items']) && count($activities['items'])) {
         foreach ($activities['items'] as $activity) {
           if (isset($activity['links']['replies'][0]) && (int)$activity['links']['replies'][0]['count'] > 0) {
@@ -43,7 +43,8 @@ class CommentsTest extends apiBuzzTest {
 
   public function testListAndGetComments() {
     // check the basic comments feed for the activity selected activity
-    $comments = $this->buzz->comments->listComments($this->activityId, '@self', '@me', null, null, 20);
+    $opt_params = array('max-results' => 20);
+    $comments = $this->buzz->comments->listComments('@me', '@self', $this->activityId, $opt_params);
     $this->assertArrayHasKey('kind', $comments);
     $this->assertEquals('buzz#commentFeed', $comments['kind']);
     $this->assertArrayHasKey('links', $comments);
