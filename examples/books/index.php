@@ -19,48 +19,99 @@ session_start();
 require_once '../../src/apiClient.php';
 require_once '../../src/contrib/apiBooksService.php';
 
+// Include the boilerplate markup.
+include 'interface.html';
+
 global $apiConfig;
 
 // Visit https://code.google.com/apis/console to
-// generate your oauth2_client_id, oauth2_client_secret, and to
-// register your oauth2_redirect_uri.
-// $apiConfig['oauth2_client_id'] = 'YOUR_OAUTH2_CLIENT_ID';
-// $apiConfig['oauth2_client_secret'] = 'YOUR_OAUTH2_CLIENT_SECRET';
-// $apiConfig['oauth2_redirect_uri'] = 'YOUR_REDIRECT_URI';
-$apiConfig['authClass'] = 'apiOAuth2';
-
+// generate your developer key.
+// $apiConfig['developer_key'] = 'YOUR_DEVELOPER_KEY';
+$apiConfig['authClass'] = 'apiAuthNone';
 $client = new apiClient();
 $service = new apiBooksService($client);
 
-if (isset($_SESSION['access_token'])) {
-  $client->setAccessToken($_SESSION['access_token']);
-} else {
-  $client->setAccessToken($client->authenticate());
-}
-$_SESSION['access_token'] = $client->getAccessToken();
+/**
+ * Echo the list of videos in the specified feed.
+ *
+ * @param array
+ * @return void
+ */
+function echoBookList($results) {
+  print <<<HTML
+  <table><tr><td id="resultcell">
+  <div id="searchResults">
+    <table class="volumeList"><tbody>
+HTML;
+  foreach ($results['items'] as $result) {
+    $volumeInfo = $result['volumeInfo'];
+    $title = $volumeInfo['title'];
+    if (isset($volumeInfo['imageLinks']['smallThumbnail'])) {
+      $thumbnail = $volumeInfo['imageLinks']['smallThumbnail'];
+    } else {
+      $thumbnail = null;
+    }
+    
+    $creators = implode(", ", $volumeInfo['authors']);
+    if ($creators) $creators = "by " . $creators;
 
-if (isset($_GET['code'])) {
-  header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+    $preview = $volumeInfo['previewLink'];
+    $previewLink = '';
+    if ($result['accessInfo']['embeddable'] == true) {
+      $previewLink = ""
+          . "<a href=\"javascript:load_viewport('${preview}','viewport');\">"
+          . "<img class='previewbutton' src='http://code.google.com/apis/books/images/gbs_preview_button1.png' />"
+          . "</a><br>";
+    }
+
+    $thumbnailImg = ($thumbnail)
+        ? "<a href='${preview}'><img alt='$title' src='${thumbnail}'/></a>"
+        : '';
+    print <<<HTML
+    <tr>
+    <td><div class="thumbnail">${thumbnailImg}</div></td>
+    <td width="100%">
+        <a href="${preview}">$title</a><br>
+        ${creators}<br>
+        ${previewLink}
+    </td></tr>
+HTML;
+  }
+  print <<<HTML
+  </table></div></td>
+      <td width=50% id="previewcell"><div id="viewport"></div>&nbsp;
+  </td></tr></table><br></body></html>
+HTML;
 }
 
-$shelves = $service->bookshelves->listBookshelves('me');
-foreach ($shelves as $shelf) {
-  print_r($shelf);
-}
+/*
+ * The main controller logic of the Books volume browser demonstration app.
+ */
+$queryType = isset($_GET['queryType']) ? $_GET['queryType'] : null;
+if ($queryType != null) {
+  $volumes = $service->volumes;
+  $optParams = array();
 
+  /* display a list of volumes */
+  if (isset($_GET['searchTerm'])) {
+    $searchTerm = $_GET['searchTerm'];
+  }
+  if (isset($_GET['startIndex'])) {
+    $optParams['startIndex'] = $_GET['startIndex'];
+  }
+  if (isset($_GET['maxResults'])) {
+    $optParams['maxResults'] = $_GET['maxResults'];
+  }
+
+  /* check for one of the restricted feeds, or list from 'all' videos */
+  if ($queryType == 'full_view') {
+    $optParams['filter'] = 'full';
+  }
+  else if ($queryType == 'partial_view') {
+    $optParams['filter'] = 'partial';
+  }
+
+  $results = $volumes->listVolumes($searchTerm, $optParams);
+  echoBookList($results);
+}
 ?>
-<!doctype html>
-<html>
-<head>
-  <title>Tasks API Sample</title>
-  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Droid+Serif|Droid+Sans:regular,bold' />
-  <link rel='stylesheet' href='css/style.css' />
-</head>
-<body>
-<div id='container'>
-  <div id='top'><h1>Books API Sample</h1></div>
-  <div id='main'></div>
-</div>
-</body>
-</html>
-<?php $_SESSION['access_token'] = $client->getAccessToken(); ?>
