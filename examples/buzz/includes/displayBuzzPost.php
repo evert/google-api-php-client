@@ -52,9 +52,9 @@ function displayBuzzPost($post) {
           $flashUrl = isset($attachment['links']['alternate'][0]['href']) ? str_replace('&autoplay=1', '', $attachment['links']['alternate'][0]['href']) : null;
           $videoContent .= "
   			<object width=\"425\" height=\"344\">
-    				<param name=\"movie\" value=\"$flashUrl\"></param>
-    				<param name=\"allowFullScreen\" value=\"true\"></param>
-    				<param name=\"allowscriptaccess\" value=\"always\"></param>
+    				<param name=\"movie\" value=\"$flashUrl\">
+    				<param name=\"allowFullScreen\" value=\"true\">
+    				<param name=\"allowscriptaccess\" value=\"always\">
     				<embed src=\"$flashUrl\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" allowfullscreen=\"true\" width=\"425\" height=\"344\"></embed>
   			</object>\n";
           break;
