@@ -33,7 +33,7 @@ class apiMemcacheCache extends apiCache {
     }
     $this->host = $apiConfig['ioMemCacheCache_host'];
     $this->port = $apiConfig['ioMemCacheCache_port'];
-    if (is_empty($this->host) || is_empty($this->port)) {
+    if (empty($this->host) || empty($this->port)) {
       throw new apiCacheException("You need to supply a valid memcache host and port");
     }
   }
