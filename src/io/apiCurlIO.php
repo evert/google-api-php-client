@@ -124,14 +124,14 @@ class apiCurlIO implements apiIO {
       throw new apiIOException('HTTP Error: (' . $errno . ') ' . $error);
     }
     if ((int)$httpCode == 304 && $cachedRequest) {
-      // If the server responsed NOT_MODIFIED, return the cached request
+      // If the server responded NOT_MODIFIED, return the cached request
       return $cachedRequest;
     }
     // Parse out the raw response into usable bits
     list($rawResponseHeaders, $responseBody) = explode("\r\n\r\n", $data, 2);
     $responseHeaderLines = explode("\r\n", $rawResponseHeaders);
     array_shift($responseHeaderLines);
-    $response_headers = array();
+    $responseHeaders = array();
     foreach ($responseHeaderLines as $headerLine) {
       list($header, $value) = explode(': ', $headerLine, 2);
       if (isset($responseHeaders[$header])) {
@@ -186,7 +186,6 @@ class apiCurlIO implements apiIO {
   }
 
   private function getCachedRequest(apiHttpRequest $request) {
-    $url = $request->getUrl();
     if (($cachedRequest = $this->cache->get($this->getRequestKey($request))) !== false) {
       // There is a cached version of this request, validate if it can actually be used
       $headers = $this->getNormalizedHeaders($request);
