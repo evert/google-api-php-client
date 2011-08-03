@@ -33,7 +33,7 @@ class apiOAuth2 extends apiAuth {
    * Instantiates the class, but does not initiate the login flow, leaving it
    * to the discretion of the caller (which is done by calling authenticate()).
    *
-   * @param apiCache $cache cache class to use (file,apc,memcache,mysql)
+   * @param apiCache $cache cache class to use (file, apc, memcache, mysql)
    */
   public function __construct() {
     global $apiConfig;
@@ -48,7 +48,7 @@ class apiOAuth2 extends apiAuth {
   public function authenticate(apiCache $cache, apiIO $io, $service) {
     $this->io = $io;
     if (isset($_GET['code'])) {
-      // We got here from the redirect from a successfull authorization grant, fetch the access token
+      // We got here from the redirect from a successful authorization grant, fetch the access token
       $request = $this->io->makeRequest(new apiHttpRequest('https://www.google.com/accounts/o8/oauth2/token', 'POST', array(), array(
           'code' => $_GET['code'],
           'grant_type' => 'authorization_code',

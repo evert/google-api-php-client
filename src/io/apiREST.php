@@ -30,7 +30,7 @@ class apiREST {
    *
    * @param apiServiceRequest $request
    * @return array decoded result
-   * @throws apiServiceException on server side error (ie: not authenticated, invalid or mallformed post body, invalid url, etc)
+   * @throws apiServiceException on server side error (ie: not authenticated, invalid or malformed post body, invalid url, etc)
    */
   static public function execute(apiServiceRequest $request) {
     global $apiTypeHandlers;
@@ -47,6 +47,9 @@ class apiREST {
       if ($paramSpec['location'] == 'path') {
         $uriTemplateVars[$paramName] = $paramSpec['value'];
       } else {
+        if ($paramSpec['type'] == 'boolean') {
+          $paramSpec['value'] = ($paramSpec['value']) ? 'true' : 'false';
+        }
         $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
       }
     }
@@ -121,7 +124,7 @@ class apiREST {
 
   /**
    * Misc function used to count the number of bytes in a post body, in the world of multi-byte chars
-   * and the unpredictability of strlen/mb_strlen/sizeof, this is the only way to do that in a sane maner
+   * and the unpredictability of strlen/mb_strlen/sizeof, this is the only way to do that in a sane manner
    * at the moment
    * @param string $str
    */

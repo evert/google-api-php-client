@@ -63,7 +63,7 @@ class apiCurlIO implements apiIO {
   public function makeRequest(apiHttpRequest $request) {
     // If it's a GET request, check to see if we have a valid cached version
     if ($request->getMethod() == 'GET') {
-      // check to see if this is signed, and if so use the orignal url + oauth access token to get a (per user context(!)) unique key to match against
+      // check to see if this is signed, and if so use the original url + oauth access token to get a (per user context(!)) unique key to match against
       if (($cachedRequest = $this->getCachedRequest($request)) !== false) {
         if ($this->mustRevalidate($cachedRequest)) {
           $addHeaders = array();
