@@ -125,8 +125,16 @@ class apiREST {
   /**
    * Misc function used to count the number of bytes in a post body, in the world of multi-byte chars
    * and the unpredictability of strlen/mb_strlen/sizeof, this is the only way to do that in a sane manner
-   * at the moment
-   * @param string $str
+   * at the moment.
+   *
+   * This algorithm was originally developed for the
+   * Solar Framework by Paul M. Jones
+   *
+   * @link   http://solarphp.com/
+   * @link   http://svn.solarphp.com/core/trunk/Solar/Json.php
+   * @link   http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Json/Decoder.php
+   * @param  string $str
+   * @return int The number of bytes in a string.
    */
   static private function getStrLen($str) {
     $strlenVar = strlen($str);
