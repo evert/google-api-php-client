@@ -32,6 +32,8 @@ class apiHttpRequest {
   protected $responseHttpCode;
   protected $responseHeaders;
   protected $responseBody;
+  
+  public $accessKey;
 
   public function __construct($url, $method = 'GET', $headers = array(), $postBody = null) {
     $this->url = $url;
@@ -44,6 +46,8 @@ class apiHttpRequest {
   /**
    * Misc function that returns the base url component of the $url
    * used by the OAuth signing class to calculate the base string
+   * @return string The base url component of the $url.
+   * @see http://oauth.net/core/1.0a/#anchor13
    */
   public function getBaseUrl() {
     if ($pos = strpos($this->url, '?')) {
@@ -53,8 +57,9 @@ class apiHttpRequest {
   }
 
   /**
-   * Misc function that returns a hash array of the query parameters of the current url
+   * Misc function that returns an array of the query parameters of the current url
    * used by the OAuth signing class to calculate the signature
+   * @return array Query parameters in the query string.
    */
   public function getQueryParams() {
     if ($pos = strpos($this->url, '?')) {
@@ -67,42 +72,42 @@ class apiHttpRequest {
   }
 
   /**
-   * @return the $responseHttpCode
+   * @return string the HTTP Response Code.
    */
   public function getResponseHttpCode() {
     return $this->responseHttpCode;
   }
 
   /**
-   * @param $responseHttpCode the $responseHttpCode to set
+   * @param $responseHttpCode the $responseHttpCode to set.
    */
   public function setResponseHttpCode($responseHttpCode) {
     $this->responseHttpCode = $responseHttpCode;
   }
 
   /**
-   * @return the $responseHeaders
+   * @return array the $responseHeaders
    */
   public function getResponseHeaders() {
     return $this->responseHeaders;
   }
 
   /**
-   * @return the $responseBody
+   * @return string the $responseBody
    */
   public function getResponseBody() {
     return $this->responseBody;
   }
 
   /**
-   * @param $responseHeaders the $responseHeaders to set
+   * @param array $responseHeaders the $responseHeaders to set.
    */
   public function setResponseHeaders($responseHeaders) {
     $this->responseHeaders = $responseHeaders;
   }
 
   /**
-   * @param $responseBody the $responseBody to set
+   * @param string $responseBody the $responseBody to set.
    */
   public function setResponseBody($responseBody) {
     $this->responseBody = $responseBody;
@@ -117,21 +122,21 @@ class apiHttpRequest {
   }
 
   /**
-   * @return the $method
+   * @return string the $method
    */
   public function getMethod() {
     return $this->method;
   }
 
   /**
-   * @return the $headers
+   * @return array the $headers
    */
   public function getHeaders() {
     return $this->headers;
   }
 
   /**
-   * @return the $postBody
+   * @return string the $postBody
    */
   public function getPostBody() {
     return $this->postBody;
@@ -164,5 +169,4 @@ class apiHttpRequest {
   public function setPostBody($postBody) {
     $this->postBody = $postBody;
   }
-
 }
