@@ -69,7 +69,7 @@ class ActivitiesTest extends apiBuzzTest {
 
     // see if the post shows up in the @me/@self activities
     $foundActivity = false;
-    $activities = $this->buzz->activities->listActivities('@self', '@me');
+    $activities = $this->buzz->activities->listActivities('@me', '@self');
     foreach ($activities['items'] as $item) {
       if (isset($item['object']['content']) && $item['object']['content'] == 'Running Google API PHP Client unit-tests') {
         $foundActivity = true;
@@ -106,26 +106,7 @@ class ActivitiesTest extends apiBuzzTest {
     $this->assertNotEquals($newActivity['updated'], $activity['updated']);
 
     // test deleteActivities
-    $this->buzz->activities->delete($activity['id'], '@self', $apiConfig['oauth_test_user']);
-  }
-
-  /**
-   * @depends testGetPublicStream
-   */
-  public function testUnauthenticatedStream() {
-    global $apiConfig;
-    // test unauthenticated public stream fetching
-    $apiConfig['authClass'] ='apiAuthNone';
-    $apiClient = new apiClient();
-    $buzz = new apiBuzzService($apiClient);
-    $apiClient->setAccessToken($apiConfig['oauth_test_token']);
-    // fetch the unauthenticated, public activity streamn
-    $activities = $buzz->activities->listActivities('@public', $apiConfig['oauth_test_user']);
-    // and evaluate it
-    $this->evaluateActivitiesStream($activities);
-    // restore the default Auth class & clean up
-    $apiConfig['authClass'] ='apiOAuth';
-    unset($buzz); unset($apiClient); unset($activities);
+    $this->buzz->activities->delete('@me', '@self', $activity['id']);
   }
 
   public function testKeywordSearch() {

@@ -35,7 +35,7 @@ class GroupsTest extends apiBuzzTest {
               || $group['title'] == 'Google API Client Updated Group'
               || $group['title'] == 'Google API Client Duplicate Group') {
             try {
-              $this->buzz->groups->delete($group['id'], '@me');
+              $this->buzz->groups->delete('@me', $group['id']);
             } catch (apiServiceException $e) {
               // ignore, group didn't exist
             }
@@ -65,16 +65,16 @@ class GroupsTest extends apiBuzzTest {
    */
   public function testDuplicateGroup() {
     $group = new Group();
-    $group->setTitle('Google API Client Duplicate Group');
+    $group->setTitle('Google API Client Duplicate Group' . time());
 
-    $newGroup = $this->buzz->groups->insert('@me', $group);
     try {
-      $this->buzz->groups->insert('@me', $group);
+      $group = $this->buzz->groups->insert('@me', $group);
+      $this->buzz->groups->insert('@me', new Group($group));
     } catch (apiServiceException $e) {
-      $this->buzz->groups->delete($newGroup['id'], '@me');
+      $this->buzz->groups->delete('@me', $group['id']);
       return;
     }
-    $this->buzz->groups->delete($newGroup['id'], '@me');
+    $this->buzz->groups->delete('@me', $group['id']);
     $this->fail('Missing apiServiceException on creating a duplicate group');
   }
 
@@ -83,21 +83,20 @@ class GroupsTest extends apiBuzzTest {
    */
   public function testInsertUpdateAndDeleteGroups() {
     $group = new Group();
-    $group->setTitle('Google API Client Duplicate Group');
+    $group->setTitle('Google API Client Duplicate Group' . time());
     $group = $this->buzz->groups->insert('@me', $group);
       
     $this->evaluateGroup($group);
 
-    $group = $this->buzz->groups->get($group['id'], '@me', array(
-        'data' => array('title' => 'Google API Client Updated Group')));
+    $group = $this->buzz->groups->get('@me', $group['id']);
     $this->evaluateGroup($group);
 
-    $validateGroup = $this->buzz->groups->get($group['id'], '@me');
+    $validateGroup = $this->buzz->groups->get('@me', $group['id']);
     $this->evaluateGroup($validateGroup);
     $this->assertEquals($validateGroup['title'], $group['title']);
     $this->assertEquals($validateGroup['id'], $group['id']);
 
-    $this->buzz->groups->delete($group['id'], '@me');
+    $this->buzz->groups->delete('@me', $group['id']);
   }
 
   private function evaluateGroup($group) {
@@ -111,5 +110,4 @@ class GroupsTest extends apiBuzzTest {
       $this->assertTrue(is_numeric($group['memberCount']));
     }
   }
-
 }

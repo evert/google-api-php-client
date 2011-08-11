@@ -74,13 +74,13 @@ class CommentsTest extends apiBuzzTest {
     $this->assertEquals('Testing insertComment()', $comment['originalContent']);
 
     // test update
-    $comment = $this->buzz->comments->update($comment['id'], $this->activityId, '@self', '@me', array('data' => array('content' => 'Testing updateComment()')));
+    $comment = $this->buzz->comments->update('@me', $this->activityId, $comment['id'], '@self', new Comment(array('content' => 'Testing updateComment()')));
     $this->evaluateComment($comment);
     $this->assertEquals('Testing updateComment()', $comment['content']);
     $this->assertEquals('Testing updateComment()', $comment['originalContent']);
 
     // test delete
-    $this->buzz->comments->delete($comment['id'], $this->activityId, '@me');
+    $this->buzz->comments->delete('@me', $this->activityId, $comment['id']);
   }
 
   private function evaluateComment($comment) {

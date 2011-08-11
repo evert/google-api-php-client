@@ -104,25 +104,6 @@ class PeopleTest extends apiBuzzTest {
   }
 
   /**
-   * @depends testFollowing
-   */
-  public function testDeletePeople() {
-    global $apiConfig;
-    // stop following the test user
-    $this->buzz->people->delete($apiConfig['oauth_test_user'], '@following', $this->personId);
-    // check to see if we're not following the user anymore
-    $people = $this->buzz->people->listPeople($apiConfig['oauth_test_user'], '@following');
-    $found = false;
-    foreach ($people['entry'] as $person) {
-      if ($person['id'] == $this->personId) {
-        $found = true;
-        break;
-      }
-    }
-    $this->assertFalse($found);
-  }
-
-  /**
    * @depends testDeletePeople
    */
   public function testUpdatePeople() {
