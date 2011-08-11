@@ -156,6 +156,9 @@ class apiClient {
    * @param (serialized) string $accessToken
    */
   public function setAccessToken($accessToken) {
+    if ($accessToken == null || 'null' == $accessToken) {
+      $accessToken = null;
+    }
     $this->auth->setAccessToken($accessToken);
   }
 
