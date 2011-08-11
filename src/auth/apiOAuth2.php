@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-require_once "external/OAuth.php";
-
 /**
  * Authentication class that deals with the OAuth 2 web-server authentication flow
  *
@@ -24,19 +22,19 @@ require_once "external/OAuth.php";
  *
  */
 class apiOAuth2 extends apiAuth {
+  public $developerKey;
+  public $accessToken;
 
-  public $cacheKey;
-  protected $developerKey;
-  public $io;
+  const OAUTH2_TOKEN_URI = "https://accounts.google.com/o/oauth2/token";
+  const OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
 
   /**
    * Instantiates the class, but does not initiate the login flow, leaving it
    * to the discretion of the caller (which is done by calling authenticate()).
-   *
-   * @param apiCache $cache cache class to use (file, apc, memcache, mysql)
    */
   public function __construct() {
     global $apiConfig;
+    
     if (! empty($apiConfig['developer_key'])) {
       $this->setDeveloperKey($apiConfig['developer_key']);
     }
@@ -45,11 +43,15 @@ class apiOAuth2 extends apiAuth {
     $this->RedirectUri = $apiConfig['oauth2_redirect_uri'];
   }
 
-  public function authenticate(apiCache $cache, apiIO $io, $service) {
-    $this->io = $io;
+  public function authenticate($service) {
+    if ($this->io == null) {
+      global $apiClient;
+      $this->io = $apiClient->getIo();
+    }
+
     if (isset($_GET['code'])) {
       // We got here from the redirect from a successful authorization grant, fetch the access token
-      $request = $this->io->makeRequest(new apiHttpRequest('https://www.google.com/accounts/o8/oauth2/token', 'POST', array(), array(
+      $request = $this->io->makeRequest(new apiHttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), array(
           'code' => $_GET['code'],
           'grant_type' => 'authorization_code',
           'redirect_uri' => $this->RedirectUri,
@@ -66,7 +68,7 @@ class apiOAuth2 extends apiAuth {
         if ($decodedResponse != $response && $decodedResponse != null && $decodedResponse['error']) {
           $response = $decodedResponse['error'];
         }
-        throw new apiAuthException("Error fetching OAuth2 access token, message: '" . $response . "'", $request->getResponseHttpCode());
+        throw new apiAuthException("Error fetching OAuth2 access token, message: '$response'", $request->getResponseHttpCode());
       }
     }
 
@@ -82,7 +84,7 @@ class apiOAuth2 extends apiAuth {
         'scope=' . urlencode($service['scope'])
     );
     $params = implode('&', $params);
-    return "https://www.google.com/accounts/o8/oauth2/authorization?$params";
+    return self::OAUTH2_AUTH_URL . "?$params";
   }
 
   public function setAccessToken($accessToken) {
@@ -113,7 +115,7 @@ class apiOAuth2 extends apiAuth {
     if (($this->accessToken['created'] + ($this->accessToken['expires_in'] - 30)) < time()) {
       // if the token is set to expire in the next 30 seconds (or has already expired), refresh it and set the new token
       //FIXME this is mostly a copy and paste mashup from the authenticate and setAccessToken functions, should generalize them into a function instead of this mess
-      $refreshRequest = $this->io->makeRequest(new apiHttpRequest('https://www.google.com/accounts/o8/oauth2/token', 'POST', array(), array(
+      $refreshRequest = $this->io->makeRequest(new apiHttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), array(
           'client_id' => $this->ClientId,
           'client_secret' => $this->ClientSecret,
           'refresh_token' => $this->accessToken['refresh_token'],
@@ -137,7 +139,7 @@ class apiOAuth2 extends apiAuth {
         if ($decodedResponse != $response && $decodedResponse != null && $decodedResponse['error']) {
           $response = $decodedResponse['error'];
         }
-        throw new apiAuthException("Error refreshing the OAuth2 token, message: '" . $response . "'", $refreshRequest->getResponseHttpCode());
+        throw new apiAuthException("Error refreshing the OAuth2 token, message: '$response'", $refreshRequest->getResponseHttpCode());
       }
     }
 

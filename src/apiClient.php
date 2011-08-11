@@ -117,7 +117,7 @@ class apiClient {
   public function authenticate() {
     $service = $this->prepareService();
     $this->authenticated = true;
-    return $this->auth->authenticate($this->cache, $this->io, $service);
+    return $this->auth->authenticate($service);
   }
 
   
@@ -197,8 +197,18 @@ class apiClient {
     $apiTypeHandlers[$type] = $handlerClass;
   }
 
+  /*
+   * @return apiIo the implementation of apiIo.
+   */
   public function getIo() {
     return $this->io;
+  }
+
+  /*
+   * @return apiCache the implementation of apiCache.
+   */
+  public function getCache() {
+    return $this->cache;
   }
 
 }

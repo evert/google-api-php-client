@@ -41,12 +41,12 @@ class apiOAuth extends apiAuth {
   /**
    * Instantiates the class, but does not initiate the login flow, leaving it
    * to the discretion of the caller.
-   *
-   * @param string $consumerKey
-   * @param string $consumerSecret
-   * @param apiCache $cache cache class to use (file,apc,memcache,mysql)
    */
   public function __construct() {
+    global $apiClient;
+    $this->io = $apiClient->getIo();
+    $this->cache = $apiClient->getCache();
+    
     global $apiConfig;
     if (!empty($apiConfig['developer_key'])) {
       $this->setDeveloperKey($apiConfig['developer_key']);
@@ -65,14 +65,11 @@ class apiOAuth extends apiAuth {
    *
    * @param string $consumerKey
    * @param string $consumerSecret
-   * @param apiCache $cache cache class to use (file,apc,memcache)
    * @return apiOAuth3Legged the logged-in provider instance
    */
-  public function authenticate(apiCache $cache, apiIO $io, $service) {
+  public function authenticate($service) {
     global $apiConfig;
     $this->service = $service;
-    $this->io = $io;
-    $this->cache = $cache;
     $this->service['authorization_token_url'] .= '?scope=' . apiClientOAuthUtil::urlencodeRFC3986($service['scope']) . '&domain=' . apiClientOAuthUtil::urlencodeRFC3986($apiConfig['site_name']) . '&oauth_token=';
     if (isset($_GET['oauth_verifier']) && isset($_GET['oauth_token'])  && isset($_GET['uid'])) {
       $uid = $_GET['uid'];
@@ -162,8 +159,6 @@ class apiOAuth extends apiAuth {
 
   /**
    * Obtains a request token from the specified provider.
-   *
-   * @param apiCache $cache cache class to use (file,apc,memcache,mysql)
    */
   public function obtainRequestToken($callbackUrl, $uid) {
     $callbackParams = (strpos($_SERVER['REQUEST_URI'], '?') !== false ? '&' : '?') . 'uid=' . urlencode($uid);

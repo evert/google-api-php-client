@@ -27,12 +27,12 @@ require_once "apiOAuth2.php";
 abstract class apiAuth {
   public $io;
 
-  abstract public function authenticate(apiCache $cache, apiIO $io, $service);
+  abstract public function authenticate($service);
   abstract public function setAccessToken($accessToken);
   abstract public function setDeveloperKey($developerKey);
   abstract public function sign(apiHttpRequest $request);
 
-  public function setIo(apiIO $io) {
+  public function setIo (apiIo $io) {
     $this->io = $io;
   }
 }

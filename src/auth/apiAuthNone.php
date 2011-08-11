@@ -31,7 +31,7 @@ class apiAuthNone extends apiAuth {
     }
   }
 
-  public function authenticate(apiCache $cache, apiIO $io, $service) {
+  public function authenticate($service) {
     // noop
   }
 
