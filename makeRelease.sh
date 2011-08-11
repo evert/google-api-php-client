@@ -10,6 +10,7 @@ mkdir $TMPDIR
 cp -r * $TMPDIR
 cd $TMPDIR
 find . -name ".*" -exec rm -rf {} \; &>/dev/null
+find . -name "makeRelease.sh" -exec rm -rf {} \; &>/dev/null
 cd ..
 tar c google-api-php-client | gzip > $RELFILE
 rm -rf $TMPDIR
