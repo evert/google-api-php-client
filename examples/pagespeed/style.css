@@ -23,7 +23,6 @@ body {
   border: .5em solid #E3E9FF;
   -webkit-box-orient: vertical;
   -webkit-box-align: center;
-
   -moz-box-orient: vertical;
   -moz-box-align: center;
 
@@ -31,25 +30,38 @@ body {
   box-orient: vertical;
   box-align: center;
 
-  width: 350px;
+  width: 500px;
   height: auto;
 
   margin: auto;
   padding: 10px;
 }
 
-.currentLocation {
+.search {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
   width: 100px;
 }
 
-.location {
+.result {
   -webkit-box-flex: 2;
   -moz-box-flex: 2;
   box-flex: 2;
   width:100%;
+}
+.url {
+  color: #019;
+  width: 22em;
+  font-size: 100%;
+  vertical-align: middle;
+  padding: 1px;
+  background-color: white;
+  border: 1px inset;
+  cursor: auto;
+  margin: 0em;
+  text-indent: 0px;
+  display: inline-block;
 }
 
 header {
@@ -59,29 +71,4 @@ header {
   width: 400px;
   margin: auto;
   text-align: center
-}
-
-header h1.logo {
-  margin:6px 0;
-  padding:0;
-  cursor:pointer;
-  font-size:24px;
-  line-height:20px;
-}
-
-.login {
-  font-size: 200%;
-  display: block;
-  margin: auto;
-  cursor: pointer;
-  text-align: center;
-  font-weight: bold;
-  color: #2779AA;
-  line-height: normal;
-}
-
-.logout {
-  font-weight: normal;
-  padding-top: -5px;
-  margin-top: 0px;
 }

@@ -40,13 +40,14 @@ if (isset($_GET['code'])) {
   header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
 }
 
-if (isset($_SESSION['access_token']) && $_SESSION['access_token'] && 'null' != $_SESSION['access_token']) {
+if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   $client->setAccessToken($_SESSION['access_token']);
 } else {
   $authUrl = $client->createAuthUrl();
 }
 
 if ($client->getAccessToken()) {
+  // Start to make API requests.
   //$location = $service->location->listLocation();
   $currentLocation = $service->currentLocation->get();
   $_SESSION['access_token'] = $client->getAccessToken();
