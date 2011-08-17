@@ -48,7 +48,6 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 
 if ($client->getAccessToken() && isset($_POST['url'])) {
   // Start to make API requests.
-  //$location = $service->location->listLocation();
   $url = new Url();
   $url->longUrl = $_POST['url'];
   $short = $service->url->insert($url);
