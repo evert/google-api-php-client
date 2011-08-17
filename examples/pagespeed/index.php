@@ -35,7 +35,7 @@ if (isset($_GET['url'])) {
 <header><h1>Google Page Speed Sample App</h1></header>
 <div class="box">
   <div id="search">
-    <form id="url" method="GET" action="index.php">
+    <form id="url" method="POST" action="index.php">
       <input name="url" class="url" type="text">
       <input type="submit" value="Analyze Performance">
     </form>
