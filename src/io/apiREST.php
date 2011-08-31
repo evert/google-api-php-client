@@ -50,7 +50,13 @@ class apiREST {
         if ($paramSpec['type'] == 'boolean') {
           $paramSpec['value'] = ($paramSpec['value']) ? 'true' : 'false';
         }
-        $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
+        if (isset($paramSpec['repeated']) && is_array($paramSpec['value'])) {
+          foreach ($paramSpec['value'] as $value) {
+            $queryVars[] = $paramName . '=' . rawurlencode($value);
+          }
+        } else {
+          $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
+        }
       }
     }
     $queryVars[] = 'alt=json';
