@@ -26,12 +26,18 @@ class ActivitiesTest extends apiBuzzTest {
     $this->evaluateActivitiesStream($activities);
   }
 
+  public function testCountActivities() {
+    $optParams = array('url' => array("http://google.com", "http://code.google.com"));
+    $count = $this->buzz->activities->count($optParams);
+    $this->assertTrue(count($count['counts']) == 2);
+  }
+
   /**
    * @depends testGetPublicStream
    */
   public function testInsertUpdateAndDeleteActivity() {
     global $apiConfig;
-
+    
     $object = new ActivityObject();
     $object->type = 'note';
     $object->content = 'Running Google API PHP Client unit-tests';
