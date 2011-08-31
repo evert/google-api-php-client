@@ -59,7 +59,6 @@ $apiConfig = array(
       'buzz' => array('scope' => 'https://www.googleapis.com/auth/buzz', 'authorization_token_url' => 'https://www.google.com/buzz/api/auth/OAuthAuthorizeToken'),
       'latitude' => array(
           'scope' => array(
-              'https://www.googleapis.com/auth/latitude',
               'https://www.googleapis.com/auth/latitude.all.best',
               'https://www.googleapis.com/auth/latitude.all.city',
           )
