@@ -163,7 +163,8 @@ class apiClient {
   }
 
   public function getAccessToken() {
-    return $this->auth->getAccessToken();
+    $token = $this->auth->getAccessToken();
+    return (null == $token || 'null' == $token) ? null : $token;
   }
 
   /**
@@ -213,5 +214,4 @@ class apiClient {
   public function getCache() {
     return $this->cache;
   }
-
 }
