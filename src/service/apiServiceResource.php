@@ -24,7 +24,12 @@
  *
  */
 class apiServiceResource {
-
+  // Valid query parameters that work, but don't appear in discovery.
+  private $stackParameters = array(
+      'trace' => array('type' => 'string', 'location' => 'query'),
+      'userIp' => array('type' => 'string', 'location' => 'query'),
+      'userip' => array('type' => 'string', 'location' => 'query')
+  );
   private $service;
   private $serviceName;
   private $resourceName;
@@ -83,6 +88,8 @@ class apiServiceResource {
         $parameters = array_merge($parameters, $optParams);
       }
     }
+
+    $method['parameters'] = array_merge($method['parameters'], $this->stackParameters);
     foreach ($parameters as $key => $val) {
       if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
         throw new apiException("($name) unknown parameter: '$key'");
