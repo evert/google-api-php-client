@@ -27,9 +27,11 @@ global $apiConfig;
 //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
 //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
 //$apiConfig['oauth2_redirect_uri'] = 'http://YOUR_REDIRECT_URI';
-$apiconfig['authClass'] = 'apiOAuth2';
+$apiConfig['authClass'] = 'apiOAuth2';
 
 $client = new apiClient();
+$client->setApplicationName("OAuth2_Example_App");
+
 $buzz = new apiBuzzService($client);
 
 if (isset($_SESSION['access_token'])) {

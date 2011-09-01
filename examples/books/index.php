@@ -29,6 +29,7 @@ global $apiConfig;
 // $apiConfig['developer_key'] = 'YOUR_DEVELOPER_KEY';
 $apiConfig['authClass'] = 'apiAuthNone';
 $client = new apiClient();
+$client->setApplicationName("Books_Example_App");
 $service = new apiBooksService($client);
 
 /**
@@ -51,9 +52,11 @@ HTML;
     } else {
       $thumbnail = null;
     }
-    
-    $creators = implode(", ", $volumeInfo['authors']);
-    if ($creators) $creators = "by " . $creators;
+
+    if (isset($volumeInfo['authors'])) {
+      $creators = implode(", ", $volumeInfo['authors']);
+      if ($creators) $creators = "by " . $creators;
+    }
 
     $preview = $volumeInfo['previewLink'];
     $previewLink = '';
@@ -114,4 +117,3 @@ if ($queryType != null) {
   $results = $volumes->listVolumes($searchTerm, $optParams);
   echoBookList($results);
 }
-?>

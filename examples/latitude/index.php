@@ -27,6 +27,7 @@ global $apiConfig;
 // $apiConfig['oauth2_client_secret'] ='insert_your_oauth2_client_secret';
 // $apiConfig['oauth2_redirect_uri'] = 'insert_your_oauth2_redirect_uri';
 $client = new apiClient();
+$client->setApplicationName("Latitude_Example_App");
 $service = new apiLatitudeService($client);
 
 if (isset($_REQUEST['logout'])) {

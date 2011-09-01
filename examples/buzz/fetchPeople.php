@@ -5,6 +5,7 @@ require_once "../../src/apiClient.php";
 require_once "../../src/contrib/apiBuzzService.php";
 
 $apiClient = new apiClient();
+$client->setApplicationName("BuzzFetchPeople_Example_App");
 $buzz = new apiBuzzService($apiClient);
 $apiClient->discover('buzz');
 

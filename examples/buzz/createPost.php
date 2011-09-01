@@ -4,6 +4,7 @@ session_start();
 require_once "../src/apiClient.php";
 
 $apiClient = new apiClient();
+$client->setApplicationName("BuzzDiscoveryCreatePost_Example_App");
 $apiClient->discover('buzz');
 $apiClient->authenticate();
 

@@ -27,6 +27,7 @@ require_once '../../src/contrib/apiTasksService.php';
 global $apiConfig;
 $apiConfig['authClass'] = 'apiOAuth2';
 $client = new apiClient();
+$client->setApplicationName("Tasks_Example_App");
 $tasksService = new apiTasksService($client);
 
 if (isset($_SESSION['access_token'])) {
