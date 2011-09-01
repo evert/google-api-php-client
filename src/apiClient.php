@@ -169,9 +169,19 @@ class apiClient {
 
   /**
    * Set the developer key to use, these are obtained through the API Console
+   * @param string $developerKey
    */
   public function setDeveloperKey($developerKey) {
     $this->auth->setDeveloperKey($developerKey);
+  }
+
+  /**
+   * Set the application name, this is included in the User-Agent HTTP header.
+   * @param string $applicationName
+   */
+  public function setApplicationName($applicationName) {
+    global $apiConfig;
+    $apiConfig['application_name'] = $applicationName;
   }
 
   /**

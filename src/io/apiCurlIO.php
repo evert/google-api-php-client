@@ -22,10 +22,6 @@
  * @author Chris Chabot <chabotc@google.com>
  */
 class apiCurlIO implements apiIO {
-
-  // User agent that's used to identify this library
-  const userAgent = 'google-api-php-client/1.0';
-
   // Set by the top level apiClient class, stored here locally to deal with auth signing and caching
   private $cache;
   private $auth;
@@ -46,7 +42,7 @@ class apiCurlIO implements apiIO {
    * and then calls apiCurlIO::makeRequest on the signed request
    *
    * @param apiHttpRequest $request
-   * @returns apiHttpRequest the resulting request with the responseHttpCode, responseHeaders and responseBody filled in
+   * @return apiHttpRequest the resulting request with the responseHttpCode, responseHeaders and responseBody filled in
    */
   public function authenticatedRequest(apiHttpRequest $request) {
     $request = $this->auth->sign($request);
@@ -110,7 +106,7 @@ class apiCurlIO implements apiIO {
     }
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, self::userAgent);
+    curl_setopt($ch, CURLOPT_USERAGENT, $request->getUserAgent());
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
     curl_setopt($ch, CURLOPT_FAILONERROR, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);

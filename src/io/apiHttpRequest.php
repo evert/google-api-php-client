@@ -23,11 +23,13 @@
  *
  */
 class apiHttpRequest {
+  const USER_AGENT_SUFFIX = "google-api-php-client/0.4-dev";
 
   protected $url;
   protected $method;
   protected $headers;
   protected $postBody;
+  protected $userAgent;
 
   protected $responseHttpCode;
   protected $responseHeaders;
@@ -41,6 +43,13 @@ class apiHttpRequest {
     $this->method = strtoupper($method);
     $this->headers = $headers;
     $this->postBody = $postBody;
+
+    global $apiConfig;
+    if (empty($apiConfig['application_name'])) {
+      $this->userAgent = apiHttpRequest::USER_AGENT_SUFFIX;
+    } else {
+      $this->userAgent = $apiConfig['application_name'] . " " . apiHttpRequest::USER_AGENT_SUFFIX;
+    }
   }
 
   /**
@@ -114,7 +123,7 @@ class apiHttpRequest {
   }
 
   /**
-   * @return the $url
+   * @return string $url The request URL.
    */
 
   public function getUrl() {
@@ -164,9 +173,35 @@ class apiHttpRequest {
   }
 
   /**
+   * @param string $header the header to add.
+   */
+  public function addHeader($header) {
+    if (null == $this->headers) {
+      $this->headers = array();
+    }
+
+    $this->headers[] = $header;
+  }
+
+  /**
    * @param string $postBody the postBody to set
    */
   public function setPostBody($postBody) {
     $this->postBody = $postBody;
+  }
+
+  /**
+   * Set the User-Agent Header.
+   * @param string $userAgent The User-Agent.
+   */
+  public function setUserAgent($userAgent) {
+    $this->userAgent = $userAgent;
+  }
+
+  /**
+   * @return string The User-Agent.
+   */
+  public function getUserAgent() {
+    return $this->userAgent;
   }
 }

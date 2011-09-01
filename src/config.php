@@ -17,21 +17,25 @@
 
 global $apiConfig;
 $apiConfig = array(
-    // Site name to show in the Google's OAuth authentication screen
-    'site_name' => 'www.example.org',
+    // The application_name is included in the User-Agent HTTP header.
+    'application_name' => '',
 
-    // OAuth2 Setting, you can get these keys at https://code.google.com/apis/console
+    // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
     'oauth2_client_id' => '',
     'oauth2_client_secret' => '',
     'oauth2_redirect_uri' => '',
 
-    // The developer key, you get this from the developer console at
+    // The developer key, you get this at https://code.google.com/apis/console
     'developer_key' => '',
 
+    // OAuth1 Settings.
     // If you're using the apiOAuth auth class, it will use these values for the oauth consumer key and secret.
     // See http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html for info on how to obtain those
     'oauth_consumer_key'    => 'anonymous',
     'oauth_consumer_secret' => 'anonymous',
+  
+    // Site name to show in the Google's OAuth 1 authentication screen.
+    'site_name' => 'www.example.org',
 
     // Which Authentication, Storage and HTTP IO classes to use.
     'authClass'    => 'apiOAuth2',
@@ -42,7 +46,7 @@ $apiConfig = array(
     'oauth_test_token' => '', // the oauth access token to use (which you can get by runing authenticate() as the test user and copying the token value), ie '{"key":"foo","secret":"bar","callback_url":null}'
     'oauth_test_user' => '', // and the user ID to use, this can either be a vanity name 'testuser' or a numberic ID '123456'
 
-    // Don't change these unless you're working against a special development or testing envirionment
+    // Don't change these unless you're working against a special development or testing environment.
     'basePath' => 'https://www.googleapis.com',
 
     // IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
@@ -53,7 +57,7 @@ $apiConfig = array(
     'ioMemCacheStorage_host' => '127.0.0.1',
     'ioMemcacheStorage_port' => '11211',
 
-    // Definition of service specific values like scopes, oauth token url's, etc
+    // Definition of service specific values like scopes, oauth token URLs, etc
     'services' => array(
       'books' => array('scope' => 'https://www.googleapis.com/auth/books'),
       'buzz' => array('scope' => 'https://www.googleapis.com/auth/buzz', 'authorization_token_url' => 'https://www.google.com/buzz/api/auth/OAuthAuthorizeToken'),
