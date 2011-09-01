@@ -112,6 +112,11 @@ class apiOAuth2 extends apiAuth {
       $request->setUrl($request->getUrl() . ((strpos($request->getUrl(), '?') === false) ? '?' : '&') . 'key=' . urlencode($this->developerKey));
     }
 
+    // Cannot sign the request without an OAuth access token.
+    if (null == $this->accessToken) {
+      return $request;
+    }
+
     if (($this->accessToken['created'] + ($this->accessToken['expires_in'] - 30)) < time()) {
       // if the token is set to expire in the next 30 seconds (or has already expired), refresh it and set the new token
       //FIXME this is mostly a copy and paste mashup from the authenticate and setAccessToken functions, should generalize them into a function instead of this mess
