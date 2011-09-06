@@ -17,6 +17,10 @@
 
 global $apiConfig;
 $apiConfig = array(
+    // True if objects should be returned by the service classes.
+    // False if associative arrays should be returned (default behavior).
+    'use_objects' => false,
+  
     // The application_name is included in the User-Agent HTTP header.
     'application_name' => '',
 
