@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -37,18 +38,28 @@ require_once 'service/apiServiceRequest.php';
      * @param string $q Query
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $sort The sort expression to apply to the results
-     * @opt_param string $cx The custom search engine ID to scope this search query
-     * @opt_param string $safe Search safety level
-     * @opt_param string $start The index of the first result to return
-     * @opt_param string $num Number of search results to return
-     * @opt_param string $lr The language restriction for the search results
-     * @opt_param string $cref The URL of a linked custom search engine
+     * @opt_param string sort The sort expression to apply to the results
+     * @opt_param string num Number of search results to return
+     * @opt_param string googlehost The local Google domain to use to perform the search.
+     * @opt_param string safe Search safety level
+     * @opt_param string filter Controls turning on or off the duplicate content filter.
+     * @opt_param string start The index of the first result to return
+     * @opt_param string cx The custom search engine ID to scope this search query
+     * @opt_param string lr The language restriction for the search results
+     * @opt_param string cr Country restrict(s).
+     * @opt_param string gl Geolocation of end user.
+     * @opt_param string cref The URL of a linked custom search engine
+     * @return Search
      */
     public function listCse($q, $optParams = array()) {
       $params = array('q' => $q);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new Search($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -68,15 +79,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiCustomsearchService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'customsearch';
-  private $version = 'v1';
-  private $restBasePath = '/customsearch/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiCustomsearchService extends apiService {
   public $cse;
   /**
    * Constructs the internal representation of the Customsearch service.
@@ -84,36 +87,14 @@ class apiCustomsearchService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->cse = new CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"parameters": {"sort": {"type": "string", "location": "query"}, "num": {"default": "10", "type": "string", "location": "query"}, "safe": {"default": "off", "enum": ["high", "medium", "off"], "location": "query", "type": "string"}, "q": {"required": true, "type": "string", "location": "query"}, "start": {"type": "string", "location": "query"}, "cx": {"type": "string", "location": "query"}, "lr": {"enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "type": "string", "location": "query"}, "cref": {"type": "string", "location": "query"}}, "id": "search.cse.list", "httpMethod": "GET", "path": "v1", "response": {"$ref": "Search"}}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/customsearch/';
+    $this->version = 'v1';
+    $this->serviceName = 'customsearch';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->cse = new CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"parameters": {"sort": {"type": "string", "location": "query"}, "filter": {"enum": ["0", "1"], "type": "string", "location": "query"}, "cx": {"type": "string", "location": "query"}, "googlehost": {"type": "string", "location": "query"}, "safe": {"default": "off", "enum": ["high", "medium", "off"], "location": "query", "type": "string"}, "q": {"required": true, "type": "string", "location": "query"}, "start": {"type": "string", "location": "query"}, "num": {"default": "10", "type": "string", "location": "query"}, "lr": {"enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "type": "string", "location": "query"}, "cr": {"type": "string", "location": "query"}, "gl": {"type": "string", "location": "query"}, "cref": {"type": "string", "location": "query"}}, "id": "search.cse.list", "httpMethod": "GET", "path": "v1", "response": {"$ref": "Search"}}}}', true));
   }
 }
 
@@ -418,7 +399,7 @@ class ContextFacets extends apiModel {
 
   public $items;
 
-  public function setItems( $items) {
+  public function setItems(/* array() */ $items) {
     $this->items = $items;
   }
 
@@ -433,12 +414,16 @@ class Query extends apiModel {
   public $outputEncoding;
   public $language;
   public $title;
+  public $googleHost;
   public $safe;
   public $searchTerms;
+  public $filter;
   public $startIndex;
   public $cx;
   public $startPage;
   public $inputEncoding;
+  public $cr;
+  public $gl;
   public $totalResults;
   public $cref;
 
@@ -482,6 +467,14 @@ class Query extends apiModel {
     return $this->title;
   }
   
+  public function setGoogleHost($googleHost) {
+    $this->googleHost = $googleHost;
+  }
+
+  public function getGoogleHost() {
+    return $this->googleHost;
+  }
+  
   public function setSafe($safe) {
     $this->safe = $safe;
   }
@@ -496,6 +489,14 @@ class Query extends apiModel {
 
   public function getSearchTerms() {
     return $this->searchTerms;
+  }
+  
+  public function setFilter($filter) {
+    $this->filter = $filter;
+  }
+
+  public function getFilter() {
+    return $this->filter;
   }
   
   public function setStartIndex($startIndex) {
@@ -528,6 +529,22 @@ class Query extends apiModel {
 
   public function getInputEncoding() {
     return $this->inputEncoding;
+  }
+  
+  public function setCr($cr) {
+    $this->cr = $cr;
+  }
+
+  public function getCr() {
+    return $this->cr;
+  }
+  
+  public function setGl($gl) {
+    $this->gl = $gl;
+  }
+
+  public function getGl() {
+    return $this->gl;
   }
   
   public function setTotalResults($totalResults) {

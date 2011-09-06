@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -34,22 +35,34 @@ require_once 'service/apiServiceRequest.php';
      * Updates or creates the user's current location. (currentLocation.insert)
      *
      * @param $postBody the {@link LatitudeCurrentlocationResourceJson}
+     * @return LatitudeCurrentlocationResourceJson
      */
     public function insert(LatitudeCurrentlocationResourceJson $postBody) {
       $params = array('postBody' => $postBody);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new LatitudeCurrentlocationResourceJson($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Returns the authenticated user's current location. (currentLocation.get)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $granularity Granularity of the requested location.
+     * @opt_param string granularity Granularity of the requested location.
+     * @return LatitudeCurrentlocationResourceJson
      */
     public function get($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new LatitudeCurrentlocationResourceJson($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Deletes the authenticated user's current location. (currentLocation.delete)
@@ -57,7 +70,8 @@ require_once 'service/apiServiceRequest.php';
      */
     public function delete() {
       $params = array();
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -76,10 +90,16 @@ require_once 'service/apiServiceRequest.php';
      * Inserts or updates a location in the user's location history. (location.insert)
      *
      * @param $postBody the {@link Location}
+     * @return Location
      */
     public function insert(Location $postBody) {
       $params = array('postBody' => $postBody);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Location($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Reads a location from the user's location history. (location.get)
@@ -87,27 +107,39 @@ require_once 'service/apiServiceRequest.php';
      * @param string $locationId Timestamp of the location to read (ms since epoch).
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $granularity Granularity of the location to return.
+     * @opt_param string granularity Granularity of the location to return.
+     * @return Location
      */
     public function get($locationId, $optParams = array()) {
       $params = array('locationId' => $locationId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Location($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Lists the user's location history. (location.list)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $max-results Maximum number of locations to return.
-     * @opt_param string $max-time Maximum timestamp of locations to return (ms since epoch).
-     * @opt_param string $min-time Minimum timestamp of locations to return (ms since epoch).
-     * @opt_param string $granularity Granularity of the requested locations.
+     * @opt_param string max-results Maximum number of locations to return.
+     * @opt_param string max-time Maximum timestamp of locations to return (ms since epoch).
+     * @opt_param string min-time Minimum timestamp of locations to return (ms since epoch).
+     * @opt_param string granularity Granularity of the requested locations.
+     * @return LocationFeed
      */
     public function listLocation($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new LocationFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Deletes a location from the user's location history. (location.delete)
@@ -116,7 +148,8 @@ require_once 'service/apiServiceRequest.php';
      */
     public function delete($locationId) {
       $params = array('locationId' => $locationId);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -136,15 +169,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiLatitudeService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'latitude';
-  private $version = 'v1';
-  private $restBasePath = '/latitude/v1/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiLatitudeService extends apiService {
   public $currentLocation;
   public $location;
   /**
@@ -153,37 +178,15 @@ class apiLatitudeService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->currentLocation = new CurrentLocationServiceResource($this, $this->serviceName, 'currentLocation', json_decode('{"methods": {"insert": {"request": {"$ref": "LatitudeCurrentlocationResourceJson"}, "id": "latitude.currentLocation.insert", "httpMethod": "POST", "path": "currentLocation", "response": {"$ref": "LatitudeCurrentlocationResourceJson"}}, "delete": {"path": "currentLocation", "httpMethod": "DELETE", "id": "latitude.currentLocation.delete"}, "get": {"parameters": {"granularity": {"type": "string", "location": "query"}}, "id": "latitude.currentLocation.get", "httpMethod": "GET", "path": "currentLocation", "response": {"$ref": "LatitudeCurrentlocationResourceJson"}}}}', true));
-     $this->location = new LocationServiceResource($this, $this->serviceName, 'location', json_decode('{"methods": {"insert": {"request": {"$ref": "Location"}, "id": "latitude.location.insert", "httpMethod": "POST", "path": "location", "response": {"$ref": "Location"}}, "delete": {"parameters": {"locationId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "location/{locationId}", "id": "latitude.location.delete"}, "list": {"parameters": {"max-results": {"type": "string", "location": "query"}, "max-time": {"type": "string", "location": "query"}, "min-time": {"type": "string", "location": "query"}, "granularity": {"type": "string", "location": "query"}}, "id": "latitude.location.list", "httpMethod": "GET", "path": "location", "response": {"$ref": "LocationFeed"}}, "get": {"parameters": {"locationId": {"required": true, "type": "string", "location": "path"}, "granularity": {"type": "string", "location": "query"}}, "id": "latitude.location.get", "httpMethod": "GET", "path": "location/{locationId}", "response": {"$ref": "Location"}}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/latitude/v1/';
+    $this->version = 'v1';
+    $this->serviceName = 'latitude';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->currentLocation = new CurrentLocationServiceResource($this, $this->serviceName, 'currentLocation', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city", "https://www.googleapis.com/auth/latitude.current.best", "https://www.googleapis.com/auth/latitude.current.city"], "request": {"$ref": "LatitudeCurrentlocationResourceJson"}, "response": {"$ref": "LatitudeCurrentlocationResourceJson"}, "httpMethod": "POST", "path": "currentLocation", "id": "latitude.currentLocation.insert"}, "delete": {"id": "latitude.currentLocation.delete", "path": "currentLocation", "httpMethod": "DELETE", "scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city", "https://www.googleapis.com/auth/latitude.current.best", "https://www.googleapis.com/auth/latitude.current.city"]}, "get": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city", "https://www.googleapis.com/auth/latitude.current.best", "https://www.googleapis.com/auth/latitude.current.city"], "parameters": {"granularity": {"type": "string", "location": "query"}}, "response": {"$ref": "LatitudeCurrentlocationResourceJson"}, "httpMethod": "GET", "path": "currentLocation", "id": "latitude.currentLocation.get"}}}', true));
+    $this->location = new LocationServiceResource($this, $this->serviceName, 'location', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city"], "request": {"$ref": "Location"}, "response": {"$ref": "Location"}, "httpMethod": "POST", "path": "location", "id": "latitude.location.insert"}, "delete": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city"], "parameters": {"locationId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "location/{locationId}", "id": "latitude.location.delete"}, "list": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city"], "parameters": {"max-results": {"type": "string", "location": "query"}, "max-time": {"type": "string", "location": "query"}, "min-time": {"type": "string", "location": "query"}, "granularity": {"type": "string", "location": "query"}}, "response": {"$ref": "LocationFeed"}, "httpMethod": "GET", "path": "location", "id": "latitude.location.list"}, "get": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city"], "parameters": {"locationId": {"required": true, "type": "string", "location": "path"}, "granularity": {"type": "string", "location": "query"}}, "id": "latitude.location.get", "httpMethod": "GET", "path": "location/{locationId}", "response": {"$ref": "Location"}}}}', true));
   }
 }
 
@@ -197,7 +200,6 @@ class Location extends apiModel {
 
   public $kind;
   public $altitude;
-  public $placeid;
   public $longitude;
   public $activityId;
   public $latitude;
@@ -221,14 +223,6 @@ class Location extends apiModel {
 
   public function getAltitude() {
     return $this->altitude;
-  }
-  
-  public function setPlaceid($placeid) {
-    $this->placeid = $placeid;
-  }
-
-  public function getPlaceid() {
-    return $this->placeid;
   }
   
   public function setLongitude($longitude) {

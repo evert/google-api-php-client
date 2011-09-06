@@ -30,7 +30,6 @@ require_once 'service/apiBatch.php';
  *
  */
 class apiService {
-
   protected $io;
   protected $version = null;
   protected $restBasePath;
@@ -100,7 +99,7 @@ class apiService {
   }
 
   /**
-   * @param $rpcPath the $rpcPath to set
+   * @param $rpcPath string the $rpcPath to set
    */
   public function setRpcPath($rpcPath) {
     $this->rpcPath = $rpcPath;

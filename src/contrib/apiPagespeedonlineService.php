@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -37,14 +38,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $url The URL to fetch and analyze
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $locale The locale used to localize formatted results
-     * @opt_param string $rule A Page Speed rule to run; if none are given, all rules are run
-     * @opt_param string $strategy The analysis strategy to use
+     * @opt_param string locale The locale used to localize formatted results
+     * @opt_param string rule A Page Speed rule to run; if none are given, all rules are run
+     * @opt_param string strategy The analysis strategy to use
+     * @return Result
      */
     public function runpagespeed($url, $optParams = array()) {
       $params = array('url' => $url);
       $params = array_merge($params, $optParams);
-      return $this->__call('runpagespeed', array($params));
+      $data = $this->__call('runpagespeed', array($params));
+      if ($this->useObjects()) {
+        return new Result($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -64,15 +71,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiPagespeedonlineService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'pagespeedonline';
-  private $version = 'v1';
-  private $restBasePath = '/pagespeedonline/v1/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiPagespeedonlineService extends apiService {
   public $pagespeedapi;
   /**
    * Constructs the internal representation of the Pagespeedonline service.
@@ -80,36 +79,14 @@ class apiPagespeedonlineService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->pagespeedapi = new PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"pattern": "[a-zA-Z]+(_[a-zA-Z]+)?", "type": "string", "location": "query"}, "url": {"pattern": "http(s)?://.*", "required": true, "type": "string", "location": "query"}, "rule": {"pattern": "[a-zA-Z]+", "repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/pagespeedonline/v1/';
+    $this->version = 'v1';
+    $this->serviceName = 'pagespeedonline';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->pagespeedapi = new PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"pattern": "[a-zA-Z]+(_[a-zA-Z]+)?", "type": "string", "location": "query"}, "url": {"pattern": "http(s)?://.*", "required": true, "type": "string", "location": "query"}, "rule": {"pattern": "[a-zA-Z]+", "repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
   }
 }
 

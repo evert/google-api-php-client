@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -50,10 +51,16 @@ require_once 'service/apiServiceRequest.php';
      * @param string $message Message to be diacritized
      * @param bool $last_letter Flag to indicate whether the last letter in a word should be diacritized or not
      * @param string $lang Language of the message
+     * @return LanguageDiacritizeCorpusResource
      */
     public function get($message, $last_letter, $lang) {
       $params = array('message' => $message, 'last_letter' => $last_letter, 'lang' => $lang);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new LanguageDiacritizeCorpusResource($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -73,15 +80,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiDiacritizeService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'diacritize';
-  private $version = 'v1';
-  private $restBasePath = '/language/diacritize/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiDiacritizeService extends apiService {
   public $diacritize;
   /**
    * Constructs the internal representation of the Diacritize service.
@@ -89,36 +88,14 @@ class apiDiacritizeService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->diacritize = new DiacritizeServiceResource($this, $this->serviceName, 'diacritize', json_decode('{"resources": {"corpus": {"methods": {"get": {"parameters": {"lang": {"required": true, "type": "string", "location": "query"}, "message": {"required": true, "type": "string", "location": "query"}, "last_letter": {"required": true, "type": "boolean", "location": "query"}}, "id": "language.diacritize.corpus.get", "httpMethod": "GET", "path": "v1", "response": {"$ref": "LanguageDiacritizeCorpusResource"}}}}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/language/diacritize/';
+    $this->version = 'v1';
+    $this->serviceName = 'diacritize';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->diacritize = new DiacritizeServiceResource($this, $this->serviceName, 'diacritize', json_decode('{"resources": {"corpus": {"methods": {"get": {"parameters": {"lang": {"required": true, "type": "string", "location": "query"}, "message": {"required": true, "type": "string", "location": "query"}, "last_letter": {"required": true, "type": "boolean", "location": "query"}}, "id": "language.diacritize.corpus.get", "httpMethod": "GET", "path": "v1", "response": {"$ref": "LanguageDiacritizeCorpusResource"}}}}}}', true));
   }
 }
 

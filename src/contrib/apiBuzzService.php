@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -35,13 +36,19 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $url URLs for which to get share counts.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string url URLs for which to get share counts.
+     * @opt_param string hl Language code to limit language results.
+     * @return CountFeed
      */
     public function count($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('count', array($params));
+      $data = $this->__call('count', array($params));
+      if ($this->useObjects()) {
+        return new CountFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Create a new activity (activities.insert)
@@ -50,34 +57,46 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Activity}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param bool $preview If true, only preview the action.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param bool preview If true, only preview the action.
+     * @opt_param string hl Language code to limit language results.
+     * @return Activity
      */
     public function insert($userId, Activity $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Activity($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Search for activities (activities.search)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $pid ID of a place to use in a geographic location query.
-     * @opt_param string $lon Longitude to use in a geographic location query.
-     * @opt_param string $q Full-text search query string.
-     * @opt_param bool $truncateAtom Truncate the value of the atom:content element.
-     * @opt_param string $radius Radius to use in a geographic location query.
-     * @opt_param string $bbox Bounding box to use in a geographic location query.
-     * @opt_param string $hl Language code to limit language results.
-     * @opt_param string $lat Latitude to use in a geographic location query.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string pid ID of a place to use in a geographic location query.
+     * @opt_param string lon Longitude to use in a geographic location query.
+     * @opt_param string q Full-text search query string.
+     * @opt_param bool truncateAtom Truncate the value of the atom:content element.
+     * @opt_param string radius Radius to use in a geographic location query.
+     * @opt_param string bbox Bounding box to use in a geographic location query.
+     * @opt_param string hl Language code to limit language results.
+     * @opt_param string lat Latitude to use in a geographic location query.
+     * @return ActivityFeed
      */
     public function search($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('search', array($params));
+      $data = $this->__call('search', array($params));
+      if ($this->useObjects()) {
+        return new ActivityFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get an activity (activities.get)
@@ -86,35 +105,47 @@ require_once 'service/apiServiceRequest.php';
      * @param string $postId ID of the post to get.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param bool $truncateAtom Truncate the value of the atom:content element.
-     * @opt_param int $max-comments Maximum number of comments to include.
-     * @opt_param string $hl Language code to limit language results.
-     * @opt_param int $max-liked Maximum number of likes to include.
+     * @opt_param bool truncateAtom Truncate the value of the atom:content element.
+     * @opt_param string max-comments Maximum number of comments to include.
+     * @opt_param string hl Language code to limit language results.
+     * @opt_param string max-liked Maximum number of likes to include.
+     * @return Activity
      */
     public function get($userId, $postId, $optParams = array()) {
       $params = array('userId' => $userId, 'postId' => $postId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Activity($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get real-time activity tracking information (activities.track)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $pid ID of a place to use in a geographic location query.
-     * @opt_param string $lon Longitude to use in a geographic location query.
-     * @opt_param string $q Full-text search query string.
-     * @opt_param string $radius Radius to use in a geographic location query.
-     * @opt_param string $bbox Bounding box to use in a geographic location query.
-     * @opt_param string $hl Language code to limit language results.
-     * @opt_param string $lat Latitude to use in a geographic location query.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string pid ID of a place to use in a geographic location query.
+     * @opt_param string lon Longitude to use in a geographic location query.
+     * @opt_param string q Full-text search query string.
+     * @opt_param string radius Radius to use in a geographic location query.
+     * @opt_param string bbox Bounding box to use in a geographic location query.
+     * @opt_param string hl Language code to limit language results.
+     * @opt_param string lat Latitude to use in a geographic location query.
+     * @return ActivityFeed
      */
     public function track($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('track', array($params));
+      $data = $this->__call('track', array($params));
+      if ($this->useObjects()) {
+        return new ActivityFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * List activities (activities.list)
@@ -123,17 +154,23 @@ require_once 'service/apiServiceRequest.php';
      * @param string $scope The collection of activities to list.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param bool $truncateAtom Truncate the value of the atom:content element.
-     * @opt_param int $max-comments Maximum number of comments to include.
-     * @opt_param string $hl Language code to limit language results.
-     * @opt_param int $max-liked Maximum number of likes to include.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param bool truncateAtom Truncate the value of the atom:content element.
+     * @opt_param string max-comments Maximum number of comments to include.
+     * @opt_param string hl Language code to limit language results.
+     * @opt_param string max-liked Maximum number of likes to include.
+     * @return ActivityFeed
      */
     public function listActivities($userId, $scope, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new ActivityFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Update an activity (activities.update)
@@ -144,13 +181,19 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Activity}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $abuseType
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string abuseType
+     * @opt_param string hl Language code to limit language results.
+     * @return Activity
      */
     public function update($userId, $scope, $postId, Activity $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('update', array($params));
+      $data = $this->__call('update', array($params));
+      if ($this->useObjects()) {
+        return new Activity($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Update an activity. This method supports patch semantics. (activities.patch)
@@ -161,33 +204,45 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Activity}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $abuseType
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string abuseType
+     * @opt_param string hl Language code to limit language results.
+     * @return Activity
      */
     public function patch($userId, $scope, $postId, Activity $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('patch', array($params));
+      $data = $this->__call('patch', array($params));
+      if ($this->useObjects()) {
+        return new Activity($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Search for people by topic (activities.extractPeopleFromSearch)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $pid ID of a place to use in a geographic location query.
-     * @opt_param string $lon Longitude to use in a geographic location query.
-     * @opt_param string $q Full-text search query string.
-     * @opt_param string $radius Radius to use in a geographic location query.
-     * @opt_param string $bbox Bounding box to use in a geographic location query.
-     * @opt_param string $hl Language code to limit language results.
-     * @opt_param string $lat Latitude to use in a geographic location query.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string pid ID of a place to use in a geographic location query.
+     * @opt_param string lon Longitude to use in a geographic location query.
+     * @opt_param string q Full-text search query string.
+     * @opt_param string radius Radius to use in a geographic location query.
+     * @opt_param string bbox Bounding box to use in a geographic location query.
+     * @opt_param string hl Language code to limit language results.
+     * @opt_param string lat Latitude to use in a geographic location query.
+     * @return PeopleFeed
      */
     public function extractPeopleFromSearch($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('extractPeopleFromSearch', array($params));
+      $data = $this->__call('extractPeopleFromSearch', array($params));
+      if ($this->useObjects()) {
+        return new PeopleFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Delete an activity (activities.delete)
@@ -197,12 +252,13 @@ require_once 'service/apiServiceRequest.php';
      * @param string $postId ID of the activity to delete.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
      */
     public function delete($userId, $scope, $postId, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId);
       $params = array_merge($params, $optParams);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -226,14 +282,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $groupId
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return PeopleFeed
      */
     public function liked($userId, $scope, $postId, $groupId, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'groupId' => $groupId);
       $params = array_merge($params, $optParams);
-      return $this->__call('liked', array($params));
+      $data = $this->__call('liked', array($params));
+      if ($this->useObjects()) {
+        return new PeopleFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get a user profile (people.get)
@@ -241,12 +303,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $userId ID of the user being referenced.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Person
      */
     public function get($userId, $optParams = array()) {
       $params = array('userId' => $userId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Person($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Add a person to a group (people.update)
@@ -257,12 +325,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Person}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Person
      */
     public function update($userId, $groupId, $personId, Person $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('update', array($params));
+      $data = $this->__call('update', array($params));
+      if ($this->useObjects()) {
+        return new Person($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get people in a group (people.list)
@@ -271,29 +345,41 @@ require_once 'service/apiServiceRequest.php';
      * @param string $groupId ID of the group for which to list users.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return PeopleFeed
      */
     public function listPeople($userId, $groupId, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new PeopleFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Search for people (people.search)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $q Full-text search query string.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string q Full-text search query string.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return PeopleFeed
      */
     public function search($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('search', array($params));
+      $data = $this->__call('search', array($params));
+      if ($this->useObjects()) {
+        return new PeopleFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Add a person to a group. This method supports patch semantics. (people.patch)
@@ -304,12 +390,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Person}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Person
      */
     public function patch($userId, $groupId, $personId, Person $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('patch', array($params));
+      $data = $this->__call('patch', array($params));
+      if ($this->useObjects()) {
+        return new Person($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get people who reshared an activity (people.reshared)
@@ -320,14 +412,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $groupId
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return PeopleFeed
      */
     public function reshared($userId, $scope, $postId, $groupId, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'groupId' => $groupId);
       $params = array_merge($params, $optParams);
-      return $this->__call('reshared', array($params));
+      $data = $this->__call('reshared', array($params));
+      if ($this->useObjects()) {
+        return new PeopleFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Remove a person from a group (people.delete)
@@ -337,12 +435,13 @@ require_once 'service/apiServiceRequest.php';
      * @param string $personId ID of the person to remove from the group.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
      */
     public function delete($userId, $groupId, $personId, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId, 'personId' => $personId);
       $params = array_merge($params, $optParams);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -364,12 +463,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Album}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Album
      */
     public function insert($userId, Album $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Album($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get a photo album (photoAlbums.get)
@@ -378,12 +483,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $albumId ID of the album to get.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Album
      */
     public function get($userId, $albumId, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Album($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * List a user's photo albums (photoAlbums.list)
@@ -392,14 +503,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $scope The collection of albums to list.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return AlbumsFeed
      */
     public function listPhotoAlbums($userId, $scope, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new AlbumsFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Delete a photo album (photoAlbums.delete)
@@ -408,12 +525,13 @@ require_once 'service/apiServiceRequest.php';
      * @param string $albumId ID of the album to delete.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
      */
     public function delete($userId, $albumId, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId);
       $params = array_merge($params, $optParams);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -436,12 +554,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Comment}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Comment
      */
     public function insert($userId, $postId, Comment $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'postId' => $postId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Comment($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get a comment (comments.get)
@@ -451,12 +575,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $commentId ID of the comment being referenced.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Comment
      */
     public function get($userId, $postId, $commentId, $optParams = array()) {
       $params = array('userId' => $userId, 'postId' => $postId, 'commentId' => $commentId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Comment($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * List comments (comments.list)
@@ -466,14 +596,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $postId ID of the activity for which to get comments.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return CommentFeed
      */
     public function listComments($userId, $scope, $postId, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new CommentFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Update a comment (comments.update)
@@ -485,13 +621,19 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Comment}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $abuseType
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string abuseType
+     * @opt_param string hl Language code to limit language results.
+     * @return Comment
      */
     public function update($userId, $scope, $postId, $commentId, Comment $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'commentId' => $commentId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('update', array($params));
+      $data = $this->__call('update', array($params));
+      if ($this->useObjects()) {
+        return new Comment($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Update a comment. This method supports patch semantics. (comments.patch)
@@ -503,13 +645,19 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Comment}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $abuseType
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string abuseType
+     * @opt_param string hl Language code to limit language results.
+     * @return Comment
      */
     public function patch($userId, $scope, $postId, $commentId, Comment $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId, 'commentId' => $commentId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('patch', array($params));
+      $data = $this->__call('patch', array($params));
+      if ($this->useObjects()) {
+        return new Comment($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Delete a comment (comments.delete)
@@ -519,12 +667,13 @@ require_once 'service/apiServiceRequest.php';
      * @param string $commentId ID of the comment being referenced.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
      */
     public function delete($userId, $postId, $commentId, $optParams = array()) {
       $params = array('userId' => $userId, 'postId' => $postId, 'commentId' => $commentId);
       $params = array_merge($params, $optParams);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -547,12 +696,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link ChiliPhotosResourceJson}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return ChiliPhotosResourceJson
      */
     public function insert2($userId, $albumId, ChiliPhotosResourceJson $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('insert2', array($params));
+      $data = $this->__call('insert2', array($params));
+      if ($this->useObjects()) {
+        return new ChiliPhotosResourceJson($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Upload a photo to an album (photos.insert)
@@ -562,12 +717,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link AlbumLite}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return AlbumLite
      */
     public function insert($userId, $albumId, AlbumLite $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new AlbumLite($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get photo metadata (photos.get)
@@ -577,12 +738,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $photoId ID of the photo for which to get metadata.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return ChiliPhotosResourceJson
      */
     public function get($userId, $albumId, $photoId, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId, 'photoId' => $photoId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new ChiliPhotosResourceJson($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get a user's photos (photos.listByScope)
@@ -591,14 +758,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $scope The collection of photos to list.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return PhotosFeed
      */
     public function listByScope($userId, $scope, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope);
       $params = array_merge($params, $optParams);
-      return $this->__call('listByScope', array($params));
+      $data = $this->__call('listByScope', array($params));
+      if ($this->useObjects()) {
+        return new PhotosFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Delete a photo (photos.delete)
@@ -608,12 +781,13 @@ require_once 'service/apiServiceRequest.php';
      * @param string $photoId ID of the photo to delete.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
      */
     public function delete($userId, $albumId, $photoId, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId, 'photoId' => $photoId);
       $params = array_merge($params, $optParams);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
     /**
      * List photos in an album (photos.listByAlbum)
@@ -622,14 +796,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $albumId ID of the album for which to list photos.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return PhotosFeed
      */
     public function listByAlbum($userId, $albumId, $optParams = array()) {
       $params = array('userId' => $userId, 'albumId' => $albumId);
       $params = array_merge($params, $optParams);
-      return $this->__call('listByAlbum', array($params));
+      $data = $this->__call('listByAlbum', array($params));
+      if ($this->useObjects()) {
+        return new PhotosFeed($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -652,12 +832,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $postId ID of the activity to which to get related links.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return RelatedFeed
      */
     public function listRelated($userId, $scope, $postId, $optParams = array()) {
       $params = array('userId' => $userId, 'scope' => $scope, 'postId' => $postId);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new RelatedFeed($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -679,12 +865,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Group}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Group
      */
     public function insert($userId, Group $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Group($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get a group (groups.get)
@@ -693,12 +885,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $groupId ID of the group to get.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Group
      */
     public function get($userId, $groupId, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Group($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Get a user's groups (groups.list)
@@ -706,14 +904,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $userId ID of the user being referenced.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param int $max-results Maximum number of results to include.
-     * @opt_param string $c A continuation token that allows pagination.
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string max-results Maximum number of results to include.
+     * @opt_param string c A continuation token that allows pagination.
+     * @opt_param string hl Language code to limit language results.
+     * @return GroupFeed
      */
     public function listGroups($userId, $optParams = array()) {
       $params = array('userId' => $userId);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new GroupFeed($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Update a group (groups.update)
@@ -723,12 +927,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Group}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Group
      */
     public function update($userId, $groupId, Group $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('update', array($params));
+      $data = $this->__call('update', array($params));
+      if ($this->useObjects()) {
+        return new Group($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Update a group. This method supports patch semantics. (groups.patch)
@@ -738,12 +948,18 @@ require_once 'service/apiServiceRequest.php';
      * @param $postBody the {@link Group}
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
+     * @return Group
      */
     public function patch($userId, $groupId, Group $postBody, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      return $this->__call('patch', array($params));
+      $data = $this->__call('patch', array($params));
+      if ($this->useObjects()) {
+        return new Group($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Delete a group (groups.delete)
@@ -752,12 +968,13 @@ require_once 'service/apiServiceRequest.php';
      * @param string $groupId ID of the group to delete.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $hl Language code to limit language results.
+     * @opt_param string hl Language code to limit language results.
      */
     public function delete($userId, $groupId, $optParams = array()) {
       $params = array('userId' => $userId, 'groupId' => $groupId);
       $params = array_merge($params, $optParams);
-      return $this->__call('delete', array($params));
+      $data = $this->__call('delete', array($params));
+      return $data;
     }
   }
 
@@ -777,15 +994,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiBuzzService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'buzz';
-  private $version = 'v1';
-  private $restBasePath = '/buzz/v1/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiBuzzService extends apiService {
   public $activities;
   public $people;
   public $photoAlbums;
@@ -799,42 +1008,20 @@ class apiBuzzService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"count": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"url": {"repeated": true, "type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CountFeed"}, "httpMethod": "GET", "path": "activities/count", "id": "chili.activities.count"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "preview": {"default": "false", "type": "boolean", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "10MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/activities/{userId}/@self", "multipart": true}, "resumable": {"path": "resumable/upload/activities/{userId}/@self", "multipart": true}}}, "request": {"$ref": "Activity"}, "id": "chili.activities.insert", "httpMethod": "POST", "path": "activities/{userId}/@self", "response": {"$ref": "Activity"}}, "search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "truncateAtom": {"type": "boolean", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/search", "id": "chili.activities.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.activities.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}", "response": {"$ref": "Activity"}}, "track": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/track", "id": "chili.activities.track"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "scope": {"required": true, "enum": ["@comments", "@consumption", "@liked", "@public", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.activities.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}", "response": {"$ref": "ActivityFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "extractPeopleFromSearch": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "activities/search/@people", "id": "chili.activities.extractPeopleFromSearch"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"scope": {"required": true, "enum": ["@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/{scope}/{postId}", "id": "chili.activities.delete"}}}', true));
-     $this->people = new PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "q": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "people/search", "id": "chili.people.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.people.get", "httpMethod": "GET", "path": "people/{userId}/@self", "response": {"$ref": "Person"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "groupId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.people.list", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}", "response": {"$ref": "PeopleFeed"}}, "liked": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@liked"]}}, "id": "chili.people.liked", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "reshared": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@reshared"]}}, "id": "chili.people.reshared", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}/{personId}", "id": "chili.people.delete"}}}', true));
-     $this->photoAlbums = new PhotoAlbumsServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Album"}, "id": "chili.photoAlbums.insert", "httpMethod": "POST", "path": "photos/{userId}/@self", "response": {"$ref": "Album"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}", "id": "chili.photoAlbums.delete"}, "list": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photoAlbums.list", "httpMethod": "GET", "path": "photos/{userId}/{scope}", "response": {"$ref": "AlbumsFeed"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.photoAlbums.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}", "response": {"$ref": "Album"}}}}', true));
-     $this->comments = new CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.insert", "httpMethod": "POST", "path": "activities/{userId}/@self/{postId}/@comments", "response": {"$ref": "Comment"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.comments.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.comments.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@comments", "response": {"$ref": "CommentFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "id": "chili.comments.delete"}}}', true));
-     $this->photos = new PhotosServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods": {"insert2": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}}}, "request": {"$ref": "ChiliPhotosResourceJson"}, "id": "chili.photos.insert2", "httpMethod": "POST", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "ChiliPhotosResourceJson"}}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/{albumId}", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/{albumId}", "multipart": true}}}, "request": {"$ref": "AlbumLite"}, "id": "chili.photos.insert", "httpMethod": "POST", "path": "photos/{userId}/{albumId}", "response": {"$ref": "AlbumLite"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.photos.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "response": {"$ref": "ChiliPhotosResourceJson"}}, "listByScope": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@recent"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByScope", "httpMethod": "GET", "path": "photos/{userId}/@self/{scope}/@photos", "response": {"$ref": "PhotosFeed"}}, "listByAlbum": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "albumId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByAlbum", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "PhotosFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "id": "chili.photos.delete"}}}', true));
-     $this->related = new RelatedServiceResource($this, $this->serviceName, 'related', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.related.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@related", "response": {"$ref": "RelatedFeed"}}}}', true));
-     $this->groups = new GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.insert", "httpMethod": "POST", "path": "people/{userId}/@groups", "response": {"$ref": "Group"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.get", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "maximum": "4294967295", "minimum": "0", "location": "query", "type": "integer"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.list", "httpMethod": "GET", "path": "people/{userId}/@groups", "response": {"$ref": "GroupFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}", "id": "chili.groups.delete"}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/buzz/v1/';
+    $this->version = 'v1';
+    $this->serviceName = 'buzz';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"count": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"url": {"repeated": true, "type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CountFeed"}, "httpMethod": "GET", "path": "activities/count", "id": "chili.activities.count"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "preview": {"default": "false", "type": "boolean", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "10MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/activities/{userId}/@self", "multipart": true}, "resumable": {"path": "resumable/upload/activities/{userId}/@self", "multipart": true}}}, "request": {"$ref": "Activity"}, "id": "chili.activities.insert", "httpMethod": "POST", "path": "activities/{userId}/@self", "response": {"$ref": "Activity"}}, "search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "truncateAtom": {"type": "boolean", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/search", "id": "chili.activities.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.activities.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}", "response": {"$ref": "Activity"}}, "track": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/track", "id": "chili.activities.track"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "scope": {"required": true, "enum": ["@comments", "@consumption", "@liked", "@public", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.activities.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}", "response": {"$ref": "ActivityFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "extractPeopleFromSearch": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "activities/search/@people", "id": "chili.activities.extractPeopleFromSearch"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"scope": {"required": true, "enum": ["@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/{scope}/{postId}", "id": "chili.activities.delete"}}}', true));
+    $this->people = new PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "q": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "people/search", "id": "chili.people.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.people.get", "httpMethod": "GET", "path": "people/{userId}/@self", "response": {"$ref": "Person"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "groupId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.people.list", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}", "response": {"$ref": "PeopleFeed"}}, "liked": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@liked"]}}, "id": "chili.people.liked", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "reshared": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@reshared"]}}, "id": "chili.people.reshared", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}/{personId}", "id": "chili.people.delete"}}}', true));
+    $this->photoAlbums = new PhotoAlbumsServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Album"}, "id": "chili.photoAlbums.insert", "httpMethod": "POST", "path": "photos/{userId}/@self", "response": {"$ref": "Album"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}", "id": "chili.photoAlbums.delete"}, "list": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photoAlbums.list", "httpMethod": "GET", "path": "photos/{userId}/{scope}", "response": {"$ref": "AlbumsFeed"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.photoAlbums.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}", "response": {"$ref": "Album"}}}}', true));
+    $this->comments = new CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.insert", "httpMethod": "POST", "path": "activities/{userId}/@self/{postId}/@comments", "response": {"$ref": "Comment"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.comments.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.comments.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@comments", "response": {"$ref": "CommentFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "id": "chili.comments.delete"}}}', true));
+    $this->photos = new PhotosServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods": {"insert2": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}}}, "request": {"$ref": "ChiliPhotosResourceJson"}, "id": "chili.photos.insert2", "httpMethod": "POST", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "ChiliPhotosResourceJson"}}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/{albumId}", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/{albumId}", "multipart": true}}}, "request": {"$ref": "AlbumLite"}, "id": "chili.photos.insert", "httpMethod": "POST", "path": "photos/{userId}/{albumId}", "response": {"$ref": "AlbumLite"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.photos.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "response": {"$ref": "ChiliPhotosResourceJson"}}, "listByScope": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@recent"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByScope", "httpMethod": "GET", "path": "photos/{userId}/@self/{scope}/@photos", "response": {"$ref": "PhotosFeed"}}, "listByAlbum": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "albumId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByAlbum", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "PhotosFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "id": "chili.photos.delete"}}}', true));
+    $this->related = new RelatedServiceResource($this, $this->serviceName, 'related', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.related.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@related", "response": {"$ref": "RelatedFeed"}}}}', true));
+    $this->groups = new GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.insert", "httpMethod": "POST", "path": "people/{userId}/@groups", "response": {"$ref": "Group"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.get", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.list", "httpMethod": "GET", "path": "people/{userId}/@groups", "response": {"$ref": "GroupFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}", "id": "chili.groups.delete"}}}', true));
   }
 }
 

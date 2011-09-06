@@ -142,6 +142,11 @@ class apiServiceResource {
     }
   }
 
+  protected function useObjects() {
+    global $apiConfig;
+    return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
+  }
+
   private function stripNull(&$o) {
     $o = (array) $o;
     foreach ($o as $k => $v) {

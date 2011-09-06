@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -35,12 +36,18 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $target the language and collation in which the localized results should be returned
+     * @opt_param string target the language and collation in which the localized results should be returned
+     * @return LanguagesListResponse
      */
     public function listLanguages($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new LanguagesListResponse($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -59,10 +66,16 @@ require_once 'service/apiServiceRequest.php';
      * Detect the language of text. (detections.list)
      *
      * @param string $q The text to detect
+     * @return DetectionsListResponse
      */
     public function listDetections($q) {
       $params = array('q' => $q);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new DetectionsListResponse($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -84,14 +97,20 @@ require_once 'service/apiServiceRequest.php';
      * @param string $target The target language into which the text should be translated
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $source The source language of the text
-     * @opt_param string $format The format of the text
-     * @opt_param string $cid The customization id for translate
+     * @opt_param string source The source language of the text
+     * @opt_param string format The format of the text
+     * @opt_param string cid The customization id for translate
+     * @return TranslationsListResponse
      */
     public function listTranslations($q, $target, $optParams = array()) {
       $params = array('q' => $q, 'target' => $target);
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new TranslationsListResponse($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -111,15 +130,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiTranslateService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'translate';
-  private $version = 'v2';
-  private $restBasePath = '/language/translate/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiTranslateService extends apiService {
   public $languages;
   public $detections;
   public $translations;
@@ -129,38 +140,16 @@ class apiTranslateService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->languages = new LanguagesServiceResource($this, $this->serviceName, 'languages', json_decode('{"methods": {"list": {"parameters": {"target": {"type": "string", "location": "query"}}, "id": "language.languages.list", "httpMethod": "GET", "path": "v2/languages", "response": {"$ref": "LanguagesListResponse"}}}}', true));
-     $this->detections = new DetectionsServiceResource($this, $this->serviceName, 'detections', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}}, "id": "language.detections.list", "httpMethod": "GET", "path": "v2/detect", "response": {"$ref": "DetectionsListResponse"}}}}', true));
-     $this->translations = new TranslationsServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "cid": {"repeated": true, "type": "string", "location": "query"}, "target": {"required": true, "type": "string", "location": "query"}, "format": {"enum": ["html", "text"], "type": "string", "location": "query"}}, "id": "language.translations.list", "httpMethod": "GET", "path": "v2", "response": {"$ref": "TranslationsListResponse"}}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/language/translate/';
+    $this->version = 'v2';
+    $this->serviceName = 'translate';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->languages = new LanguagesServiceResource($this, $this->serviceName, 'languages', json_decode('{"methods": {"list": {"parameters": {"target": {"type": "string", "location": "query"}}, "id": "language.languages.list", "httpMethod": "GET", "path": "v2/languages", "response": {"$ref": "LanguagesListResponse"}}}}', true));
+    $this->detections = new DetectionsServiceResource($this, $this->serviceName, 'detections', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}}, "id": "language.detections.list", "httpMethod": "GET", "path": "v2/detect", "response": {"$ref": "DetectionsListResponse"}}}}', true));
+    $this->translations = new TranslationsServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "cid": {"repeated": true, "type": "string", "location": "query"}, "target": {"required": true, "type": "string", "location": "query"}, "format": {"enum": ["html", "text"], "type": "string", "location": "query"}}, "id": "language.translations.list", "httpMethod": "GET", "path": "v2", "response": {"$ref": "TranslationsListResponse"}}}}', true));
   }
 }
 
@@ -198,7 +187,7 @@ class DetectionsResource extends apiModel {
 
   public $items;
 
-  public function setItems( $items) {
+  public function setItems(/* array() */ $items) {
     $this->items = $items;
   }
 

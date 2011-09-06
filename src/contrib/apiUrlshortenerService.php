@@ -16,6 +16,7 @@
  */
 
 require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
 require_once 'service/apiServiceRequest.php';
 
 
@@ -34,23 +35,35 @@ require_once 'service/apiServiceRequest.php';
      * Creates a new short URL. (url.insert)
      *
      * @param $postBody the {@link Url}
+     * @return Url
      */
     public function insert(Url $postBody) {
       $params = array('postBody' => $postBody);
-      return $this->__call('insert', array($params));
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Url($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Retrieves a list of URLs shortened by a user. (url.list)
      *
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $start-token Token for requesting successive pages of results.
-     * @opt_param string $projection Additional information to return.
+     * @opt_param string start-token Token for requesting successive pages of results.
+     * @opt_param string projection Additional information to return.
+     * @return UrlHistory
      */
     public function listUrl($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
-      return $this->__call('list', array($params));
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new UrlHistory($data);
+      } else {
+        return $data;
+      }
     }
     /**
      * Expands a short URL or gets creation time and analytics. (url.get)
@@ -58,12 +71,18 @@ require_once 'service/apiServiceRequest.php';
      * @param string $shortUrl The short URL, including the protocol.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
-     * @opt_param string $projection Additional information to return.
+     * @opt_param string projection Additional information to return.
+     * @return Url
      */
     public function get($shortUrl, $optParams = array()) {
       $params = array('shortUrl' => $shortUrl);
       $params = array_merge($params, $optParams);
-      return $this->__call('get', array($params));
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Url($data);
+      } else {
+        return $data;
+      }
     }
   }
 
@@ -83,15 +102,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiUrlshortenerService {
-
-  // Variables that the apiServiceResource implementation depends on.
-  private $serviceName = 'urlshortener';
-  private $version = 'v1';
-  private $restBasePath = '/urlshortener/v1/';
-  private $rpcPath = '/rpc';
-  private $io;
-  // apiServiceResource's that are used internally
+class apiUrlshortenerService extends apiService {
   public $url;
   /**
    * Constructs the internal representation of the Urlshortener service.
@@ -99,36 +110,14 @@ class apiUrlshortenerService {
    * @param apiClient apiClient
    */
   public function __construct(apiClient $apiClient) {
-     $apiClient->addService($this->serviceName, $this->version);
-     $this->io = $apiClient->getIo();
-     $this->url = new UrlServiceResource($this, $this->serviceName, 'url', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "request": {"$ref": "Url"}, "response": {"$ref": "Url"}, "httpMethod": "POST", "path": "url", "id": "urlshortener.url.insert"}, "list": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "parameters": {"start-token": {"type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "FULL"], "type": "string", "location": "query"}}, "response": {"$ref": "UrlHistory"}, "httpMethod": "GET", "path": "url/history", "id": "urlshortener.url.list"}, "get": {"parameters": {"shortUrl": {"required": true, "type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "ANALYTICS_TOP_STRINGS", "FULL"], "type": "string", "location": "query"}}, "id": "urlshortener.url.get", "httpMethod": "GET", "path": "url", "response": {"$ref": "Url"}}}}', true));
-  }
+    $this->rpcPath = '/rpc';
+    $this->restBasePath = '/urlshortener/v1/';
+    $this->version = 'v1';
+    $this->serviceName = 'urlshortener';
+    $this->io = $apiClient->getIo();
 
-  /**
-   * @return $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-  /**
-   * @return $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
-  /**
-   * @return $restBasePath
-   */
-  public function getRestBasePath() {
-    return $this->restBasePath;
-  }
-
-  /**
-   * @return $rpcPath
-   */
-  public function getRpcPath() {
-    return $this->rpcPath;
+    $apiClient->addService($this->serviceName, $this->version);
+    $this->url = new UrlServiceResource($this, $this->serviceName, 'url', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "request": {"$ref": "Url"}, "response": {"$ref": "Url"}, "httpMethod": "POST", "path": "url", "id": "urlshortener.url.insert"}, "list": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "parameters": {"start-token": {"type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "FULL"], "type": "string", "location": "query"}}, "response": {"$ref": "UrlHistory"}, "httpMethod": "GET", "path": "url/history", "id": "urlshortener.url.list"}, "get": {"parameters": {"shortUrl": {"required": true, "type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "ANALYTICS_TOP_STRINGS", "FULL"], "type": "string", "location": "query"}}, "id": "urlshortener.url.get", "httpMethod": "GET", "path": "url", "response": {"$ref": "Url"}}}}', true));
   }
 }
 
