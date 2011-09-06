@@ -70,6 +70,7 @@ class apiClient {
   protected $io;
   protected $cache;
   protected $scopes = array();
+  protected $useObjects = false;
 
   // definitions of services that are discover()'rd
   protected $services = array();
@@ -187,10 +188,21 @@ class apiClient {
   /**
    * This function allows you to overrule the automatically generated scopes, so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!
-   * @param array $scopes, ie: array("https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/latitude", "https://www.googleapis.com/auth/moderator")
+   * @param array $scopes, ie: array('https://www.googleapis.com/auth/buzz', 'https://www.googleapis.com/auth/moderator')
    */
   public function setScopes($scopes) {
     $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
+  }
+
+  /**
+   * Declare if objects should be returned by the api service classes.
+   *
+   * @param boolean $useObjects True if objects should be returned by the service classes.
+   * False if associative arrays should be returned (default behavior).
+   */
+  public function setUseObjects($useObjects) {
+    global $apiConfig;
+    $apiConfig['use_objects'] = $useObjects;
   }
 
   private function discoverService($serviceName, $serviceURI) {
