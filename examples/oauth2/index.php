@@ -19,17 +19,12 @@ session_start();
 require_once '../../src/apiClient.php';
 require_once '../../src/contrib/apiBuzzService.php';
 
-global $apiConfig;
-
-// Visit https://code.google.com/apis/console to
-// generate your oauth2_client_id, oauth2_client_secret, and to
-// register your oauth2_redirect_uri.
-//$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
-//$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
-//$apiConfig['oauth2_redirect_uri'] = 'http://YOUR_REDIRECT_URI';
-$apiConfig['authClass'] = 'apiOAuth2';
-
 $client = new apiClient();
+// Visit https://code.google.com/apis/console to generate your
+// oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.
+//$client->setClientId('insert_your_oauth2_client_id');
+//$client->setClientSecret('insert_your_oauth2_client_secret');
+//$client->setRedirectUri('insert_your_oauth2_redirect_uri');
 $client->setApplicationName("OAuth2_Example_App");
 
 $buzz = new apiBuzzService($client);

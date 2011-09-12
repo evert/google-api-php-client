@@ -22,13 +22,9 @@ require_once '../../src/contrib/apiBooksService.php';
 // Include the boilerplate markup.
 include 'interface.html';
 
-global $apiConfig;
-
-// Visit https://code.google.com/apis/console to
-// generate your developer key.
-// $apiConfig['developer_key'] = 'YOUR_DEVELOPER_KEY';
-$apiConfig['authClass'] = 'apiAuthNone';
 $client = new apiClient();
+// Visit https://code.google.com/apis/console to generate your client's Developer Key.
+//$client->setDeveloperKey('insert_your_developer_key');
 $client->setApplicationName("Books_Example_App");
 $service = new apiBooksService($client);
 

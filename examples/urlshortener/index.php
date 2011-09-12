@@ -19,14 +19,12 @@ session_start();
 require_once '../../src/apiClient.php';
 require_once '../../src/contrib/apiUrlshortenerService.php';
 
-global $apiConfig;
-
 // Visit https://code.google.com/apis/console to
 // generate your client id, client secret, and redirect uri.
-// $apiConfig['oauth2_client_id'] = 'insert_your_oauth2_client_id';
-// $apiConfig['oauth2_client_secret'] ='insert_your_oauth2_client_secret';
-// $apiConfig['oauth2_redirect_uri'] = 'insert_your_oauth2_redirect_uri';
 $client = new apiClient();
+$client->setClientId('insert_your_oauth2_client_id');
+$client->setClientSecret('insert_your_oauth2_client_secret');
+$client->setRedirectUri('insert_your_oauth2_redirect_uri');
 $service = new apiUrlshortenerService($client);
 
 if (isset($_REQUEST['logout'])) {

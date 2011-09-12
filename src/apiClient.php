@@ -115,6 +115,15 @@ class apiClient {
     $this->services[$service]['discoveryURI'] = $apiConfig['basePath'] . '/discovery/' . self::discoveryVersion . '/describe/' . urlencode($service) . '/' . urlencode($version);
   }
 
+  /**
+   * Set the type of Auth class the client should use.
+   * @param string $authClassName
+   */
+  public function setAuthClass($authClassName) {
+    $this->auth = null;
+    $this->auth = new $authClassName();
+  }
+
   public function authenticate() {
     $service = $this->prepareService();
     $this->authenticated = true;
@@ -183,6 +192,33 @@ class apiClient {
   public function setApplicationName($applicationName) {
     global $apiConfig;
     $apiConfig['application_name'] = $applicationName;
+  }
+
+  /**
+   * Set the OAuth2 Client ID.
+   * @param string $clientId
+   */
+  public function setClientId($clientId) {
+    global $apiConfig;
+    $apiConfig['oauth2_client_id'] = $clientId;
+  }
+  
+  /**
+   * Set the OAuth2 Client Secret.
+   * @param string $clientSecret
+   */
+  public function setClientSecret($clientSecret) {
+    global $apiConfig;
+    $apiConfig['oauth2_client_secret'] = $clientSecret;
+  }
+
+  /**
+   * Set the OAuth2 Redirect URI.
+   * @param string $redirectUri
+   */
+  public function setRedirectUri($redirectUri) {
+    global $apiConfig;
+    $apiConfig['oauth2_redirect_uri'] = $redirectUri;
   }
 
   /**

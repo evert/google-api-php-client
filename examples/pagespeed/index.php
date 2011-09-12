@@ -18,9 +18,6 @@ session_start();
 require_once '../../src/apiClient.php';
 require_once '../../src/contrib/apiPagespeedonlineService.php';
 
-global $apiConfig;
-$apiConfig['authClass'] = 'apiAuthNone';
-
 $client = new apiClient();
 $client->setApplicationName("PageSpeedOnline_Example_App");
 $service = new apiPagespeedonlineService($client);
