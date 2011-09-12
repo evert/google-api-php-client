@@ -46,10 +46,10 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   $authUrl = $client->createAuthUrl();
 }
 
-if ($client->getAccessToken() && isset($_POST['url'])) {
+if ($client->getAccessToken() && isset($_GET['url'])) {
   // Start to make API requests.
   $url = new Url();
-  $url->longUrl = $_POST['url'];
+  $url->longUrl = $_GET['url'];
   $short = $service->url->insert($url);
   $_SESSION['access_token'] = $client->getAccessToken();
 }
