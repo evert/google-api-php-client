@@ -22,8 +22,11 @@
  *
  */
 class apiOAuth2 extends apiAuth {
+  public $clientId;
+  public $clientSecret;
   public $developerKey;
   public $accessToken;
+  public $redirectUri;
 
   const OAUTH2_TOKEN_URI = "https://accounts.google.com/o/oauth2/token";
   const OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
@@ -36,11 +39,20 @@ class apiOAuth2 extends apiAuth {
     global $apiConfig;
     
     if (! empty($apiConfig['developer_key'])) {
-      $this->setDeveloperKey($apiConfig['developer_key']);
+      $this->developerKey = $apiConfig['developer_key'];
     }
-    $this->ClientId = $apiConfig['oauth2_client_id'];
-    $this->ClientSecret = $apiConfig['oauth2_client_secret'];
-    $this->RedirectUri = $apiConfig['oauth2_redirect_uri'];
+
+    if (! empty($apiConfig['oauth2_client_id'])) {
+      $this->clientId = $apiConfig['oauth2_client_id'];
+    }
+
+    if (! empty($apiConfig['oauth2_client_secret'])) {
+      $this->clientSecret = $apiConfig['oauth2_client_secret'];
+    }
+
+    if (! empty($apiConfig['oauth2_redirect_uri'])) {
+      $this->redirectUri = $apiConfig['oauth2_redirect_uri'];
+    }
   }
 
   public function authenticate($service) {
@@ -54,9 +66,9 @@ class apiOAuth2 extends apiAuth {
       $request = $this->io->makeRequest(new apiHttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), array(
           'code' => $_GET['code'],
           'grant_type' => 'authorization_code',
-          'redirect_uri' => $this->RedirectUri,
-          'client_id' => $this->ClientId,
-          'client_secret' => $this->ClientSecret
+          'redirect_uri' => $this->redirectUri,
+          'client_id' => $this->clientId,
+          'client_secret' => $this->clientSecret
       )));
       if ((int)$request->getResponseHttpCode() == 200) {
         $this->setAccessToken($request->getResponseBody());
@@ -79,8 +91,8 @@ class apiOAuth2 extends apiAuth {
   public function createAuthUrl($service) {
     $params = array(
         'response_type=code',
-        'redirect_uri=' . urlencode($this->RedirectUri),
-        'client_id=' . urlencode($this->ClientId),
+        'redirect_uri=' . urlencode($this->redirectUri),
+        'client_id=' . urlencode($this->clientId),
         'scope=' . urlencode($service['scope'])
     );
     $params = implode('&', $params);
@@ -121,8 +133,8 @@ class apiOAuth2 extends apiAuth {
       // if the token is set to expire in the next 30 seconds (or has already expired), refresh it and set the new token
       //FIXME this is mostly a copy and paste mashup from the authenticate and setAccessToken functions, should generalize them into a function instead of this mess
       $refreshRequest = $this->io->makeRequest(new apiHttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), array(
-          'client_id' => $this->ClientId,
-          'client_secret' => $this->ClientSecret,
+          'client_id' => $this->clientId,
+          'client_secret' => $this->clientSecret,
           'refresh_token' => $this->accessToken['refresh_token'],
           'grant_type' => 'refresh_token'
       )));

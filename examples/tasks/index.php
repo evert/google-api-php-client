@@ -18,14 +18,13 @@ session_start();
 require_once '../../src/apiClient.php';
 require_once '../../src/contrib/apiTasksService.php';
 
-
 $client = new apiClient();
 // Visit https://code.google.com/apis/console to generate your
 // oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.
 // $client->setClientId('insert_your_oauth2_client_id');
 // $client->setClientSecret('insert_your_oauth2_client_secret');
 // $client->setRedirectUri('insert_your_oauth2_redirect_uri');
-$client->setApplicationName("Tasks_Example_App");
+// $client->setApplicationName("Tasks_Example_App");
 $tasksService = new apiTasksService($client);
 
 if (isset($_REQUEST['logout'])) {

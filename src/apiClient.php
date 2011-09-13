@@ -201,6 +201,7 @@ class apiClient {
   public function setClientId($clientId) {
     global $apiConfig;
     $apiConfig['oauth2_client_id'] = $clientId;
+    $this->auth->clientId = $clientId;
   }
   
   /**
@@ -210,6 +211,7 @@ class apiClient {
   public function setClientSecret($clientSecret) {
     global $apiConfig;
     $apiConfig['oauth2_client_secret'] = $clientSecret;
+    $this->auth->clientSecret = $clientSecret;
   }
 
   /**
@@ -219,6 +221,7 @@ class apiClient {
   public function setRedirectUri($redirectUri) {
     global $apiConfig;
     $apiConfig['oauth2_redirect_uri'] = $redirectUri;
+    $this->auth->redirectUri = $redirectUri;
   }
 
   /**
