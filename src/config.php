@@ -72,6 +72,7 @@ $apiConfig = array(
           )
       ),
       'moderator' => array('scope' => 'https://www.googleapis.com/auth/moderator'),
+      'plus' => array('scope' => 'https://www.googleapis.com/auth/plus.me'),
       'easyhybrid' => array('scope' => 'https://www.googleapis.com/auth/userinfo#email'),
       'siteVerification' => array('scope' => 'https://www.googleapis.com/auth/siteverification'),
       'tasks' => array('scope' => 'https://www.googleapis.com/auth/tasks'),
