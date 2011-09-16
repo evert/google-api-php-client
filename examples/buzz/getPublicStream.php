@@ -30,7 +30,7 @@ require_once 'includes/displayBuzzPost.php';
 
 // Setup the API Client, and create the Buzz client using it
 $apiClient = new apiClient();
-$client->setApplicationName("BuzzPublicStream_Example_App");
+$apiClient->setApplicationName("BuzzPublicStream_Example_App");
 $buzz = new apiBuzzService($apiClient);
 
 // If a oauth token was stored in the session, use that- and otherwise go through the oauth dance
