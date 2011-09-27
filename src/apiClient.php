@@ -48,9 +48,10 @@ class apiCacheException extends apiException {}
 class apiIOException extends apiException {}
 class apiServiceException extends apiException {}
 
-/* global array of type handlers, used by the api request executers to parse results
- * maps the type strings ('buzz#activity') to a class representation (buzzAcvitityModel) which will be automatically triggered on input
- */
+
+// Global array of type handlers, used by the API request executors to parse results
+// maps the type strings ('plus#activity') to a class representation (plusActivityModel)
+// which will be automatically triggered on input.
 global $apiTypeHandlers;
 $apiTypeHandlers = array();
 
@@ -61,7 +62,6 @@ $apiTypeHandlers = array();
  * @author Chris Chabot <chabotc@google.com>
  */
 class apiClient {
-
   // the version of the discovery mechanism this class is meant to work with
   const discoveryVersion = 'v0.3';
 
@@ -227,7 +227,7 @@ class apiClient {
   /**
    * This function allows you to overrule the automatically generated scopes, so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!
-   * @param array $scopes, ie: array('https://www.googleapis.com/auth/buzz', 'https://www.googleapis.com/auth/moderator')
+   * @param array $scopes, ie: array('https://www.googleapis.com/auth/plus', 'https://www.googleapis.com/auth/moderator')
    */
   public function setScopes($scopes) {
     $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
