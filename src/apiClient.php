@@ -178,7 +178,8 @@ class apiClient {
   }
 
   /**
-   * Set the developer key to use, these are obtained through the API Console
+   * Set the developer key to use, these are obtained through the API Console.
+   * @see http://code.google.com/apis/console-help/#generatingdevkeys
    * @param string $developerKey
    */
   public function setDeveloperKey($developerKey) {
