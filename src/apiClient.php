@@ -187,6 +187,14 @@ class apiClient {
   }
 
   /**
+   * Set OAuth 2.0 "state" parameter to achieve per-request customization.
+   * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2.2
+   * @param string $state
+   */
+  public function setState($state) {
+    $this->auth->setState($state);
+  }
+  /**
    * Set the application name, this is included in the User-Agent HTTP header.
    * @param string $applicationName
    */

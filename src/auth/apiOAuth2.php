@@ -27,6 +27,7 @@ class apiOAuth2 extends apiAuth {
   public $developerKey;
   public $accessToken;
   public $redirectUri;
+  public $state;
 
   const OAUTH2_TOKEN_URI = "https://accounts.google.com/o/oauth2/token";
   const OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
@@ -95,6 +96,10 @@ class apiOAuth2 extends apiAuth {
         'client_id=' . urlencode($this->clientId),
         'scope=' . urlencode($service['scope'])
     );
+
+    if (isset($this->state)) {
+      $params[] = 'state=' . urlencode($this->state);
+    }
     $params = implode('&', $params);
     return self::OAUTH2_AUTH_URL . "?$params";
   }
@@ -116,6 +121,10 @@ class apiOAuth2 extends apiAuth {
 
   public function setDeveloperKey($developerKey) {
     $this->developerKey = $developerKey;
+  }
+
+  public function setState($state) {
+    $this->state = $state;
   }
 
   public function sign(apiHttpRequest $request) {
