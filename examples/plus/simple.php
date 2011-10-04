@@ -34,12 +34,21 @@ if (isset($_SESSION['token'])) {
 
 if ($client->getAccessToken()) {
   $me = $plus->people->get('me');
-
-  $optParams = array('maxResults' => 100);
-  $activities = $plus->activities->listActivities('me', 'public', $optParams);
-
   print "Your Profile: <pre>" . print_r($me, true) . "</pre>";
+
+  $params = array('maxResults' => 100);
+  $activities = $plus->activities->listActivities('me', 'public', $params);
   print "Your Activities: <pre>" . print_r($activities, true) . "</pre>";
+  
+  $params = array(
+    'orderBy' => 'best',
+    'maxResults' => '20',
+    'query' => 'Google+ API'
+  );
+  $results = $plus->activities->search($params);
+  foreach($results['items'] as $result) {
+    print "Search Result: <pre>{$result['object']['content']}</pre>\n";
+  }
 
   // The access token may have been updated lazily.
   $_SESSION['token'] = $client->getAccessToken();
