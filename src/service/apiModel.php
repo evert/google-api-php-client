@@ -23,14 +23,47 @@
  *
  */
 class apiModel {
+  protected $typeMap = array();
 
   public function __construct( /* polymorphic */ ) {
     if (func_num_args() ==  1 && 'array' == gettype(func_get_arg(0))) {
       // Initialize the model with the array's contents.
       $array = func_get_arg(0);
-      foreach ($array as $key => $val) {
-        $this->$key = $val;
+      $this->mapTypes($array);
+    }
+  }
+
+  private function mapTypes($array) {
+    foreach ($array as $key => $val) {
+      $this->$key = $val;
+
+      if ($this->useObjects()) {
+        if ('items' == $key) {
+          foreach ($val as $arrayIndex => $arrayItem) {
+            if (isset($this->typeMap[$arrayItem['kind']])) {
+              $this->items = array();
+              $this->items[$arrayIndex] = $this->createObjectFromKind($arrayItem);
+            }
+          }
+        }
+        else if (isset($this->typeMap[$val['kind']])) {
+          $this->$key = $this->createObjectFromKind($val);
+        }
+        else if (isset($this->typeMap[$key])) {
+          $type = $this->typeMap[$key];
+          $this->$key = new $type($val);
+        }
       }
     }
+  }
+
+  private function createObjectFromKind($item) {
+    $type = $this->typeMap[$item['kind']];
+    return new $type($item);
+  }
+  
+  protected function useObjects() {
+    global $apiConfig;
+    return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
   }
 }
