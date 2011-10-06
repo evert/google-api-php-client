@@ -37,7 +37,7 @@ class apiCurlIO implements apiIO {
   }
 
   /**
-   * Perform an authenticated / signed apihttpRequest.
+   * Perform an authenticated / signed apiHttpRequest.
    * This function takes the apiHttpRequest, calls apiAuth->sign on it (which can modify the request in what ever way fits the auth mechanism)
    * and then calls apiCurlIO::makeRequest on the signed request
    *
@@ -151,7 +151,7 @@ class apiCurlIO implements apiIO {
     if ($request->getMethod() != 'GET') {
       return false;
     }
-    // Analyze the request's headers to see if there is a valid caching strategy
+    // Analyze the request headers to see if there is a valid caching strategy.
     $headers = $this->getNormalizedHeaders($request);
     // And parse all the bits that are required for the can-cache evaluation
     $etag = isset($headers['etag']) ? $headers['etag'] : false;
