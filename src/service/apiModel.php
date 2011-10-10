@@ -23,8 +23,6 @@
  *
  */
 class apiModel {
-  protected $typeMap = array();
-
   public function __construct( /* polymorphic */ ) {
     if (func_num_args() ==  1 && 'array' == gettype(func_get_arg(0))) {
       // Initialize the model with the array's contents.
@@ -33,32 +31,58 @@ class apiModel {
     }
   }
 
+  /**
+   * Initialize this object's properties from an array.
+   * 
+   * @param array Used to seed this object's properties.
+   * @return void
+   */
   private function mapTypes($array) {
     foreach ($array as $key => $val) {
       $this->$key = $val;
 
-      if ($this->useObjects()) {
-        if ('items' == $key) {
+      $keyTypeName = "__$key" . 'Type';
+      if ($this->useObjects() && property_exists($this, $keyTypeName)) {
+        if ($this->isAssociativeArray($val)) {
+          $this->$key = $this->createObjectFromName($keyTypeName, $val);
+        } else if (is_array($val)) {
+          $arrayObject = array();
           foreach ($val as $arrayIndex => $arrayItem) {
-            if (isset($this->typeMap[$arrayItem['kind']])) {
-              $this->items = array();
-              $this->items[$arrayIndex] = $this->createObjectFromKind($arrayItem);
-            }
+            $arrayObject[$arrayIndex] = $this->createObjectFromName($keyTypeName, $arrayItem);
           }
-        }
-        else if (isset($this->typeMap[$val['kind']])) {
-          $this->$key = $this->createObjectFromKind($val);
-        }
-        else if (isset($this->typeMap[$key])) {
-          $type = $this->typeMap[$key];
-          $this->$key = new $type($val);
+          $this->$key = $arrayObject;
         }
       }
     }
   }
 
-  private function createObjectFromKind($item) {
-    $type = $this->typeMap[$item['kind']];
+  /**
+   * Returns true only if the array is associative.
+   * @param array $array
+   * @return bool True if the array is associative.
+   */
+  private function isAssociativeArray($array) {
+    if (!is_array($array)) {
+      return false;
+    }
+    $keys = array_keys($array);
+    foreach($keys as $key) {
+      if (is_string($key)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Given a variable name, discover its type.
+   *
+   * @param $name
+   * @param $item
+   * @return object The object from the item.
+   */
+  private function createObjectFromName($name, $item) {
+    $type = $this->$name;
     return new $type($item);
   }
   

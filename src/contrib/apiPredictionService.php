@@ -171,179 +171,137 @@ class apiPredictionService extends apiService {
   }
 }
 
-class TrainingUtility extends apiModel {
-
-
+class Input extends apiModel {
+  protected $__inputType = 'InputInput';
+  public $input;
+  public function setInput(InputInput $input) {
+    $this->input = $input;
+  }
+  public function getInput() {
+    return $this->input;
+  }
 }
 
+class InputInput extends apiModel {
+  public $csvInstance;
+  public function setCsvInstance(/* array(object) */ $csvInstance) {
+    $this->csvInstance = $csvInstance;
+  }
+  public function getCsvInstance() {
+    return $this->csvInstance;
+  }
+}
+
+class Output extends apiModel {
+  public $kind;
+  public $outputLabel;
+  public $id;
+  protected $__outputMultiType = 'OutputOutputMulti';
+  public $outputMulti;
+  public $outputValue;
+  public $selfLink;
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setOutputLabel($outputLabel) {
+    $this->outputLabel = $outputLabel;
+  }
+  public function getOutputLabel() {
+    return $this->outputLabel;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setOutputMulti(/* array(OutputOutputMulti) */ $outputMulti) {
+    $this->outputMulti = $outputMulti;
+  }
+  public function getOutputMulti() {
+    return $this->outputMulti;
+  }
+  public function setOutputValue($outputValue) {
+    $this->outputValue = $outputValue;
+  }
+  public function getOutputValue() {
+    return $this->outputValue;
+  }
+  public function setSelfLink($selfLink) {
+    $this->selfLink = $selfLink;
+  }
+  public function getSelfLink() {
+    return $this->selfLink;
+  }
+}
+
+class OutputOutputMulti extends apiModel {
+  public $score;
+  public $label;
+  public function setScore($score) {
+    $this->score = $score;
+  }
+  public function getScore() {
+    return $this->score;
+  }
+  public function setLabel($label) {
+    $this->label = $label;
+  }
+  public function getLabel() {
+    return $this->label;
+  }
+}
 
 class Training extends apiModel {
-
   public $kind;
   public $trainingStatus;
+  protected $__modelInfoType = 'TrainingModelInfo';
   public $modelInfo;
   public $id;
   public $selfLink;
   public $utility;
-
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
   public function setTrainingStatus($trainingStatus) {
     $this->trainingStatus = $trainingStatus;
   }
-
   public function getTrainingStatus() {
     return $this->trainingStatus;
   }
-  
   public function setModelInfo(TrainingModelInfo $modelInfo) {
     $this->modelInfo = $modelInfo;
   }
-
   public function getModelInfo() {
     return $this->modelInfo;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
   public function setSelfLink($selfLink) {
     $this->selfLink = $selfLink;
   }
-
   public function getSelfLink() {
     return $this->selfLink;
   }
-  
-  public function setUtility($utility) {
+  public function setUtility(/* array(double) */ $utility) {
     $this->utility = $utility;
   }
-
   public function getUtility() {
     return $this->utility;
   }
-  
 }
-
-
-class TrainingModelInfoConfusionMatrix extends apiModel {
-
-
-}
-
-
-class Output extends apiModel {
-
-  public $kind;
-  public $outputLabel;
-  public $id;
-  public $outputMulti;
-  public $outputValue;
-  public $selfLink;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setOutputLabel($outputLabel) {
-    $this->outputLabel = $outputLabel;
-  }
-
-  public function getOutputLabel() {
-    return $this->outputLabel;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setOutputMulti(OutputOutputMulti $outputMulti) {
-    $this->outputMulti = $outputMulti;
-  }
-
-  public function getOutputMulti() {
-    return $this->outputMulti;
-  }
-  
-  public function setOutputValue($outputValue) {
-    $this->outputValue = $outputValue;
-  }
-
-  public function getOutputValue() {
-    return $this->outputValue;
-  }
-  
-  public function setSelfLink($selfLink) {
-    $this->selfLink = $selfLink;
-  }
-
-  public function getSelfLink() {
-    return $this->selfLink;
-  }
-  
-}
-
-
-class Update extends apiModel {
-
-  public $classLabel;
-  public $csvInstance;
-
-  public function setClassLabel($classLabel) {
-    $this->classLabel = $classLabel;
-  }
-
-  public function getClassLabel() {
-    return $this->classLabel;
-  }
-  
-  public function setCsvInstance($csvInstance) {
-    $this->csvInstance = $csvInstance;
-  }
-
-  public function getCsvInstance() {
-    return $this->csvInstance;
-  }
-  
-}
-
-
-class InputInput extends apiModel {
-
-  public $csvInstance;
-
-  public function setCsvInstance($csvInstance) {
-    $this->csvInstance = $csvInstance;
-  }
-
-  public function getCsvInstance() {
-    return $this->csvInstance;
-  }
-  
-}
-
 
 class TrainingModelInfo extends apiModel {
-
   public $confusionMatrixRowTotals;
   public $confusionMatrix;
   public $meanSquaredError;
@@ -352,115 +310,69 @@ class TrainingModelInfo extends apiModel {
   public $numberClasses;
   public $classWeightedAccuracy;
   public $classificationAccuracy;
-
   public function setConfusionMatrixRowTotals($confusionMatrixRowTotals) {
     $this->confusionMatrixRowTotals = $confusionMatrixRowTotals;
   }
-
   public function getConfusionMatrixRowTotals() {
     return $this->confusionMatrixRowTotals;
   }
-  
   public function setConfusionMatrix($confusionMatrix) {
     $this->confusionMatrix = $confusionMatrix;
   }
-
   public function getConfusionMatrix() {
     return $this->confusionMatrix;
   }
-  
   public function setMeanSquaredError($meanSquaredError) {
     $this->meanSquaredError = $meanSquaredError;
   }
-
   public function getMeanSquaredError() {
     return $this->meanSquaredError;
   }
-  
   public function setModelType($modelType) {
     $this->modelType = $modelType;
   }
-
   public function getModelType() {
     return $this->modelType;
   }
-  
   public function setNumberInstances($numberInstances) {
     $this->numberInstances = $numberInstances;
   }
-
   public function getNumberInstances() {
     return $this->numberInstances;
   }
-  
   public function setNumberClasses($numberClasses) {
     $this->numberClasses = $numberClasses;
   }
-
   public function getNumberClasses() {
     return $this->numberClasses;
   }
-  
   public function setClassWeightedAccuracy($classWeightedAccuracy) {
     $this->classWeightedAccuracy = $classWeightedAccuracy;
   }
-
   public function getClassWeightedAccuracy() {
     return $this->classWeightedAccuracy;
   }
-  
   public function setClassificationAccuracy($classificationAccuracy) {
     $this->classificationAccuracy = $classificationAccuracy;
   }
-
   public function getClassificationAccuracy() {
     return $this->classificationAccuracy;
   }
-  
 }
 
-
-class OutputOutputMulti extends apiModel {
-
-  public $score;
-  public $label;
-
-  public function setScore($score) {
-    $this->score = $score;
+class Update extends apiModel {
+  public $classLabel;
+  public $csvInstance;
+  public function setClassLabel($classLabel) {
+    $this->classLabel = $classLabel;
   }
-
-  public function getScore() {
-    return $this->score;
+  public function getClassLabel() {
+    return $this->classLabel;
   }
-  
-  public function setLabel($label) {
-    $this->label = $label;
+  public function setCsvInstance(/* array(object) */ $csvInstance) {
+    $this->csvInstance = $csvInstance;
   }
-
-  public function getLabel() {
-    return $this->label;
+  public function getCsvInstance() {
+    return $this->csvInstance;
   }
-  
 }
-
-
-class TrainingModelInfoConfusionMatrixRowTotals extends apiModel {
-
-
-}
-
-
-class Input extends apiModel {
-
-  public $input;
-
-  public function setInput(InputInput $input) {
-    $this->input = $input;
-  }
-
-  public function getInput() {
-    return $this->input;
-  }
-  
-}
-

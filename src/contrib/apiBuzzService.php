@@ -1015,1806 +1015,1181 @@ class apiBuzzService extends apiService {
     $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
-    $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"count": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"url": {"repeated": true, "type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CountFeed"}, "httpMethod": "GET", "path": "activities/count", "id": "chili.activities.count"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "preview": {"default": "false", "type": "boolean", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "10MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/activities/{userId}/@self", "multipart": true}, "resumable": {"path": "resumable/upload/activities/{userId}/@self", "multipart": true}}}, "request": {"$ref": "Activity"}, "id": "chili.activities.insert", "httpMethod": "POST", "path": "activities/{userId}/@self", "response": {"$ref": "Activity"}}, "search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "truncateAtom": {"type": "boolean", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/search", "id": "chili.activities.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.activities.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}", "response": {"$ref": "Activity"}}, "track": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/track", "id": "chili.activities.track"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "scope": {"required": true, "enum": ["@comments", "@consumption", "@liked", "@public", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.activities.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}", "response": {"$ref": "ActivityFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "extractPeopleFromSearch": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "activities/search/@people", "id": "chili.activities.extractPeopleFromSearch"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"scope": {"required": true, "enum": ["@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/{scope}/{postId}", "id": "chili.activities.delete"}}}', true));
+    $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"count": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"url": {"repeated": true, "type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CountFeed"}, "httpMethod": "GET", "path": "activities/count", "id": "chili.activities.count"}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "preview": {"default": "false", "type": "boolean", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "10MB", "accept": ["image/*"], "protocols": {"simple": {"path": "/upload/buzz/v1/activities/{userId}/@self", "multipart": true}, "resumable": {"path": "/resumable/upload/buzz/v1/activities/{userId}/@self", "multipart": true}}}, "request": {"$ref": "Activity"}, "id": "chili.activities.insert", "httpMethod": "POST", "path": "activities/{userId}/@self", "response": {"$ref": "Activity"}}, "search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "truncateAtom": {"type": "boolean", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/search", "id": "chili.activities.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.activities.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}", "response": {"$ref": "Activity"}}, "track": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "ActivityFeed"}, "httpMethod": "GET", "path": "activities/track", "id": "chili.activities.track"}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "truncateAtom": {"type": "boolean", "location": "query"}, "max-comments": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "hl": {"type": "string", "location": "query"}, "max-liked": {"default": "0", "format": "uint32", "type": "integer", "location": "query"}, "scope": {"required": true, "enum": ["@comments", "@consumption", "@liked", "@public", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.activities.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}", "response": {"$ref": "ActivityFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@abuse", "@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Activity"}, "id": "chili.activities.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}", "response": {"$ref": "Activity"}}, "extractPeopleFromSearch": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "pid": {"type": "string", "location": "query"}, "lon": {"type": "string", "location": "query"}, "q": {"type": "string", "location": "query"}, "radius": {"type": "string", "location": "query"}, "bbox": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "lat": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "activities/search/@people", "id": "chili.activities.extractPeopleFromSearch"}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"scope": {"required": true, "enum": ["@liked", "@muted", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/{scope}/{postId}", "id": "chili.activities.delete"}}}', true));
     $this->people = new PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"search": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "q": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "httpMethod": "GET", "path": "people/search", "id": "chili.people.search"}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.people.get", "httpMethod": "GET", "path": "people/{userId}/@self", "response": {"$ref": "Person"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "groupId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.people.list", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}", "response": {"$ref": "PeopleFeed"}}, "liked": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@liked"]}}, "id": "chili.people.liked", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Person"}, "id": "chili.people.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/{personId}", "response": {"$ref": "Person"}}, "reshared": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path", "enum": ["@reshared"]}}, "id": "chili.people.reshared", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/{groupId}", "response": {"$ref": "PeopleFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"personId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}/{personId}", "id": "chili.people.delete"}}}', true));
     $this->photoAlbums = new PhotoAlbumsServiceResource($this, $this->serviceName, 'photoAlbums', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Album"}, "id": "chili.photoAlbums.insert", "httpMethod": "POST", "path": "photos/{userId}/@self", "response": {"$ref": "Album"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}", "id": "chili.photoAlbums.delete"}, "list": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photoAlbums.list", "httpMethod": "GET", "path": "photos/{userId}/{scope}", "response": {"$ref": "AlbumsFeed"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.photoAlbums.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}", "response": {"$ref": "Album"}}}}', true));
     $this->comments = new CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.insert", "httpMethod": "POST", "path": "activities/{userId}/@self/{postId}/@comments", "response": {"$ref": "Comment"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.comments.get", "httpMethod": "GET", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.comments.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@comments", "response": {"$ref": "CommentFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.update", "httpMethod": "PUT", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"userId": {"required": true, "type": "string", "location": "path"}, "abuseType": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "commentId": {"required": true, "type": "string", "location": "path"}, "scope": {"required": true, "enum": ["@abuse", "@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Comment"}, "id": "chili.comments.patch", "httpMethod": "PATCH", "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}", "response": {"$ref": "Comment"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"commentId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "activities/{userId}/@self/{postId}/@comments/{commentId}", "id": "chili.comments.delete"}}}', true));
-    $this->photos = new PhotosServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods": {"insert2": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/@self/{albumId}/@photos", "multipart": true}}}, "request": {"$ref": "ChiliPhotosResourceJson"}, "id": "chili.photos.insert2", "httpMethod": "POST", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "ChiliPhotosResourceJson"}}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "upload/photos/{userId}/{albumId}", "multipart": true}, "resumable": {"path": "resumable/upload/photos/{userId}/{albumId}", "multipart": true}}}, "request": {"$ref": "AlbumLite"}, "id": "chili.photos.insert", "httpMethod": "POST", "path": "photos/{userId}/{albumId}", "response": {"$ref": "AlbumLite"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.photos.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "response": {"$ref": "ChiliPhotosResourceJson"}}, "listByScope": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@recent"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByScope", "httpMethod": "GET", "path": "photos/{userId}/@self/{scope}/@photos", "response": {"$ref": "PhotosFeed"}}, "listByAlbum": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "albumId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByAlbum", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "PhotosFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "id": "chili.photos.delete"}}}', true));
+    $this->photos = new PhotosServiceResource($this, $this->serviceName, 'photos', json_decode('{"methods": {"insert2": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "/upload/buzz/v1/photos/{userId}/@self/{albumId}/@photos", "multipart": true}, "resumable": {"path": "/resumable/upload/buzz/v1/photos/{userId}/@self/{albumId}/@photos", "multipart": true}}}, "request": {"$ref": "ChiliPhotosResourceJson"}, "id": "chili.photos.insert2", "httpMethod": "POST", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "ChiliPhotosResourceJson"}}, "insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "mediaUpload": {"maxSize": "30MB", "accept": ["image/*"], "protocols": {"simple": {"path": "/upload/buzz/v1/photos/{userId}/{albumId}", "multipart": true}, "resumable": {"path": "/resumable/upload/buzz/v1/photos/{userId}/{albumId}", "multipart": true}}}, "request": {"$ref": "AlbumLite"}, "id": "chili.photos.insert", "httpMethod": "POST", "path": "photos/{userId}/{albumId}", "response": {"$ref": "AlbumLite"}}, "get": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "chili.photos.get", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "response": {"$ref": "ChiliPhotosResourceJson"}}, "listByScope": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "scope": {"required": true, "enum": ["@recent"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByScope", "httpMethod": "GET", "path": "photos/{userId}/@self/{scope}/@photos", "response": {"$ref": "PhotosFeed"}}, "listByAlbum": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "c": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "albumId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}}, "id": "chili.photos.listByAlbum", "httpMethod": "GET", "path": "photos/{userId}/@self/{albumId}/@photos", "response": {"$ref": "PhotosFeed"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/picasa"], "parameters": {"albumId": {"required": true, "type": "string", "location": "path"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "photoId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}", "id": "chili.photos.delete"}}}', true));
     $this->related = new RelatedServiceResource($this, $this->serviceName, 'related', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"scope": {"required": true, "enum": ["@self"], "location": "path", "type": "string"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "postId": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.related.list", "httpMethod": "GET", "path": "activities/{userId}/{scope}/{postId}/@related", "response": {"$ref": "RelatedFeed"}}}}', true));
     $this->groups = new GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.insert", "httpMethod": "POST", "path": "people/{userId}/@groups", "response": {"$ref": "Group"}}, "get": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.get", "httpMethod": "GET", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "list": {"scopes": ["https://www.googleapis.com/auth/buzz", "https://www.googleapis.com/auth/buzz.readonly"], "parameters": {"max-results": {"default": "20", "format": "uint32", "type": "integer", "location": "query"}, "alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "c": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}}, "id": "chili.groups.list", "httpMethod": "GET", "path": "people/{userId}/@groups", "response": {"$ref": "GroupFeed"}}, "update": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.update", "httpMethod": "PUT", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "request": {"$ref": "Group"}, "id": "chili.groups.patch", "httpMethod": "PATCH", "path": "people/{userId}/@groups/{groupId}/@self", "response": {"$ref": "Group"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/buzz"], "parameters": {"alt": {"default": "atom", "enum": ["atom", "json"], "location": "query", "type": "string"}, "userId": {"required": true, "type": "string", "location": "path"}, "groupId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "people/{userId}/@groups/{groupId}", "id": "chili.groups.delete"}}}', true));
   }
 }
 
-class PersonUrls extends apiModel {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class PersonOrganizations extends apiModel {
-
-  public $startDate;
-  public $endDate;
-  public $description;
-  public $title;
-  public $primary;
-  public $location;
-  public $department;
-  public $type;
-  public $name;
-
-  public function setStartDate($startDate) {
-    $this->startDate = $startDate;
-  }
-
-  public function getStartDate() {
-    return $this->startDate;
-  }
-  
-  public function setEndDate($endDate) {
-    $this->endDate = $endDate;
-  }
-
-  public function getEndDate() {
-    return $this->endDate;
-  }
-  
-  public function setDescription($description) {
-    $this->description = $description;
-  }
-
-  public function getDescription() {
-    return $this->description;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setLocation($location) {
-    $this->location = $location;
-  }
-
-  public function getLocation() {
-    return $this->location;
-  }
-  
-  public function setDepartment($department) {
-    $this->department = $department;
-  }
-
-  public function getDepartment() {
-    return $this->department;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class PersonPhoneNumbers extends apiModel {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class ActivityObjectActor extends apiModel {
-
-  public $profileUrl;
-  public $thumbnailUrl;
-  public $id;
-  public $name;
-
-  public function setProfileUrl($profileUrl) {
-    $this->profileUrl = $profileUrl;
-  }
-
-  public function getProfileUrl() {
-    return $this->profileUrl;
-  }
-  
-  public function setThumbnailUrl($thumbnailUrl) {
-    $this->thumbnailUrl = $thumbnailUrl;
-  }
-
-  public function getThumbnailUrl() {
-    return $this->thumbnailUrl;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class ChiliPhotosResourceJsonOwner extends apiModel {
-
-  public $profileUrl;
-  public $thumbnailUrl;
-  public $id;
-  public $name;
-
-  public function setProfileUrl($profileUrl) {
-    $this->profileUrl = $profileUrl;
-  }
-
-  public function getProfileUrl() {
-    return $this->profileUrl;
-  }
-  
-  public function setThumbnailUrl($thumbnailUrl) {
-    $this->thumbnailUrl = $thumbnailUrl;
-  }
-
-  public function getThumbnailUrl() {
-    return $this->thumbnailUrl;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  public function getName() {
-    return $this->name;
-  }
-  
-}
-
-
-class ActivityLinks extends apiModel {
-
-  public $liked;
-
-  public function setLiked(ActivityLinksLiked $liked) {
-    $this->liked = $liked;
-  }
-
-  public function getLiked() {
-    return $this->liked;
-  }
-  
-}
-
-
-class ActivityVisibilityEntries extends apiModel {
-
+class Activity extends apiModel {
+  public $untranslatedTitle;
+  protected $__linksType = 'ActivityLinks';
+  public $links;
+  public $radius;
   public $id;
   public $title;
-
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-}
-
-
-class GroupFeedLinks extends apiModel {
-
-
-}
-
-
-class ActivityObjectAttachmentsLinks extends apiModel {
-
-
-}
-
-
-class AlbumLite extends apiModel {
-
+  public $geocode;
+  protected $__actorType = 'ActivityActor';
+  public $actor;
+  protected $__sourceType = 'ActivitySource';
+  public $source;
+  public $verbs;
+  public $crosspostSource;
+  public $placeName;
+  public $updated;
+  protected $__objectType = 'ActivityObject';
+  public $object;
+  protected $__visibilityType = 'ActivityVisibility';
+  public $visibility;
+  public $detectedlLang;
+  public $address;
+  public $placeholder;
+  public $annotation;
+  protected $__categoriesType = 'ActivityCategories';
+  public $categories;
+  public $targetLang;
   public $kind;
-  public $collection;
-
+  public $placeId;
+  public $published;
+  public function setUntranslatedTitle($untranslatedTitle) {
+    $this->untranslatedTitle = $untranslatedTitle;
+  }
+  public function getUntranslatedTitle() {
+    return $this->untranslatedTitle;
+  }
+  public function setLinks(ActivityLinks $links) {
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
+  }
+  public function setRadius($radius) {
+    $this->radius = $radius;
+  }
+  public function getRadius() {
+    return $this->radius;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setGeocode($geocode) {
+    $this->geocode = $geocode;
+  }
+  public function getGeocode() {
+    return $this->geocode;
+  }
+  public function setActor(ActivityActor $actor) {
+    $this->actor = $actor;
+  }
+  public function getActor() {
+    return $this->actor;
+  }
+  public function setSource(ActivitySource $source) {
+    $this->source = $source;
+  }
+  public function getSource() {
+    return $this->source;
+  }
+  public function setVerbs(/* array(string) */ $verbs) {
+    $this->verbs = $verbs;
+  }
+  public function getVerbs() {
+    return $this->verbs;
+  }
+  public function setCrosspostSource($crosspostSource) {
+    $this->crosspostSource = $crosspostSource;
+  }
+  public function getCrosspostSource() {
+    return $this->crosspostSource;
+  }
+  public function setPlaceName($placeName) {
+    $this->placeName = $placeName;
+  }
+  public function getPlaceName() {
+    return $this->placeName;
+  }
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setObject(ActivityObject $object) {
+    $this->object = $object;
+  }
+  public function getObject() {
+    return $this->object;
+  }
+  public function setVisibility(ActivityVisibility $visibility) {
+    $this->visibility = $visibility;
+  }
+  public function getVisibility() {
+    return $this->visibility;
+  }
+  public function setDetectedlLang($detectedlLang) {
+    $this->detectedlLang = $detectedlLang;
+  }
+  public function getDetectedlLang() {
+    return $this->detectedlLang;
+  }
+  public function setAddress($address) {
+    $this->address = $address;
+  }
+  public function getAddress() {
+    return $this->address;
+  }
+  public function setPlaceholder($placeholder) {
+    $this->placeholder = $placeholder;
+  }
+  public function getPlaceholder() {
+    return $this->placeholder;
+  }
+  public function setAnnotation($annotation) {
+    $this->annotation = $annotation;
+  }
+  public function getAnnotation() {
+    return $this->annotation;
+  }
+  public function setCategories(/* array(ActivityCategories) */ $categories) {
+    $this->categories = $categories;
+  }
+  public function getCategories() {
+    return $this->categories;
+  }
+  public function setTargetLang($targetLang) {
+    $this->targetLang = $targetLang;
+  }
+  public function getTargetLang() {
+    return $this->targetLang;
+  }
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
-  public function setCollection(AlbumLiteCollection $collection) {
-    $this->collection = $collection;
+  public function setPlaceId($placeId) {
+    $this->placeId = $placeId;
   }
-
-  public function getCollection() {
-    return $this->collection;
+  public function getPlaceId() {
+    return $this->placeId;
   }
-  
+  public function setPublished($published) {
+    $this->published = $published;
+  }
+  public function getPublished() {
+    return $this->published;
+  }
 }
 
-
-class CountFeedCounts extends apiModel {
-
-
+class ActivityActor extends apiModel {
+  public $profileUrl;
+  public $thumbnailUrl;
+  public $id;
+  public $name;
+  public function setProfileUrl($profileUrl) {
+    $this->profileUrl = $profileUrl;
+  }
+  public function getProfileUrl() {
+    return $this->profileUrl;
+  }
+  public function setThumbnailUrl($thumbnailUrl) {
+    $this->thumbnailUrl = $thumbnailUrl;
+  }
+  public function getThumbnailUrl() {
+    return $this->thumbnailUrl;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setName($name) {
+    $this->name = $name;
+  }
+  public function getName() {
+    return $this->name;
+  }
 }
 
+class ActivityCategories extends apiModel {
+  public $term;
+  public $schema;
+  public $label;
+  public function setTerm($term) {
+    $this->term = $term;
+  }
+  public function getTerm() {
+    return $this->term;
+  }
+  public function setSchema($schema) {
+    $this->schema = $schema;
+  }
+  public function getSchema() {
+    return $this->schema;
+  }
+  public function setLabel($label) {
+    $this->label = $label;
+  }
+  public function getLabel() {
+    return $this->label;
+  }
+}
 
-class AlbumsFeed extends apiModel {
-
-  public $items;
+class ActivityFeed extends apiModel {
   public $kind;
-
-  public function setItems(Album $items) {
+  protected $__linksType = 'ActivityFeedLinksItems';
+  public $links;
+  public $title;
+  protected $__itemsType = 'Activity';
+  public $items;
+  public $updated;
+  public $id;
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setLinks(ActivityFeedLinksItems $links) {
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setItems(/* array(Activity) */ $items) {
     $this->items = $items;
   }
-
   public function getItems() {
     return $this->items;
   }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
+  public function setUpdated($updated) {
+    $this->updated = $updated;
   }
-
-  public function getKind() {
-    return $this->kind;
+  public function getUpdated() {
+    return $this->updated;
   }
-  
-}
-
-
-class Related extends apiModel {
-
-  public $title;
-  public $kind;
-  public $href;
-  public $id;
-  public $summary;
-
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
-  public function setSummary($summary) {
-    $this->summary = $summary;
-  }
-
-  public function getSummary() {
-    return $this->summary;
-  }
-  
 }
 
+class ActivityFeedLinksItems extends apiModel {
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+  public function setCount($count) {
+    $this->count = $count;
+  }
+  public function getCount() {
+    return $this->count;
+  }
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+  public function getHeight() {
+    return $this->height;
+  }
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  public function getWidth() {
+    return $this->width;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+}
+
+class ActivityLinks extends apiModel {
+  protected $__likedType = 'ActivityLinksLiked';
+  public $liked;
+  public function setLiked(/* array(ActivityLinksLiked) */ $liked) {
+    $this->liked = $liked;
+  }
+  public function getLiked() {
+    return $this->liked;
+  }
+}
+
+class ActivityLinksLiked extends apiModel {
+  public $count;
+  public $href;
+  public $type;
+  public function setCount($count) {
+    $this->count = $count;
+  }
+  public function getCount() {
+    return $this->count;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+}
 
 class ActivityObject extends apiModel {
-
   public $targetLang;
+  protected $__likedType = 'Person';
   public $liked;
+  protected $__attachmentsType = 'ActivityObjectAttachments';
   public $attachments;
+  protected $__linksType = 'ActivityObjectLinksItems';
   public $links;
   public $originalContent;
+  protected $__actorType = 'ActivityObjectActor';
   public $actor;
+  protected $__shareOriginalType = 'Activity';
   public $shareOriginal;
   public $content;
   public $detectedlLang;
+  protected $__commentsType = 'Comment';
   public $comments;
   public $type;
   public $id;
   public $untranslatedContent;
-
   public function setTargetLang($targetLang) {
     $this->targetLang = $targetLang;
   }
-
   public function getTargetLang() {
     return $this->targetLang;
   }
-  
-  public function setLiked(Person $liked) {
+  public function setLiked(/* array(Person) */ $liked) {
     $this->liked = $liked;
   }
-
   public function getLiked() {
     return $this->liked;
   }
-  
-  public function setAttachments(ActivityObjectAttachments $attachments) {
+  public function setAttachments(/* array(ActivityObjectAttachments) */ $attachments) {
     $this->attachments = $attachments;
   }
-
   public function getAttachments() {
     return $this->attachments;
   }
-  
   public function setLinks(ActivityObjectLinksItems $links) {
     $this->links = $links;
   }
-
   public function getLinks() {
     return $this->links;
   }
-  
   public function setOriginalContent($originalContent) {
     $this->originalContent = $originalContent;
   }
-
   public function getOriginalContent() {
     return $this->originalContent;
   }
-  
   public function setActor(ActivityObjectActor $actor) {
     $this->actor = $actor;
   }
-
   public function getActor() {
     return $this->actor;
   }
-  
   public function setShareOriginal(Activity $shareOriginal) {
     $this->shareOriginal = $shareOriginal;
   }
-
   public function getShareOriginal() {
     return $this->shareOriginal;
   }
-  
   public function setContent($content) {
     $this->content = $content;
   }
-
   public function getContent() {
     return $this->content;
   }
-  
   public function setDetectedlLang($detectedlLang) {
     $this->detectedlLang = $detectedlLang;
   }
-
   public function getDetectedlLang() {
     return $this->detectedlLang;
   }
-  
-  public function setComments(Comment $comments) {
+  public function setComments(/* array(Comment) */ $comments) {
     $this->comments = $comments;
   }
-
   public function getComments() {
     return $this->comments;
   }
-  
   public function setType($type) {
     $this->type = $type;
   }
-
   public function getType() {
     return $this->type;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
   public function setUntranslatedContent($untranslatedContent) {
     $this->untranslatedContent = $untranslatedContent;
   }
-
   public function getUntranslatedContent() {
     return $this->untranslatedContent;
   }
-  
 }
 
-
-class ActivityFeed extends apiModel {
-
-  public $kind;
-  public $links;
-  public $title;
-  public $items;
-  public $updated;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks(ActivityFeedLinksItems $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setItems(Activity $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class PersonEmails extends apiModel {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class CommentActor extends apiModel {
-
+class ActivityObjectActor extends apiModel {
   public $profileUrl;
   public $thumbnailUrl;
   public $id;
   public $name;
-
   public function setProfileUrl($profileUrl) {
     $this->profileUrl = $profileUrl;
   }
-
   public function getProfileUrl() {
     return $this->profileUrl;
   }
-  
   public function setThumbnailUrl($thumbnailUrl) {
     $this->thumbnailUrl = $thumbnailUrl;
   }
-
   public function getThumbnailUrl() {
     return $this->thumbnailUrl;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
   public function setName($name) {
     $this->name = $name;
   }
-
   public function getName() {
     return $this->name;
   }
-  
 }
 
-
-class CommentFeedLinks extends apiModel {
-
-
-}
-
-
-class PersonPhotos extends apiModel {
-
-  public $width;
+class ActivityObjectAttachments extends apiModel {
+  public $content;
   public $type;
-  public $primary;
-  public $value;
-  public $height;
-
-  public function setWidth($width) {
-    $this->width = $width;
+  public $id;
+  protected $__linksType = 'ActivityObjectAttachmentsLinksItems';
+  public $links;
+  public $title;
+  public function setContent($content) {
+    $this->content = $content;
   }
-
-  public function getWidth() {
-    return $this->width;
+  public function getContent() {
+    return $this->content;
   }
-  
   public function setType($type) {
     $this->type = $type;
   }
-
   public function getType() {
     return $this->type;
   }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
+  public function setId($id) {
+    $this->id = $id;
   }
+  public function getId() {
+    return $this->id;
+  }
+  public function setLinks(ActivityObjectAttachmentsLinksItems $links) {
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+}
 
-  public function getPrimary() {
-    return $this->primary;
+class ActivityObjectAttachmentsLinksItems extends apiModel {
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+  public function setCount($count) {
+    $this->count = $count;
   }
-  
-  public function setValue($value) {
-    $this->value = $value;
+  public function getCount() {
+    return $this->count;
   }
-
-  public function getValue() {
-    return $this->value;
+  public function setUpdated($updated) {
+    $this->updated = $updated;
   }
-  
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
   public function setHeight($height) {
     $this->height = $height;
   }
-
   public function getHeight() {
     return $this->height;
   }
-  
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  public function getWidth() {
+    return $this->width;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
 }
 
+class ActivityObjectLinksItems extends apiModel {
+  public $href;
+  public $type;
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+}
+
+class ActivitySource extends apiModel {
+  public $title;
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+}
+
+class ActivityVisibility extends apiModel {
+  protected $__entriesType = 'ActivityVisibilityEntries';
+  public $entries;
+  public function setEntries(/* array(ActivityVisibilityEntries) */ $entries) {
+    $this->entries = $entries;
+  }
+  public function getEntries() {
+    return $this->entries;
+  }
+}
+
+class ActivityVisibilityEntries extends apiModel {
+  public $id;
+  public $title;
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+}
+
+class Album extends apiModel {
+  public $kind;
+  public $description;
+  protected $__linksType = 'AlbumLinks';
+  public $links;
+  public $created;
+  public $lastModified;
+  public $tags;
+  public $version;
+  public $firstPhotoId;
+  protected $__ownerType = 'AlbumOwner';
+  public $owner;
+  public $title;
+  public $id;
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setDescription($description) {
+    $this->description = $description;
+  }
+  public function getDescription() {
+    return $this->description;
+  }
+  public function setLinks(AlbumLinks $links) {
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
+  }
+  public function setCreated($created) {
+    $this->created = $created;
+  }
+  public function getCreated() {
+    return $this->created;
+  }
+  public function setLastModified($lastModified) {
+    $this->lastModified = $lastModified;
+  }
+  public function getLastModified() {
+    return $this->lastModified;
+  }
+  public function setTags(/* array(string) */ $tags) {
+    $this->tags = $tags;
+  }
+  public function getTags() {
+    return $this->tags;
+  }
+  public function setVersion($version) {
+    $this->version = $version;
+  }
+  public function getVersion() {
+    return $this->version;
+  }
+  public function setFirstPhotoId($firstPhotoId) {
+    $this->firstPhotoId = $firstPhotoId;
+  }
+  public function getFirstPhotoId() {
+    return $this->firstPhotoId;
+  }
+  public function setOwner(AlbumOwner $owner) {
+    $this->owner = $owner;
+  }
+  public function getOwner() {
+    return $this->owner;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+}
+
+class AlbumLinks extends apiModel {
+  protected $__alternateType = 'Link';
+  public $alternate;
+  protected $__enclosureType = 'Link';
+  public $enclosure;
+  public function setAlternate(Link $alternate) {
+    $this->alternate = $alternate;
+  }
+  public function getAlternate() {
+    return $this->alternate;
+  }
+  public function setEnclosure(Link $enclosure) {
+    $this->enclosure = $enclosure;
+  }
+  public function getEnclosure() {
+    return $this->enclosure;
+  }
+}
+
+class AlbumLite extends apiModel {
+  public $kind;
+  protected $__collectionType = 'AlbumLiteCollection';
+  public $collection;
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setCollection(AlbumLiteCollection $collection) {
+    $this->collection = $collection;
+  }
+  public function getCollection() {
+    return $this->collection;
+  }
+}
+
+class AlbumLiteCollection extends apiModel {
+  public $album;
+  public $albumId;
+  protected $__photoType = 'AlbumLiteCollectionPhoto';
+  public $photo;
+  public function setAlbum($album) {
+    $this->album = $album;
+  }
+  public function getAlbum() {
+    return $this->album;
+  }
+  public function setAlbumId($albumId) {
+    $this->albumId = $albumId;
+  }
+  public function getAlbumId() {
+    return $this->albumId;
+  }
+  public function setPhoto(AlbumLiteCollectionPhoto $photo) {
+    $this->photo = $photo;
+  }
+  public function getPhoto() {
+    return $this->photo;
+  }
+}
+
+class AlbumLiteCollectionPhoto extends apiModel {
+  public $photoUrl;
+  public function setPhotoUrl($photoUrl) {
+    $this->photoUrl = $photoUrl;
+  }
+  public function getPhotoUrl() {
+    return $this->photoUrl;
+  }
+}
+
+class AlbumOwner extends apiModel {
+  public $profileUrl;
+  public $thumbnailUrl;
+  public $id;
+  public $name;
+  public function setProfileUrl($profileUrl) {
+    $this->profileUrl = $profileUrl;
+  }
+  public function getProfileUrl() {
+    return $this->profileUrl;
+  }
+  public function setThumbnailUrl($thumbnailUrl) {
+    $this->thumbnailUrl = $thumbnailUrl;
+  }
+  public function getThumbnailUrl() {
+    return $this->thumbnailUrl;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setName($name) {
+    $this->name = $name;
+  }
+  public function getName() {
+    return $this->name;
+  }
+}
+
+class AlbumsFeed extends apiModel {
+  protected $__itemsType = 'Album';
+  public $items;
+  public $kind;
+  public function setItems(/* array(Album) */ $items) {
+    $this->items = $items;
+  }
+  public function getItems() {
+    return $this->items;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+}
 
 class ChiliPhotosResourceJson extends apiModel {
-
+  protected $__albumType = 'ChiliPhotosResourceJsonAlbum';
   public $album;
   public $kind;
   public $description;
+  protected $__linksType = 'ChiliPhotosResourceJsonLinks';
   public $links;
   public $created;
   public $lastModified;
   public $title;
   public $version;
+  protected $__videoType = 'Video';
   public $video;
   public $fileSize;
   public $timestamp;
+  protected $__ownerType = 'ChiliPhotosResourceJsonOwner';
   public $owner;
   public $id;
-
   public function setAlbum(ChiliPhotosResourceJsonAlbum $album) {
     $this->album = $album;
   }
-
   public function getAlbum() {
     return $this->album;
   }
-  
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
   public function setDescription($description) {
     $this->description = $description;
   }
-
   public function getDescription() {
     return $this->description;
   }
-  
   public function setLinks(ChiliPhotosResourceJsonLinks $links) {
     $this->links = $links;
   }
-
   public function getLinks() {
     return $this->links;
   }
-  
   public function setCreated($created) {
     $this->created = $created;
   }
-
   public function getCreated() {
     return $this->created;
   }
-  
   public function setLastModified($lastModified) {
     $this->lastModified = $lastModified;
   }
-
   public function getLastModified() {
     return $this->lastModified;
   }
-  
   public function setTitle($title) {
     $this->title = $title;
   }
-
   public function getTitle() {
     return $this->title;
   }
-  
   public function setVersion($version) {
     $this->version = $version;
   }
-
   public function getVersion() {
     return $this->version;
   }
-  
   public function setVideo(Video $video) {
     $this->video = $video;
   }
-
   public function getVideo() {
     return $this->video;
   }
-  
   public function setFileSize($fileSize) {
     $this->fileSize = $fileSize;
   }
-
   public function getFileSize() {
     return $this->fileSize;
   }
-  
   public function setTimestamp($timestamp) {
     $this->timestamp = $timestamp;
   }
-
   public function getTimestamp() {
     return $this->timestamp;
   }
-  
   public function setOwner(ChiliPhotosResourceJsonOwner $owner) {
     $this->owner = $owner;
   }
-
   public function getOwner() {
     return $this->owner;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
 }
 
-
-class RelatedFeedLinks extends apiModel {
-
-
+class ChiliPhotosResourceJsonAlbum extends apiModel {
+  public $id;
+  protected $__page_linkType = 'Link';
+  public $page_link;
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setPage_link(Link $page_link) {
+    $this->page_link = $page_link;
+  }
+  public function getPage_link() {
+    return $this->page_link;
+  }
 }
 
+class ChiliPhotosResourceJsonLinks extends apiModel {
+  protected $__alternateType = 'Link';
+  public $alternate;
+  public function setAlternate(/* array(Link) */ $alternate) {
+    $this->alternate = $alternate;
+  }
+  public function getAlternate() {
+    return $this->alternate;
+  }
+}
 
-class AlbumOwner extends apiModel {
-
+class ChiliPhotosResourceJsonOwner extends apiModel {
   public $profileUrl;
   public $thumbnailUrl;
   public $id;
   public $name;
-
   public function setProfileUrl($profileUrl) {
     $this->profileUrl = $profileUrl;
   }
-
   public function getProfileUrl() {
     return $this->profileUrl;
   }
-  
   public function setThumbnailUrl($thumbnailUrl) {
     $this->thumbnailUrl = $thumbnailUrl;
   }
-
   public function getThumbnailUrl() {
     return $this->thumbnailUrl;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
   public function setName($name) {
     $this->name = $name;
   }
-
   public function getName() {
     return $this->name;
   }
-  
 }
-
-
-class CommentLinks extends apiModel {
-
-  public $inReplyTo;
-
-  public function setInReplyTo(CommentLinksInReplyTo $inReplyTo) {
-    $this->inReplyTo = $inReplyTo;
-  }
-
-  public function getInReplyTo() {
-    return $this->inReplyTo;
-  }
-  
-}
-
-
-class ActivityFeedLinksItems extends apiModel {
-
-  public $count;
-  public $updated;
-  public $title;
-  public $height;
-  public $width;
-  public $href;
-  public $type;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setHeight($height) {
-    $this->height = $height;
-  }
-
-  public function getHeight() {
-    return $this->height;
-  }
-  
-  public function setWidth($width) {
-    $this->width = $width;
-  }
-
-  public function getWidth() {
-    return $this->width;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class ChiliPhotosResourceJsonAlbum extends apiModel {
-
-  public $id;
-  public $page_link;
-
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setPage_link(Link $page_link) {
-    $this->page_link = $page_link;
-  }
-
-  public function getPage_link() {
-    return $this->page_link;
-  }
-  
-}
-
-
-class GroupLinksSelf extends apiModel {
-
-  public $href;
-  public $type;
-
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class ActivityObjectAttachmentsLinksItems extends apiModel {
-
-  public $count;
-  public $updated;
-  public $title;
-  public $height;
-  public $width;
-  public $href;
-  public $type;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setHeight($height) {
-    $this->height = $height;
-  }
-
-  public function getHeight() {
-    return $this->height;
-  }
-  
-  public function setWidth($width) {
-    $this->width = $width;
-  }
-
-  public function getWidth() {
-    return $this->width;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class ActivityObjectLinks extends apiModel {
-
-
-}
-
-
-class CommentFeed extends apiModel {
-
-  public $kind;
-  public $links;
-  public $title;
-  public $items;
-  public $updated;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks(CommentFeedLinksItems $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setItems(Comment $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
 
 class Comment extends apiModel {
-
   public $targetLang;
   public $kind;
   public $untranslatedContent;
+  protected $__linksType = 'CommentLinks';
   public $links;
   public $originalContent;
   public $updated;
+  protected $__actorType = 'CommentActor';
   public $actor;
   public $content;
   public $published;
   public $detectedLang;
   public $placeholder;
   public $id;
-
   public function setTargetLang($targetLang) {
     $this->targetLang = $targetLang;
   }
-
   public function getTargetLang() {
     return $this->targetLang;
   }
-  
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
   public function setUntranslatedContent($untranslatedContent) {
     $this->untranslatedContent = $untranslatedContent;
   }
-
   public function getUntranslatedContent() {
     return $this->untranslatedContent;
   }
-  
   public function setLinks(CommentLinks $links) {
     $this->links = $links;
   }
-
   public function getLinks() {
     return $this->links;
   }
-  
   public function setOriginalContent($originalContent) {
     $this->originalContent = $originalContent;
   }
-
   public function getOriginalContent() {
     return $this->originalContent;
   }
-  
   public function setUpdated($updated) {
     $this->updated = $updated;
   }
-
   public function getUpdated() {
     return $this->updated;
   }
-  
   public function setActor(CommentActor $actor) {
     $this->actor = $actor;
   }
-
   public function getActor() {
     return $this->actor;
   }
-  
   public function setContent($content) {
     $this->content = $content;
   }
-
   public function getContent() {
     return $this->content;
   }
-  
   public function setPublished($published) {
     $this->published = $published;
   }
-
   public function getPublished() {
     return $this->published;
   }
-  
   public function setDetectedLang($detectedLang) {
     $this->detectedLang = $detectedLang;
   }
-
   public function getDetectedLang() {
     return $this->detectedLang;
   }
-  
   public function setPlaceholder($placeholder) {
     $this->placeholder = $placeholder;
   }
-
   public function getPlaceholder() {
     return $this->placeholder;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
 }
 
-
-class Link extends apiModel {
-
-  public $count;
-  public $updated;
-  public $title;
-  public $height;
-  public $width;
-  public $href;
-  public $type;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setHeight($height) {
-    $this->height = $height;
-  }
-
-  public function getHeight() {
-    return $this->height;
-  }
-  
-  public function setWidth($width) {
-    $this->width = $width;
-  }
-
-  public function getWidth() {
-    return $this->width;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class AlbumLinks extends apiModel {
-
-  public $alternate;
-  public $enclosure;
-
-  public function setAlternate(Link $alternate) {
-    $this->alternate = $alternate;
-  }
-
-  public function getAlternate() {
-    return $this->alternate;
-  }
-  
-  public function setEnclosure(Link $enclosure) {
-    $this->enclosure = $enclosure;
-  }
-
-  public function getEnclosure() {
-    return $this->enclosure;
-  }
-  
-}
-
-
-class CommentFeedLinksItems extends apiModel {
-
-  public $count;
-  public $updated;
-  public $title;
-  public $height;
-  public $width;
-  public $href;
-  public $type;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setHeight($height) {
-    $this->height = $height;
-  }
-
-  public function getHeight() {
-    return $this->height;
-  }
-  
-  public function setWidth($width) {
-    $this->width = $width;
-  }
-
-  public function getWidth() {
-    return $this->width;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class GroupFeed extends apiModel {
-
-  public $items;
-  public $kind;
-  public $links;
-
-  public function setItems(Group $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks(GroupFeedLinksItems $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-}
-
-
-class ActivityActor extends apiModel {
-
+class CommentActor extends apiModel {
   public $profileUrl;
   public $thumbnailUrl;
   public $id;
   public $name;
-
   public function setProfileUrl($profileUrl) {
     $this->profileUrl = $profileUrl;
   }
-
   public function getProfileUrl() {
     return $this->profileUrl;
   }
-  
   public function setThumbnailUrl($thumbnailUrl) {
     $this->thumbnailUrl = $thumbnailUrl;
   }
-
   public function getThumbnailUrl() {
     return $this->thumbnailUrl;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
   public function setName($name) {
     $this->name = $name;
   }
-
   public function getName() {
     return $this->name;
   }
-  
 }
 
-
-class Group extends apiModel {
-
-  public $memberCount;
+class CommentFeed extends apiModel {
   public $kind;
-  public $id;
+  protected $__linksType = 'CommentFeedLinksItems';
   public $links;
   public $title;
-
-  public function setMemberCount($memberCount) {
-    $this->memberCount = $memberCount;
-  }
-
-  public function getMemberCount() {
-    return $this->memberCount;
-  }
-  
+  protected $__itemsType = 'Comment';
+  public $items;
+  public $updated;
+  public $id;
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setLinks(GroupLinks $links) {
+  public function setLinks(CommentFeedLinksItems $links) {
     $this->links = $links;
   }
-
   public function getLinks() {
     return $this->links;
   }
-  
   public function setTitle($title) {
     $this->title = $title;
   }
-
   public function getTitle() {
     return $this->title;
   }
-  
-}
-
-
-class CommentLinksInReplyTo extends apiModel {
-
-  public $source;
-  public $href;
-  public $ref;
-
-  public function setSource($source) {
-    $this->source = $source;
-  }
-
-  public function getSource() {
-    return $this->source;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setRef($ref) {
-    $this->ref = $ref;
-  }
-
-  public function getRef() {
-    return $this->ref;
-  }
-  
-}
-
-
-class ActivitySource extends apiModel {
-
-  public $title;
-
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-}
-
-
-class ActivityCategories extends apiModel {
-
-  public $term;
-  public $schema;
-  public $label;
-
-  public function setTerm($term) {
-    $this->term = $term;
-  }
-
-  public function getTerm() {
-    return $this->term;
-  }
-  
-  public function setSchema($schema) {
-    $this->schema = $schema;
-  }
-
-  public function getSchema() {
-    return $this->schema;
-  }
-  
-  public function setLabel($label) {
-    $this->label = $label;
-  }
-
-  public function getLabel() {
-    return $this->label;
-  }
-  
-}
-
-
-class PeopleFeed extends apiModel {
-
-  public $totalResults;
-  public $entry;
-  public $kind;
-  public $itemsPerPage;
-  public $startIndex;
-
-  public function setTotalResults($totalResults) {
-    $this->totalResults = $totalResults;
-  }
-
-  public function getTotalResults() {
-    return $this->totalResults;
-  }
-  
-  public function setEntry(Person $entry) {
-    $this->entry = $entry;
-  }
-
-  public function getEntry() {
-    return $this->entry;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setItemsPerPage($itemsPerPage) {
-    $this->itemsPerPage = $itemsPerPage;
-  }
-
-  public function getItemsPerPage() {
-    return $this->itemsPerPage;
-  }
-  
-  public function setStartIndex($startIndex) {
-    $this->startIndex = $startIndex;
-  }
-
-  public function getStartIndex() {
-    return $this->startIndex;
-  }
-  
-}
-
-
-class ActivityLinksLiked extends apiModel {
-
-  public $count;
-  public $href;
-  public $type;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class PhotosFeed extends apiModel {
-
-  public $items;
-  public $kind;
-
-  public function setItems(ChiliPhotosResourceJson $items) {
+  public function setItems(/* array(Comment) */ $items) {
     $this->items = $items;
   }
-
   public function getItems() {
     return $this->items;
   }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
+  public function setUpdated($updated) {
+    $this->updated = $updated;
   }
-
-  public function getKind() {
-    return $this->kind;
+  public function getUpdated() {
+    return $this->updated;
   }
-  
-}
-
-
-class ActivityObjectAttachments extends apiModel {
-
-  public $content;
-  public $type;
-  public $id;
-  public $links;
-  public $title;
-
-  public function setContent($content) {
-    $this->content = $content;
-  }
-
-  public function getContent() {
-    return $this->content;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
-  public function setLinks(ActivityObjectAttachmentsLinksItems $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
 }
 
-
-class GroupFeedLinksItems extends apiModel {
-
+class CommentFeedLinksItems extends apiModel {
   public $count;
   public $updated;
   public $title;
@@ -2822,77 +2197,369 @@ class GroupFeedLinksItems extends apiModel {
   public $width;
   public $href;
   public $type;
-
   public function setCount($count) {
     $this->count = $count;
   }
-
   public function getCount() {
     return $this->count;
   }
-  
   public function setUpdated($updated) {
     $this->updated = $updated;
   }
-
   public function getUpdated() {
     return $this->updated;
   }
-  
   public function setTitle($title) {
     $this->title = $title;
   }
-
   public function getTitle() {
     return $this->title;
   }
-  
   public function setHeight($height) {
     $this->height = $height;
   }
-
   public function getHeight() {
     return $this->height;
   }
-  
   public function setWidth($width) {
     $this->width = $width;
   }
-
   public function getWidth() {
     return $this->width;
   }
-  
   public function setHref($href) {
     $this->href = $href;
   }
-
   public function getHref() {
     return $this->href;
   }
-  
   public function setType($type) {
     $this->type = $type;
   }
-
   public function getType() {
     return $this->type;
   }
-  
 }
 
+class CommentLinks extends apiModel {
+  protected $__inReplyToType = 'CommentLinksInReplyTo';
+  public $inReplyTo;
+  public function setInReplyTo(/* array(CommentLinksInReplyTo) */ $inReplyTo) {
+    $this->inReplyTo = $inReplyTo;
+  }
+  public function getInReplyTo() {
+    return $this->inReplyTo;
+  }
+}
+
+class CommentLinksInReplyTo extends apiModel {
+  public $source;
+  public $href;
+  public $ref;
+  public function setSource($source) {
+    $this->source = $source;
+  }
+  public function getSource() {
+    return $this->source;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setRef($ref) {
+    $this->ref = $ref;
+  }
+  public function getRef() {
+    return $this->ref;
+  }
+}
+
+class CountFeed extends apiModel {
+  protected $__countsType = 'CountFeedCountsItems';
+  public $counts;
+  public $kind;
+  public function setCounts(CountFeedCountsItems $counts) {
+    $this->counts = $counts;
+  }
+  public function getCounts() {
+    return $this->counts;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+}
+
+class CountFeedCountsItems extends apiModel {
+  public $count;
+  public $timestamp;
+  public function setCount($count) {
+    $this->count = $count;
+  }
+  public function getCount() {
+    return $this->count;
+  }
+  public function setTimestamp($timestamp) {
+    $this->timestamp = $timestamp;
+  }
+  public function getTimestamp() {
+    return $this->timestamp;
+  }
+}
+
+class Group extends apiModel {
+  public $memberCount;
+  public $kind;
+  public $id;
+  protected $__linksType = 'GroupLinks';
+  public $links;
+  public $title;
+  public function setMemberCount($memberCount) {
+    $this->memberCount = $memberCount;
+  }
+  public function getMemberCount() {
+    return $this->memberCount;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setLinks(GroupLinks $links) {
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+}
+
+class GroupFeed extends apiModel {
+  protected $__itemsType = 'Group';
+  public $items;
+  public $kind;
+  protected $__linksType = 'GroupFeedLinksItems';
+  public $links;
+  public function setItems(/* array(Group) */ $items) {
+    $this->items = $items;
+  }
+  public function getItems() {
+    return $this->items;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setLinks(GroupFeedLinksItems $links) {
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
+  }
+}
+
+class GroupFeedLinksItems extends apiModel {
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+  public function setCount($count) {
+    $this->count = $count;
+  }
+  public function getCount() {
+    return $this->count;
+  }
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+  public function getHeight() {
+    return $this->height;
+  }
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  public function getWidth() {
+    return $this->width;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+}
+
+class GroupLinks extends apiModel {
+  protected $__selfType = 'GroupLinksSelf';
+  public $self;
+  public function setSelf(/* array(GroupLinksSelf) */ $self) {
+    $this->self = $self;
+  }
+  public function getSelf() {
+    return $this->self;
+  }
+}
+
+class GroupLinksSelf extends apiModel {
+  public $href;
+  public $type;
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+}
+
+class Link extends apiModel {
+  public $count;
+  public $updated;
+  public $title;
+  public $height;
+  public $width;
+  public $href;
+  public $type;
+  public function setCount($count) {
+    $this->count = $count;
+  }
+  public function getCount() {
+    return $this->count;
+  }
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+  public function getHeight() {
+    return $this->height;
+  }
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  public function getWidth() {
+    return $this->width;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+}
+
+class PeopleFeed extends apiModel {
+  public $totalResults;
+  protected $__entryType = 'Person';
+  public $entry;
+  public $kind;
+  public $itemsPerPage;
+  public $startIndex;
+  public function setTotalResults($totalResults) {
+    $this->totalResults = $totalResults;
+  }
+  public function getTotalResults() {
+    return $this->totalResults;
+  }
+  public function setEntry(/* array(Person) */ $entry) {
+    $this->entry = $entry;
+  }
+  public function getEntry() {
+    return $this->entry;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setItemsPerPage($itemsPerPage) {
+    $this->itemsPerPage = $itemsPerPage;
+  }
+  public function getItemsPerPage() {
+    return $this->itemsPerPage;
+  }
+  public function setStartIndex($startIndex) {
+    $this->startIndex = $startIndex;
+  }
+  public function getStartIndex() {
+    return $this->startIndex;
+  }
+}
 
 class Person extends apiModel {
-
   public $status;
+  protected $__phoneNumbersType = 'PersonPhoneNumbers';
   public $phoneNumbers;
   public $fashion;
+  protected $__addressesType = 'PersonAddresses';
   public $addresses;
   public $romance;
   public $turnOffs;
   public $preferredUsername;
   public $quotes;
   public $books;
+  protected $__accountsType = 'PersonAccounts';
   public $accounts;
   public $turnOns;
   public $hasApp;
@@ -2912,6 +2579,7 @@ class Person extends apiModel {
   public $currentLocation;
   public $languages;
   public $religion;
+  protected $__imsType = 'PersonIms';
   public $ims;
   public $music;
   public $pets;
@@ -2925,16 +2593,20 @@ class Person extends apiModel {
   public $cars;
   public $aboutMe;
   public $kind;
+  protected $__photosType = 'PersonPhotos';
   public $photos;
   public $birthday;
   public $connected;
   public $profileVideo;
   public $heroes;
   public $nickname;
+  protected $__emailsType = 'PersonEmails';
   public $emails;
+  protected $__organizationsType = 'PersonOrganizations';
   public $organizations;
   public $jobInterests;
   public $displayName;
+  protected $__nameType = 'PersonName';
   public $name;
   public $politicalViews;
   public $tvShows;
@@ -2945,599 +2617,428 @@ class Person extends apiModel {
   public $profileUrl;
   public $movies;
   public $utcOffset;
+  protected $__urlsType = 'PersonUrls';
   public $urls;
   public $published;
   public $livingArrangement;
   public $lookingFor;
-
   public function setStatus($status) {
     $this->status = $status;
   }
-
   public function getStatus() {
     return $this->status;
   }
-  
-  public function setPhoneNumbers(PersonPhoneNumbers $phoneNumbers) {
+  public function setPhoneNumbers(/* array(PersonPhoneNumbers) */ $phoneNumbers) {
     $this->phoneNumbers = $phoneNumbers;
   }
-
   public function getPhoneNumbers() {
     return $this->phoneNumbers;
   }
-  
   public function setFashion($fashion) {
     $this->fashion = $fashion;
   }
-
   public function getFashion() {
     return $this->fashion;
   }
-  
-  public function setAddresses(PersonAddresses $addresses) {
+  public function setAddresses(/* array(PersonAddresses) */ $addresses) {
     $this->addresses = $addresses;
   }
-
   public function getAddresses() {
     return $this->addresses;
   }
-  
   public function setRomance($romance) {
     $this->romance = $romance;
   }
-
   public function getRomance() {
     return $this->romance;
   }
-  
-  public function setTurnOffs($turnOffs) {
+  public function setTurnOffs(/* array(object) */ $turnOffs) {
     $this->turnOffs = $turnOffs;
   }
-
   public function getTurnOffs() {
     return $this->turnOffs;
   }
-  
   public function setPreferredUsername($preferredUsername) {
     $this->preferredUsername = $preferredUsername;
   }
-
   public function getPreferredUsername() {
     return $this->preferredUsername;
   }
-  
-  public function setQuotes($quotes) {
+  public function setQuotes(/* array(object) */ $quotes) {
     $this->quotes = $quotes;
   }
-
   public function getQuotes() {
     return $this->quotes;
   }
-  
-  public function setBooks($books) {
+  public function setBooks(/* array(object) */ $books) {
     $this->books = $books;
   }
-
   public function getBooks() {
     return $this->books;
   }
-  
-  public function setAccounts(PersonAccounts $accounts) {
+  public function setAccounts(/* array(PersonAccounts) */ $accounts) {
     $this->accounts = $accounts;
   }
-
   public function getAccounts() {
     return $this->accounts;
   }
-  
-  public function setTurnOns($turnOns) {
+  public function setTurnOns(/* array(object) */ $turnOns) {
     $this->turnOns = $turnOns;
   }
-
   public function getTurnOns() {
     return $this->turnOns;
   }
-  
   public function setHasApp($hasApp) {
     $this->hasApp = $hasApp;
   }
-
   public function getHasApp() {
     return $this->hasApp;
   }
-  
   public function setDrinker($drinker) {
     $this->drinker = $drinker;
   }
-
   public function getDrinker() {
     return $this->drinker;
   }
-  
-  public function setSports($sports) {
+  public function setSports(/* array(object) */ $sports) {
     $this->sports = $sports;
   }
-
   public function getSports() {
     return $this->sports;
   }
-  
-  public function setLanguagesSpoken($languagesSpoken) {
+  public function setLanguagesSpoken(/* array(object) */ $languagesSpoken) {
     $this->languagesSpoken = $languagesSpoken;
   }
-
   public function getLanguagesSpoken() {
     return $this->languagesSpoken;
   }
-  
-  public function setChildren($children) {
+  public function setChildren(/* array(object) */ $children) {
     $this->children = $children;
   }
-
   public function getChildren() {
     return $this->children;
   }
-  
   public function setEthnicity($ethnicity) {
     $this->ethnicity = $ethnicity;
   }
-
   public function getEthnicity() {
     return $this->ethnicity;
   }
-  
-  public function setRelationships($relationships) {
+  public function setRelationships(/* array(object) */ $relationships) {
     $this->relationships = $relationships;
   }
-
   public function getRelationships() {
     return $this->relationships;
   }
-  
   public function setNote($note) {
     $this->note = $note;
   }
-
   public function getNote() {
     return $this->note;
   }
-  
   public function setThumbnailUrl($thumbnailUrl) {
     $this->thumbnailUrl = $thumbnailUrl;
   }
-
   public function getThumbnailUrl() {
     return $this->thumbnailUrl;
   }
-  
   public function setHumor($humor) {
     $this->humor = $humor;
   }
-
   public function getHumor() {
     return $this->humor;
   }
-  
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
-  public function setTags($tags) {
+  public function setTags(/* array(object) */ $tags) {
     $this->tags = $tags;
   }
-
   public function getTags() {
     return $this->tags;
   }
-  
   public function setAnniversary($anniversary) {
     $this->anniversary = $anniversary;
   }
-
   public function getAnniversary() {
     return $this->anniversary;
   }
-  
   public function setHappiestWhen($happiestWhen) {
     $this->happiestWhen = $happiestWhen;
   }
-
   public function getHappiestWhen() {
     return $this->happiestWhen;
   }
-  
   public function setCurrentLocation($currentLocation) {
     $this->currentLocation = $currentLocation;
   }
-
   public function getCurrentLocation() {
     return $this->currentLocation;
   }
-  
-  public function setLanguages($languages) {
+  public function setLanguages(/* array(object) */ $languages) {
     $this->languages = $languages;
   }
-
   public function getLanguages() {
     return $this->languages;
   }
-  
   public function setReligion($religion) {
     $this->religion = $religion;
   }
-
   public function getReligion() {
     return $this->religion;
   }
-  
-  public function setIms(PersonIms $ims) {
+  public function setIms(/* array(PersonIms) */ $ims) {
     $this->ims = $ims;
   }
-
   public function getIms() {
     return $this->ims;
   }
-  
-  public function setMusic($music) {
+  public function setMusic(/* array(object) */ $music) {
     $this->music = $music;
   }
-
   public function getMusic() {
     return $this->music;
   }
-  
-  public function setPets($pets) {
+  public function setPets(/* array(object) */ $pets) {
     $this->pets = $pets;
   }
-
   public function getPets() {
     return $this->pets;
   }
-  
-  public function setInterests($interests) {
+  public function setInterests(/* array(object) */ $interests) {
     $this->interests = $interests;
   }
-
   public function getInterests() {
     return $this->interests;
   }
-  
-  public function setActivities($activities) {
+  public function setActivities(/* array(object) */ $activities) {
     $this->activities = $activities;
   }
-
   public function getActivities() {
     return $this->activities;
   }
-  
   public function setUpdated($updated) {
     $this->updated = $updated;
   }
-
   public function getUpdated() {
     return $this->updated;
   }
-  
   public function setBodyType($bodyType) {
     $this->bodyType = $bodyType;
   }
-
   public function getBodyType() {
     return $this->bodyType;
   }
-  
   public function setRelationshipStatus($relationshipStatus) {
     $this->relationshipStatus = $relationshipStatus;
   }
-
   public function getRelationshipStatus() {
     return $this->relationshipStatus;
   }
-  
   public function setSexualOrientation($sexualOrientation) {
     $this->sexualOrientation = $sexualOrientation;
   }
-
   public function getSexualOrientation() {
     return $this->sexualOrientation;
   }
-  
-  public function setFood($food) {
+  public function setFood(/* array(object) */ $food) {
     $this->food = $food;
   }
-
   public function getFood() {
     return $this->food;
   }
-  
-  public function setCars($cars) {
+  public function setCars(/* array(object) */ $cars) {
     $this->cars = $cars;
   }
-
   public function getCars() {
     return $this->cars;
   }
-  
   public function setAboutMe($aboutMe) {
     $this->aboutMe = $aboutMe;
   }
-
   public function getAboutMe() {
     return $this->aboutMe;
   }
-  
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
-  public function setPhotos(PersonPhotos $photos) {
+  public function setPhotos(/* array(PersonPhotos) */ $photos) {
     $this->photos = $photos;
   }
-
   public function getPhotos() {
     return $this->photos;
   }
-  
   public function setBirthday($birthday) {
     $this->birthday = $birthday;
   }
-
   public function getBirthday() {
     return $this->birthday;
   }
-  
   public function setConnected($connected) {
     $this->connected = $connected;
   }
-
   public function getConnected() {
     return $this->connected;
   }
-  
   public function setProfileVideo($profileVideo) {
     $this->profileVideo = $profileVideo;
   }
-
   public function getProfileVideo() {
     return $this->profileVideo;
   }
-  
-  public function setHeroes($heroes) {
+  public function setHeroes(/* array(object) */ $heroes) {
     $this->heroes = $heroes;
   }
-
   public function getHeroes() {
     return $this->heroes;
   }
-  
   public function setNickname($nickname) {
     $this->nickname = $nickname;
   }
-
   public function getNickname() {
     return $this->nickname;
   }
-  
-  public function setEmails(PersonEmails $emails) {
+  public function setEmails(/* array(PersonEmails) */ $emails) {
     $this->emails = $emails;
   }
-
   public function getEmails() {
     return $this->emails;
   }
-  
-  public function setOrganizations(PersonOrganizations $organizations) {
+  public function setOrganizations(/* array(PersonOrganizations) */ $organizations) {
     $this->organizations = $organizations;
   }
-
   public function getOrganizations() {
     return $this->organizations;
   }
-  
-  public function setJobInterests($jobInterests) {
+  public function setJobInterests(/* array(object) */ $jobInterests) {
     $this->jobInterests = $jobInterests;
   }
-
   public function getJobInterests() {
     return $this->jobInterests;
   }
-  
   public function setDisplayName($displayName) {
     $this->displayName = $displayName;
   }
-
   public function getDisplayName() {
     return $this->displayName;
   }
-  
   public function setName(PersonName $name) {
     $this->name = $name;
   }
-
   public function getName() {
     return $this->name;
   }
-  
-  public function setPoliticalViews($politicalViews) {
+  public function setPoliticalViews(/* array(object) */ $politicalViews) {
     $this->politicalViews = $politicalViews;
   }
-
   public function getPoliticalViews() {
     return $this->politicalViews;
   }
-  
-  public function setTvShows($tvShows) {
+  public function setTvShows(/* array(object) */ $tvShows) {
     $this->tvShows = $tvShows;
   }
-
   public function getTvShows() {
     return $this->tvShows;
   }
-  
   public function setGender($gender) {
     $this->gender = $gender;
   }
-
   public function getGender() {
     return $this->gender;
   }
-  
   public function setProfileSong($profileSong) {
     $this->profileSong = $profileSong;
   }
-
   public function getProfileSong() {
     return $this->profileSong;
   }
-  
   public function setSmoker($smoker) {
     $this->smoker = $smoker;
   }
-
   public function getSmoker() {
     return $this->smoker;
   }
-  
   public function setScaredOf($scaredOf) {
     $this->scaredOf = $scaredOf;
   }
-
   public function getScaredOf() {
     return $this->scaredOf;
   }
-  
   public function setProfileUrl($profileUrl) {
     $this->profileUrl = $profileUrl;
   }
-
   public function getProfileUrl() {
     return $this->profileUrl;
   }
-  
-  public function setMovies($movies) {
+  public function setMovies(/* array(object) */ $movies) {
     $this->movies = $movies;
   }
-
   public function getMovies() {
     return $this->movies;
   }
-  
   public function setUtcOffset($utcOffset) {
     $this->utcOffset = $utcOffset;
   }
-
   public function getUtcOffset() {
     return $this->utcOffset;
   }
-  
-  public function setUrls(PersonUrls $urls) {
+  public function setUrls(/* array(PersonUrls) */ $urls) {
     $this->urls = $urls;
   }
-
   public function getUrls() {
     return $this->urls;
   }
-  
   public function setPublished($published) {
     $this->published = $published;
   }
-
   public function getPublished() {
     return $this->published;
   }
-  
   public function setLivingArrangement($livingArrangement) {
     $this->livingArrangement = $livingArrangement;
   }
-
   public function getLivingArrangement() {
     return $this->livingArrangement;
   }
-  
   public function setLookingFor($lookingFor) {
     $this->lookingFor = $lookingFor;
   }
-
   public function getLookingFor() {
     return $this->lookingFor;
   }
-  
 }
 
-
-class ActivityFeedLinks extends apiModel {
-
-
+class PersonAccounts extends apiModel {
+  public $username;
+  public $domain;
+  public $userid;
+  public function setUsername($username) {
+    $this->username = $username;
+  }
+  public function getUsername() {
+    return $this->username;
+  }
+  public function setDomain($domain) {
+    $this->domain = $domain;
+  }
+  public function getDomain() {
+    return $this->domain;
+  }
+  public function setUserid($userid) {
+    $this->userid = $userid;
+  }
+  public function getUserid() {
+    return $this->userid;
+  }
 }
-
-
-class GroupLinks extends apiModel {
-
-  public $self;
-
-  public function setSelf(GroupLinksSelf $self) {
-    $this->self = $self;
-  }
-
-  public function getSelf() {
-    return $this->self;
-  }
-  
-}
-
-
-class Video extends apiModel {
-
-  public $duration;
-  public $status;
-  public $streams;
-  public $size;
-
-  public function setDuration($duration) {
-    $this->duration = $duration;
-  }
-
-  public function getDuration() {
-    return $this->duration;
-  }
-  
-  public function setStatus($status) {
-    $this->status = $status;
-  }
-
-  public function getStatus() {
-    return $this->status;
-  }
-  
-  public function setStreams(Link $streams) {
-    $this->streams = $streams;
-  }
-
-  public function getStreams() {
-    return $this->streams;
-  }
-  
-  public function setSize($size) {
-    $this->size = $size;
-  }
-
-  public function getSize() {
-    return $this->size;
-  }
-  
-}
-
 
 class PersonAddresses extends apiModel {
-
   public $locality;
   public $country;
   public $region;
@@ -3546,229 +3047,405 @@ class PersonAddresses extends apiModel {
   public $streetAddress;
   public $postalCode;
   public $type;
-
   public function setLocality($locality) {
     $this->locality = $locality;
   }
-
   public function getLocality() {
     return $this->locality;
   }
-  
   public function setCountry($country) {
     $this->country = $country;
   }
-
   public function getCountry() {
     return $this->country;
   }
-  
   public function setRegion($region) {
     $this->region = $region;
   }
-
   public function getRegion() {
     return $this->region;
   }
-  
   public function setPrimary($primary) {
     $this->primary = $primary;
   }
-
   public function getPrimary() {
     return $this->primary;
   }
-  
   public function setFormatted($formatted) {
     $this->formatted = $formatted;
   }
-
   public function getFormatted() {
     return $this->formatted;
   }
-  
   public function setStreetAddress($streetAddress) {
     $this->streetAddress = $streetAddress;
   }
-
   public function getStreetAddress() {
     return $this->streetAddress;
   }
-  
   public function setPostalCode($postalCode) {
     $this->postalCode = $postalCode;
   }
-
   public function getPostalCode() {
     return $this->postalCode;
   }
-  
   public function setType($type) {
     $this->type = $type;
   }
-
   public function getType() {
     return $this->type;
   }
-  
 }
 
+class PersonEmails extends apiModel {
+  public $type;
+  public $primary;
+  public $value;
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+  public function getPrimary() {
+    return $this->primary;
+  }
+  public function setValue($value) {
+    $this->value = $value;
+  }
+  public function getValue() {
+    return $this->value;
+  }
+}
 
-class Album extends apiModel {
+class PersonIms extends apiModel {
+  public $type;
+  public $primary;
+  public $value;
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+  public function getPrimary() {
+    return $this->primary;
+  }
+  public function setValue($value) {
+    $this->value = $value;
+  }
+  public function getValue() {
+    return $this->value;
+  }
+}
 
-  public $kind;
+class PersonName extends apiModel {
+  public $honorificPrefix;
+  public $middleName;
+  public $familyName;
+  public $formatted;
+  public $givenName;
+  public $honorificSuffix;
+  public function setHonorificPrefix($honorificPrefix) {
+    $this->honorificPrefix = $honorificPrefix;
+  }
+  public function getHonorificPrefix() {
+    return $this->honorificPrefix;
+  }
+  public function setMiddleName($middleName) {
+    $this->middleName = $middleName;
+  }
+  public function getMiddleName() {
+    return $this->middleName;
+  }
+  public function setFamilyName($familyName) {
+    $this->familyName = $familyName;
+  }
+  public function getFamilyName() {
+    return $this->familyName;
+  }
+  public function setFormatted($formatted) {
+    $this->formatted = $formatted;
+  }
+  public function getFormatted() {
+    return $this->formatted;
+  }
+  public function setGivenName($givenName) {
+    $this->givenName = $givenName;
+  }
+  public function getGivenName() {
+    return $this->givenName;
+  }
+  public function setHonorificSuffix($honorificSuffix) {
+    $this->honorificSuffix = $honorificSuffix;
+  }
+  public function getHonorificSuffix() {
+    return $this->honorificSuffix;
+  }
+}
+
+class PersonOrganizations extends apiModel {
+  public $startDate;
+  public $endDate;
   public $description;
-  public $links;
-  public $created;
-  public $lastModified;
-  public $tags;
-  public $version;
-  public $firstPhotoId;
-  public $owner;
   public $title;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
+  public $primary;
+  public $location;
+  public $department;
+  public $type;
+  public $name;
+  public function setStartDate($startDate) {
+    $this->startDate = $startDate;
   }
-
-  public function getKind() {
-    return $this->kind;
+  public function getStartDate() {
+    return $this->startDate;
   }
-  
+  public function setEndDate($endDate) {
+    $this->endDate = $endDate;
+  }
+  public function getEndDate() {
+    return $this->endDate;
+  }
   public function setDescription($description) {
     $this->description = $description;
   }
-
   public function getDescription() {
     return $this->description;
   }
-  
-  public function setLinks(AlbumLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setCreated($created) {
-    $this->created = $created;
-  }
-
-  public function getCreated() {
-    return $this->created;
-  }
-  
-  public function setLastModified($lastModified) {
-    $this->lastModified = $lastModified;
-  }
-
-  public function getLastModified() {
-    return $this->lastModified;
-  }
-  
-  public function setTags($tags) {
-    $this->tags = $tags;
-  }
-
-  public function getTags() {
-    return $this->tags;
-  }
-  
-  public function setVersion($version) {
-    $this->version = $version;
-  }
-
-  public function getVersion() {
-    return $this->version;
-  }
-  
-  public function setFirstPhotoId($firstPhotoId) {
-    $this->firstPhotoId = $firstPhotoId;
-  }
-
-  public function getFirstPhotoId() {
-    return $this->firstPhotoId;
-  }
-  
-  public function setOwner(AlbumOwner $owner) {
-    $this->owner = $owner;
-  }
-
-  public function getOwner() {
-    return $this->owner;
-  }
-  
   public function setTitle($title) {
     $this->title = $title;
   }
-
   public function getTitle() {
     return $this->title;
   }
-  
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+  public function getPrimary() {
+    return $this->primary;
+  }
+  public function setLocation($location) {
+    $this->location = $location;
+  }
+  public function getLocation() {
+    return $this->location;
+  }
+  public function setDepartment($department) {
+    $this->department = $department;
+  }
+  public function getDepartment() {
+    return $this->department;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setName($name) {
+    $this->name = $name;
+  }
+  public function getName() {
+    return $this->name;
+  }
+}
+
+class PersonPhoneNumbers extends apiModel {
+  public $type;
+  public $primary;
+  public $value;
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+  public function getPrimary() {
+    return $this->primary;
+  }
+  public function setValue($value) {
+    $this->value = $value;
+  }
+  public function getValue() {
+    return $this->value;
+  }
+}
+
+class PersonPhotos extends apiModel {
+  public $width;
+  public $type;
+  public $primary;
+  public $value;
+  public $height;
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  public function getWidth() {
+    return $this->width;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+  public function getPrimary() {
+    return $this->primary;
+  }
+  public function setValue($value) {
+    $this->value = $value;
+  }
+  public function getValue() {
+    return $this->value;
+  }
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+  public function getHeight() {
+    return $this->height;
+  }
+}
+
+class PersonUrls extends apiModel {
+  public $type;
+  public $primary;
+  public $value;
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setPrimary($primary) {
+    $this->primary = $primary;
+  }
+  public function getPrimary() {
+    return $this->primary;
+  }
+  public function setValue($value) {
+    $this->value = $value;
+  }
+  public function getValue() {
+    return $this->value;
+  }
+}
+
+class PhotosFeed extends apiModel {
+  protected $__itemsType = 'ChiliPhotosResourceJson';
+  public $items;
+  public $kind;
+  public function setItems(/* array(ChiliPhotosResourceJson) */ $items) {
+    $this->items = $items;
+  }
+  public function getItems() {
+    return $this->items;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+}
+
+class Related extends apiModel {
+  public $title;
+  public $kind;
+  public $href;
+  public $id;
+  public $summary;
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setHref($href) {
+    $this->href = $href;
+  }
+  public function getHref() {
+    return $this->href;
+  }
   public function setId($id) {
     $this->id = $id;
   }
-
   public function getId() {
     return $this->id;
   }
-  
+  public function setSummary($summary) {
+    $this->summary = $summary;
+  }
+  public function getSummary() {
+    return $this->summary;
+  }
 }
 
-
-class PersonAccounts extends apiModel {
-
-  public $username;
-  public $domain;
-  public $userid;
-
-  public function setUsername($username) {
-    $this->username = $username;
+class RelatedFeed extends apiModel {
+  public $kind;
+  protected $__linksType = 'RelatedFeedLinksItems';
+  public $links;
+  public $title;
+  protected $__itemsType = 'Related';
+  public $items;
+  public $updated;
+  public $id;
+  public function setKind($kind) {
+    $this->kind = $kind;
   }
-
-  public function getUsername() {
-    return $this->username;
+  public function getKind() {
+    return $this->kind;
   }
-  
-  public function setDomain($domain) {
-    $this->domain = $domain;
+  public function setLinks(RelatedFeedLinksItems $links) {
+    $this->links = $links;
   }
-
-  public function getDomain() {
-    return $this->domain;
+  public function getLinks() {
+    return $this->links;
   }
-  
-  public function setUserid($userid) {
-    $this->userid = $userid;
+  public function setTitle($title) {
+    $this->title = $title;
   }
-
-  public function getUserid() {
-    return $this->userid;
+  public function getTitle() {
+    return $this->title;
   }
-  
+  public function setItems(/* array(Related) */ $items) {
+    $this->items = $items;
+  }
+  public function getItems() {
+    return $this->items;
+  }
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
 }
-
-
-class ActivityVisibility extends apiModel {
-
-  public $entries;
-
-  public function setEntries(ActivityVisibilityEntries $entries) {
-    $this->entries = $entries;
-  }
-
-  public function getEntries() {
-    return $this->entries;
-  }
-  
-}
-
 
 class RelatedFeedLinksItems extends apiModel {
-
   public $count;
   public $updated;
   public $title;
@@ -3776,563 +3453,78 @@ class RelatedFeedLinksItems extends apiModel {
   public $width;
   public $href;
   public $type;
-
   public function setCount($count) {
     $this->count = $count;
   }
-
   public function getCount() {
     return $this->count;
   }
-  
   public function setUpdated($updated) {
     $this->updated = $updated;
   }
-
   public function getUpdated() {
     return $this->updated;
   }
-  
   public function setTitle($title) {
     $this->title = $title;
   }
-
   public function getTitle() {
     return $this->title;
   }
-  
   public function setHeight($height) {
     $this->height = $height;
   }
-
   public function getHeight() {
     return $this->height;
   }
-  
   public function setWidth($width) {
     $this->width = $width;
   }
-
   public function getWidth() {
     return $this->width;
   }
-  
   public function setHref($href) {
     $this->href = $href;
   }
-
   public function getHref() {
     return $this->href;
   }
-  
   public function setType($type) {
     $this->type = $type;
   }
-
   public function getType() {
     return $this->type;
   }
-  
 }
 
-
-class AlbumLiteCollectionPhoto extends apiModel {
-
-  public $photoUrl;
-
-  public function setPhotoUrl($photoUrl) {
-    $this->photoUrl = $photoUrl;
+class Video extends apiModel {
+  public $duration;
+  public $status;
+  protected $__streamsType = 'Link';
+  public $streams;
+  public $size;
+  public function setDuration($duration) {
+    $this->duration = $duration;
   }
-
-  public function getPhotoUrl() {
-    return $this->photoUrl;
+  public function getDuration() {
+    return $this->duration;
   }
-  
+  public function setStatus($status) {
+    $this->status = $status;
+  }
+  public function getStatus() {
+    return $this->status;
+  }
+  public function setStreams(/* array(Link) */ $streams) {
+    $this->streams = $streams;
+  }
+  public function getStreams() {
+    return $this->streams;
+  }
+  public function setSize($size) {
+    $this->size = $size;
+  }
+  public function getSize() {
+    return $this->size;
+  }
 }
-
-
-class AlbumLiteCollection extends apiModel {
-
-  public $album;
-  public $albumId;
-  public $photo;
-
-  public function setAlbum($album) {
-    $this->album = $album;
-  }
-
-  public function getAlbum() {
-    return $this->album;
-  }
-  
-  public function setAlbumId($albumId) {
-    $this->albumId = $albumId;
-  }
-
-  public function getAlbumId() {
-    return $this->albumId;
-  }
-  
-  public function setPhoto(AlbumLiteCollectionPhoto $photo) {
-    $this->photo = $photo;
-  }
-
-  public function getPhoto() {
-    return $this->photo;
-  }
-  
-}
-
-
-class ChiliPhotosResourceJsonLinks extends apiModel {
-
-  public $alternate;
-
-  public function setAlternate(Link $alternate) {
-    $this->alternate = $alternate;
-  }
-
-  public function getAlternate() {
-    return $this->alternate;
-  }
-  
-}
-
-
-class RelatedFeed extends apiModel {
-
-  public $kind;
-  public $links;
-  public $title;
-  public $items;
-  public $updated;
-  public $id;
-
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setLinks(RelatedFeedLinksItems $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setItems(Related $items) {
-    $this->items = $items;
-  }
-
-  public function getItems() {
-    return $this->items;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-}
-
-
-class Activity extends apiModel {
-
-  public $untranslatedTitle;
-  public $links;
-  public $radius;
-  public $id;
-  public $title;
-  public $geocode;
-  public $actor;
-  public $source;
-  public $verbs;
-  public $crosspostSource;
-  public $placeName;
-  public $updated;
-  public $object;
-  public $visibility;
-  public $detectedlLang;
-  public $address;
-  public $placeholder;
-  public $annotation;
-  public $categories;
-  public $targetLang;
-  public $kind;
-  public $placeId;
-  public $published;
-
-  public function setUntranslatedTitle($untranslatedTitle) {
-    $this->untranslatedTitle = $untranslatedTitle;
-  }
-
-  public function getUntranslatedTitle() {
-    return $this->untranslatedTitle;
-  }
-  
-  public function setLinks(ActivityLinks $links) {
-    $this->links = $links;
-  }
-
-  public function getLinks() {
-    return $this->links;
-  }
-  
-  public function setRadius($radius) {
-    $this->radius = $radius;
-  }
-
-  public function getRadius() {
-    return $this->radius;
-  }
-  
-  public function setId($id) {
-    $this->id = $id;
-  }
-
-  public function getId() {
-    return $this->id;
-  }
-  
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function getTitle() {
-    return $this->title;
-  }
-  
-  public function setGeocode($geocode) {
-    $this->geocode = $geocode;
-  }
-
-  public function getGeocode() {
-    return $this->geocode;
-  }
-  
-  public function setActor(ActivityActor $actor) {
-    $this->actor = $actor;
-  }
-
-  public function getActor() {
-    return $this->actor;
-  }
-  
-  public function setSource(ActivitySource $source) {
-    $this->source = $source;
-  }
-
-  public function getSource() {
-    return $this->source;
-  }
-  
-  public function setVerbs($verbs) {
-    $this->verbs = $verbs;
-  }
-
-  public function getVerbs() {
-    return $this->verbs;
-  }
-  
-  public function setCrosspostSource($crosspostSource) {
-    $this->crosspostSource = $crosspostSource;
-  }
-
-  public function getCrosspostSource() {
-    return $this->crosspostSource;
-  }
-  
-  public function setPlaceName($placeName) {
-    $this->placeName = $placeName;
-  }
-
-  public function getPlaceName() {
-    return $this->placeName;
-  }
-  
-  public function setUpdated($updated) {
-    $this->updated = $updated;
-  }
-
-  public function getUpdated() {
-    return $this->updated;
-  }
-  
-  public function setObject(ActivityObject $object) {
-    $this->object = $object;
-  }
-
-  public function getObject() {
-    return $this->object;
-  }
-  
-  public function setVisibility(ActivityVisibility $visibility) {
-    $this->visibility = $visibility;
-  }
-
-  public function getVisibility() {
-    return $this->visibility;
-  }
-  
-  public function setDetectedlLang($detectedlLang) {
-    $this->detectedlLang = $detectedlLang;
-  }
-
-  public function getDetectedlLang() {
-    return $this->detectedlLang;
-  }
-  
-  public function setAddress($address) {
-    $this->address = $address;
-  }
-
-  public function getAddress() {
-    return $this->address;
-  }
-  
-  public function setPlaceholder($placeholder) {
-    $this->placeholder = $placeholder;
-  }
-
-  public function getPlaceholder() {
-    return $this->placeholder;
-  }
-  
-  public function setAnnotation($annotation) {
-    $this->annotation = $annotation;
-  }
-
-  public function getAnnotation() {
-    return $this->annotation;
-  }
-  
-  public function setCategories(ActivityCategories $categories) {
-    $this->categories = $categories;
-  }
-
-  public function getCategories() {
-    return $this->categories;
-  }
-  
-  public function setTargetLang($targetLang) {
-    $this->targetLang = $targetLang;
-  }
-
-  public function getTargetLang() {
-    return $this->targetLang;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-  public function setPlaceId($placeId) {
-    $this->placeId = $placeId;
-  }
-
-  public function getPlaceId() {
-    return $this->placeId;
-  }
-  
-  public function setPublished($published) {
-    $this->published = $published;
-  }
-
-  public function getPublished() {
-    return $this->published;
-  }
-  
-}
-
-
-class PersonIms extends apiModel {
-
-  public $type;
-  public $primary;
-  public $value;
-
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-  public function setPrimary($primary) {
-    $this->primary = $primary;
-  }
-
-  public function getPrimary() {
-    return $this->primary;
-  }
-  
-  public function setValue($value) {
-    $this->value = $value;
-  }
-
-  public function getValue() {
-    return $this->value;
-  }
-  
-}
-
-
-class CountFeedCountsItems extends apiModel {
-
-  public $count;
-  public $timestamp;
-
-  public function setCount($count) {
-    $this->count = $count;
-  }
-
-  public function getCount() {
-    return $this->count;
-  }
-  
-  public function setTimestamp($timestamp) {
-    $this->timestamp = $timestamp;
-  }
-
-  public function getTimestamp() {
-    return $this->timestamp;
-  }
-  
-}
-
-
-class ActivityObjectLinksItems extends apiModel {
-
-  public $href;
-  public $type;
-
-  public function setHref($href) {
-    $this->href = $href;
-  }
-
-  public function getHref() {
-    return $this->href;
-  }
-  
-  public function setType($type) {
-    $this->type = $type;
-  }
-
-  public function getType() {
-    return $this->type;
-  }
-  
-}
-
-
-class PersonName extends apiModel {
-
-  public $honorificPrefix;
-  public $middleName;
-  public $familyName;
-  public $formatted;
-  public $givenName;
-  public $honorificSuffix;
-
-  public function setHonorificPrefix($honorificPrefix) {
-    $this->honorificPrefix = $honorificPrefix;
-  }
-
-  public function getHonorificPrefix() {
-    return $this->honorificPrefix;
-  }
-  
-  public function setMiddleName($middleName) {
-    $this->middleName = $middleName;
-  }
-
-  public function getMiddleName() {
-    return $this->middleName;
-  }
-  
-  public function setFamilyName($familyName) {
-    $this->familyName = $familyName;
-  }
-
-  public function getFamilyName() {
-    return $this->familyName;
-  }
-  
-  public function setFormatted($formatted) {
-    $this->formatted = $formatted;
-  }
-
-  public function getFormatted() {
-    return $this->formatted;
-  }
-  
-  public function setGivenName($givenName) {
-    $this->givenName = $givenName;
-  }
-
-  public function getGivenName() {
-    return $this->givenName;
-  }
-  
-  public function setHonorificSuffix($honorificSuffix) {
-    $this->honorificSuffix = $honorificSuffix;
-  }
-
-  public function getHonorificSuffix() {
-    return $this->honorificSuffix;
-  }
-  
-}
-
-
-class CountFeed extends apiModel {
-
-  public $counts;
-  public $kind;
-
-  public function setCounts(CountFeedCountsItems $counts) {
-    $this->counts = $counts;
-  }
-
-  public function getCounts() {
-    return $this->counts;
-  }
-  
-  public function setKind($kind) {
-    $this->kind = $kind;
-  }
-
-  public function getKind() {
-    return $this->kind;
-  }
-  
-}
-

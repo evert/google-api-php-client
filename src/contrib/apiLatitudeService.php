@@ -34,14 +34,14 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Updates or creates the user's current location. (currentLocation.insert)
      *
-     * @param $postBody the {@link LatitudeCurrentlocationResourceJson}
-     * @return LatitudeCurrentlocationResourceJson
+     * @param $postBody the {@link Location}
+     * @return Location
      */
-    public function insert(LatitudeCurrentlocationResourceJson $postBody) {
+    public function insert(Location $postBody) {
       $params = array('postBody' => $postBody);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
-        return new LatitudeCurrentlocationResourceJson($data);
+        return new Location($data);
       } else {
         return $data;
       }
@@ -52,14 +52,14 @@ require_once 'service/apiServiceRequest.php';
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
      * @opt_param string granularity Granularity of the requested location.
-     * @return LatitudeCurrentlocationResourceJson
+     * @return Location
      */
     public function get($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
-        return new LatitudeCurrentlocationResourceJson($data);
+        return new Location($data);
       } else {
         return $data;
       }
@@ -190,14 +190,7 @@ class apiLatitudeService extends apiService {
   }
 }
 
-class LatitudeCurrentlocationResourceJson extends apiModel {
-
-
-}
-
-
 class Location extends apiModel {
-
   public $kind;
   public $altitude;
   public $longitude;
@@ -208,110 +201,82 @@ class Location extends apiModel {
   public $speed;
   public $heading;
   public $accuracy;
-
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
   public function setAltitude($altitude) {
     $this->altitude = $altitude;
   }
-
   public function getAltitude() {
     return $this->altitude;
   }
-  
   public function setLongitude($longitude) {
     $this->longitude = $longitude;
   }
-
   public function getLongitude() {
     return $this->longitude;
   }
-  
   public function setActivityId($activityId) {
     $this->activityId = $activityId;
   }
-
   public function getActivityId() {
     return $this->activityId;
   }
-  
   public function setLatitude($latitude) {
     $this->latitude = $latitude;
   }
-
   public function getLatitude() {
     return $this->latitude;
   }
-  
   public function setAltitudeAccuracy($altitudeAccuracy) {
     $this->altitudeAccuracy = $altitudeAccuracy;
   }
-
   public function getAltitudeAccuracy() {
     return $this->altitudeAccuracy;
   }
-  
   public function setTimestampMs($timestampMs) {
     $this->timestampMs = $timestampMs;
   }
-
   public function getTimestampMs() {
     return $this->timestampMs;
   }
-  
   public function setSpeed($speed) {
     $this->speed = $speed;
   }
-
   public function getSpeed() {
     return $this->speed;
   }
-  
   public function setHeading($heading) {
     $this->heading = $heading;
   }
-
   public function getHeading() {
     return $this->heading;
   }
-  
   public function setAccuracy($accuracy) {
     $this->accuracy = $accuracy;
   }
-
   public function getAccuracy() {
     return $this->accuracy;
   }
-  
 }
 
-
 class LocationFeed extends apiModel {
-
+  protected $__itemsType = 'Location';
   public $items;
   public $kind;
-
-  public function setItems(Location $items) {
+  public function setItems(/* array(Location) */ $items) {
     $this->items = $items;
   }
-
   public function getItems() {
     return $this->items;
   }
-  
   public function setKind($kind) {
     $this->kind = $kind;
   }
-
   public function getKind() {
     return $this->kind;
   }
-  
 }
-
