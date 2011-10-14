@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-// Check for the required json and curl extensions, the google api php client won't function without
+// Check for the required json and curl extensions, the Google API PHP Client won't function without
 if (! function_exists('curl_init')) {
   throw new Exception('The Google PHP API Library needs the CURL PHP extension');
 }
@@ -47,13 +47,6 @@ class apiAuthException extends apiException {}
 class apiCacheException extends apiException {}
 class apiIOException extends apiException {}
 class apiServiceException extends apiException {}
-
-
-// Global array of type handlers, used by the API request executors to parse results
-// maps the type strings ('plus#activity') to a class representation (plusActivityModel)
-// which will be automatically triggered on input.
-global $apiTypeHandlers;
-$apiTypeHandlers = array();
 
 /**
  * The Google API Client
@@ -130,7 +123,6 @@ class apiClient {
     return $this->auth->authenticate($service);
   }
 
-  
   public function createAuthUrl() {
     $service = $this->prepareService();
     return $this->auth->createAuthUrl($service);
@@ -264,11 +256,6 @@ class apiClient {
       throw new apiException("Invalid json returned for $serviceName");
     }
     return new apiService($serviceName, $discoveryDocument, $this->io);
-  }
-
-  public function registerTypeHandler($type, $handlerClass) {
-    global $apiTypeHandlers;
-    $apiTypeHandlers[$type] = $handlerClass;
   }
 
   /*
