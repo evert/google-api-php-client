@@ -108,8 +108,7 @@ class apiOAuth2 extends apiAuth {
         'response_type=code',
         'redirect_uri=' . urlencode($this->redirectUri),
         'client_id=' . urlencode($this->clientId),
-        'scope=' . urlencode($service['scope']),
-        'auto_approval=auto'
+        'scope=' . urlencode($service['scope'])
     );
 
     if (isset($this->state)) {
