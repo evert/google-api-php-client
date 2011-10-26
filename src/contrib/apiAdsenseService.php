@@ -281,6 +281,7 @@ class AdClients extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(AdClient) */ $items) {
+    $this->assertIsArray($items, AdClient, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -351,6 +352,7 @@ class AdUnits extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(AdUnit) */ $items) {
+    $this->assertIsArray($items, AdUnit, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -379,24 +381,28 @@ class AdsenseReportsGenerateResponse extends apiModel {
   public $totalMatchedRows;
   public $averages;
   public function setRows(/* array(string) */ $rows) {
+    $this->assertIsArray($rows, string, __METHOD__);
     $this->rows = $rows;
   }
   public function getRows() {
     return $this->rows;
   }
   public function setWarnings(/* array(string) */ $warnings) {
+    $this->assertIsArray($warnings, string, __METHOD__);
     $this->warnings = $warnings;
   }
   public function getWarnings() {
     return $this->warnings;
   }
   public function setTotals(/* array(string) */ $totals) {
+    $this->assertIsArray($totals, string, __METHOD__);
     $this->totals = $totals;
   }
   public function getTotals() {
     return $this->totals;
   }
   public function setHeaders(/* array(AdsenseReportsGenerateResponseHeaders) */ $headers) {
+    $this->assertIsArray($headers, AdsenseReportsGenerateResponseHeaders, __METHOD__);
     $this->headers = $headers;
   }
   public function getHeaders() {
@@ -409,6 +415,7 @@ class AdsenseReportsGenerateResponse extends apiModel {
     return $this->totalMatchedRows;
   }
   public function setAverages(/* array(string) */ $averages) {
+    $this->assertIsArray($averages, string, __METHOD__);
     $this->averages = $averages;
   }
   public function getAverages() {
@@ -484,6 +491,7 @@ class CustomChannels extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(CustomChannel) */ $items) {
+    $this->assertIsArray($items, CustomChannel, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -540,6 +548,7 @@ class UrlChannels extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(UrlChannel) */ $items) {
+    $this->assertIsArray($items, UrlChannel, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

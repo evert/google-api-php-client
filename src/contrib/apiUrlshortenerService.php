@@ -139,24 +139,28 @@ class AnalyticsSnapshot extends apiModel {
     return $this->shortUrlClicks;
   }
   public function setCountries(/* array(StringCount) */ $countries) {
+    $this->assertIsArray($countries, StringCount, __METHOD__);
     $this->countries = $countries;
   }
   public function getCountries() {
     return $this->countries;
   }
   public function setPlatforms(/* array(StringCount) */ $platforms) {
+    $this->assertIsArray($platforms, StringCount, __METHOD__);
     $this->platforms = $platforms;
   }
   public function getPlatforms() {
     return $this->platforms;
   }
   public function setBrowsers(/* array(StringCount) */ $browsers) {
+    $this->assertIsArray($browsers, StringCount, __METHOD__);
     $this->browsers = $browsers;
   }
   public function getBrowsers() {
     return $this->browsers;
   }
   public function setReferrers(/* array(StringCount) */ $referrers) {
+    $this->assertIsArray($referrers, StringCount, __METHOD__);
     $this->referrers = $referrers;
   }
   public function getReferrers() {
@@ -290,6 +294,7 @@ class UrlHistory extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(Url) */ $items) {
+    $this->assertIsArray($items, Url, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

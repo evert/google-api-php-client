@@ -472,6 +472,7 @@ class TaskLists extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(TaskList) */ $items) {
+    $this->assertIsArray($items, TaskList, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -504,6 +505,7 @@ class Tasks extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(Task) */ $items) {
+    $this->assertIsArray($items, Task, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

@@ -268,6 +268,7 @@ class LocationFeed extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Location) */ $items) {
+    $this->assertIsArray($items, Location, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

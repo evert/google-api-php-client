@@ -140,6 +140,7 @@ class Result extends apiModel {
     return $this->responseCode;
   }
   public function setInvalidRules(/* array(string) */ $invalidRules) {
+    $this->assertIsArray($invalidRules, string, __METHOD__);
     $this->invalidRules = $invalidRules;
   }
   public function getInvalidRules() {
@@ -190,6 +191,7 @@ class ResultFormattedResultsRuleResults extends apiModel {
     return $this->localizedRuleName;
   }
   public function setUrlBlocks(/* array(ResultFormattedResultsRuleResultsUrlBlocks) */ $urlBlocks) {
+    $this->assertIsArray($urlBlocks, ResultFormattedResultsRuleResultsUrlBlocks, __METHOD__);
     $this->urlBlocks = $urlBlocks;
   }
   public function getUrlBlocks() {
@@ -221,6 +223,7 @@ class ResultFormattedResultsRuleResultsUrlBlocks extends apiModel {
     return $this->header;
   }
   public function setUrls(/* array(ResultFormattedResultsRuleResultsUrlBlocksUrls) */ $urls) {
+    $this->assertIsArray($urls, ResultFormattedResultsRuleResultsUrlBlocksUrls, __METHOD__);
     $this->urls = $urls;
   }
   public function getUrls() {
@@ -233,6 +236,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksHeader extends apiModel {
   public $args;
   public $format;
   public function setArgs(/* array(ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs) */ $args) {
+    $this->assertIsArray($args, ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs, __METHOD__);
     $this->args = $args;
   }
   public function getArgs() {
@@ -269,6 +273,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrls extends apiModel {
   protected $__resultType = 'ResultFormattedResultsRuleResultsUrlBlocksUrlsResult';
   public $result;
   public function setDetails(/* array(ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails) */ $details) {
+    $this->assertIsArray($details, ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails, __METHOD__);
     $this->details = $details;
   }
   public function getDetails() {
@@ -287,6 +292,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails extends apiModel {
   public $args;
   public $format;
   public function setArgs(/* array(ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs) */ $args) {
+    $this->assertIsArray($args, ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs, __METHOD__);
     $this->args = $args;
   }
   public function getArgs() {
@@ -322,6 +328,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrlsResult extends apiModel {
   public $args;
   public $format;
   public function setArgs(/* array(ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs) */ $args) {
+    $this->assertIsArray($args, ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs, __METHOD__);
     $this->args = $args;
   }
   public function getArgs() {

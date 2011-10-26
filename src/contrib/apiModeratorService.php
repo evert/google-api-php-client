@@ -1188,6 +1188,7 @@ class SeriesList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Series) */ $items) {
+    $this->assertIsArray($items, Series, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1301,6 +1302,7 @@ class Submission extends apiModel {
     return $this->text;
   }
   public function setTopics(/* array(ModeratorTopicsResourcePartial) */ $topics) {
+    $this->assertIsArray($topics, ModeratorTopicsResourcePartial, __METHOD__);
     $this->topics = $topics;
   }
   public function getTopics() {
@@ -1313,6 +1315,7 @@ class Submission extends apiModel {
     return $this->author;
   }
   public function setTranslations(/* array(SubmissionTranslations) */ $translations) {
+    $this->assertIsArray($translations, SubmissionTranslations, __METHOD__);
     $this->translations = $translations;
   }
   public function getTranslations() {
@@ -1450,6 +1453,7 @@ class SubmissionList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Submission) */ $items) {
+    $this->assertIsArray($items, Submission, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1551,6 +1555,7 @@ class TagList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Tag) */ $items) {
+    $this->assertIsArray($items, Tag, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1694,6 +1699,7 @@ class TopicList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Topic) */ $items) {
+    $this->assertIsArray($items, Topic, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1814,6 +1820,7 @@ class VoteList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Vote) */ $items) {
+    $this->assertIsArray($items, Vote, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

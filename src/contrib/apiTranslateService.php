@@ -157,6 +157,7 @@ class DetectionsListResponse extends apiModel {
   protected $__detectionsType = 'DetectionsResourceItems';
   public $detections;
   public function setDetections(/* array(DetectionsResourceItems) */ $detections) {
+    $this->assertIsArray($detections, DetectionsResourceItems, __METHOD__);
     $this->detections = $detections;
   }
   public function getDetections() {
@@ -195,6 +196,7 @@ class LanguagesListResponse extends apiModel {
   protected $__languagesType = 'LanguagesResource';
   public $languages;
   public function setLanguages(/* array(LanguagesResource) */ $languages) {
+    $this->assertIsArray($languages, LanguagesResource, __METHOD__);
     $this->languages = $languages;
   }
   public function getLanguages() {
@@ -223,6 +225,7 @@ class TranslationsListResponse extends apiModel {
   protected $__translationsType = 'TranslationsResource';
   public $translations;
   public function setTranslations(/* array(TranslationsResource) */ $translations) {
+    $this->assertIsArray($translations, TranslationsResource, __METHOD__);
     $this->translations = $translations;
   }
   public function getTranslations() {

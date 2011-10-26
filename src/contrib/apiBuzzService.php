@@ -1104,6 +1104,7 @@ class Activity extends apiModel {
     return $this->source;
   }
   public function setVerbs(/* array(string) */ $verbs) {
+    $this->assertIsArray($verbs, string, __METHOD__);
     $this->verbs = $verbs;
   }
   public function getVerbs() {
@@ -1164,6 +1165,7 @@ class Activity extends apiModel {
     return $this->annotation;
   }
   public function setCategories(/* array(ActivityCategories) */ $categories) {
+    $this->assertIsArray($categories, ActivityCategories, __METHOD__);
     $this->categories = $categories;
   }
   public function getCategories() {
@@ -1278,6 +1280,7 @@ class ActivityFeed extends apiModel {
     return $this->title;
   }
   public function setItems(/* array(Activity) */ $items) {
+    $this->assertIsArray($items, Activity, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1353,6 +1356,7 @@ class ActivityLinks extends apiModel {
   protected $__likedType = 'ActivityLinksLiked';
   public $liked;
   public function setLiked(/* array(ActivityLinksLiked) */ $liked) {
+    $this->assertIsArray($liked, ActivityLinksLiked, __METHOD__);
     $this->liked = $liked;
   }
   public function getLiked() {
@@ -1411,12 +1415,14 @@ class ActivityObject extends apiModel {
     return $this->targetLang;
   }
   public function setLiked(/* array(Person) */ $liked) {
+    $this->assertIsArray($liked, Person, __METHOD__);
     $this->liked = $liked;
   }
   public function getLiked() {
     return $this->liked;
   }
   public function setAttachments(/* array(ActivityObjectAttachments) */ $attachments) {
+    $this->assertIsArray($attachments, ActivityObjectAttachments, __METHOD__);
     $this->attachments = $attachments;
   }
   public function getAttachments() {
@@ -1459,6 +1465,7 @@ class ActivityObject extends apiModel {
     return $this->detectedlLang;
   }
   public function setComments(/* array(Comment) */ $comments) {
+    $this->assertIsArray($comments, Comment, __METHOD__);
     $this->comments = $comments;
   }
   public function getComments() {
@@ -1637,6 +1644,7 @@ class ActivityVisibility extends apiModel {
   protected $__entriesType = 'ActivityVisibilityEntries';
   public $entries;
   public function setEntries(/* array(ActivityVisibilityEntries) */ $entries) {
+    $this->assertIsArray($entries, ActivityVisibilityEntries, __METHOD__);
     $this->entries = $entries;
   }
   public function getEntries() {
@@ -1706,6 +1714,7 @@ class Album extends apiModel {
     return $this->lastModified;
   }
   public function setTags(/* array(string) */ $tags) {
+    $this->assertIsArray($tags, string, __METHOD__);
     $this->tags = $tags;
   }
   public function getTags() {
@@ -1851,6 +1860,7 @@ class AlbumsFeed extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Album) */ $items) {
+    $this->assertIsArray($items, Album, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1984,6 +1994,7 @@ class ChiliPhotosResourceJsonLinks extends apiModel {
   protected $__alternateType = 'Link';
   public $alternate;
   public function setAlternate(/* array(Link) */ $alternate) {
+    $this->assertIsArray($alternate, Link, __METHOD__);
     $this->alternate = $alternate;
   }
   public function getAlternate() {
@@ -2170,6 +2181,7 @@ class CommentFeed extends apiModel {
     return $this->title;
   }
   public function setItems(/* array(Comment) */ $items) {
+    $this->assertIsArray($items, Comment, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -2245,6 +2257,7 @@ class CommentLinks extends apiModel {
   protected $__inReplyToType = 'CommentLinksInReplyTo';
   public $inReplyTo;
   public function setInReplyTo(/* array(CommentLinksInReplyTo) */ $inReplyTo) {
+    $this->assertIsArray($inReplyTo, CommentLinksInReplyTo, __METHOD__);
     $this->inReplyTo = $inReplyTo;
   }
   public function getInReplyTo() {
@@ -2357,6 +2370,7 @@ class GroupFeed extends apiModel {
   protected $__linksType = 'GroupFeedLinksItems';
   public $links;
   public function setItems(/* array(Group) */ $items) {
+    $this->assertIsArray($items, Group, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -2432,6 +2446,7 @@ class GroupLinks extends apiModel {
   protected $__selfType = 'GroupLinksSelf';
   public $self;
   public function setSelf(/* array(GroupLinksSelf) */ $self) {
+    $this->assertIsArray($self, GroupLinksSelf, __METHOD__);
     $this->self = $self;
   }
   public function getSelf() {
@@ -2522,6 +2537,7 @@ class PeopleFeed extends apiModel {
     return $this->totalResults;
   }
   public function setEntry(/* array(Person) */ $entry) {
+    $this->assertIsArray($entry, Person, __METHOD__);
     $this->entry = $entry;
   }
   public function getEntry() {
@@ -2629,6 +2645,7 @@ class Person extends apiModel {
     return $this->status;
   }
   public function setPhoneNumbers(/* array(PersonPhoneNumbers) */ $phoneNumbers) {
+    $this->assertIsArray($phoneNumbers, PersonPhoneNumbers, __METHOD__);
     $this->phoneNumbers = $phoneNumbers;
   }
   public function getPhoneNumbers() {
@@ -2641,6 +2658,7 @@ class Person extends apiModel {
     return $this->fashion;
   }
   public function setAddresses(/* array(PersonAddresses) */ $addresses) {
+    $this->assertIsArray($addresses, PersonAddresses, __METHOD__);
     $this->addresses = $addresses;
   }
   public function getAddresses() {
@@ -2653,6 +2671,7 @@ class Person extends apiModel {
     return $this->romance;
   }
   public function setTurnOffs(/* array(object) */ $turnOffs) {
+    $this->assertIsArray($turnOffs, object, __METHOD__);
     $this->turnOffs = $turnOffs;
   }
   public function getTurnOffs() {
@@ -2665,24 +2684,28 @@ class Person extends apiModel {
     return $this->preferredUsername;
   }
   public function setQuotes(/* array(object) */ $quotes) {
+    $this->assertIsArray($quotes, object, __METHOD__);
     $this->quotes = $quotes;
   }
   public function getQuotes() {
     return $this->quotes;
   }
   public function setBooks(/* array(object) */ $books) {
+    $this->assertIsArray($books, object, __METHOD__);
     $this->books = $books;
   }
   public function getBooks() {
     return $this->books;
   }
   public function setAccounts(/* array(PersonAccounts) */ $accounts) {
+    $this->assertIsArray($accounts, PersonAccounts, __METHOD__);
     $this->accounts = $accounts;
   }
   public function getAccounts() {
     return $this->accounts;
   }
   public function setTurnOns(/* array(object) */ $turnOns) {
+    $this->assertIsArray($turnOns, object, __METHOD__);
     $this->turnOns = $turnOns;
   }
   public function getTurnOns() {
@@ -2701,18 +2724,21 @@ class Person extends apiModel {
     return $this->drinker;
   }
   public function setSports(/* array(object) */ $sports) {
+    $this->assertIsArray($sports, object, __METHOD__);
     $this->sports = $sports;
   }
   public function getSports() {
     return $this->sports;
   }
   public function setLanguagesSpoken(/* array(object) */ $languagesSpoken) {
+    $this->assertIsArray($languagesSpoken, object, __METHOD__);
     $this->languagesSpoken = $languagesSpoken;
   }
   public function getLanguagesSpoken() {
     return $this->languagesSpoken;
   }
   public function setChildren(/* array(object) */ $children) {
+    $this->assertIsArray($children, object, __METHOD__);
     $this->children = $children;
   }
   public function getChildren() {
@@ -2725,6 +2751,7 @@ class Person extends apiModel {
     return $this->ethnicity;
   }
   public function setRelationships(/* array(object) */ $relationships) {
+    $this->assertIsArray($relationships, object, __METHOD__);
     $this->relationships = $relationships;
   }
   public function getRelationships() {
@@ -2755,6 +2782,7 @@ class Person extends apiModel {
     return $this->id;
   }
   public function setTags(/* array(object) */ $tags) {
+    $this->assertIsArray($tags, object, __METHOD__);
     $this->tags = $tags;
   }
   public function getTags() {
@@ -2779,6 +2807,7 @@ class Person extends apiModel {
     return $this->currentLocation;
   }
   public function setLanguages(/* array(object) */ $languages) {
+    $this->assertIsArray($languages, object, __METHOD__);
     $this->languages = $languages;
   }
   public function getLanguages() {
@@ -2791,30 +2820,35 @@ class Person extends apiModel {
     return $this->religion;
   }
   public function setIms(/* array(PersonIms) */ $ims) {
+    $this->assertIsArray($ims, PersonIms, __METHOD__);
     $this->ims = $ims;
   }
   public function getIms() {
     return $this->ims;
   }
   public function setMusic(/* array(object) */ $music) {
+    $this->assertIsArray($music, object, __METHOD__);
     $this->music = $music;
   }
   public function getMusic() {
     return $this->music;
   }
   public function setPets(/* array(object) */ $pets) {
+    $this->assertIsArray($pets, object, __METHOD__);
     $this->pets = $pets;
   }
   public function getPets() {
     return $this->pets;
   }
   public function setInterests(/* array(object) */ $interests) {
+    $this->assertIsArray($interests, object, __METHOD__);
     $this->interests = $interests;
   }
   public function getInterests() {
     return $this->interests;
   }
   public function setActivities(/* array(object) */ $activities) {
+    $this->assertIsArray($activities, object, __METHOD__);
     $this->activities = $activities;
   }
   public function getActivities() {
@@ -2845,12 +2879,14 @@ class Person extends apiModel {
     return $this->sexualOrientation;
   }
   public function setFood(/* array(object) */ $food) {
+    $this->assertIsArray($food, object, __METHOD__);
     $this->food = $food;
   }
   public function getFood() {
     return $this->food;
   }
   public function setCars(/* array(object) */ $cars) {
+    $this->assertIsArray($cars, object, __METHOD__);
     $this->cars = $cars;
   }
   public function getCars() {
@@ -2869,6 +2905,7 @@ class Person extends apiModel {
     return $this->kind;
   }
   public function setPhotos(/* array(PersonPhotos) */ $photos) {
+    $this->assertIsArray($photos, PersonPhotos, __METHOD__);
     $this->photos = $photos;
   }
   public function getPhotos() {
@@ -2893,6 +2930,7 @@ class Person extends apiModel {
     return $this->profileVideo;
   }
   public function setHeroes(/* array(object) */ $heroes) {
+    $this->assertIsArray($heroes, object, __METHOD__);
     $this->heroes = $heroes;
   }
   public function getHeroes() {
@@ -2905,18 +2943,21 @@ class Person extends apiModel {
     return $this->nickname;
   }
   public function setEmails(/* array(PersonEmails) */ $emails) {
+    $this->assertIsArray($emails, PersonEmails, __METHOD__);
     $this->emails = $emails;
   }
   public function getEmails() {
     return $this->emails;
   }
   public function setOrganizations(/* array(PersonOrganizations) */ $organizations) {
+    $this->assertIsArray($organizations, PersonOrganizations, __METHOD__);
     $this->organizations = $organizations;
   }
   public function getOrganizations() {
     return $this->organizations;
   }
   public function setJobInterests(/* array(object) */ $jobInterests) {
+    $this->assertIsArray($jobInterests, object, __METHOD__);
     $this->jobInterests = $jobInterests;
   }
   public function getJobInterests() {
@@ -2935,12 +2976,14 @@ class Person extends apiModel {
     return $this->name;
   }
   public function setPoliticalViews(/* array(object) */ $politicalViews) {
+    $this->assertIsArray($politicalViews, object, __METHOD__);
     $this->politicalViews = $politicalViews;
   }
   public function getPoliticalViews() {
     return $this->politicalViews;
   }
   public function setTvShows(/* array(object) */ $tvShows) {
+    $this->assertIsArray($tvShows, object, __METHOD__);
     $this->tvShows = $tvShows;
   }
   public function getTvShows() {
@@ -2977,6 +3020,7 @@ class Person extends apiModel {
     return $this->profileUrl;
   }
   public function setMovies(/* array(object) */ $movies) {
+    $this->assertIsArray($movies, object, __METHOD__);
     $this->movies = $movies;
   }
   public function getMovies() {
@@ -2989,6 +3033,7 @@ class Person extends apiModel {
     return $this->utcOffset;
   }
   public function setUrls(/* array(PersonUrls) */ $urls) {
+    $this->assertIsArray($urls, PersonUrls, __METHOD__);
     $this->urls = $urls;
   }
   public function getUrls() {
@@ -3347,6 +3392,7 @@ class PhotosFeed extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(ChiliPhotosResourceJson) */ $items) {
+    $this->assertIsArray($items, ChiliPhotosResourceJson, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -3426,6 +3472,7 @@ class RelatedFeed extends apiModel {
     return $this->title;
   }
   public function setItems(/* array(Related) */ $items) {
+    $this->assertIsArray($items, Related, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -3516,6 +3563,7 @@ class Video extends apiModel {
     return $this->status;
   }
   public function setStreams(/* array(Link) */ $streams) {
+    $this->assertIsArray($streams, Link, __METHOD__);
     $this->streams = $streams;
   }
   public function getStreams() {

@@ -388,6 +388,7 @@ class BlogList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Blog) */ $items) {
+    $this->assertIsArray($items, Blog, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -593,6 +594,7 @@ class CommentList extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(Comment) */ $items) {
+    $this->assertIsArray($items, Comment, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -754,6 +756,7 @@ class PageList extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Page) */ $items) {
+    $this->assertIsArray($items, Page, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -808,6 +811,7 @@ class Post extends apiModel {
     return $this->replies;
   }
   public function setLabels(/* array(string) */ $labels) {
+    $this->assertIsArray($labels, string, __METHOD__);
     $this->labels = $labels;
   }
   public function getLabels() {
@@ -922,6 +926,7 @@ class PostList extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(Post) */ $items) {
+    $this->assertIsArray($items, Post, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

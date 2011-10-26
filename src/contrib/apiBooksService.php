@@ -444,6 +444,7 @@ class Bookshelves extends apiModel {
   public $items;
   public $kind;
   public function setItems(/* array(Bookshelf) */ $items) {
+    $this->assertIsArray($items, Bookshelf, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1075,12 +1076,14 @@ class VolumeVolumeInfo extends apiModel {
     return $this->contentVersion;
   }
   public function setIndustryIdentifiers(/* array(VolumeVolumeInfoIndustryIdentifiers) */ $industryIdentifiers) {
+    $this->assertIsArray($industryIdentifiers, VolumeVolumeInfoIndustryIdentifiers, __METHOD__);
     $this->industryIdentifiers = $industryIdentifiers;
   }
   public function getIndustryIdentifiers() {
     return $this->industryIdentifiers;
   }
   public function setAuthors(/* array(string) */ $authors) {
+    $this->assertIsArray($authors, string, __METHOD__);
     $this->authors = $authors;
   }
   public function getAuthors() {
@@ -1111,6 +1114,7 @@ class VolumeVolumeInfo extends apiModel {
     return $this->infoLink;
   }
   public function setCategories(/* array(string) */ $categories) {
+    $this->assertIsArray($categories, string, __METHOD__);
     $this->categories = $categories;
   }
   public function getCategories() {
@@ -1222,6 +1226,7 @@ class Volumes extends apiModel {
     return $this->totalItems;
   }
   public function setItems(/* array(Volume) */ $items) {
+    $this->assertIsArray($items, Volume, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

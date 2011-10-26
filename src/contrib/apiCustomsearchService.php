@@ -103,6 +103,7 @@ class Context extends apiModel {
   public $facets;
   public $title;
   public function setFacets(/* array(ContextFacets) */ $facets) {
+    $this->assertIsArray($facets, ContextFacets, __METHOD__);
     $this->facets = $facets;
   }
   public function getFacets() {
@@ -160,6 +161,7 @@ class Promotion extends apiModel {
     return $this->image;
   }
   public function setBodyLines(/* array(PromotionBodyLines) */ $bodyLines) {
+    $this->assertIsArray($bodyLines, PromotionBodyLines, __METHOD__);
     $this->bodyLines = $bodyLines;
   }
   public function getBodyLines() {
@@ -422,6 +424,7 @@ class Search extends apiModel {
   protected $__queriesType = 'Query';
   public $queries;
   public function setPromotions(/* array(Promotion) */ $promotions) {
+    $this->assertIsArray($promotions, Promotion, __METHOD__);
     $this->promotions = $promotions;
   }
   public function getPromotions() {
@@ -440,6 +443,7 @@ class Search extends apiModel {
     return $this->url;
   }
   public function setItems(/* array(Result) */ $items) {
+    $this->assertIsArray($items, Result, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {

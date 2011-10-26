@@ -177,7 +177,7 @@ require_once 'service/apiServiceRequest.php';
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. This token may be of any length.
-     * @opt_param string maxResults The maximum number of activities to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
+     * @opt_param string maxResults The maximum number of people to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
      * @opt_param string query Full-text search query string.
      * @return PeopleFeed
      */
@@ -253,6 +253,7 @@ class Acl extends apiModel {
   public $kind;
   public $description;
   public function setItems(/* array(PlusAclentryResource) */ $items) {
+    $this->assertIsArray($items, PlusAclentryResource, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -483,6 +484,7 @@ class ActivityFeed extends apiModel {
     return $this->title;
   }
   public function setItems(/* array(Activity) */ $items) {
+    $this->assertIsArray($items, Activity, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -537,6 +539,7 @@ class ActivityObject extends apiModel {
     return $this->resharers;
   }
   public function setAttachments(/* array(ActivityObjectAttachments) */ $attachments) {
+    $this->assertIsArray($attachments, ActivityObjectAttachments, __METHOD__);
     $this->attachments = $attachments;
   }
   public function getAttachments() {
@@ -636,6 +639,8 @@ class ActivityObjectActorImage extends apiModel {
 
 class ActivityObjectAttachments extends apiModel {
   public $displayName;
+  protected $__contentsourceType = 'ActivityObjectAttachmentsContentsource';
+  public $contentsource;
   protected $__fullImageType = 'ActivityObjectAttachmentsFullImage';
   public $fullImage;
   public $url;
@@ -645,12 +650,20 @@ class ActivityObjectAttachments extends apiModel {
   protected $__embedType = 'ActivityObjectAttachmentsEmbed';
   public $embed;
   public $id;
+  protected $__categoriesType = 'ActivityObjectAttachmentsCategories';
+  public $categories;
   public $objectType;
   public function setDisplayName($displayName) {
     $this->displayName = $displayName;
   }
   public function getDisplayName() {
     return $this->displayName;
+  }
+  public function setContentsource(ActivityObjectAttachmentsContentsource $contentsource) {
+    $this->contentsource = $contentsource;
+  }
+  public function getContentsource() {
+    return $this->contentsource;
   }
   public function setFullImage(ActivityObjectAttachmentsFullImage $fullImage) {
     $this->fullImage = $fullImage;
@@ -688,11 +701,59 @@ class ActivityObjectAttachments extends apiModel {
   public function getId() {
     return $this->id;
   }
+  public function setCategories(/* array(ActivityObjectAttachmentsCategories) */ $categories) {
+    $this->assertIsArray($categories, ActivityObjectAttachmentsCategories, __METHOD__);
+    $this->categories = $categories;
+  }
+  public function getCategories() {
+    return $this->categories;
+  }
   public function setObjectType($objectType) {
     $this->objectType = $objectType;
   }
   public function getObjectType() {
     return $this->objectType;
+  }
+}
+
+class ActivityObjectAttachmentsCategories extends apiModel {
+  public $term;
+  public $schema;
+  public $label;
+  public function setTerm($term) {
+    $this->term = $term;
+  }
+  public function getTerm() {
+    return $this->term;
+  }
+  public function setSchema($schema) {
+    $this->schema = $schema;
+  }
+  public function getSchema() {
+    return $this->schema;
+  }
+  public function setLabel($label) {
+    $this->label = $label;
+  }
+  public function getLabel() {
+    return $this->label;
+  }
+}
+
+class ActivityObjectAttachmentsContentsource extends apiModel {
+  public $url;
+  public $type;
+  public function setUrl($url) {
+    $this->url = $url;
+  }
+  public function getUrl() {
+    return $this->url;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
   }
 }
 
@@ -850,6 +911,7 @@ class Comment extends apiModel {
   public $id;
   public $selfLink;
   public function setInReplyTo(/* array(CommentInReplyTo) */ $inReplyTo) {
+    $this->assertIsArray($inReplyTo, CommentInReplyTo, __METHOD__);
     $this->inReplyTo = $inReplyTo;
   }
   public function getInReplyTo() {
@@ -975,6 +1037,7 @@ class CommentFeed extends apiModel {
     return $this->title;
   }
   public function setItems(/* array(Comment) */ $items) {
+    $this->assertIsArray($items, Comment, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1048,6 +1111,7 @@ class PeopleFeed extends apiModel {
     return $this->nextPageToken;
   }
   public function setItems(/* array(Person) */ $items) {
+    $this->assertIsArray($items, Person, __METHOD__);
     $this->items = $items;
   }
   public function getItems() {
@@ -1106,6 +1170,7 @@ class Person extends apiModel {
     return $this->relationshipStatus;
   }
   public function setOrganizations(/* array(PersonOrganizations) */ $organizations) {
+    $this->assertIsArray($organizations, PersonOrganizations, __METHOD__);
     $this->organizations = $organizations;
   }
   public function getOrganizations() {
@@ -1154,18 +1219,21 @@ class Person extends apiModel {
     return $this->tagline;
   }
   public function setUrls(/* array(PersonUrls) */ $urls) {
+    $this->assertIsArray($urls, PersonUrls, __METHOD__);
     $this->urls = $urls;
   }
   public function getUrls() {
     return $this->urls;
   }
   public function setPlacesLived(/* array(PersonPlacesLived) */ $placesLived) {
+    $this->assertIsArray($placesLived, PersonPlacesLived, __METHOD__);
     $this->placesLived = $placesLived;
   }
   public function getPlacesLived() {
     return $this->placesLived;
   }
   public function setEmails(/* array(PersonEmails) */ $emails) {
+    $this->assertIsArray($emails, PersonEmails, __METHOD__);
     $this->emails = $emails;
   }
   public function getEmails() {
@@ -1202,6 +1270,7 @@ class Person extends apiModel {
     return $this->id;
   }
   public function setLanguagesSpoken(/* array(string) */ $languagesSpoken) {
+    $this->assertIsArray($languagesSpoken, string, __METHOD__);
     $this->languagesSpoken = $languagesSpoken;
   }
   public function getLanguagesSpoken() {
