@@ -90,4 +90,18 @@ class apiModel {
     global $apiConfig;
     return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
   }
+
+  /**
+   * Verify if $obj is an array.
+   * @throws apiException Thrown if $obj isn't an array.
+   * @param $obj
+   * @param $type Array items should be of this type.
+   * @param $method Method expecting an array as an argument.
+   */
+  protected function assertIsArray($obj, $type, $method) {
+    if ($obj && !is_array($obj)) {
+      throw new apiException("Incorrect parameter type passed to $method(), expected an"
+          . " array containing items of type $type.");
+    }
+  }
 }
