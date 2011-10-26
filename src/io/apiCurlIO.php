@@ -86,7 +86,7 @@ class apiCurlIO implements apiIO {
       // make sure a Content-length header is set
       $postBody = $request->getPostBody();
       if (! is_array($postBody)) {
-        $postContentLength = strlen($request->getPostBody()) != 0 ? strlen($request->getPostBody()) : '0';
+        $postContentLength = strlen($postBody) != 0 ? strlen($postBody) : '0';
         $addHeaders = array('Content-Length: ' . $postContentLength);
         if (is_array($request->getHeaders())) {
           $request->setHeaders(array_merge($addHeaders, $request->getHeaders()));
@@ -111,7 +111,7 @@ class apiCurlIO implements apiIO {
     curl_setopt($ch, CURLOPT_FAILONERROR, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
-    $data = @curl_exec($ch);
+    $data = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $errno = @curl_errno($ch);
     $error = @curl_error($ch);
@@ -147,7 +147,7 @@ class apiCurlIO implements apiIO {
   }
 
   private function setCachedRequest(apiHttpRequest $request) {
-    // Only cache 'GET' requests
+    // Only cache GET requests
     if ($request->getMethod() != 'GET') {
       return false;
     }
