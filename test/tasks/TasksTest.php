@@ -46,7 +46,10 @@ class TasksTest extends PHPUnit_Framework_TestCase {
 
       $apiClient = new apiClient();
       $taskService = new apiTasksService($apiClient);
-      $apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      if (!$apiClient->getAccessToken()) {
+        $apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      }
+
     }
     $this->apiClient = $apiClient;
     $this->taskService = $taskService;

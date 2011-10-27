@@ -26,7 +26,7 @@ class GeneralTests extends PHPUnit_Framework_TestSuite {
 
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite('Google API PHP Library core component tests');
-    $suite->addTestSuite('AuthTest');
+    //$suite->addTestSuite('AuthTest');
     $suite->addTestSuite('CacheTest');
     $suite->addTestSuite('GeneratorTest');
     $suite->addTestSuite('IoTest');

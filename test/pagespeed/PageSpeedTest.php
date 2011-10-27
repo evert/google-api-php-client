@@ -45,7 +45,9 @@ class PageSpeedTest extends PHPUnit_Framework_TestCase {
 
       $apiClient = new apiClient();
       $pageSpeedService = new apiPagespeedonlineService($apiClient);
-      $apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      if (!$apiClient->getAccessToken()) {
+        $apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      }
     }
     $this->apiClient = $apiClient;
     $this->pageSpeedService = $pageSpeedService;

@@ -50,7 +50,9 @@ class apiBuzzTest extends PHPUnit_Framework_TestCase {
       // create the global api and buzz clients (which are shared between the various buzz test suites for performance reasons)
       $apiBuzzTest_apiClient = new apiClient();
       $apiBuzzTest_buzz = new apiBuzzService($apiBuzzTest_apiClient);
-      $apiBuzzTest_apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      if (!$apiBuzzTest_apiClient->getAccessToken()) {
+        $apiBuzzTest_apiClient->setAccessToken($apiConfig['oauth_test_token']);
+      }
     }
     $this->apiClient = $apiBuzzTest_apiClient;
     $this->buzz = $apiBuzzTest_buzz;
