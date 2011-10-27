@@ -16,10 +16,11 @@
  */
 
 /**
- * Curl based apiIO implementation.
+ * Curl based implementation of apiIO.
  * This class implements http spec compliant request caching using the apiCache class
  *
  * @author Chris Chabot <chabotc@google.com>
+ * @author Chirag Shah <chirags@google.com>
  */
 class apiCurlIO implements apiIO {
   // Set by the top level apiClient class, stored here locally to deal with auth signing and caching
@@ -111,33 +112,36 @@ class apiCurlIO implements apiIO {
     curl_setopt($ch, CURLOPT_FAILONERROR, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
-    $data = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $errno = @curl_errno($ch);
-    $error = @curl_error($ch);
-    @curl_close($ch);
-    if ($errno != CURLE_OK) {
-      throw new apiIOException('HTTP Error: (' . $errno . ') ' . $error);
+    $respData = curl_exec($ch);
+    $respHeaderSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $respHttpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErrorNum = curl_errno($ch);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+    if ($curlErrorNum != CURLE_OK) {
+      throw new apiIOException('HTTP Error: (' . $respHttpCode . ') ' . $curlError);
     }
-    if ((int)$httpCode == 304 && $cachedRequest) {
+    if ($respHttpCode == 304 && $cachedRequest) {
       // If the server responded NOT_MODIFIED, return the cached request
       return $cachedRequest;
     }
     // Parse out the raw response into usable bits
-    list($rawResponseHeaders, $responseBody) = explode("\r\n\r\n", $data, 2);
+    $rawResponseHeaders = substr($respData, 0, $respHeaderSize);
+    $responseBody = substr($respData, $respHeaderSize);
     $responseHeaderLines = explode("\r\n", $rawResponseHeaders);
-    array_shift($responseHeaderLines);
     $responseHeaders = array();
     foreach ($responseHeaderLines as $headerLine) {
-      list($header, $value) = explode(': ', $headerLine, 2);
-      if (isset($responseHeaders[$header])) {
-        $responseHeaders[$header] .= "\n" . $value;
-      } else {
-        $responseHeaders[$header] = $value;
+      if ($headerLine && strpos($headerLine, ':') !== false) {
+        list($header, $value) = explode(': ', $headerLine, 2);
+        if (isset($responseHeaders[$header])) {
+          $responseHeaders[$header] .= "\n" . $value;
+        } else {
+          $responseHeaders[$header] = $value;
+        }
       }
     }
     // Fill in the apiHttpRequest with the response values
-    $request->setResponseHttpCode((int)$httpCode);
+    $request->setResponseHttpCode($respHttpCode);
     $request->setResponseHeaders($responseHeaders);
     $request->setResponseBody($responseBody);
     // Store the request in cache (the function checks to see if the request can actually be cached)
