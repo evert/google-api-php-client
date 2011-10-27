@@ -36,10 +36,10 @@ if (file_exists($cwd . '/local_config.php')) {
 }
 
 // Include the top level classes, they each include their own dependencies
-require_once "auth/apiAuth.php";
-require_once "cache/apiCache.php";
-require_once "io/apiIO.php";
-require_once "service/apiService.php";
+require_once 'auth/apiAuth.php';
+require_once 'cache/apiCache.php';
+require_once 'io/apiIO.php';
+require_once 'service/apiService.php';
 
 // Exceptions that the Google PHP API Library can throw
 class apiException extends Exception {}
@@ -58,11 +58,19 @@ class apiClient {
   // the version of the discovery mechanism this class is meant to work with
   const discoveryVersion = 'v0.3';
 
-  // worker classes
+  /** @var apiAuth $auth */
   protected $auth;
+
+  /** @var apiIo $io */
   protected $io;
+
+  /** @var apiCache $cache */
   protected $cache;
+
+  /** @var array $scopes */
   protected $scopes = array();
+
+  /** @var bool $useObjects */
   protected $useObjects = false;
 
   // definitions of services that are discover()'rd
@@ -98,7 +106,7 @@ class apiClient {
     global $apiConfig;
     if ($this->authenticated) {
       // Adding services after being authenticated, since the oauth scope is already set (so you wouldn't have access to that data)
-      throw new apiException("Can't add services after having authenticated");
+      throw new apiException('Cant add services after having authenticated');
     }
     $this->services[$service] = $this->defaultService;
     if (isset($apiConfig['services'][$service])) {
