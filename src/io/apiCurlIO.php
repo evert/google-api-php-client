@@ -23,8 +23,10 @@
  * @author Chirag Shah <chirags@google.com>
  */
 class apiCurlIO implements apiIO {
-  // Set by the top level apiClient class, stored here locally to deal with auth signing and caching
+  /** @var apiCache $cache */
   private $cache;
+  
+  /** @var apiAuth $auth */
   private $auth;
 
   /**

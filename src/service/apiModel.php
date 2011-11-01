@@ -42,8 +42,14 @@ class apiModel {
       $this->$key = $val;
 
       $keyTypeName = "__$key" . 'Type';
+      $keyDataType = "__$key" . 'DataType';
       if ($this->useObjects() && property_exists($this, $keyTypeName)) {
         if ($this->isAssociativeArray($val)) {
+          if (isset($this->$keyDataType) && 'map' == $this->$keyDataType) {
+            foreach($val as $arrayKey => $arrayItem) {
+              $val[$arrayKey] = $this->createObjectFromName($keyTypeName, $arrayItem);
+            }
+          }
           $this->$key = $this->createObjectFromName($keyTypeName, $val);
         } else if (is_array($val)) {
           $arrayObject = array();
