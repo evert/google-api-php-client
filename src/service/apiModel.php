@@ -49,8 +49,10 @@ class apiModel {
             foreach($val as $arrayKey => $arrayItem) {
               $val[$arrayKey] = $this->createObjectFromName($keyTypeName, $arrayItem);
             }
+            $this->$key = $val;
+          } else {
+            $this->$key = $this->createObjectFromName($keyTypeName, $val);
           }
-          $this->$key = $this->createObjectFromName($keyTypeName, $val);
         } else if (is_array($val)) {
           $arrayObject = array();
           foreach ($val as $arrayIndex => $arrayItem) {
