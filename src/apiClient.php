@@ -25,7 +25,7 @@ if (! function_exists('json_decode')) {
 
 // hack around with the include paths a bit so the library 'just works'
 $cwd = dirname(__FILE__);
-set_include_path("$cwd" . PATH_SEPARATOR . ":" . get_include_path());
+set_include_path("$cwd" . PATH_SEPARATOR . get_include_path());
 
 require_once "config.php";
 // If a local configuration file is found, merge it's values with the default configuration
