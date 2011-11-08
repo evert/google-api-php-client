@@ -53,6 +53,7 @@ class apiServiceException extends apiException {}
  * http://code.google.com/p/google-api-php-client/
  *
  * @author Chris Chabot <chabotc@google.com>
+ * @author Chirag Shah <chirags@google.com>
  */
 class apiClient {
   // the version of the discovery mechanism this class is meant to work with
@@ -131,6 +132,10 @@ class apiClient {
     return $this->auth->authenticate($service);
   }
 
+  /**
+   * Construct the OAuth 2.0 authorization request URI.
+   * @return string 
+   */
   public function createAuthUrl() {
     $service = $this->prepareService();
     return $this->auth->createAuthUrl($service);
@@ -162,8 +167,11 @@ class apiClient {
   }
 
   /**
-   * Set the OAuth access token using the string that resulted from calling authenticate()
-   * @param (serialized) string $accessToken
+   * Set the OAuth 2.0 access token using the string that resulted from calling authenticate()
+   * or apiClient#getAccessToken().
+   * @param string $accessToken JSON encoded string containing in the following format:
+   * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
+   *  "expires_in":3600,"id_token":"TOKEN", "created":1320790426}
    */
   public function setAccessToken($accessToken) {
     if ($accessToken == null || 'null' == $accessToken) {
@@ -172,6 +180,12 @@ class apiClient {
     $this->auth->setAccessToken($accessToken);
   }
 
+  /**
+   * Get the OAuth 2.0 access token.
+   * @return string $accessToken JSON encoded string containing in the following format:
+   * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
+   *  "expires_in":3600,"id_token":"TOKEN", "created":1320790426}
+   */
   public function getAccessToken() {
     $token = $this->auth->getAccessToken();
     return (null == $token || 'null' == $token) ? null : $token;
@@ -204,7 +218,7 @@ class apiClient {
   }
 
   /**
-   * Set the OAuth2 Client ID.
+   * Set the OAuth 2.0 Client ID.
    * @param string $clientId
    */
   public function setClientId($clientId) {
@@ -214,7 +228,7 @@ class apiClient {
   }
   
   /**
-   * Set the OAuth2 Client Secret.
+   * Set the OAuth 2.0 Client Secret.
    * @param string $clientSecret
    */
   public function setClientSecret($clientSecret) {
@@ -224,7 +238,7 @@ class apiClient {
   }
 
   /**
-   * Set the OAuth2 Redirect URI.
+   * Set the OAuth 2.0 Redirect URI.
    * @param string $redirectUri
    */
   public function setRedirectUri($redirectUri) {
