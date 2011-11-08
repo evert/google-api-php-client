@@ -56,7 +56,7 @@ if (isset($_GET['code'])) {
 <?php
   $lists = $tasksService->tasklists->listTasklists();
   foreach ($lists['items'] as $list) {
-    print "<h3>{$list['name']}</h3>";
+    print "<h3>{$list['title']}</h3>";
     $tasks = $tasksService->tasks->listTasks($list['id']);
     foreach ($tasks['items'] as $task) {
       $updated = new Task($task);
