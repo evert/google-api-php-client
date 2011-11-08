@@ -54,7 +54,7 @@ class AdSenseAuth {
     $this->apiClient->setDeveloperKey('YOUR_DEVELOPER_KEY_HERE');
     // Point the oauth2_redirect_uri to index.php.
     $this->apiClient->setRedirectUri('http://localhost/index.php');
-
+    
     // Create the api AdsenseService instance.
     $this->adSenseService = new apiAdsenseService($this->apiClient);
   }
@@ -72,6 +72,9 @@ class AdSenseAuth {
       // I already have the token.
       $this->apiClient->setAccessToken($token);
     } else {
+      // Override the scope to use the readonly one
+      $this->apiClient->setScopes(
+          array("https://www.googleapis.com/auth/adsense.readonly"));
       // Go get the token
       $this->apiClient->setAccessToken($this->apiClient->authenticate());
       $this->saveToken($user, $dbh, false, $this->apiClient->getAccessToken());
