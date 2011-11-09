@@ -33,7 +33,6 @@ class apiREST {
    * @throws apiServiceException on server side error (ie: not authenticated, invalid or malformed post body, invalid url, etc)
    */
   static public function execute(apiServiceRequest $request) {
-    global $apiTypeHandlers;
     $result = null;
     $requestUrl = $request->getRestBasePath() . $request->getRestPath();
     $uriTemplateVars = array();
@@ -66,12 +65,6 @@ class apiREST {
     }
     //FIXME work around for the the uri template lib which url encodes the @'s & confuses our servers
     $requestUrl = str_replace('%40', '@', $requestUrl);
-    //EOFIX
-
-    //FIXME temp work around to make @groups/{@following,@followers} work (something which we should really be fixing in our API)
-    if (strpos($requestUrl, '/@groups') && (strpos($requestUrl, '/@following') || strpos($requestUrl, '/@followers'))) {
-      $requestUrl = str_replace('/@self', '', $requestUrl);
-    }
     //EOFIX
 
     if (count($queryVars)) {
@@ -110,9 +103,6 @@ class apiREST {
     // Add a 'continuationToken' element to the response if the response contains a next link (so you can call it using the 'c' param)
     $ret = self::checkNextLink($ret);
     // if the response type has a registered type handler, call & return it instead of the raw response array
-    if (isset($ret['kind']) && isset($apiTypeHandlers[$ret['kind']])) {
-      $ret = new $apiTypeHandlers[$ret['kind']]($ret);
-    }
     return $ret;
   }
 
