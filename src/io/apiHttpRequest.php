@@ -24,7 +24,7 @@
  *
  */
 class apiHttpRequest {
-  const USER_AGENT_SUFFIX = "google-api-php-client/0.4.3";
+  const USER_AGENT_SUFFIX = "google-api-php-client/0.4.6";
 
   protected $url;
   protected $method;
