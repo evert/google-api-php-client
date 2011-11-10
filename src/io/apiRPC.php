@@ -31,7 +31,7 @@ class apiRPC {
       }
       $jsonRpcRequest[] = array(
         'id' => $request->getBatchKey(),
-        'method' => str_replace('buzz.', 'chili.', $request->getRpcName()),
+        'method' => $request->getRpcName(),
         'params' => $parameters,
       	'apiVersion' => 'v1'
       );
