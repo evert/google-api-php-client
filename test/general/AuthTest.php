@@ -25,6 +25,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
   const PRIVATE_KEY_FILE = "general/testdata/test_private_key.p12";
   const PUBLIC_KEY_FILE = "general/testdata/test_public_key.pem";
   const USER_ID = "102102479283111695822";
+  private $signer;
+  private $pem;
+  private $verifier;
 
   public function setUp() {
     $this->signer = new apiP12Signer(self::PRIVATE_KEY_FILE, "notasecret");
