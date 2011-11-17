@@ -76,7 +76,6 @@ class apiREST {
     if ($code != '200' && $code != '201' && $code != '204') {
       $decoded = json_decode($body, true);
       $err = 'Error calling ' . $response->getMethod() . ' ' . $response->getUrl();
-      var_dump($response);
       if ($decoded != null && isset($decoded['error']['message']) && isset($decoded['error']['code'])) {
         // if we're getting a json encoded error definition, use that instead of the raw response
         // body for improved readability
