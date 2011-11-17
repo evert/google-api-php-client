@@ -32,6 +32,8 @@ class apiOAuth2 extends apiAuth {
   public $accessToken;
   public $redirectUri;
   public $state;
+  public $accessType = 'offline';
+  public $approvalPrompt = 'force';
 
   const OAUTH2_TOKEN_URI = "https://accounts.google.com/o/oauth2/token";
   const OAUTH2_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
@@ -61,6 +63,14 @@ class apiOAuth2 extends apiAuth {
 
     if (! empty($apiConfig['oauth2_redirect_uri'])) {
       $this->redirectUri = $apiConfig['oauth2_redirect_uri'];
+    }
+    
+    if (! empty($apiConfig['oauth2_access_type'])) {
+      $this->accessType = $apiConfig['oauth2_access_type'];
+    }
+
+    if (! empty($apiConfig['oauth2_approval_prompt'])) {
+      $this->approvalPrompt = $apiConfig['oauth2_approval_prompt'];
     }
   }
 
@@ -108,7 +118,9 @@ class apiOAuth2 extends apiAuth {
         'response_type=code',
         'redirect_uri=' . urlencode($this->redirectUri),
         'client_id=' . urlencode($this->clientId),
-        'scope=' . urlencode($service['scope'])
+        'scope=' . urlencode($service['scope']),
+        'access_type=' . urlencode($this->accessType),
+        'approval_prompt=' . urlencode($this->approvalPrompt)
     );
 
     if (isset($this->state)) {
@@ -139,6 +151,14 @@ class apiOAuth2 extends apiAuth {
 
   public function setState($state) {
     $this->state = $state;
+  }
+
+  public function setAccessType($accessType) {
+    $this->accessType = $accessType;
+  }
+
+  public function setApprovalPrompt($approvalPrompt) {
+    $this->approvalPrompt = $approvalPrompt;
   }
 
   public function sign(apiHttpRequest $request) {
