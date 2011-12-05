@@ -73,7 +73,10 @@ if ($client->getAccessToken()) {
 ?>
 <!doctype html>
 <html>
-<head><link rel='stylesheet' href='style.css' /></head>
+<head>
+  <meta charset="utf-8">
+  <link rel='stylesheet' href='style.css' />
+</head>
 <body>
 <header><h1>Google+ Sample App</h1></header>
 <div class="box">
