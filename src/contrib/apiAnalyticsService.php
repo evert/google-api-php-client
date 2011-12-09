@@ -224,10 +224,10 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Returns Analytics data for a profile. (ga.get)
      *
-     * @param string $end_date End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
-     * @param string $start_date Start date for fetching Analytics data. All requests should specify a start date formatted as YYYY-MM-DD.
-     * @param string $metrics A comma-separated list of Analytics metrics. E.g., 'ga:visits,ga:pageviews'. At least one metric must be specified.
      * @param string $ids Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics profile ID.
+     * @param string $start_date Start date for fetching Analytics data. All requests should specify a start date formatted as YYYY-MM-DD.
+     * @param string $end_date End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
+     * @param string $metrics A comma-separated list of Analytics metrics. E.g., 'ga:visits,ga:pageviews'. At least one metric must be specified.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
      *
      * @opt_param int max-results The maximum number of entries to include in this feed.
@@ -238,8 +238,8 @@ require_once 'service/apiServiceRequest.php';
      * @opt_param string filters A comma-separated list of dimension or metric filters to be applied to Analytics data.
      * @return GaData
      */
-    public function get($end_date, $start_date, $metrics, $ids, $optParams = array()) {
-      $params = array('end-date' => $end_date, 'start-date' => $start_date, 'metrics' => $metrics, 'ids' => $ids);
+    public function get($ids, $start_date, $end_date, $metrics, $optParams = array()) {
+      $params = array('ids' => $ids, 'start-date' => $start_date, 'end-date' => $end_date, 'metrics' => $metrics);
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
