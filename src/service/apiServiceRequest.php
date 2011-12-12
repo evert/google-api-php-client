@@ -26,8 +26,6 @@
  *
  */
 class apiServiceRequest {
-
-  protected $io;
   protected $restBasePath;
   protected $restPath;
   protected $rpcPath;
@@ -38,7 +36,6 @@ class apiServiceRequest {
   protected $batchKey;
 
   /**
-   * @param apiIO $io
    * @param string $restBasePath
    * @param string $rpcPath
    * @param string $restPath
@@ -47,8 +44,7 @@ class apiServiceRequest {
    * @param $parameters
    * @param $postBody
    */
-  public function __construct(apiIO $io, $restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
-    $this->io = $io;
+  public function __construct($restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
 
     if (substr($restBasePath, 0, 4) == 'http') {
       $this->restBasePath = $restBasePath;
@@ -66,39 +62,19 @@ class apiServiceRequest {
   }
 
   /**
-   * @return the $postBody
+   * @return string $postBody
    */
   public function getPostBody() {
     return $this->postBody;
   }
 
   /**
-   * @param $postBody the $postBody to set
+   * @param string $postBody The post body.
    */
   public function setPostBody($postBody) {
     $this->postBody = $postBody;
   }
 
-  /**
-   * @return apiIo $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-
-  /**
-   * @param apiIo $io
-   */
-  public function setIo($io) {
-    $this->io = $io;
-  }
-
-  /**
-   * @param $baseUrl the $baseUrl to set
-   */
-  public function setBaseUrl($baseUrl) {
-    $this->baseUrl = $baseUrl;
-  }
 
   /**
    * @return the $restBasePath
@@ -140,27 +116,6 @@ class apiServiceRequest {
    */
   public function getParameters() {
     return $this->parameters;
-  }
-
-  /**
-   * @param $restBasePath the $restBasePath to set
-   */
-  public function setRestBasePath($restBasePath) {
-    $this->restBasePath = $restBasePath;
-  }
-
-  /**
-   * @param $restPath the $restPath to set
-   */
-  public function setRestPath($restPath) {
-    $this->restPath = $restPath;
-  }
-
-  /**
-   * @param $rpcPath the $rpcPath to set
-   */
-  public function setRpcPath($rpcPath) {
-    $this->rpcPath = $rpcPath;
   }
 
   /**

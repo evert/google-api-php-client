@@ -21,7 +21,6 @@
  *
  */
 class apiAuthNone extends apiAuth {
-
   public $developerKey = null;
 
   public function __construct() {
@@ -40,13 +39,13 @@ class apiAuthNone extends apiAuth {
   }
 
   public function getAccessToken() {
-    // noop
     return null;
   }
 
-  /**
-   * Set the developer key to use, these are obtained through the API Console
-   */
+  public function createAuthUrl($scope) {
+    return null;
+  }
+
   public function setDeveloperKey($developerKey) {
     $this->developerKey = $developerKey;
   }

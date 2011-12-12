@@ -23,21 +23,19 @@ require_once 'service/apiBatch.php';
  * This class parses the service end points of the api discovery document and constructs
  * serviceResource variables for all of them.
  *
- * For instance when calling with the service document for Buzz, it will create apiServiceResource's
- * for $this->activities, $this->photos, $this->people, $this->search, etc
+ * For instance when calling with the service document for Plus, it will create apiServiceResource's
+ * for $this->activities, $this->comments, $this->people, etc.
  *
  * @author Chris Chabot <chabotc@google.com>
  *
  */
 class apiService {
-  protected $io;
   protected $version = null;
   protected $restBasePath;
   protected $rpcPath;
 
-  public function __construct($serviceName, $discoveryDocument, apiIO $io) {
+  public function __construct($serviceName, $discoveryDocument) {
     global $apiConfig;
-    $this->io = $io;
     if (!isset($discoveryDocument['version']) || !isset($discoveryDocument['restBasePath']) || !isset($discoveryDocument['rpcPath'])) {
       throw new apiServiceException("Invalid discovery document");
     }
@@ -48,28 +46,7 @@ class apiService {
       $this->$resourceName = new apiServiceResource($this, $serviceName, $resourceName, $resourceTypes);
     }
   }
-
-  /**
-   * @return apiIo $io
-   */
-  public function getIo() {
-    return $this->io;
-  }
-
-  /**
-   * @param apiIo $io
-   */
-  public function setIo($io) {
-    $this->io = $io;
-  }
-
-  /**
-   * @return the $version
-   */
-  public function getVersion() {
-    return $this->version;
-  }
-
+  
   /**
    * @return the $restBasePath
    */
@@ -82,26 +59,5 @@ class apiService {
    */
   public function getRpcPath() {
     return $this->rpcPath;
-  }
-
-  /**
-   * @param $version the $version to set
-   */
-  public function setVersion($version) {
-    $this->version = $version;
-  }
-
-  /**
-   * @param $restBasePath the $restBasePath to set
-   */
-  public function setRestBasePath($restBasePath) {
-    $this->restBasePath = $restBasePath;
-  }
-
-  /**
-   * @param $rpcPath string the $rpcPath to set
-   */
-  public function setRpcPath($rpcPath) {
-    $this->rpcPath = $rpcPath;
   }
 }

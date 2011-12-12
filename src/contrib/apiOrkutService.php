@@ -364,7 +364,6 @@ class apiOrkutService extends apiService {
     $this->restBasePath = '/orkut/v2/';
     $this->version = 'v2';
     $this->serviceName = 'orkut';
-    $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
     $this->activities = new ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"], "parameters": {"collection": {"required": true, "enum": ["all", "scraps", "stream"], "location": "path", "type": "string"}, "pageToken": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"format": "uint32", "maximum": "100", "minimum": "1", "location": "query", "type": "integer"}}, "id": "orkut.activities.list", "httpMethod": "GET", "path": "people/{userId}/activities/{collection}", "response": {"$ref": "ActivityList"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/orkut"], "parameters": {"activityId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "activities/{activityId}", "id": "orkut.activities.delete"}}}', true));

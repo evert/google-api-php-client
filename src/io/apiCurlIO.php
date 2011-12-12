@@ -23,32 +23,26 @@
  * @author Chirag Shah <chirags@google.com>
  */
 class apiCurlIO implements apiIO {
-  /** @var apiCache $cache */
-  private $cache;
-  
-  /** @var apiAuth $auth */
-  private $auth;
-
-  /**
-   * Called by the apiClient base class
-   * @param apiCache $cache
-   * @param apiAuth $auth
-   */
-  public function __construct(apiCache $cache, apiAuth $auth) {
-    $this->cache = $cache;
-    $this->auth = $auth;
-  }
+  private static $DEFAULT_CURL_PARAMS = array (
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_FOLLOWLOCATION => 0,
+      CURLOPT_FAILONERROR => false,
+      CURLOPT_SSL_VERIFYPEER => true,
+      CURLOPT_HEADER => true,
+  );
 
   /**
    * Perform an authenticated / signed apiHttpRequest.
-   * This function takes the apiHttpRequest, calls apiAuth->sign on it (which can modify the request in what ever way fits the auth mechanism)
+   * This function takes the apiHttpRequest, calls apiAuth->sign on it
+   * (which can modify the request in what ever way fits the auth mechanism)
    * and then calls apiCurlIO::makeRequest on the signed request
    *
    * @param apiHttpRequest $request
-   * @return apiHttpRequest the resulting request with the responseHttpCode, responseHeaders and responseBody filled in
+   * @return apiHttpRequest The resulting HTTP response including the
+   * responseHttpCode, responseHeaders and responseBody.
    */
   public function authenticatedRequest(apiHttpRequest $request) {
-    $request = $this->auth->sign($request);
+    $request = apiClient::$auth->sign($request);
     return $this->makeRequest($request);
   }
 
@@ -56,13 +50,15 @@ class apiCurlIO implements apiIO {
    * Execute a apiHttpRequest
    *
    * @param apiHttpRequest $request the http request to be executed
-   * @return apiHttpRequest http request with the response http code, response headers and response body filled in
+   * @return apiHttpRequest http request with the response http code, response
+   * headers and response body filled in
    * @throws apiIOException on curl or IO error
    */
   public function makeRequest(apiHttpRequest $request) {
     // If it's a GET request, check to see if we have a valid cached version
     if ($request->getMethod() == 'GET') {
-      // check to see if this is signed, and if so use the original url + oauth access token to get a (per user context(!)) unique key to match against
+      // check to see if this is signed, and if so use the original url + oauth
+      // access token to get a (per user context(!)) unique key to match against
       if (($cachedRequest = $this->getCachedRequest($request)) !== false) {
         if ($this->mustRevalidate($cachedRequest)) {
           $addHeaders = array();
@@ -100,6 +96,7 @@ class apiCurlIO implements apiIO {
     }
 
     $ch = curl_init();
+    curl_setopt_array($ch, self::$DEFAULT_CURL_PARAMS);
     curl_setopt($ch, CURLOPT_URL, $request->getUrl());
     if ($request->getPostBody()) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getPostBody());
@@ -108,12 +105,7 @@ class apiCurlIO implements apiIO {
       curl_setopt($ch, CURLOPT_HTTPHEADER, array_unique($request->getHeaders()));
     }
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_USERAGENT, $request->getUserAgent());
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-    curl_setopt($ch, CURLOPT_FAILONERROR, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
     $respData = curl_exec($ch);
     $respHeaderSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $respHttpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -183,12 +175,12 @@ class apiCurlIO implements apiIO {
             'Expires' => date('r', time() + 60 * 60),
             'Date' => date('r', time())), $request->getHeaders()));
       }
-      $this->cache->set($this->getRequestKey($request), $request);
+      apiClient::$cache->set($this->getRequestKey($request), $request);
     }
   }
 
   private function getCachedRequest(apiHttpRequest $request) {
-    if (($cachedRequest = $this->cache->get($this->getRequestKey($request))) !== false) {
+    if (($cachedRequest = apiClient::$cache->get($this->getRequestKey($request))) !== false) {
       // There is a cached version of this request, validate if it can actually be used
       $headers = $this->getNormalizedHeaders($request);
       $etag = isset($headers['etag']) ? $headers['etag'] : false;
@@ -207,7 +199,7 @@ class apiCurlIO implements apiIO {
         return $cachedRequest;
       } else {
         // Clean out the stale cache entry before returning
-        $this->cache->delete($this->getRequestKey($request));
+        apiClient::$cache->delete($this->getRequestKey($request));
       }
     }
     // Either the request was not cached, or it has expired, return false
@@ -242,10 +234,18 @@ class apiCurlIO implements apiIO {
    * @return a md5 sum of the request url
    */
   private function getRequestKey(apiHttpRequest $request) {
-    $cacheUrl = (isset($request->accessKey) ? $request->getUrl(). '.' . $request->accessKey : $request->getUrl());
+    $cacheUrl = $request->getUrl();
+    if (isset($request->accessKey)) {
+      $cacheUrl .= $request->accessKey;
+    }
     return md5($cacheUrl);
   }
 
+  /**
+   * Normalize all HTTP headers.
+   * @param apiHttpRequest $request
+   * @return array
+   */
   private function getNormalizedHeaders(apiHttpRequest $request) {
     if (!is_array($request->getResponseHeaders())) {
       return array();

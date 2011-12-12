@@ -138,8 +138,7 @@ class apiServiceResource {
       $method['path'] = $method['restPath'];
     }
 
-    $request = new apiServiceRequest(
-        $this->service->getIo(), $this->service->getRestBasePath(), $this->service->getRpcPath(),
+    $request = new apiServiceRequest($this->service->getRestBasePath(), $this->service->getRpcPath(),
         $method['path'], $method['id'], $method['httpMethod'], $parameters, $postBody);
     if ($batchKey) {
       $request->setBatchKey($batchKey);

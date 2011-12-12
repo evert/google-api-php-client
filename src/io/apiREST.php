@@ -52,7 +52,7 @@ class apiREST {
       $httpRequest->setHeaders($contentTypeHeader);
     }
 
-    $httpRequest = $req->getIo()->authenticatedRequest($httpRequest);
+    $httpRequest = apiClient::$io->authenticatedRequest($httpRequest);
     $decodedResponse = self::decodeHttpResponse($httpRequest);
 
     //FIXME currently everything is wrapped in a data envelope, but hopefully this might change some day

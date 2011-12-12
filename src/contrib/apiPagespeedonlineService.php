@@ -83,7 +83,6 @@ class apiPagespeedonlineService extends apiService {
     $this->restBasePath = '/pagespeedonline/v1/';
     $this->version = 'v1';
     $this->serviceName = 'pagespeedonline';
-    $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
     $this->pagespeedapi = new PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"pattern": "[a-zA-Z]+(_[a-zA-Z]+)?", "type": "string", "location": "query"}, "url": {"pattern": "http(s)?://.*", "required": true, "type": "string", "location": "query"}, "rule": {"pattern": "[a-zA-Z]+", "repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
