@@ -21,6 +21,7 @@ require_once "GeneratorTest.php";
 require_once "IoTest.php";
 require_once "ServiceTest.php";
 require_once "ApiClientTest.php";
+require_once "ApiOAuth2Test.php";
 
 class GeneralTests extends PHPUnit_Framework_TestSuite {
 
@@ -32,6 +33,7 @@ class GeneralTests extends PHPUnit_Framework_TestSuite {
     $suite->addTestSuite('IoTest');
     $suite->addTestSuite('ServiceTest');
     $suite->addTestSuite('ApiClientTest');
+    $suite->addTestSuite('ApiOAuth2Test');
     return $suite;
   }
 }

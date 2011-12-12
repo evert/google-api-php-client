@@ -88,6 +88,5 @@ class RestTest extends PHPUnit_Framework_TestCase {
     $value = $this->rest->createRequestUri($basePath, '/plus', $params);
     $this->assertEquals("http://localhost/plus?u=%40me%2F&alt=json", $value);
   }
-
 }
  

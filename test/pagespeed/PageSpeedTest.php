@@ -24,46 +24,27 @@ $apiClient = null;
 $tasks = null;
 
 class PageSpeedTest extends PHPUnit_Framework_TestCase {
-  public $apiClient;
-  public $oauthToken;
-  public $pageSpeedService;
-  private $origConfig = false;
+  public $client, $service;
 
   public function __construct() {
-    global $apiConfig, $apiClient, $pageSpeedService;
     parent::__construct();
-
-    if (! $apiClient || ! $pageSpeedService) {
-      $this->origConfig = $apiConfig;
-      // Set up a predictable, default environment so the test results are predictable
-      //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
-      //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
-      $apiConfig['authClass'] = 'apiOAuth2';
-      $apiConfig['ioClass'] = 'apiCurlIO';
-      $apiConfig['cacheClass'] = 'apiFileCache';
-      $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
-
-      $apiClient = new apiClient();
-      $pageSpeedService = new apiPagespeedonlineService($apiClient);
-      if (!$apiClient->getAccessToken()) {
-        $apiClient->setAccessToken($apiConfig['oauth_test_token']);
+    if (! $this->client || ! $this->service) {
+      $this->client = new apiClient();
+      $this->service = new apiPagespeedonlineService($this->client);
+      if (!$this->client->getAccessToken()) {
+        global $apiConfig;
+        $this->client->setAccessToken($apiConfig['oauth_test_token']);
       }
     }
-    $this->apiClient = $apiClient;
-    $this->pageSpeedService = $pageSpeedService;
   }
 
   public function __destruct() {
-    global $apiConfig;
-    $this->pageSpeedService = null;
-    $this->apiClient = null;
-    if ($this->origConfig) {
-      $apiConfig = $this->origConfig;
-    }
+    $this->service = null;
+    $this->client = null;
   }
 
   public function testPageSpeed() {
-    $psapi = $this->pageSpeedService->pagespeedapi;
+    $psapi = $this->service->pagespeedapi;
     $result = $psapi->runpagespeed('http://code.google.com');
     $this->assertArrayHasKey('kind', $result);
     $this->assertArrayHasKey('id', $result);

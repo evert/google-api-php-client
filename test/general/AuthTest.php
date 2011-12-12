@@ -158,7 +158,6 @@ class AuthTest extends PHPUnit_Framework_TestCase {
         "id" => self::USER_ID,
         "iat" => time() + 1800,
         "exp" => time() + 3600));
-    $id_token = $id_token;
     $this->checkIdTokenFailure($id_token, "Token used too early");
   }
 

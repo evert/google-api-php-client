@@ -26,6 +26,7 @@ require_once 'general/GeneralTests.php';
 require_once 'tasks/AllTasksTests.php';
 require_once 'pagespeed/AllPageSpeedTests.php';
 require_once 'urlshortener/AllUrlShortenerTests.php';
+require_once 'plus/PlusTest.php';
 
 class AllTests {
   public static function suite() {
@@ -34,6 +35,7 @@ class AllTests {
     $suite->addTestSuite(AllTasksTests::suite());
     $suite->addTestSuite(AllPageSpeedTests::suite());
     $suite->addTestSuite(AllUrlShortenerTests::suite());
+    $suite->addTestSuite(AllPlusTests::suite());
     $suite->addTestSuite(GeneralTests::suite());
     return $suite;
   }
