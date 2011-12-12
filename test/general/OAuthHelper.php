@@ -18,19 +18,15 @@ require_once '../../src/apiClient.php';
 
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
-global $apiConfig;
-
+$client = new apiClient();
 // Visit https://code.google.com/apis/console to
 // generate your oauth2_client_id, oauth2_client_secret, and to
 // register your oauth2_redirect_uri.
-//$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
-//$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
-$apiConfig['oauth2_redirect_uri'] ='urn:ietf:wg:oauth:2.0:oob';
-$apiConfig['authClass'] ='apiOAuth2';
-
-$client = new apiClient();
+//$client->setClientId('INSERT_CLIENT_ID');
+//$client->setClientSecret('INSERT_CLIENT_SECRET');
+$client->setRedirectUri('urn:ietf:wg:oauth:2.0:oob');
 $client->setScopes(array(
-  'https://www.googleapis.com/auth/buzz',
+  'https://www.googleapis.com/auth/plus.me',
   'https://www.googleapis.com/auth/latitude',
   'https://www.googleapis.com/auth/moderator',
   'https://www.googleapis.com/auth/tasks',
