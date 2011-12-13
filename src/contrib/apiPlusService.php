@@ -40,7 +40,7 @@ require_once 'service/apiServiceRequest.php';
      * @opt_param string orderBy Specifies how to order search results.
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. This token may be of any length.
      * @opt_param string maxResults The maximum number of activities to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
-     * @opt_param string language Specify the preferred language to search with. See search language code for available values.
+     * @opt_param string language Specify the preferred language to search with. See search language codes for available values.
      * @return ActivityFeed
      */
     public function search($query, $optParams = array()) {
@@ -653,9 +653,6 @@ class ActivityObjectActorImage extends apiModel {
 
 class ActivityObjectAttachments extends apiModel {
   public $displayName;
-  protected $__contentsourceType = 'ActivityObjectAttachmentsContentsource';
-  protected $__contentsourceDataType = '';
-  public $contentsource;
   protected $__fullImageType = 'ActivityObjectAttachmentsFullImage';
   protected $__fullImageDataType = '';
   public $fullImage;
@@ -668,21 +665,12 @@ class ActivityObjectAttachments extends apiModel {
   protected $__embedDataType = '';
   public $embed;
   public $id;
-  protected $__categoriesType = 'ActivityObjectAttachmentsCategories';
-  protected $__categoriesDataType = 'array';
-  public $categories;
   public $objectType;
   public function setDisplayName($displayName) {
     $this->displayName = $displayName;
   }
   public function getDisplayName() {
     return $this->displayName;
-  }
-  public function setContentsource(ActivityObjectAttachmentsContentsource $contentsource) {
-    $this->contentsource = $contentsource;
-  }
-  public function getContentsource() {
-    return $this->contentsource;
   }
   public function setFullImage(ActivityObjectAttachmentsFullImage $fullImage) {
     $this->fullImage = $fullImage;
@@ -720,59 +708,11 @@ class ActivityObjectAttachments extends apiModel {
   public function getId() {
     return $this->id;
   }
-  public function setCategories(/* array(ActivityObjectAttachmentsCategories) */ $categories) {
-    $this->assertIsArray($categories, 'ActivityObjectAttachmentsCategories', __METHOD__);
-    $this->categories = $categories;
-  }
-  public function getCategories() {
-    return $this->categories;
-  }
   public function setObjectType($objectType) {
     $this->objectType = $objectType;
   }
   public function getObjectType() {
     return $this->objectType;
-  }
-}
-
-class ActivityObjectAttachmentsCategories extends apiModel {
-  public $term;
-  public $schema;
-  public $label;
-  public function setTerm($term) {
-    $this->term = $term;
-  }
-  public function getTerm() {
-    return $this->term;
-  }
-  public function setSchema($schema) {
-    $this->schema = $schema;
-  }
-  public function getSchema() {
-    return $this->schema;
-  }
-  public function setLabel($label) {
-    $this->label = $label;
-  }
-  public function getLabel() {
-    return $this->label;
-  }
-}
-
-class ActivityObjectAttachmentsContentsource extends apiModel {
-  public $url;
-  public $type;
-  public function setUrl($url) {
-    $this->url = $url;
-  }
-  public function getUrl() {
-    return $this->url;
-  }
-  public function setType($type) {
-    $this->type = $type;
-  }
-  public function getType() {
-    return $this->type;
   }
 }
 
