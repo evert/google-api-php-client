@@ -26,6 +26,7 @@
 class apiServiceResource {
   // Valid query parameters that work, but don't appear in discovery.
   private $stackParameters = array(
+      'alt' => array('type' => 'string', 'location' => 'query'),
       'fields' => array('type' => 'string', 'location' => 'query'),
       'trace' => array('type' => 'string', 'location' => 'query'),
       'userIp' => array('type' => 'string', 'location' => 'query'),
