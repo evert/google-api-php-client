@@ -59,8 +59,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $task Task identifier.
      * @return Task
      */
-    public function get($tasklist, $task) {
+    public function get($tasklist, $task, $optParams = array()) {
       $params = array('tasklist' => $tasklist, 'task' => $task);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Task($data);
@@ -75,8 +76,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $tasklist Task list identifier.
      */
-    public function clear($tasklist) {
+    public function clear($tasklist, $optParams = array()) {
       $params = array('tasklist' => $tasklist);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('clear', array($params));
       return $data;
     }
@@ -139,8 +141,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Task $postBody
      * @return Task
      */
-    public function update($tasklist, $task, Task $postBody) {
+    public function update($tasklist, $task, Task $postBody, $optParams = array()) {
       $params = array('tasklist' => $tasklist, 'task' => $task, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new Task($data);
@@ -156,8 +159,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Task $postBody
      * @return Task
      */
-    public function patch($tasklist, $task, Task $postBody) {
+    public function patch($tasklist, $task, Task $postBody, $optParams = array()) {
       $params = array('tasklist' => $tasklist, 'task' => $task, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
         return new Task($data);
@@ -171,8 +175,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $tasklist Task list identifier.
      * @param string $task Task identifier.
      */
-    public function delete($tasklist, $task) {
+    public function delete($tasklist, $task, $optParams = array()) {
       $params = array('tasklist' => $tasklist, 'task' => $task);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -195,8 +200,9 @@ require_once 'service/apiServiceRequest.php';
      * @param TaskList $postBody
      * @return TaskList
      */
-    public function insert(TaskList $postBody) {
+    public function insert(TaskList $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new TaskList($data);
@@ -210,8 +216,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $tasklist Task list identifier.
      * @return TaskList
      */
-    public function get($tasklist) {
+    public function get($tasklist, $optParams = array()) {
       $params = array('tasklist' => $tasklist);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new TaskList($data);
@@ -245,8 +252,9 @@ require_once 'service/apiServiceRequest.php';
      * @param TaskList $postBody
      * @return TaskList
      */
-    public function update($tasklist, TaskList $postBody) {
+    public function update($tasklist, TaskList $postBody, $optParams = array()) {
       $params = array('tasklist' => $tasklist, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new TaskList($data);
@@ -262,8 +270,9 @@ require_once 'service/apiServiceRequest.php';
      * @param TaskList $postBody
      * @return TaskList
      */
-    public function patch($tasklist, TaskList $postBody) {
+    public function patch($tasklist, TaskList $postBody, $optParams = array()) {
       $params = array('tasklist' => $tasklist, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
         return new TaskList($data);
@@ -276,8 +285,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $tasklist Task list identifier.
      */
-    public function delete($tasklist) {
+    public function delete($tasklist, $optParams = array()) {
       $params = array('tasklist' => $tasklist);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -324,6 +334,9 @@ class Task extends apiModel {
   public $kind;
   public $updated;
   public $parent;
+  protected $__linksType = 'TaskLinks';
+  protected $__linksDataType = 'array';
+  public $links;
   public $title;
   public $deleted;
   public $completed;
@@ -357,6 +370,13 @@ class Task extends apiModel {
   }
   public function getParent() {
     return $this->parent;
+  }
+  public function setLinks(/* array(TaskLinks) */ $links) {
+    $this->assertIsArray($links, 'TaskLinks', __METHOD__);
+    $this->links = $links;
+  }
+  public function getLinks() {
+    return $this->links;
   }
   public function setTitle($title) {
     $this->title = $title;
@@ -417,6 +437,30 @@ class Task extends apiModel {
   }
   public function getSelfLink() {
     return $this->selfLink;
+  }
+}
+
+class TaskLinks extends apiModel {
+  public $type;
+  public $link;
+  public $description;
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setLink($link) {
+    $this->link = $link;
+  }
+  public function getLink() {
+    return $this->link;
+  }
+  public function setDescription($description) {
+    $this->description = $description;
+  }
+  public function getDescription() {
+    return $this->description;
   }
 }
 

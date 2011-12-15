@@ -38,8 +38,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Input $postBody
      * @return Output
      */
-    public function predict($id, Input $postBody) {
+    public function predict($id, Input $postBody, $optParams = array()) {
       $params = array('id' => $id, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('predict', array($params));
       if ($this->useObjects()) {
         return new Output($data);
@@ -53,8 +54,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Training $postBody
      * @return Training
      */
-    public function insert(Training $postBody) {
+    public function insert(Training $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Training($data);
@@ -68,8 +70,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $id The unique name for the predictive model.
      * @return Training
      */
-    public function get($id) {
+    public function get($id, $optParams = array()) {
       $params = array('id' => $id);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Training($data);
@@ -80,12 +83,13 @@ require_once 'service/apiServiceRequest.php';
     /**
      * Add new data to a trained model. (trainedmodels.update)
      *
-     * @param string $id
+     * @param string $id The unique name for the predictive model.
      * @param Update $postBody
      * @return Training
      */
-    public function update($id, Update $postBody) {
+    public function update($id, Update $postBody, $optParams = array()) {
       $params = array('id' => $id, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new Training($data);
@@ -98,8 +102,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $id The unique name for the predictive model.
      */
-    public function delete($id) {
+    public function delete($id, $optParams = array()) {
       $params = array('id' => $id);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -123,8 +128,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Input $postBody
      * @return Output
      */
-    public function predict($hostedModelName, Input $postBody) {
+    public function predict($hostedModelName, Input $postBody, $optParams = array()) {
       $params = array('hostedModelName' => $hostedModelName, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('predict', array($params));
       if ($this->useObjects()) {
         return new Output($data);

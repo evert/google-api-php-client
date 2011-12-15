@@ -80,8 +80,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $activityId The ID of the activity to get.
      * @return Activity
      */
-    public function get($activityId) {
+    public function get($activityId, $optParams = array()) {
       $params = array('activityId' => $activityId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Activity($data);
@@ -128,8 +129,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $commentId The ID of the comment to get.
      * @return Comment
      */
-    public function get($commentId) {
+    public function get($commentId, $optParams = array()) {
       $params = array('commentId' => $commentId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Comment($data);
@@ -199,8 +201,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $userId The ID of the person to get the profile for. The special value "me" can be used to indicate the authenticated user.
      * @return Person
      */
-    public function get($userId) {
+    public function get($userId, $optParams = array()) {
       $params = array('userId' => $userId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Person($data);
@@ -284,6 +287,7 @@ class Activity extends apiModel {
   public $provider;
   public $title;
   public $url;
+  public $geocode;
   protected $__objectType = 'ActivityObject';
   protected $__objectDataType = '';
   public $object;
@@ -296,7 +300,7 @@ class Activity extends apiModel {
   protected $__accessDataType = '';
   public $access;
   public $verb;
-  public $geocode;
+  public $etag;
   public $radius;
   public $address;
   public $crosspostSource;
@@ -339,6 +343,12 @@ class Activity extends apiModel {
   public function getUrl() {
     return $this->url;
   }
+  public function setGeocode($geocode) {
+    $this->geocode = $geocode;
+  }
+  public function getGeocode() {
+    return $this->geocode;
+  }
   public function setObject(ActivityObject $object) {
     $this->object = $object;
   }
@@ -375,11 +385,11 @@ class Activity extends apiModel {
   public function getVerb() {
     return $this->verb;
   }
-  public function setGeocode($geocode) {
-    $this->geocode = $geocode;
+  public function setEtag($etag) {
+    $this->etag = $etag;
   }
-  public function getGeocode() {
-    return $this->geocode;
+  public function getEtag() {
+    return $this->etag;
   }
   public function setRadius($radius) {
     $this->radius = $radius;
@@ -471,6 +481,7 @@ class ActivityFeed extends apiModel {
   public $items;
   public $updated;
   public $nextLink;
+  public $etag;
   public $id;
   public $selfLink;
   public function setNextPageToken($nextPageToken) {
@@ -509,6 +520,12 @@ class ActivityFeed extends apiModel {
   }
   public function getNextLink() {
     return $this->nextLink;
+  }
+  public function setEtag($etag) {
+    $this->etag = $etag;
+  }
+  public function getEtag() {
+    return $this->etag;
   }
   public function setId($id) {
     $this->id = $id;
@@ -869,6 +886,7 @@ class Comment extends apiModel {
   protected $__actorDataType = '';
   public $actor;
   public $verb;
+  public $etag;
   public $published;
   public $id;
   public $selfLink;
@@ -908,6 +926,12 @@ class Comment extends apiModel {
   }
   public function getVerb() {
     return $this->verb;
+  }
+  public function setEtag($etag) {
+    $this->etag = $etag;
+  }
+  public function getEtag() {
+    return $this->etag;
   }
   public function setPublished($published) {
     $this->published = $published;
@@ -981,6 +1005,7 @@ class CommentFeed extends apiModel {
   public $items;
   public $updated;
   public $nextLink;
+  public $etag;
   public $id;
   public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
@@ -1018,6 +1043,12 @@ class CommentFeed extends apiModel {
   }
   public function getNextLink() {
     return $this->nextLink;
+  }
+  public function setEtag($etag) {
+    $this->etag = $etag;
+  }
+  public function getEtag() {
+    return $this->etag;
   }
   public function setId($id) {
     $this->id = $id;
@@ -1063,17 +1094,30 @@ class CommentObject extends apiModel {
 
 class PeopleFeed extends apiModel {
   public $nextPageToken;
+  public $kind;
+  public $title;
   protected $__itemsType = 'Person';
   protected $__itemsDataType = 'array';
   public $items;
-  public $kind;
+  public $etag;
   public $selfLink;
-  public $title;
   public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
   public function getNextPageToken() {
     return $this->nextPageToken;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setTitle($title) {
+    $this->title = $title;
+  }
+  public function getTitle() {
+    return $this->title;
   }
   public function setItems(/* array(Person) */ $items) {
     $this->assertIsArray($items, 'Person', __METHOD__);
@@ -1082,23 +1126,17 @@ class PeopleFeed extends apiModel {
   public function getItems() {
     return $this->items;
   }
-  public function setKind($kind) {
-    $this->kind = $kind;
+  public function setEtag($etag) {
+    $this->etag = $etag;
   }
-  public function getKind() {
-    return $this->kind;
+  public function getEtag() {
+    return $this->etag;
   }
   public function setSelfLink($selfLink) {
     $this->selfLink = $selfLink;
   }
   public function getSelfLink() {
     return $this->selfLink;
-  }
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-  public function getTitle() {
-    return $this->title;
   }
 }
 
@@ -1127,6 +1165,7 @@ class Person extends apiModel {
   public $emails;
   public $nickname;
   public $birthday;
+  public $etag;
   protected $__imageType = 'PersonImage';
   protected $__imageDataType = '';
   public $image;
@@ -1222,6 +1261,12 @@ class Person extends apiModel {
   }
   public function getBirthday() {
     return $this->birthday;
+  }
+  public function setEtag($etag) {
+    $this->etag = $etag;
+  }
+  public function getEtag() {
+    return $this->etag;
   }
   public function setImage(PersonImage $image) {
     $this->image = $image;

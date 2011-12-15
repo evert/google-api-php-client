@@ -113,6 +113,88 @@ require_once 'service/apiServiceRequest.php';
   }
 
   /**
+   * The "myconfig" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $booksService = new apiBooksService(...);
+   *   $myconfig = $booksService->myconfig;
+   *  </code>
+   */
+  class MyconfigServiceResource extends apiServiceResource {
+
+
+    /**
+     * Release downloaded content access restriction. (myconfig.releaseDownloadAccess)
+     *
+     * @param string $volumeIds The volume(s) to release restrictions for.
+     * @param string $cpksver The device/version identifier from which to release the restriction.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string source String to identify the originator of this request.
+     * @return DownloadAccesses
+     */
+    public function releaseDownloadAccess($volumeIds, $cpksver, $optParams = array()) {
+      $params = array('volumeIds' => $volumeIds, 'cpksver' => $cpksver);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('releaseDownloadAccess', array($params));
+      if ($this->useObjects()) {
+        return new DownloadAccesses($data);
+      } else {
+        return $data;
+      }
+    }
+    /**
+     * Request concurrent and download access restrictions. (myconfig.requestAccess)
+     *
+     * @param string $source String to identify the originator of this request.
+     * @param string $volumeId The volume to request concurrent/download restrictions for.
+     * @param string $nonce The client nonce value.
+     * @param string $cpksver The device/version identifier from which to request the restrictions.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @return RequestAccess
+     */
+    public function requestAccess($source, $volumeId, $nonce, $cpksver, $optParams = array()) {
+      $params = array('source' => $source, 'volumeId' => $volumeId, 'nonce' => $nonce, 'cpksver' => $cpksver);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('requestAccess', array($params));
+      if ($this->useObjects()) {
+        return new RequestAccess($data);
+      } else {
+        return $data;
+      }
+    }
+    /**
+     * Request downloaded content access for specified volumes on the My eBooks shelf.
+     * (myconfig.syncVolumeLicenses)
+     *
+     * @param string $source String to identify the originator of this request.
+     * @param string $nonce The client nonce value.
+     * @param string $cpksver The device/version identifier from which to release the restriction.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string volumeIds The volume(s) to request download restrictions for.
+     * @return Volumes
+     */
+    public function syncVolumeLicenses($source, $nonce, $cpksver, $optParams = array()) {
+      $params = array('source' => $source, 'nonce' => $nonce, 'cpksver' => $cpksver);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('syncVolumeLicenses', array($params));
+      if ($this->useObjects()) {
+        return new Volumes($data);
+      } else {
+        return $data;
+      }
+    }
+  }
+
+  /**
    * The "volumes" collection of methods.
    * Typical usage is:
    *  <code>
@@ -329,6 +411,119 @@ require_once 'service/apiServiceRequest.php';
       }
     }
   }
+  /**
+   * The "annotations" collection of methods.
+   * Typical usage is:
+   *  <code>
+   *   $booksService = new apiBooksService(...);
+   *   $annotations = $booksService->annotations;
+   *  </code>
+   */
+  class MylibraryAnnotationsServiceResource extends apiServiceResource {
+
+
+    /**
+     * Inserts a new annotation. (annotations.insert)
+     *
+     * @param Annotation $postBody
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string source String to identify the originator of this request.
+     * @return Annotation
+     */
+    public function insert(Annotation $postBody, $optParams = array()) {
+      $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('insert', array($params));
+      if ($this->useObjects()) {
+        return new Annotation($data);
+      } else {
+        return $data;
+      }
+    }
+    /**
+     * Gets an annotation by its id. (annotations.get)
+     *
+     * @param string $annotationId The annotation identifier for the annotation to retrieve.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string source String to identify the originator of this request.
+     * @return Annotation
+     */
+    public function get($annotationId, $optParams = array()) {
+      $params = array('annotationId' => $annotationId);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('get', array($params));
+      if ($this->useObjects()) {
+        return new Annotation($data);
+      } else {
+        return $data;
+      }
+    }
+    /**
+     * Retrieves a list of annotations, possibly filtered. (annotations.list)
+     *
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string source String to identify the originator of this request.
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string volumeId The volume to restrict annotations to.
+     * @opt_param string maxResults Maximum number of results to return
+     * @opt_param string pageToken The value of the nextToken from the previous page.
+     * @opt_param string pageIds The page id(s) for the volume that is being queried.
+     * @opt_param string contentVersion The content version for the requested volume.
+     * @opt_param string layerId The layer id to limit annotation by.
+     * @return Annotations
+     */
+    public function listMylibraryAnnotations($optParams = array()) {
+      $params = array();
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('list', array($params));
+      if ($this->useObjects()) {
+        return new Annotations($data);
+      } else {
+        return $data;
+      }
+    }
+    /**
+     * Updates an existing annotation. (annotations.update)
+     *
+     * @param string $annotationId The annotation identifier for the annotation to update.
+     * @param Annotation $postBody
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string source String to identify the originator of this request.
+     * @return Annotation
+     */
+    public function update($annotationId, Annotation $postBody, $optParams = array()) {
+      $params = array('annotationId' => $annotationId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('update', array($params));
+      if ($this->useObjects()) {
+        return new Annotation($data);
+      } else {
+        return $data;
+      }
+    }
+    /**
+     * Deletes an annotation. (annotations.delete)
+     *
+     * @param string $annotationId The annotation identifier for the annotation to delete.
+     * @param array $optParams Optional parameters. Valid optional parameters are listed below.
+     *
+     * @opt_param string country ISO-3166-1 code to override the IP-based location.
+     * @opt_param string source String to identify the originator of this request.
+     */
+    public function delete($annotationId, $optParams = array()) {
+      $params = array('annotationId' => $annotationId);
+      $params = array_merge($params, $optParams);
+      $data = $this->__call('delete', array($params));
+      return $data;
+    }
+  }
 
 
 
@@ -348,8 +543,12 @@ require_once 'service/apiServiceRequest.php';
  */
 class apiBooksService extends apiService {
   public $bookshelves;
+  public $bookshelves_volumes;
+  public $myconfig;
   public $volumes;
   public $mylibrary;
+  public $mylibrary_bookshelves;
+  public $mylibrary_annotations;
   /**
    * Constructs the internal representation of the Books service.
    *
@@ -360,12 +559,267 @@ class apiBooksService extends apiService {
     $this->restBasePath = '/books/v1/';
     $this->version = 'v1';
     $this->serviceName = 'books';
-    $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
-    $this->bookshelves = new BookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.bookshelves.list", "httpMethod": "GET", "path": "users/{userId}/bookshelves", "response": {"$ref": "Bookshelves"}}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.bookshelves.get", "httpMethod": "GET", "path": "users/{userId}/bookshelves/{shelf}", "response": {"$ref": "Bookshelf"}}}, "resources": {"volumes": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "maxResults": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "books.bookshelves.volumes.list", "httpMethod": "GET", "path": "users/{userId}/bookshelves/{shelf}/volumes", "response": {"$ref": "Volumes"}}}}}}', true));
+    $this->bookshelves = new BookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.bookshelves.list", "httpMethod": "GET", "path": "users/{userId}/bookshelves", "response": {"$ref": "Bookshelves"}}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "userId": {"required": true, "type": "string", "location": "path"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.bookshelves.get", "httpMethod": "GET", "path": "users/{userId}/bookshelves/{shelf}", "response": {"$ref": "Bookshelf"}}}}', true));
+    $this->bookshelves_volumes = new BookshelvesVolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "maxResults": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "userId": {"required": true, "type": "string", "location": "path"}}, "id": "books.bookshelves.volumes.list", "httpMethod": "GET", "path": "users/{userId}/bookshelves/{shelf}/volumes", "response": {"$ref": "Volumes"}}}}', true));
+    $this->myconfig = new MyconfigServiceResource($this, $this->serviceName, 'myconfig', json_decode('{"methods": {"releaseDownloadAccess": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"locale": {"type": "string", "location": "query"}, "country": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "cpksver": {"required": true, "type": "string", "location": "query"}, "volumeIds": {"repeated": true, "required": true, "type": "string", "location": "query"}}, "id": "books.myconfig.releaseDownloadAccess", "httpMethod": "POST", "path": "myconfig/releaseDownloadAccess", "response": {"$ref": "DownloadAccesses"}}, "requestAccess": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"nonce": {"required": true, "type": "string", "location": "query"}, "locale": {"type": "string", "location": "query"}, "country": {"type": "string", "location": "query"}, "cpksver": {"required": true, "type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "source": {"required": true, "type": "string", "location": "query"}}, "id": "books.myconfig.requestAccess", "httpMethod": "POST", "path": "myconfig/requestAccess", "response": {"$ref": "RequestAccess"}}, "syncVolumeLicenses": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"nonce": {"required": true, "type": "string", "location": "query"}, "locale": {"type": "string", "location": "query"}, "country": {"type": "string", "location": "query"}, "cpksver": {"required": true, "type": "string", "location": "query"}, "source": {"required": true, "type": "string", "location": "query"}, "volumeIds": {"repeated": true, "type": "string", "location": "query"}}, "id": "books.myconfig.syncVolumeLicenses", "httpMethod": "POST", "path": "myconfig/syncVolumeLicenses", "response": {"$ref": "Volumes"}}}}', true));
     $this->volumes = new VolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"orderBy": {"enum": ["newest", "relevance"], "type": "string", "location": "query"}, "filter": {"enum": ["ebooks", "free-ebooks", "full", "paid-ebooks", "partial"], "type": "string", "location": "query"}, "projection": {"enum": ["full", "lite"], "type": "string", "location": "query"}, "libraryRestrict": {"enum": ["my-library", "no-restrict"], "type": "string", "location": "query"}, "langRestrict": {"type": "string", "location": "query"}, "country": {"type": "string", "location": "query"}, "printType": {"enum": ["all", "books", "magazines"], "type": "string", "location": "query"}, "maxResults": {"format": "uint32", "maximum": "40", "minimum": "0", "location": "query", "type": "integer"}, "q": {"required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "download": {"enum": ["epub"], "type": "string", "location": "query"}, "partner": {"type": "string", "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}}, "id": "books.volumes.list", "httpMethod": "GET", "path": "volumes", "response": {"$ref": "Volumes"}}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"partner": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "projection": {"enum": ["full", "lite"], "type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "path"}, "country": {"type": "string", "location": "query"}}, "id": "books.volumes.get", "httpMethod": "GET", "path": "volumes/{volumeId}", "response": {"$ref": "Volume"}}}}', true));
-    $this->mylibrary = new MylibraryServiceResource($this, $this->serviceName, 'mylibrary', json_decode('{"resources": {"bookshelves": {"methods": {"clearVolumes": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/clearVolumes", "id": "books.mylibrary.bookshelves.clearVolumes"}, "removeVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/removeVolume", "id": "books.mylibrary.bookshelves.removeVolume"}, "list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelves"}, "httpMethod": "GET", "path": "mylibrary/bookshelves", "id": "books.mylibrary.bookshelves.list"}, "addVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/addVolume", "id": "books.mylibrary.bookshelves.addVolume"}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.mylibrary.bookshelves.get", "httpMethod": "GET", "path": "mylibrary/bookshelves/{shelf}", "response": {"$ref": "Bookshelf"}}}, "resources": {"volumes": {"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"projection": {"enum": ["full", "lite"], "type": "string", "location": "query"}, "country": {"type": "string", "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "maxResults": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "q": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"format": "uint32", "minimum": "0", "type": "integer", "location": "query"}, "shelf": {"type": "string", "location": "path"}}, "id": "books.mylibrary.bookshelves.volumes.list", "httpMethod": "GET", "path": "mylibrary/bookshelves/{shelf}/volumes", "response": {"$ref": "Volumes"}}}}}}}}', true));
+    $this->mylibrary = new MylibraryServiceResource($this, $this->serviceName, 'mylibrary', json_decode('{}', true));
+    $this->mylibrary_bookshelves = new MylibraryBookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"clearVolumes": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/clearVolumes", "id": "books.mylibrary.bookshelves.clearVolumes"}, "removeVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/removeVolume", "id": "books.mylibrary.bookshelves.removeVolume"}, "list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelves"}, "httpMethod": "GET", "path": "mylibrary/bookshelves", "id": "books.mylibrary.bookshelves.list"}, "addVolume": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "volumeId": {"required": true, "type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "POST", "path": "mylibrary/bookshelves/{shelf}/addVolume", "id": "books.mylibrary.bookshelves.addVolume"}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "shelf": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.mylibrary.bookshelves.get", "httpMethod": "GET", "path": "mylibrary/bookshelves/{shelf}", "response": {"$ref": "Bookshelf"}}}}', true));
+    $this->mylibrary_annotations = new MylibraryAnnotationsServiceResource($this, $this->serviceName, 'annotations', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}}, "request": {"$ref": "Annotation"}, "id": "books.mylibrary.annotations.insert", "httpMethod": "POST", "path": "mylibrary/annotations", "response": {"$ref": "Annotation"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "annotationId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "httpMethod": "DELETE", "path": "mylibrary/annotations/{annotationId}", "id": "books.mylibrary.annotations.delete"}, "list": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"pageToken": {"type": "string", "location": "query"}, "country": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "location": "query"}, "maxResults": {"format": "uint32", "maximum": "40", "minimum": "0", "location": "query", "type": "integer"}, "source": {"type": "string", "location": "query"}, "pageIds": {"repeated": true, "type": "string", "location": "query"}, "contentVersion": {"type": "string", "location": "query"}, "layerId": {"type": "string", "location": "query"}}, "response": {"$ref": "Annotations"}, "httpMethod": "GET", "path": "mylibrary/annotations", "id": "books.mylibrary.annotations.list"}, "update": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "annotationId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "request": {"$ref": "Annotation"}, "id": "books.mylibrary.annotations.update", "httpMethod": "PUT", "path": "mylibrary/annotations/{annotationId}", "response": {"$ref": "Annotation"}}, "get": {"scopes": ["https://www.googleapis.com/auth/books"], "parameters": {"country": {"type": "string", "location": "query"}, "annotationId": {"required": true, "type": "string", "location": "path"}, "source": {"type": "string", "location": "query"}}, "id": "books.mylibrary.annotations.get", "httpMethod": "GET", "path": "mylibrary/annotations/{annotationId}", "response": {"$ref": "Annotation"}}}}', true));
+  }
+}
+
+class Annotation extends apiModel {
+  public $kind;
+  public $updated;
+  public $created;
+  public $beforeSelectedText;
+  protected $__currentVersionRangesType = 'AnnotationCurrentVersionRanges';
+  protected $__currentVersionRangesDataType = '';
+  public $currentVersionRanges;
+  public $afterSelectedText;
+  protected $__clientVersionRangesType = 'AnnotationClientVersionRanges';
+  protected $__clientVersionRangesDataType = '';
+  public $clientVersionRanges;
+  public $volumeId;
+  public $pageIds;
+  public $layerId;
+  public $selectedText;
+  public $highlightStyle;
+  public $data;
+  public $id;
+  public $selfLink;
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setUpdated($updated) {
+    $this->updated = $updated;
+  }
+  public function getUpdated() {
+    return $this->updated;
+  }
+  public function setCreated($created) {
+    $this->created = $created;
+  }
+  public function getCreated() {
+    return $this->created;
+  }
+  public function setBeforeSelectedText($beforeSelectedText) {
+    $this->beforeSelectedText = $beforeSelectedText;
+  }
+  public function getBeforeSelectedText() {
+    return $this->beforeSelectedText;
+  }
+  public function setCurrentVersionRanges(AnnotationCurrentVersionRanges $currentVersionRanges) {
+    $this->currentVersionRanges = $currentVersionRanges;
+  }
+  public function getCurrentVersionRanges() {
+    return $this->currentVersionRanges;
+  }
+  public function setAfterSelectedText($afterSelectedText) {
+    $this->afterSelectedText = $afterSelectedText;
+  }
+  public function getAfterSelectedText() {
+    return $this->afterSelectedText;
+  }
+  public function setClientVersionRanges(AnnotationClientVersionRanges $clientVersionRanges) {
+    $this->clientVersionRanges = $clientVersionRanges;
+  }
+  public function getClientVersionRanges() {
+    return $this->clientVersionRanges;
+  }
+  public function setVolumeId($volumeId) {
+    $this->volumeId = $volumeId;
+  }
+  public function getVolumeId() {
+    return $this->volumeId;
+  }
+  public function setPageIds(/* array(string) */ $pageIds) {
+    $this->assertIsArray($pageIds, 'string', __METHOD__);
+    $this->pageIds = $pageIds;
+  }
+  public function getPageIds() {
+    return $this->pageIds;
+  }
+  public function setLayerId($layerId) {
+    $this->layerId = $layerId;
+  }
+  public function getLayerId() {
+    return $this->layerId;
+  }
+  public function setSelectedText($selectedText) {
+    $this->selectedText = $selectedText;
+  }
+  public function getSelectedText() {
+    return $this->selectedText;
+  }
+  public function setHighlightStyle($highlightStyle) {
+    $this->highlightStyle = $highlightStyle;
+  }
+  public function getHighlightStyle() {
+    return $this->highlightStyle;
+  }
+  public function setData($data) {
+    $this->data = $data;
+  }
+  public function getData() {
+    return $this->data;
+  }
+  public function setId($id) {
+    $this->id = $id;
+  }
+  public function getId() {
+    return $this->id;
+  }
+  public function setSelfLink($selfLink) {
+    $this->selfLink = $selfLink;
+  }
+  public function getSelfLink() {
+    return $this->selfLink;
+  }
+}
+
+class AnnotationClientVersionRanges extends apiModel {
+  public $contentVersion;
+  protected $__gbTextRangeType = 'BooksAnnotationsRange';
+  protected $__gbTextRangeDataType = '';
+  public $gbTextRange;
+  protected $__cfiRangeType = 'BooksAnnotationsRange';
+  protected $__cfiRangeDataType = '';
+  public $cfiRange;
+  protected $__gbImageRangeType = 'BooksAnnotationsRange';
+  protected $__gbImageRangeDataType = '';
+  public $gbImageRange;
+  public function setContentVersion($contentVersion) {
+    $this->contentVersion = $contentVersion;
+  }
+  public function getContentVersion() {
+    return $this->contentVersion;
+  }
+  public function setGbTextRange(BooksAnnotationsRange $gbTextRange) {
+    $this->gbTextRange = $gbTextRange;
+  }
+  public function getGbTextRange() {
+    return $this->gbTextRange;
+  }
+  public function setCfiRange(BooksAnnotationsRange $cfiRange) {
+    $this->cfiRange = $cfiRange;
+  }
+  public function getCfiRange() {
+    return $this->cfiRange;
+  }
+  public function setGbImageRange(BooksAnnotationsRange $gbImageRange) {
+    $this->gbImageRange = $gbImageRange;
+  }
+  public function getGbImageRange() {
+    return $this->gbImageRange;
+  }
+}
+
+class AnnotationCurrentVersionRanges extends apiModel {
+  public $contentVersion;
+  protected $__gbTextRangeType = 'BooksAnnotationsRange';
+  protected $__gbTextRangeDataType = '';
+  public $gbTextRange;
+  protected $__cfiRangeType = 'BooksAnnotationsRange';
+  protected $__cfiRangeDataType = '';
+  public $cfiRange;
+  protected $__gbImageRangeType = 'BooksAnnotationsRange';
+  protected $__gbImageRangeDataType = '';
+  public $gbImageRange;
+  public function setContentVersion($contentVersion) {
+    $this->contentVersion = $contentVersion;
+  }
+  public function getContentVersion() {
+    return $this->contentVersion;
+  }
+  public function setGbTextRange(BooksAnnotationsRange $gbTextRange) {
+    $this->gbTextRange = $gbTextRange;
+  }
+  public function getGbTextRange() {
+    return $this->gbTextRange;
+  }
+  public function setCfiRange(BooksAnnotationsRange $cfiRange) {
+    $this->cfiRange = $cfiRange;
+  }
+  public function getCfiRange() {
+    return $this->cfiRange;
+  }
+  public function setGbImageRange(BooksAnnotationsRange $gbImageRange) {
+    $this->gbImageRange = $gbImageRange;
+  }
+  public function getGbImageRange() {
+    return $this->gbImageRange;
+  }
+}
+
+class Annotations extends apiModel {
+  public $nextPageToken;
+  protected $__itemsType = 'Annotation';
+  protected $__itemsDataType = 'array';
+  public $items;
+  public $kind;
+  public $totalItems;
+  public function setNextPageToken($nextPageToken) {
+    $this->nextPageToken = $nextPageToken;
+  }
+  public function getNextPageToken() {
+    return $this->nextPageToken;
+  }
+  public function setItems(/* array(Annotation) */ $items) {
+    $this->assertIsArray($items, 'Annotation', __METHOD__);
+    $this->items = $items;
+  }
+  public function getItems() {
+    return $this->items;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setTotalItems($totalItems) {
+    $this->totalItems = $totalItems;
+  }
+  public function getTotalItems() {
+    return $this->totalItems;
+  }
+}
+
+class BooksAnnotationsRange extends apiModel {
+  public $startPosition;
+  public $endPosition;
+  public $startOffset;
+  public $endOffset;
+  public function setStartPosition($startPosition) {
+    $this->startPosition = $startPosition;
+  }
+  public function getStartPosition() {
+    return $this->startPosition;
+  }
+  public function setEndPosition($endPosition) {
+    $this->endPosition = $endPosition;
+  }
+  public function getEndPosition() {
+    return $this->endPosition;
+  }
+  public function setStartOffset($startOffset) {
+    $this->startOffset = $startOffset;
+  }
+  public function getStartOffset() {
+    return $this->startOffset;
+  }
+  public function setEndOffset($endOffset) {
+    $this->endOffset = $endOffset;
+  }
+  public function getEndOffset() {
+    return $this->endOffset;
   }
 }
 
@@ -462,6 +916,86 @@ class Bookshelves extends apiModel {
   }
 }
 
+class ConcurrentAccessRestriction extends apiModel {
+  public $nonce;
+  public $kind;
+  public $restricted;
+  public $volumeId;
+  public $maxConcurrentDevices;
+  public $deviceAllowed;
+  public $source;
+  public $timeWindowSeconds;
+  public $signature;
+  public $reasonCode;
+  public $message;
+  public function setNonce($nonce) {
+    $this->nonce = $nonce;
+  }
+  public function getNonce() {
+    return $this->nonce;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setRestricted($restricted) {
+    $this->restricted = $restricted;
+  }
+  public function getRestricted() {
+    return $this->restricted;
+  }
+  public function setVolumeId($volumeId) {
+    $this->volumeId = $volumeId;
+  }
+  public function getVolumeId() {
+    return $this->volumeId;
+  }
+  public function setMaxConcurrentDevices($maxConcurrentDevices) {
+    $this->maxConcurrentDevices = $maxConcurrentDevices;
+  }
+  public function getMaxConcurrentDevices() {
+    return $this->maxConcurrentDevices;
+  }
+  public function setDeviceAllowed($deviceAllowed) {
+    $this->deviceAllowed = $deviceAllowed;
+  }
+  public function getDeviceAllowed() {
+    return $this->deviceAllowed;
+  }
+  public function setSource($source) {
+    $this->source = $source;
+  }
+  public function getSource() {
+    return $this->source;
+  }
+  public function setTimeWindowSeconds($timeWindowSeconds) {
+    $this->timeWindowSeconds = $timeWindowSeconds;
+  }
+  public function getTimeWindowSeconds() {
+    return $this->timeWindowSeconds;
+  }
+  public function setSignature($signature) {
+    $this->signature = $signature;
+  }
+  public function getSignature() {
+    return $this->signature;
+  }
+  public function setReasonCode($reasonCode) {
+    $this->reasonCode = $reasonCode;
+  }
+  public function getReasonCode() {
+    return $this->reasonCode;
+  }
+  public function setMessage($message) {
+    $this->message = $message;
+  }
+  public function getMessage() {
+    return $this->message;
+  }
+}
+
 class DownloadAccessRestriction extends apiModel {
   public $nonce;
   public $kind;
@@ -549,6 +1083,26 @@ class DownloadAccessRestriction extends apiModel {
   }
 }
 
+class DownloadAccesses extends apiModel {
+  protected $__downloadAccessListType = 'DownloadAccessRestriction';
+  protected $__downloadAccessListDataType = 'array';
+  public $downloadAccessList;
+  public $kind;
+  public function setDownloadAccessList(/* array(DownloadAccessRestriction) */ $downloadAccessList) {
+    $this->assertIsArray($downloadAccessList, 'DownloadAccessRestriction', __METHOD__);
+    $this->downloadAccessList = $downloadAccessList;
+  }
+  public function getDownloadAccessList() {
+    return $this->downloadAccessList;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+}
+
 class ReadingPosition extends apiModel {
   public $kind;
   public $gbImagePosition;
@@ -598,6 +1152,34 @@ class ReadingPosition extends apiModel {
   }
   public function getGbTextPosition() {
     return $this->gbTextPosition;
+  }
+}
+
+class RequestAccess extends apiModel {
+  protected $__downloadAccessType = 'DownloadAccessRestriction';
+  protected $__downloadAccessDataType = '';
+  public $downloadAccess;
+  public $kind;
+  protected $__concurrentAccessType = 'ConcurrentAccessRestriction';
+  protected $__concurrentAccessDataType = '';
+  public $concurrentAccess;
+  public function setDownloadAccess(DownloadAccessRestriction $downloadAccess) {
+    $this->downloadAccess = $downloadAccess;
+  }
+  public function getDownloadAccess() {
+    return $this->downloadAccess;
+  }
+  public function setKind($kind) {
+    $this->kind = $kind;
+  }
+  public function getKind() {
+    return $this->kind;
+  }
+  public function setConcurrentAccess(ConcurrentAccessRestriction $concurrentAccess) {
+    $this->concurrentAccess = $concurrentAccess;
+  }
+  public function getConcurrentAccess() {
+    return $this->concurrentAccess;
   }
 }
 
@@ -1018,36 +1600,37 @@ class VolumeUserInfo extends apiModel {
 }
 
 class VolumeVolumeInfo extends apiModel {
-  public $publishedDate;
+  public $publisher;
   public $subtitle;
-  protected $__dimensionsType = 'VolumeVolumeInfoDimensions';
-  protected $__dimensionsDataType = '';
-  public $dimensions;
+  public $description;
   public $language;
   public $pageCount;
   protected $__imageLinksType = 'VolumeVolumeInfoImageLinks';
   protected $__imageLinksDataType = '';
   public $imageLinks;
-  public $description;
+  public $publishedDate;
   public $previewLink;
   public $printType;
+  public $ratingsCount;
   public $mainCategory;
+  protected $__dimensionsType = 'VolumeVolumeInfoDimensions';
+  protected $__dimensionsDataType = '';
+  public $dimensions;
   public $contentVersion;
   protected $__industryIdentifiersType = 'VolumeVolumeInfoIndustryIdentifiers';
   protected $__industryIdentifiersDataType = 'array';
   public $industryIdentifiers;
   public $authors;
-  public $publisher;
   public $title;
-  public $ratingsCount;
+  public $canonicalVolumeLink;
   public $infoLink;
   public $categories;
   public $averageRating;
-  public function setPublishedDate($publishedDate) {
-    $this->publishedDate = $publishedDate;
+  public function setPublisher($publisher) {
+    $this->publisher = $publisher;
   }
-  public function getPublishedDate() {
-    return $this->publishedDate;
+  public function getPublisher() {
+    return $this->publisher;
   }
   public function setSubtitle($subtitle) {
     $this->subtitle = $subtitle;
@@ -1055,11 +1638,11 @@ class VolumeVolumeInfo extends apiModel {
   public function getSubtitle() {
     return $this->subtitle;
   }
-  public function setDimensions(VolumeVolumeInfoDimensions $dimensions) {
-    $this->dimensions = $dimensions;
+  public function setDescription($description) {
+    $this->description = $description;
   }
-  public function getDimensions() {
-    return $this->dimensions;
+  public function getDescription() {
+    return $this->description;
   }
   public function setLanguage($language) {
     $this->language = $language;
@@ -1079,11 +1662,11 @@ class VolumeVolumeInfo extends apiModel {
   public function getImageLinks() {
     return $this->imageLinks;
   }
-  public function setDescription($description) {
-    $this->description = $description;
+  public function setPublishedDate($publishedDate) {
+    $this->publishedDate = $publishedDate;
   }
-  public function getDescription() {
-    return $this->description;
+  public function getPublishedDate() {
+    return $this->publishedDate;
   }
   public function setPreviewLink($previewLink) {
     $this->previewLink = $previewLink;
@@ -1097,11 +1680,23 @@ class VolumeVolumeInfo extends apiModel {
   public function getPrintType() {
     return $this->printType;
   }
+  public function setRatingsCount($ratingsCount) {
+    $this->ratingsCount = $ratingsCount;
+  }
+  public function getRatingsCount() {
+    return $this->ratingsCount;
+  }
   public function setMainCategory($mainCategory) {
     $this->mainCategory = $mainCategory;
   }
   public function getMainCategory() {
     return $this->mainCategory;
+  }
+  public function setDimensions(VolumeVolumeInfoDimensions $dimensions) {
+    $this->dimensions = $dimensions;
+  }
+  public function getDimensions() {
+    return $this->dimensions;
   }
   public function setContentVersion($contentVersion) {
     $this->contentVersion = $contentVersion;
@@ -1123,23 +1718,17 @@ class VolumeVolumeInfo extends apiModel {
   public function getAuthors() {
     return $this->authors;
   }
-  public function setPublisher($publisher) {
-    $this->publisher = $publisher;
-  }
-  public function getPublisher() {
-    return $this->publisher;
-  }
   public function setTitle($title) {
     $this->title = $title;
   }
   public function getTitle() {
     return $this->title;
   }
-  public function setRatingsCount($ratingsCount) {
-    $this->ratingsCount = $ratingsCount;
+  public function setCanonicalVolumeLink($canonicalVolumeLink) {
+    $this->canonicalVolumeLink = $canonicalVolumeLink;
   }
-  public function getRatingsCount() {
-    return $this->ratingsCount;
+  public function getCanonicalVolumeLink() {
+    return $this->canonicalVolumeLink;
   }
   public function setInfoLink($infoLink) {
     $this->infoLink = $infoLink;

@@ -37,8 +37,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Location $postBody
      * @return Location
      */
-    public function insert(Location $postBody) {
+    public function insert(Location $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Location($data);
@@ -68,8 +69,9 @@ require_once 'service/apiServiceRequest.php';
      * Deletes the authenticated user's current location. (currentLocation.delete)
      *
      */
-    public function delete() {
+    public function delete($optParams = array()) {
       $params = array();
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -92,8 +94,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Location $postBody
      * @return Location
      */
-    public function insert(Location $postBody) {
+    public function insert(Location $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Location($data);
@@ -146,8 +149,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $locationId Timestamp of the location to delete (ms since epoch).
      */
-    public function delete($locationId) {
+    public function delete($locationId, $optParams = array()) {
       $params = array('locationId' => $locationId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -182,7 +186,6 @@ class apiLatitudeService extends apiService {
     $this->restBasePath = '/latitude/v1/';
     $this->version = 'v1';
     $this->serviceName = 'latitude';
-    $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
     $this->currentLocation = new CurrentLocationServiceResource($this, $this->serviceName, 'currentLocation', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city", "https://www.googleapis.com/auth/latitude.current.best", "https://www.googleapis.com/auth/latitude.current.city"], "request": {"$ref": "LatitudeCurrentlocationResourceJson"}, "response": {"$ref": "LatitudeCurrentlocationResourceJson"}, "httpMethod": "POST", "path": "currentLocation", "id": "latitude.currentLocation.insert"}, "delete": {"id": "latitude.currentLocation.delete", "path": "currentLocation", "httpMethod": "DELETE", "scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city", "https://www.googleapis.com/auth/latitude.current.best", "https://www.googleapis.com/auth/latitude.current.city"]}, "get": {"scopes": ["https://www.googleapis.com/auth/latitude.all.best", "https://www.googleapis.com/auth/latitude.all.city", "https://www.googleapis.com/auth/latitude.current.best", "https://www.googleapis.com/auth/latitude.current.city"], "parameters": {"granularity": {"type": "string", "location": "query"}}, "response": {"$ref": "LatitudeCurrentlocationResourceJson"}, "httpMethod": "GET", "path": "currentLocation", "id": "latitude.currentLocation.get"}}}', true));

@@ -68,8 +68,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $q The text to detect
      * @return DetectionsListResponse
      */
-    public function listDetections($q) {
+    public function listDetections($q, $optParams = array()) {
       $params = array('q' => $q);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
         return new DetectionsListResponse($data);

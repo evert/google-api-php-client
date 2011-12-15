@@ -58,8 +58,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $activityId ID of the activity to remove.
      */
-    public function delete($activityId) {
+    public function delete($activityId, $optParams = array()) {
       $params = array('activityId' => $activityId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -83,8 +84,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Comment $postBody
      * @return Comment
      */
-    public function insert($activityId, Comment $postBody) {
+    public function insert($activityId, Comment $postBody, $optParams = array()) {
       $params = array('activityId' => $activityId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Comment($data);
@@ -138,8 +140,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $commentId ID of the comment to remove.
      */
-    public function delete($commentId) {
+    public function delete($commentId, $optParams = array()) {
       $params = array('commentId' => $commentId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -162,8 +165,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $activityId ID of the activity.
      * @param string $userId ID of the user to be removed from the activity.
      */
-    public function delete($activityId, $userId) {
+    public function delete($activityId, $userId, $optParams = array()) {
       $params = array('activityId' => $activityId, 'userId' => $userId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -186,8 +190,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Activity $postBody
      * @return Activity
      */
-    public function insert(Activity $postBody) {
+    public function insert(Activity $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Activity($data);
@@ -216,8 +221,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Visibility $postBody
      * @return Visibility
      */
-    public function patch($activityId, Visibility $postBody) {
+    public function patch($activityId, Visibility $postBody, $optParams = array()) {
       $params = array('activityId' => $activityId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
         return new Visibility($data);
@@ -232,8 +238,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Visibility $postBody
      * @return Visibility
      */
-    public function update($activityId, Visibility $postBody) {
+    public function update($activityId, Visibility $postBody, $optParams = array()) {
       $params = array('activityId' => $activityId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new Visibility($data);
@@ -247,8 +254,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $activityId ID of the activity to get the visibility.
      * @return Visibility
      */
-    public function get($activityId) {
+    public function get($activityId, $optParams = array()) {
       $params = array('activityId' => $activityId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Visibility($data);
@@ -275,8 +283,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $userId The id of the user whose badges will be listed. Can be me to refer to caller.
      * @return BadgeList
      */
-    public function listBadges($userId) {
+    public function listBadges($userId, $optParams = array()) {
       $params = array('userId' => $userId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
         return new BadgeList($data);
@@ -291,8 +300,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $badgeId The ID of the badge that will be retrieved.
      * @return Badge
      */
-    public function get($userId, $badgeId) {
+    public function get($userId, $badgeId, $optParams = array()) {
       $params = array('userId' => $userId, 'badgeId' => $badgeId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Badge($data);
@@ -319,8 +329,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $userId The ID of the user whose counters will be listed. Can be me to refer to caller.
      * @return Counters
      */
-    public function listCounters($userId) {
+    public function listCounters($userId, $optParams = array()) {
       $params = array('userId' => $userId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
         return new Counters($data);

@@ -37,8 +37,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Url $postBody
      * @return Url
      */
-    public function insert(Url $postBody) {
+    public function insert(Url $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Url($data);

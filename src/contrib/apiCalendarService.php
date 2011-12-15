@@ -37,8 +37,9 @@ require_once 'service/apiServiceRequest.php';
      * @param FreeBusyRequest $postBody
      * @return FreeBusyResponse
      */
-    public function query(FreeBusyRequest $postBody) {
+    public function query(FreeBusyRequest $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('query', array($params));
       if ($this->useObjects()) {
         return new FreeBusyResponse($data);
@@ -64,8 +65,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @return Settings
      */
-    public function listSettings() {
+    public function listSettings($optParams = array()) {
       $params = array();
+      $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
         return new Settings($data);
@@ -79,8 +81,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $setting Name of the user setting.
      * @return Setting
      */
-    public function get($setting) {
+    public function get($setting, $optParams = array()) {
       $params = array('setting' => $setting);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Setting($data);
@@ -107,8 +110,9 @@ require_once 'service/apiServiceRequest.php';
      * @param CalendarListEntry $postBody
      * @return CalendarListEntry
      */
-    public function insert(CalendarListEntry $postBody) {
+    public function insert(CalendarListEntry $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new CalendarListEntry($data);
@@ -122,8 +126,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $calendarId Calendar identifier.
      * @return CalendarListEntry
      */
-    public function get($calendarId) {
+    public function get($calendarId, $optParams = array()) {
       $params = array('calendarId' => $calendarId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new CalendarListEntry($data);
@@ -159,8 +164,9 @@ require_once 'service/apiServiceRequest.php';
      * @param CalendarListEntry $postBody
      * @return CalendarListEntry
      */
-    public function update($calendarId, CalendarListEntry $postBody) {
+    public function update($calendarId, CalendarListEntry $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new CalendarListEntry($data);
@@ -176,8 +182,9 @@ require_once 'service/apiServiceRequest.php';
      * @param CalendarListEntry $postBody
      * @return CalendarListEntry
      */
-    public function patch($calendarId, CalendarListEntry $postBody) {
+    public function patch($calendarId, CalendarListEntry $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
         return new CalendarListEntry($data);
@@ -190,8 +197,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $calendarId Calendar identifier.
      */
-    public function delete($calendarId) {
+    public function delete($calendarId, $optParams = array()) {
       $params = array('calendarId' => $calendarId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -214,8 +222,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Calendar $postBody
      * @return Calendar
      */
-    public function insert(Calendar $postBody) {
+    public function insert(Calendar $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new Calendar($data);
@@ -229,8 +238,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $calendarId Calendar identifier.
      * @return Calendar
      */
-    public function get($calendarId) {
+    public function get($calendarId, $optParams = array()) {
       $params = array('calendarId' => $calendarId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Calendar($data);
@@ -244,8 +254,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $calendarId Calendar identifier.
      */
-    public function clear($calendarId) {
+    public function clear($calendarId, $optParams = array()) {
       $params = array('calendarId' => $calendarId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('clear', array($params));
       return $data;
     }
@@ -256,8 +267,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Calendar $postBody
      * @return Calendar
      */
-    public function update($calendarId, Calendar $postBody) {
+    public function update($calendarId, Calendar $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new Calendar($data);
@@ -272,8 +284,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Calendar $postBody
      * @return Calendar
      */
-    public function patch($calendarId, Calendar $postBody) {
+    public function patch($calendarId, Calendar $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
         return new Calendar($data);
@@ -286,8 +299,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @param string $calendarId Calendar identifier.
      */
-    public function delete($calendarId) {
+    public function delete($calendarId, $optParams = array()) {
       $params = array('calendarId' => $calendarId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -311,8 +325,9 @@ require_once 'service/apiServiceRequest.php';
      * @param AclRule $postBody
      * @return AclRule
      */
-    public function insert($calendarId, AclRule $postBody) {
+    public function insert($calendarId, AclRule $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
         return new AclRule($data);
@@ -327,8 +342,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $ruleId ACL rule identifier.
      * @return AclRule
      */
-    public function get($calendarId, $ruleId) {
+    public function get($calendarId, $ruleId, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'ruleId' => $ruleId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new AclRule($data);
@@ -342,8 +358,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $calendarId Calendar identifier.
      * @return Acl
      */
-    public function listAcl($calendarId) {
+    public function listAcl($calendarId, $optParams = array()) {
       $params = array('calendarId' => $calendarId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
         return new Acl($data);
@@ -359,8 +376,9 @@ require_once 'service/apiServiceRequest.php';
      * @param AclRule $postBody
      * @return AclRule
      */
-    public function update($calendarId, $ruleId, AclRule $postBody) {
+    public function update($calendarId, $ruleId, AclRule $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'ruleId' => $ruleId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
         return new AclRule($data);
@@ -376,8 +394,9 @@ require_once 'service/apiServiceRequest.php';
      * @param AclRule $postBody
      * @return AclRule
      */
-    public function patch($calendarId, $ruleId, AclRule $postBody) {
+    public function patch($calendarId, $ruleId, AclRule $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'ruleId' => $ruleId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
         return new AclRule($data);
@@ -391,8 +410,9 @@ require_once 'service/apiServiceRequest.php';
      * @param string $calendarId Calendar identifier.
      * @param string $ruleId ACL rule identifier.
      */
-    public function delete($calendarId, $ruleId) {
+    public function delete($calendarId, $ruleId, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'ruleId' => $ruleId);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
     }
@@ -414,8 +434,9 @@ require_once 'service/apiServiceRequest.php';
      *
      * @return Colors
      */
-    public function get() {
+    public function get($optParams = array()) {
       $params = array();
+      $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
         return new Colors($data);
@@ -623,8 +644,9 @@ require_once 'service/apiServiceRequest.php';
      * @param Event $postBody
      * @return Event
      */
-    public function import($calendarId, Event $postBody) {
+    public function import($calendarId, Event $postBody, $optParams = array()) {
       $params = array('calendarId' => $calendarId, 'postBody' => $postBody);
+      $params = array_merge($params, $optParams);
       $data = $this->__call('import', array($params));
       if ($this->useObjects()) {
         return new Event($data);
@@ -703,7 +725,6 @@ class apiCalendarService extends apiService {
     $this->restBasePath = '/calendar/v3/';
     $this->version = 'v3';
     $this->serviceName = 'calendar';
-    $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
     $this->freebusy = new FreebusyServiceResource($this, $this->serviceName, 'freebusy', json_decode('{"methods": {"query": {"scopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/calendar.readonly"], "request": {"$ref": "FreeBusyRequest"}, "response": {"$ref": "FreeBusyResponse"}, "httpMethod": "POST", "path": "freeBusy", "id": "calendar.freebusy.query"}}}', true));

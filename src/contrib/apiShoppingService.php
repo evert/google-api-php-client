@@ -816,25 +816,38 @@ class ShoppingModelProductJsonV1 extends apiModel {
   public $author;
   public $condition;
   public $providedId;
+  public $internal8;
   public $description;
   public $gtins;
+  public $internal1;
   public $brand;
-  public $modificationTime;
+  public $internal3;
+  protected $__internal4Type = 'ShoppingModelProductJsonV1Internal4';
+  protected $__internal4DataType = 'array';
+  public $internal4;
+  public $internal6;
+  public $internal7;
   public $link;
+  protected $__attributesType = 'ShoppingModelProductJsonV1Attributes';
+  protected $__attributesDataType = 'array';
+  public $attributes;
   public $totalMatchingVariants;
   protected $__variantsType = 'ShoppingModelProductJsonV1Variants';
   protected $__variantsDataType = 'array';
   public $variants;
+  public $modificationTime;
   public $categories;
   public $language;
   public $country;
   public $title;
   public $creationTime;
-  protected $__attributesType = 'ShoppingModelProductJsonV1Attributes';
-  protected $__attributesDataType = 'array';
-  public $attributes;
+  public $internal14;
+  public $internal12;
+  public $internal13;
+  public $internal10;
   public $plusOne;
   public $googleId;
+  public $internal15;
   public function setQueryMatched($queryMatched) {
     $this->queryMatched = $queryMatched;
   }
@@ -879,6 +892,13 @@ class ShoppingModelProductJsonV1 extends apiModel {
   public function getProvidedId() {
     return $this->providedId;
   }
+  public function setInternal8(/* array(string) */ $internal8) {
+    $this->assertIsArray($internal8, 'string', __METHOD__);
+    $this->internal8 = $internal8;
+  }
+  public function getInternal8() {
+    return $this->internal8;
+  }
   public function setDescription($description) {
     $this->description = $description;
   }
@@ -892,23 +912,56 @@ class ShoppingModelProductJsonV1 extends apiModel {
   public function getGtins() {
     return $this->gtins;
   }
+  public function setInternal1(/* array(string) */ $internal1) {
+    $this->assertIsArray($internal1, 'string', __METHOD__);
+    $this->internal1 = $internal1;
+  }
+  public function getInternal1() {
+    return $this->internal1;
+  }
   public function setBrand($brand) {
     $this->brand = $brand;
   }
   public function getBrand() {
     return $this->brand;
   }
-  public function setModificationTime($modificationTime) {
-    $this->modificationTime = $modificationTime;
+  public function setInternal3($internal3) {
+    $this->internal3 = $internal3;
   }
-  public function getModificationTime() {
-    return $this->modificationTime;
+  public function getInternal3() {
+    return $this->internal3;
+  }
+  public function setInternal4(/* array(ShoppingModelProductJsonV1Internal4) */ $internal4) {
+    $this->assertIsArray($internal4, 'ShoppingModelProductJsonV1Internal4', __METHOD__);
+    $this->internal4 = $internal4;
+  }
+  public function getInternal4() {
+    return $this->internal4;
+  }
+  public function setInternal6($internal6) {
+    $this->internal6 = $internal6;
+  }
+  public function getInternal6() {
+    return $this->internal6;
+  }
+  public function setInternal7($internal7) {
+    $this->internal7 = $internal7;
+  }
+  public function getInternal7() {
+    return $this->internal7;
   }
   public function setLink($link) {
     $this->link = $link;
   }
   public function getLink() {
     return $this->link;
+  }
+  public function setAttributes(/* array(ShoppingModelProductJsonV1Attributes) */ $attributes) {
+    $this->assertIsArray($attributes, 'ShoppingModelProductJsonV1Attributes', __METHOD__);
+    $this->attributes = $attributes;
+  }
+  public function getAttributes() {
+    return $this->attributes;
   }
   public function setTotalMatchingVariants($totalMatchingVariants) {
     $this->totalMatchingVariants = $totalMatchingVariants;
@@ -922,6 +975,12 @@ class ShoppingModelProductJsonV1 extends apiModel {
   }
   public function getVariants() {
     return $this->variants;
+  }
+  public function setModificationTime($modificationTime) {
+    $this->modificationTime = $modificationTime;
+  }
+  public function getModificationTime() {
+    return $this->modificationTime;
   }
   public function setCategories(/* array(string) */ $categories) {
     $this->assertIsArray($categories, 'string', __METHOD__);
@@ -954,12 +1013,30 @@ class ShoppingModelProductJsonV1 extends apiModel {
   public function getCreationTime() {
     return $this->creationTime;
   }
-  public function setAttributes(/* array(ShoppingModelProductJsonV1Attributes) */ $attributes) {
-    $this->assertIsArray($attributes, 'ShoppingModelProductJsonV1Attributes', __METHOD__);
-    $this->attributes = $attributes;
+  public function setInternal14($internal14) {
+    $this->internal14 = $internal14;
   }
-  public function getAttributes() {
-    return $this->attributes;
+  public function getInternal14() {
+    return $this->internal14;
+  }
+  public function setInternal12($internal12) {
+    $this->internal12 = $internal12;
+  }
+  public function getInternal12() {
+    return $this->internal12;
+  }
+  public function setInternal13($internal13) {
+    $this->internal13 = $internal13;
+  }
+  public function getInternal13() {
+    return $this->internal13;
+  }
+  public function setInternal10(/* array(string) */ $internal10) {
+    $this->assertIsArray($internal10, 'string', __METHOD__);
+    $this->internal10 = $internal10;
+  }
+  public function getInternal10() {
+    return $this->internal10;
   }
   public function setPlusOne($plusOne) {
     $this->plusOne = $plusOne;
@@ -972,6 +1049,12 @@ class ShoppingModelProductJsonV1 extends apiModel {
   }
   public function getGoogleId() {
     return $this->googleId;
+  }
+  public function setInternal15($internal15) {
+    $this->internal15 = $internal15;
+  }
+  public function getInternal15() {
+    return $this->internal15;
   }
 }
 
@@ -1014,29 +1097,8 @@ class ShoppingModelProductJsonV1Attributes extends apiModel {
 }
 
 class ShoppingModelProductJsonV1Author extends apiModel {
-  public $aggregatorId;
-  public $uri;
-  public $email;
   public $name;
   public $accountId;
-  public function setAggregatorId($aggregatorId) {
-    $this->aggregatorId = $aggregatorId;
-  }
-  public function getAggregatorId() {
-    return $this->aggregatorId;
-  }
-  public function setUri($uri) {
-    $this->uri = $uri;
-  }
-  public function getUri() {
-    return $this->uri;
-  }
-  public function setEmail($email) {
-    $this->email = $email;
-  }
-  public function getEmail() {
-    return $this->email;
-  }
   public function setName($name) {
     $this->name = $name;
   }
@@ -1099,6 +1161,23 @@ class ShoppingModelProductJsonV1ImagesThumbnails extends apiModel {
   }
   public function getHeight() {
     return $this->height;
+  }
+}
+
+class ShoppingModelProductJsonV1Internal4 extends apiModel {
+  public $node;
+  public $confidence;
+  public function setNode($node) {
+    $this->node = $node;
+  }
+  public function getNode() {
+    return $this->node;
+  }
+  public function setConfidence($confidence) {
+    $this->confidence = $confidence;
+  }
+  public function getConfidence() {
+    return $this->confidence;
   }
 }
 
