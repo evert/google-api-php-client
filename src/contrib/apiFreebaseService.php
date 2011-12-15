@@ -73,6 +73,7 @@ require_once 'service/apiServiceRequest.php';
      * @opt_param bool html_escape Whether or not to escape entities.
      * @opt_param string indent How many spaces to indent the json.
      * @opt_param string uniqueness_failure How MQL responds to uniqueness failures.
+     * @opt_param string dateline The dateline that you get in a mqlwrite response to ensure consistent results.
      * @opt_param string cursor The mql cursor.
      * @opt_param string callback JS method name for JSONP callbacks.
      * @opt_param bool cost Show the costs or not.
@@ -144,7 +145,6 @@ class apiFreebaseService extends apiService {
     $this->restBasePath = '/freebase/v1/';
     $this->version = 'v1';
     $this->serviceName = 'freebase';
-    $this->io = $apiClient->getIo();
 
     $apiClient->addService($this->serviceName, $this->version);
     $this->text = new TextServiceResource($this, $this->serviceName, 'text', json_decode('{"methods": {"get": {"parameters": {"format": {"default": "plain", "enum": ["html", "plain", "raw"], "location": "query", "type": "string"}, "id": {"repeated": true, "required": true, "type": "string", "location": "path"}, "maxlength": {"format": "uint32", "type": "integer", "location": "query"}}, "id": "freebase.text.get", "httpMethod": "GET", "path": "text{/id*}", "response": {"$ref": "ContentserviceGet"}}}}', true));
