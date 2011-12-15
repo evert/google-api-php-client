@@ -32,7 +32,7 @@ require_once 'service/apiServiceRequest.php';
 
 
     /**
-     * List all URL channels in this AdSense account. (urlchannels.list)
+     * List all URL channels in the specified ad client for this AdSense account. (urlchannels.list)
      *
      * @param string $adClientId Ad client for which to list URL channels.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
@@ -65,7 +65,7 @@ require_once 'service/apiServiceRequest.php';
 
 
     /**
-     * List all ad units in this AdSense account. (adunits.list)
+     * List all ad units in the specified ad client for this AdSense account. (adunits.list)
      *
      * @param string $adClientId Ad client for which to list ad units.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
@@ -173,7 +173,8 @@ require_once 'service/apiServiceRequest.php';
 
 
     /**
-     * List all custom channels in this AdSense account. (customchannels.list)
+     * List all custom channels in the specified ad client for this AdSense account.
+     * (customchannels.list)
      *
      * @param string $adClientId Ad client for which to list custom channels.
      * @param array $optParams Optional parameters. Valid optional parameters are listed below.
