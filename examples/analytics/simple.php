@@ -35,6 +35,12 @@ if ($client->getAccessToken()) {
   $accounts = $service->accounts->listManagementAccounts();
   print "<h1>Accounts</h1><pre>" . print_r($accounts, true) . "</pre>";
 
+  $segments = $service->segments->listManagementSegments();
+  print "<h1>Segments</h1><pre>" . print_r($segments, true) . "</pre>";
+
+  $goals = $service->goals->listManagementGoals("~all", "~all", "~all");
+  print "<h1>Segments</h1><pre>" . print_r($goals, true) . "</pre>";
+
 $_SESSION['token'] = $client->getAccessToken();
 } else {
   $authUrl = $client->createAuthUrl();
