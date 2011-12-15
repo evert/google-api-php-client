@@ -19,39 +19,37 @@
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Retrieves a report for the specified ad client.
- *
- * To get ad clients, run getAllAdClients.
- * Tags: reports.generate
+ * Generates a Pie Chart for a report.
  *
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
-class GenerateReport extends BaseExample {
+class GeneratePieChart extends BaseExample {
   public function render() {
     $startDate = $this->getSixMonthsBeforeNow();
     $endDate = $this->getNow();
     $optParams = array(
-      'metric' => array(
-        'PAGE_VIEWS', 'AD_REQUESTS', 'AD_REQUESTS_COVERAGE',
-        'CLICKS', 'AD_REQUESTS_CTR', 'COST_PER_CLICK', 'AD_REQUESTS_RPM',
-        'EARNINGS'),
-      'dimension' => 'DATE',
-      'sort' => 'DATE',
-    	'filter' => array(
-      	'AD_CLIENT_ID==' . AD_CLIENT_ID
-      )
+        'metric' => array('AD_REQUESTS'),
+        'dimension' => array('AD_CLIENT_ID'),
+        'sort' => 'AD_CLIENT_ID'
     );
     // Retrieve report.
     $report = $this->adSenseService->reports
         ->generate($startDate, $endDate, $optParams);
-
-    if (isset($report['rows'])) {
-      printReportTableHeader($report['headers']);
-      printReportTableRows($report['rows']);
-      printReportTableFooter();
-    } else {
-      printNoResultForTable(count($report['headers']));
+    $data = $report['rows'];
+    // We need to convert the metrics to numeric values for the chart
+    foreach ($data as &$row) {
+      $row[1] = (int)$row[1];
     }
+    $data = json_encode($data);
+    $columns = array(
+      array('string', 'Ad client id'),
+      array('number', 'Ad requests')
+    );
+    $type = 'PieChart';
+    $options = json_encode(
+      array('title' => 'Ads requests per ad client id')
+    );
+    print generateChartHtml($data, $columns, $type, $options);
   }
 }
 

@@ -37,26 +37,8 @@ abstract class BaseExample {
    * @param apiAdsenseService $adSenseService an authenticated instance
    *     of apiAdsenseService
    */
-
   public function __construct(apiAdsenseService $adSenseService) {
     $this->adSenseService = $adSenseService;
-  }
-
-  /**
-   * Return the optional parameters for generating report, common to 2 methods.
-   * @return array the optional paramterers for generating report
-   */
-  protected function getOptParamsForReport() {
-    $opt_params = array(
-      'metric' => array(
-        'PAGE_VIEWS', 'AD_REQUESTS', 'AD_REQUESTS_COVERAGE',
-        'CLICKS', 'AD_REQUESTS_CTR', 'COST_PER_CLICK', 'AD_REQUESTS_RPM',
-        'EARNINGS'
-      ),
-      'dimension' => 'DATE',
-      'sort' => 'DATE'
-    );
-    return $opt_params;
   }
 
   /**

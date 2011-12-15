@@ -43,7 +43,7 @@ try {
   $actions = getSupportedActions();
   // Go through API authentication.
   $auth = new AdSenseAuth();
-  $auth->authenticate();
+  $auth->authenticate('sample_user');
   // To get rid of the code in the URL after the authentication.
   if (isset($_GET['code'])) {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);

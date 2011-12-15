@@ -36,9 +36,16 @@ class GenerateReportWithPaging extends BaseExample {
   public function render() {
     $startDate = $this->getSixMonthsBeforeNow();
     $endDate = $this->getNow();
-    $optParams = $this->getOptParamsForReport();
-    $optParams['filter'] = array(
-      'AD_CLIENT_ID==' . AD_CLIENT_ID
+    $optParams = array(
+      'metric' => array(
+        'PAGE_VIEWS', 'AD_REQUESTS', 'AD_REQUESTS_COVERAGE',
+        'CLICKS', 'AD_REQUESTS_CTR', 'COST_PER_CLICK', 'AD_REQUESTS_RPM',
+        'EARNINGS'),
+      'dimension' => 'DATE',
+      'sort' => 'DATE',
+    	'filter' => array(
+      	'AD_CLIENT_ID==' . AD_CLIENT_ID
+      )
     );
     // Retrieve report in pages and display data as we receive it.
     $startIndex = 0;

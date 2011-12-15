@@ -19,39 +19,35 @@
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Retrieves a report for the specified ad client.
- *
- * To get ad clients, run getAllAdClients.
- * Tags: reports.generate
+ * Generates a Geo Chart for a report.
  *
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
-class GenerateReport extends BaseExample {
+class GenerateGeoChart extends BaseExample {
   public function render() {
     $startDate = $this->getSixMonthsBeforeNow();
     $endDate = $this->getNow();
     $optParams = array(
-      'metric' => array(
-        'PAGE_VIEWS', 'AD_REQUESTS', 'AD_REQUESTS_COVERAGE',
-        'CLICKS', 'AD_REQUESTS_CTR', 'COST_PER_CLICK', 'AD_REQUESTS_RPM',
-        'EARNINGS'),
-      'dimension' => 'DATE',
-      'sort' => 'DATE',
-    	'filter' => array(
-      	'AD_CLIENT_ID==' . AD_CLIENT_ID
-      )
+        'metric' => array('PAGE_VIEWS'),
+        'dimension' => array('COUNTRY_NAME'),
+        'sort' => 'COUNTRY_NAME'
     );
     // Retrieve report.
     $report = $this->adSenseService->reports
         ->generate($startDate, $endDate, $optParams);
-
-    if (isset($report['rows'])) {
-      printReportTableHeader($report['headers']);
-      printReportTableRows($report['rows']);
-      printReportTableFooter();
-    } else {
-      printNoResultForTable(count($report['headers']));
+    $data = $report['rows'];
+    // We need to convert the metrics to numeric values for the chart
+    foreach ($data as &$row) {
+      $row[1] = (int)$row[1];
     }
+    $data = json_encode($data);
+    $columns = array(
+      array('string', 'Country name'),
+      array('number', 'Page views'),
+    );
+    $type = 'GeoChart';
+    $options = json_encode(array());
+    print generateChartHtml($data, $columns, $type, $options);
   }
 }
 

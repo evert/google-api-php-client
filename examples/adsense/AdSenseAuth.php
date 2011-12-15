@@ -27,7 +27,7 @@ require_once "../../src/apiClient.php";
 require_once "../../src/contrib/apiAdsenseService.php";
 
 /**
- * Handles authentication and Oauth token storing.
+ * Handles authentication and OAuth token storing.
  * Assumes the presence of a sqlite database called './examples.sqlite'
  * containing a table called 'auth' composed of two VARCHAR(255) fields called
  * 'user' and 'token'.
@@ -38,6 +38,7 @@ require_once "../../src/contrib/apiAdsenseService.php";
 class AdSenseAuth {
   protected $apiClient;
   protected $adSenseService;
+  private $user;
 
   /**
    * Create the dependencies.
@@ -53,8 +54,8 @@ class AdSenseAuth {
     $this->apiClient->setClientSecret('YOUR CLIENT SECRET HERE');
     $this->apiClient->setDeveloperKey('YOUR_DEVELOPER_KEY_HERE');
     // Point the oauth2_redirect_uri to index.php.
-    $this->apiClient->setRedirectUri('http://localhost/index.php');
-    
+    //$this->apiClient->setRedirectUri('http://localhost/index.php');
+    $this->apiClient->setRedirectUri('http://silvano.lon.corp.google.com:8080/index.php');
     // Create the api AdsenseService instance.
     $this->adSenseService = new apiAdsenseService($this->apiClient);
   }
@@ -62,12 +63,12 @@ class AdSenseAuth {
   /**
    * Check if a token for the user is already in the db, otherwise perform
    * authentication.
+   * @param string $user The user to authenticate
    */
-  public function authenticate() {
-    // My fictional user.
-    $user = 'sample_user';
+  public function authenticate($user) {
+    $this->user = $user;
     $dbh = new PDO('sqlite:examples.sqlite');
-    $token = $this->getToken($user, $dbh);
+    $token = $this->getToken($dbh);
     if (isset($token)) {
       // I already have the token.
       $this->apiClient->setAccessToken($token);
@@ -77,7 +78,7 @@ class AdSenseAuth {
           array("https://www.googleapis.com/auth/adsense.readonly"));
       // Go get the token
       $this->apiClient->setAccessToken($this->apiClient->authenticate());
-      $this->saveToken($user, $dbh, false, $this->apiClient->getAccessToken());
+      $this->saveToken($dbh, false, $this->apiClient->getAccessToken());
     }
     $dbh = null;
   }
@@ -97,38 +98,36 @@ class AdSenseAuth {
   public function refreshToken() {
     if ($this->apiClient->getAccessToken() != null) {
       $dbh = new PDO('sqlite:examples.sqlite');
-      $this->saveToken($user, $dbh, true, $this->apiClient->getAccessToken());
+      $this->saveToken($dbh, true, $this->apiClient->getAccessToken());
     }
   }
 
   /**
    * Insert/update the auth token for the user.
-   * @param string $user the local user
    * @param PDO $dbh a PDO object for the local authentication db
    * @param bool $userExists true if the user already exists in the db
    * @param string $token the auth token to be saved
    */
-  private function saveToken($user, $dbh, $userExists, $token) {
+  private function saveToken($dbh, $userExists, $token) {
     if ($userExists) {
       $stmt = $dbh->prepare('UPDATE auth SET token=:token WHERE user=:user');
     } else {
       $stmt = $dbh
           ->prepare('INSERT INTO auth (user, token) VALUES (:user, :token)');
     }
-    $stmt->bindParam(':user', $user);
+    $stmt->bindParam(':user', $this->user);
     $stmt->bindParam(':token', $this->apiClient->getAccessToken());
     $stmt->execute();
   }
 
   /**
    * Retrieves token for use.
-   * @param string $user the local user
    * @param PDO $dbh a PDO object for the local authentication db
    * @return string a JSON object representing the token
    */
-  private function getToken($user, $dbh) {
+  private function getToken($dbh) {
     $stmt = $dbh->prepare('SELECT token FROM auth WHERE user= ?');
-    $stmt->execute(array($user));
+    $stmt->execute(array($this->user));
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row['token'];
   }
