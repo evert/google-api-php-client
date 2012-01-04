@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 
-// Check for the required json and curl extensions, the Google API PHP Client won't function without
+// Check for the required json and curl extensions, the Google API PHP Client won't function without them.
 if (! function_exists('curl_init')) {
   throw new Exception('The Google PHP API Client requires the CURL PHP extension');
 }
 
 if (! function_exists('json_decode')) {
   throw new Exception('The Google PHP API Client requires the JSON PHP extension');
+}
+
+if (function_exists('date_default_timezone_set')) {
+  date_default_timezone_set('UTC');
 }
 
 // hack around with the include paths a bit so the library 'just works'
