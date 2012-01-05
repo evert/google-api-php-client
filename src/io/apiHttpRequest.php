@@ -85,7 +85,7 @@ class apiHttpRequest {
    * @return string HTTP Response Code.
    */
   public function getResponseHttpCode() {
-    return $this->responseHttpCode;
+    return (int) $this->responseHttpCode;
   }
 
   /**
