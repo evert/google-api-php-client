@@ -26,14 +26,14 @@
  *
  */
 class apiServiceRequest {
-  protected $restBasePath;
-  protected $restPath;
-  protected $rpcPath;
-  protected $rpcName;
-  protected $httpMethod;
-  protected $parameters;
-  protected $postBody;
-  protected $batchKey;
+  public $restBasePath;
+  public $restPath;
+  public $rpcPath;
+  public $rpcName;
+  public $httpMethod;
+  public $parameters;
+  public $postBody;
+  public $batchKey;
 
   /**
    * @param string $restBasePath
@@ -41,11 +41,10 @@ class apiServiceRequest {
    * @param string $restPath
    * @param string $rpcName
    * @param string $httpMethod
-   * @param $parameters
-   * @param $postBody
+   * @param array $parameters
+   * @param string $postBody
    */
   public function __construct($restBasePath, $rpcPath, $restPath, $rpcName, $httpMethod, $parameters, $postBody = null) {
-
     if (substr($restBasePath, 0, 4) == 'http') {
       $this->restBasePath = $restBasePath;
     } else {
@@ -74,17 +73,14 @@ class apiServiceRequest {
   public function setPostBody($postBody) {
     $this->postBody = $postBody;
   }
-
-
   /**
-   * @return the $restBasePath
+   * @return string restBasePath
    */
   public function getRestBasePath() {
     return $this->restBasePath;
   }
-
   /**
-   * @return the restPath
+   * @return string restPath
    */
   public function getRestPath() {
     return $this->restPath;
