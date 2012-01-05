@@ -30,9 +30,10 @@ require_once 'service/apiBatch.php';
  *
  */
 class apiService {
-  protected $version = null;
-  protected $restBasePath;
-  protected $rpcPath;
+  public $version = null;
+  public $restBasePath;
+  public $rpcPath;
+  public $resource = null;
 
   public function __construct($serviceName, $discoveryDocument) {
     global $apiConfig;
@@ -46,16 +47,16 @@ class apiService {
       $this->$resourceName = new apiServiceResource($this, $serviceName, $resourceName, $resourceTypes);
     }
   }
-  
+
   /**
-   * @return the $restBasePath
+   * @return string $restBasePath
    */
   public function getRestBasePath() {
     return $this->restBasePath;
   }
 
   /**
-   * @return the $rpcPath
+   * @return string $rpcPath
    */
   public function getRpcPath() {
     return $this->rpcPath;
