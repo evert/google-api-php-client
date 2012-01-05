@@ -244,8 +244,7 @@ class apiOAuth extends apiAuth {
     return array_merge($defaults, $params);
   }
 
-  public function createAuthUrl($scope) {
-    // TODO;
-    return null;
-  }
+  public function createAuthUrl($scope) {return null;}
+  public function refreshToken($refreshToken) {/* noop*/}
+  public function revokeToken() {/* noop*/}
 }

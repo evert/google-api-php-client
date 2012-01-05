@@ -32,4 +32,6 @@ abstract class apiAuth {
   abstract public function getAccessToken();
   abstract public function setAccessToken($accessToken);
   abstract public function setDeveloperKey($developerKey);
+  abstract public function refreshToken($refreshToken);
+  abstract public function revokeToken();
 }
