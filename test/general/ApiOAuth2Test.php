@@ -18,10 +18,9 @@
  * under the License.
  */
 
-require_once '../src/apiClient.php';
 require_once "io/apiREST.php";
 
-class ApiOAuth2Test extends PHPUnit_Framework_TestCase {
+class ApiOAuth2Test extends BaseTest {
   /** @var apiOAuth2 $auth */
   private $auth;
   
@@ -47,8 +46,6 @@ class ApiOAuth2Test extends PHPUnit_Framework_TestCase {
         . "&access_type=offline"
         . "&approval_prompt=force";
     $this->assertEquals($expected, $authUrl);
-
-
   }
 }
  

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-require_once '../src/apiClient.php';
 require_once '../src/contrib/apiPlusService.php';
 
 class AllPlusTests extends PHPUnit_Framework_TestSuite {
@@ -27,26 +26,14 @@ class AllPlusTests extends PHPUnit_Framework_TestSuite {
   }
 }
 
-class PlusTest extends PHPUnit_Framework_TestCase {
-  public $client = null, $plus = null;
+class PlusTest extends BaseTest {
+  public $plus = null;
 
   public function __construct() {
     parent::__construct();
-    if (! $this->client || ! $this->plus) {
-      global $apiConfig;
-      $this->client = new apiClient();
-      $this->plus = new apiPlusService($this->client);
-      if (!$this->client->getAccessToken()) {
-        $this->client->setAccessToken($apiConfig['oauth_test_token']);
-      }
-    }
+    $this->plus = new apiPlusService(BaseTest::$client);
   }
 
-  public function __destruct() {
-    $this->plus = null;
-    $this->client = null;
-  }
-  
   public function testGetPerson() {
     $person = $this->plus->people->get("118051310819094153327");
     $this->assertArrayHasKey('kind', $person);

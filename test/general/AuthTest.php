@@ -18,10 +18,9 @@
  * under the License.
  */
 
-require_once '../src/apiClient.php';
 require_once 'auth/apiSigner.php';
 
-class AuthTest extends PHPUnit_Framework_TestCase {
+class AuthTest extends BaseTest {
   const PRIVATE_KEY_FILE = "general/testdata/test_private_key.p12";
   const PUBLIC_KEY_FILE = "general/testdata/test_public_key.pem";
   const USER_ID = "102102479283111695822";

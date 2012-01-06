@@ -15,32 +15,13 @@
  * limitations under the License.
  */
 
-require_once '../src/apiClient.php';
 require_once '../src/contrib/apiPagespeedonlineService.php';
 
-// These variables are shared between all the tasks
-// test cases as performance optimization.
-$apiClient = null;
-$tasks = null;
-
-class PageSpeedTest extends PHPUnit_Framework_TestCase {
-  public $client, $service;
-
+class PageSpeedTest extends BaseTest {
+  public $service;
   public function __construct() {
     parent::__construct();
-    if (! $this->client || ! $this->service) {
-      $this->client = new apiClient();
-      $this->service = new apiPagespeedonlineService($this->client);
-      if (!$this->client->getAccessToken()) {
-        global $apiConfig;
-        $this->client->setAccessToken($apiConfig['oauth_test_token']);
-      }
-    }
-  }
-
-  public function __destruct() {
-    $this->service = null;
-    $this->client = null;
+    $this->service = new apiPagespeedonlineService(BaseTest::$client);
   }
 
   public function testPageSpeed() {

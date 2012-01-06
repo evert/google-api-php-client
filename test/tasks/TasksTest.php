@@ -15,53 +15,14 @@
  * limitations under the License.
  */
 
-require_once '../src/apiClient.php';
 require_once '../src/contrib/apiTasksService.php';
 
-// These variables are shared between all the tasks
-// test cases as performance optimization.
-$apiClient = null;
-$tasks = null;
-
-class TasksTest extends PHPUnit_Framework_TestCase {
-  public $apiClient;
-  public $oauthToken;
+class TasksTest extends BaseTest {
   public $taskService;
 
-  private $origConfig = false;
-
   public function __construct() {
-    global $apiConfig, $apiClient, $taskService;
     parent::__construct();
-
-    if (! $apiClient || ! $taskService) {
-      $this->origConfig = $apiConfig;
-      // Set up a predictable, default environment so the test results are predictable
-      //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
-      //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
-      $apiConfig['authClass'] = 'apiOAuth2';
-      $apiConfig['ioClass'] = 'apiCurlIO';
-      $apiConfig['cacheClass'] = 'apiFileCache';
-      $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
-
-      $apiClient = new apiClient();
-      $taskService = new apiTasksService($apiClient);
-      if (!$apiClient->getAccessToken()) {
-        $apiClient->setAccessToken($apiConfig['oauth_test_token']);
-      }
-
-    }
-    $this->apiClient = $apiClient;
-    $this->taskService = $taskService;
-  }
-
-  public function __destruct() {
-    global $apiConfig;
-    $this->taskService = null;
-    $this->apiClient = null;
-    if ($this->origConfig) {
-      $apiConfig = $this->origConfig;
-    }
+    $this->taskService = new apiTasksService(BaseTest::$client);
   }
   
   public function testInsertTask() {
@@ -73,7 +34,7 @@ class TasksTest extends PHPUnit_Framework_TestCase {
   public function testGetTask() {
     $tasks = $this->taskService->tasks;
     $list = $this->createTaskList('List: ' . __METHOD__);
-    $task = $this->createTask('Task: '.__METHOD__, $list['id']);
+    $task = $this->createTask('Task: '. __METHOD__, $list['id']);
 
     $task = $tasks->get($list['id'], $task['id']);
     $this->assertIsTask($task);
@@ -83,7 +44,7 @@ class TasksTest extends PHPUnit_Framework_TestCase {
     $tasks = $this->taskService->tasks;
     $list = $this->createTaskList('List: ' . __METHOD__);
 
-    for ($i=0; $i<5; $i++) {
+    for ($i=0; $i<4; $i++) {
       $this->createTask("Task: $i ".__METHOD__, $list['id']);
     }
 

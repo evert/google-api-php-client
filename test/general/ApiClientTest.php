@@ -18,7 +18,7 @@
  * under the License.
  */
 
-class ApiClientTest extends PHPUnit_Framework_TestCase {
+class ApiClientTest extends BaseTest {
   public function testDummy() {
     // temp place holder as tests are being filled in
     $this->assertTrue(true);

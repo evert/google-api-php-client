@@ -18,7 +18,7 @@
  * under the License.
  */
 
-class IoTest extends PHPUnit_Framework_TestCase {
+class IoTest extends BaseTest {
   public function testDummy() {
     // temp place holder as tests are being filled in
     $this->assertTrue(true);

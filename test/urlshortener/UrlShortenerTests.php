@@ -18,49 +18,14 @@
 require_once '../src/apiClient.php';
 require_once '../src/contrib/apiUrlshortenerService.php';
 
-// These variables are shared between all the tasks
-// test cases as performance optimization.
-$apiClient = null;
-$tasks = null;
-
-class UrlShortenerTests extends PHPUnit_Framework_TestCase {
-  public $apiClient;
-  public $oauthToken;
+class UrlShortenerTests extends BaseTest {
   public $service;
-  private $origConfig = false;
 
   public function __construct() {
-    global $apiConfig, $apiClient, $service;
     parent::__construct();
+    $this->service = new apiUrlshortenerService(BaseTest::$client);
 
-    if (! $apiClient || ! $service) {
-      $this->origConfig = $apiConfig;
-      // Set up a predictable, default environment so the test results are predictable
-      //$apiConfig['oauth2_client_id'] = 'INSERT_CLIENT_ID';
-      //$apiConfig['oauth2_client_secret'] = 'INSERT_CLIENT_SECRET';
-      $apiConfig['authClass'] = 'apiOAuth2';
-      $apiConfig['ioClass'] = 'apiCurlIO';
-      $apiConfig['cacheClass'] = 'apiFileCache';
-      $apiConfig['ioFileCache_directory'] = '/tmp/googleApiTests';
-
-      $apiClient = new apiClient();
-      $service = new apiUrlshortenerService($apiClient);
-      if (!$apiClient->getAccessToken()) {
-        $apiClient->setAccessToken($apiConfig['oauth_test_token']);
-      }
-    }
-    $this->apiClient = $apiClient;
-    $this->apiClient->discover('urlshortener');
-    $this->service = $service;
-  }
-
-  public function __destruct() {
-    global $apiConfig;
-    $this->service = null;
-    $this->apiClient = null;
-    if ($this->origConfig) {
-      $apiConfig = $this->origConfig;
-    }
+    BaseTest::$client->discover('urlshortener');
   }
 
   public function testUrlShort() {
@@ -82,8 +47,8 @@ class UrlShortenerTests extends PHPUnit_Framework_TestCase {
     $short1 = $this->service->url->insert($url);
 
     $ret = apiBatch::execute(
-      $this->apiClient->urlshortener->url->get(array('shortUrl' => $short0['id']), 'url0'),
-      $this->apiClient->urlshortener->url->get(array('shortUrl' => $short1['id']), 'url1')
+      BaseTest::$client->urlshortener->url->get(array('shortUrl' => $short0['id']), 'url0'),
+      BaseTest::$client->urlshortener->url->get(array('shortUrl' => $short1['id']), 'url1')
     );
 
     $this->assertArrayHasKey('url0', $ret);

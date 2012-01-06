@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 
-require_once '../src/apiClient.php';
 require_once "io/apiREST.php";
 
-class RestTest extends PHPUnit_Framework_TestCase {
+class RestTest extends BaseTest {
   private $rest;
   
   public function setUp() {
