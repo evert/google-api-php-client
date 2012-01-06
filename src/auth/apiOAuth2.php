@@ -247,7 +247,7 @@ class apiOAuth2 extends apiAuth {
      * token, if a token isn't provided.
      * @throws apiAuthException
      * @param string|null $token The token (access token or a refresh token) that should be revoked.
-     * @return boolean Returns true if the revocation was successful, otherwise False.
+     * @return boolean Returns True if the revocation was successful, otherwise False.
      */
   public function revokeToken($token = null) {
     if (!$token) {

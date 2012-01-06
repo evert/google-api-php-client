@@ -267,6 +267,26 @@ class apiClient {
   }
 
   /**
+   * Fetches a fresh OAuth 2.0 access token with the given refresh token.
+   * @param string $refreshToken
+   * @return void
+   */
+  public function refreshToken($refreshToken) {
+    self::$auth->refreshToken($refreshToken);
+  }
+
+  /**
+   * Revoke an OAuth2 access token or refresh token. This method will revoke the current access
+   * token, if a token isn't provided.
+   * @throws apiAuthException
+   * @param string|null $token The token (access token or a refresh token) that should be revoked.
+   * @return boolean Returns True if the revocation was successful, otherwise False.
+   */
+  public function revokeToken($token = null) {
+    self::$auth->revokeToken($token);
+  }
+
+  /**
    * This function allows you to overrule the automatically generated scopes,
    * so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!

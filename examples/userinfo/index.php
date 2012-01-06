@@ -40,7 +40,7 @@ if (isset($_SESSION['token'])) {
 
 if (isset($_REQUEST['logout'])) {
   unset($_SESSION['token']);
-  apiClient::$auth->revokeToken();
+  $client->revokeToken();
 }
 
 if ($client->getAccessToken()) {
