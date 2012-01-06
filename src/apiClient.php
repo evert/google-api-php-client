@@ -58,7 +58,6 @@ class apiClient {
   const discoveryVersion = 'v0.3';
 
   /**
-   * 
    * @static
    * @var apiAuth $auth
    */
@@ -310,7 +309,8 @@ class apiClient {
   private function discoverService($serviceName, $serviceURI) {
     $request = self::$io->makeRequest(new apiHttpRequest($serviceURI));
     if ($request->getResponseHttpCode() != 200) {
-      throw new apiException("Could not fetch discovery document for $serviceName, http code: " . $request->getResponseHttpCode() . ", response body: " . $request->getResponseBody());
+      throw new apiException("Could not fetch discovery document for $serviceName, code: "
+            . $request->getResponseHttpCode() . ", response: " . $request->getResponseBody());
     }
     $discoveryResponse = $request->getResponseBody();
     $discoveryDocument = json_decode($discoveryResponse, true);
@@ -320,14 +320,23 @@ class apiClient {
     return new apiService($serviceName, $discoveryDocument, apiClient::getIo());
   }
 
-  /*
+  /**
+   * @static
+   * @return apiAuth the implementation of apiAuth.
+   */
+  public static function getAuth() {
+    return apiClient::$auth;
+  }
+
+  /**
+   * @static
    * @return apiIo the implementation of apiIo.
    */
   public static function getIo() {
     return apiClient::$io;
   }
 
-  /*
+  /**
    * @return apiCache the implementation of apiCache.
    */
   public function getCache() {
