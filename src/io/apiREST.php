@@ -83,7 +83,7 @@ class apiREST {
       } else {
         $err .= ": ($code) $body";
       }
-      throw new apiServiceException($err);
+      throw new apiServiceException($err, $code);
     }
     
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
