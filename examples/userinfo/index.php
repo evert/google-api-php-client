@@ -20,7 +20,7 @@ session_start();
 
 $client = new apiClient();
 $client->setApplicationName("Google UserInfo PHP Starter Application");
-// Visit https://code.google.com/apis/console to generate your
+// Visit https://code.google.com/apis/console?api=plus to generate your
 // oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.
 // $client->setClientId('insert_your_oauth2_client_id');
 // $client->setClientSecret('insert_your_oauth2_client_secret');
@@ -63,11 +63,9 @@ if ($client->getAccessToken()) {
 <head><meta charset="utf-8"></head>
 <body>
 <header><h1>Google+ Sample App</h1></header>
-
 <?php if(isset($personMarkup)): ?>
 <?php print $personMarkup ?>
 <?php endif ?>
-
 <?php
   if(isset($authUrl)) {
     print "<a class='login' href='$authUrl'>Connect Me!</a>";
