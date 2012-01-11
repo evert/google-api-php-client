@@ -238,6 +238,13 @@ class apiCurlIO implements apiIO {
     if (isset($request->accessKey)) {
       $cacheUrl .= $request->accessKey;
     }
+
+    $headers = $request->getHeaders();
+    $token = apiClient::$auth->accessToken;
+    if (isset($token['id_token']) && $token['id_token']) {
+      $cacheUrl .= $token['id_token'];
+    }
+
     return md5($cacheUrl);
   }
 
