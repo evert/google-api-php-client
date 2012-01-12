@@ -24,7 +24,7 @@ if (! function_exists('json_decode')) {
   throw new Exception('The Google PHP API Client requires the JSON PHP extension');
 }
 
-if (function_exists('date_default_timezone_set')) {
+if (! ini_get('date.timezone') && function_exists('date_default_timezone_set')) {
   date_default_timezone_set('UTC');
 }
 
