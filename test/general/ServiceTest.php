@@ -17,11 +17,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+require_once '../src/contrib/apiPlusService.php';
 
 class ServiceTest extends BaseTest {
-  public function testDummy() {
+  public function testServiceResource() {
     // temp place holder as tests are being filled in
-    $this->assertTrue(true);
+    $service = new apiPlusService(BaseTest::$client);
   }
-
 }
