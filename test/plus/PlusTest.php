@@ -27,8 +27,7 @@ class AllPlusTests extends PHPUnit_Framework_TestSuite {
 }
 
 class PlusTest extends BaseTest {
-  public $plus = null;
-
+  public $plus;
   public function __construct() {
     parent::__construct();
     $this->plus = new apiPlusService(BaseTest::$client);
