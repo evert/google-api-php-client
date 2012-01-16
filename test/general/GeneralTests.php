@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-require_once "AuthTest.php";
+//require_once "AuthTest.php";
 require_once "CacheTest.php";
 require_once "IoTest.php";
 require_once "ServiceTest.php";
 require_once "ApiModelTest.php";
 require_once "RestTest.php";
 require_once "ApiClientTest.php";
+require_once "ApiCacheParserTest.php";
 require_once "ApiOAuth2Test.php";
 
 class GeneralTests extends PHPUnit_Framework_TestSuite {
@@ -34,6 +35,7 @@ class GeneralTests extends PHPUnit_Framework_TestSuite {
     $suite->addTestSuite('ServiceTest');
     $suite->addTestSuite('ApiClientTest');
     $suite->addTestSuite('ApiOAuth2Test');
+    $suite->addTestSuite('ApiCacheParserTest');
     $suite->addTestSuite('RestTest');
     return $suite;
   }
