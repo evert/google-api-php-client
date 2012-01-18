@@ -84,6 +84,10 @@ class apiCurlIO implements apiIO {
     if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
       // make sure a Content-length header is set
       $postBody = $request->getPostBody();
+      if (is_array($postBody)) {
+        $postBody = http_build_query($postBody);
+        $request->setPostBody($postBody);
+      }
       if (! is_array($postBody)) {
         $postContentLength = strlen($postBody) != 0 ? strlen($postBody) : '0';
         $addHeaders = array('Content-Length: ' . $postContentLength);
