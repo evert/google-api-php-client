@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,39 @@
  * limitations under the License.
  */
 
-// Require the base class.
+// Require the base class
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Gets all URL channels in an ad client.
+ * Gets all ad units corresponding to a specified custom channel.
  *
- * To get ad clients, run getAllAdClients.py.
- * Tags: urlchannels.list
+ * To get custom channels, run GetAllCustomChannels.
+ * Tags: accounts.customchannels.adunits.list
  *
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
-class GetAllUrlChannels extends BaseExample {
+class GetAllAdUnitsForCustomChannel extends BaseExample {
   public function render() {
     $adClientId = AD_CLIENT_ID;
+    $accountId = ACCOUNT_ID;
+    $customChannelId = CUSTOM_CHANNEL_ID;
     $optParams['maxResults'] = AD_MAX_PAGE_SIZE;
     $listClass = 'list';
     printListHeader($listClass);
     $pageToken = null;
     do {
       $optParams['pageToken'] = $pageToken;
-      // Retrieve URL channels list and display it.
-      $result = $this->adSenseService->urlchannels
-          ->listUrlchannels($adClientId, $optParams);
-      $urlChannels = $result['items'];
-      if (isset($urlChannels)) {
-        foreach ($urlChannels as $urlChannel) {
-          $format = 'URL channel with URL pattern "%s" was found.';
-          $content = sprintf($format, $urlChannel['urlPattern']);
+      // Retrieve ad unit list, and display it.
+      $result = $this->adSenseService->accounts_customchannels_adunits
+          ->listAccountsCustomchannelsAdunits(
+              $accountId, $adClientId, $customChannelId);
+      $adUnits = $result['items'];
+      if (isset($adUnits)) {
+        foreach ($adUnits as $adUnit) {
+          $format =
+              'Ad unit with code "%s", name "%s" and status "%s" was found.';
+          $content = sprintf(
+              $format, $adUnit['code'], $adUnit['name'], $adUnit['status']);
           printListElement($content);
         }
         $pageToken = isset($result['nextPageToken']) ? $result['nextPageToken']

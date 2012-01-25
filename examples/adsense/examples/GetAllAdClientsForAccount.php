@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,31 +19,35 @@
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Gets all URL channels in an ad client.
+ * Gets all ad clients for an account.
  *
- * To get ad clients, run getAllAdClients.py.
- * Tags: urlchannels.list
+ * Tags: accounts.adclients.list
  *
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
-class GetAllUrlChannels extends BaseExample {
+class GetAllAdClientsForAccount extends BaseExample {
   public function render() {
-    $adClientId = AD_CLIENT_ID;
+    $accountId = ACCOUNT_ID;
     $optParams['maxResults'] = AD_MAX_PAGE_SIZE;
-    $listClass = 'list';
+    $listClass = 'clients';
     printListHeader($listClass);
     $pageToken = null;
     do {
       $optParams['pageToken'] = $pageToken;
-      // Retrieve URL channels list and display it.
-      $result = $this->adSenseService->urlchannels
-          ->listUrlchannels($adClientId, $optParams);
-      $urlChannels = $result['items'];
-      if (isset($urlChannels)) {
-        foreach ($urlChannels as $urlChannel) {
-          $format = 'URL channel with URL pattern "%s" was found.';
-          $content = sprintf($format, $urlChannel['urlPattern']);
-          printListElement($content);
+      // Retrieve ad client list, and display it.
+      $result = $this->adSenseService->accounts_adclients
+          ->listAccountsAdclients($accountId, $optParams);
+      $adClients = $result['items'];
+      if (isset($adClients)) {
+        foreach ($adClients as $adClient) {
+          $content = array();
+          $mainFormat = 'Ad client for product "%s" with ID "%s" was found.';
+          $firstNestedFormat = 'Supports reporting: %s';
+          $content[] = sprintf(
+              $mainFormat, $adClient['productCode'], $adClient['id']);
+          $reporting = $adClient['supportsReporting'] ? 'Yes' : 'No';
+          $content[] = sprintf($firstNestedFormat, $reporting);
+          printListElementForClients($content);
         }
         $pageToken = isset($result['nextPageToken']) ? $result['nextPageToken']
             : null;

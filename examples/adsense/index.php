@@ -22,11 +22,17 @@
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
 
-// Ad client id to use in the example
+// Ad client ID to use in the examples where needed.
 define('AD_CLIENT_ID', 'INSERT_AD_CLIENT_ID_HERE');
+// Account ID to use in the examples where needed.
+define('ACCOUNT_ID', 'INSERT_ACCOUNT_ID_HERE');
+// Custom channel ID to use in the examples where needed.
+define('CUSTOM_CHANNEL_ID', 'INSERT_CUSTOM_CHANNEL_ID_HERE');
+// Ad unit ID to use in the examples where needed.
+define('AD_UNIT_ID', 'INSERT_AD_UNIT_ID_HERE');
 // Max results per page.
 define('AD_MAX_PAGE_SIZE', 50);
-# This is the maximum number of obtainable rows for paged reports.
+// This is the maximum number of obtainable rows for paged reports.
 define('AD_ROW_LIMIT', 5000);
 
 // Include the dependencies and die if any is not met.
@@ -51,8 +57,9 @@ try {
   // If the action is set dispatch the action if supported
   if (isset($_GET["action"])) {
     $action = $_GET["action"];
-    if (!in_array($action, $actions))
+    if (!in_array($action, $actions)) {
       die('Unsupported action:' . $action . "\n");
+    }
     // Render the required action.
     require_once 'examples/' . $action . '.php';
     $class = ucfirst($action);
@@ -63,7 +70,7 @@ try {
     printHtmlFooter();
     $auth->refreshToken();
   } else {
-    // Show the list of links to supported actions
+    // Show the list of links to supported actions.
     printHtmlHeader('AdSense Management API PHP usage examples.');
     printIndex($actions);
     printHtmlFooter();

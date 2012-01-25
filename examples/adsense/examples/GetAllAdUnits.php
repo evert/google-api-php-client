@@ -35,13 +35,14 @@ class GetAllAdUnits extends BaseExample {
     $pageToken = null;
     do {
       $optParams['pageToken'] = $pageToken;
-      # Retrieve ad unit list, and display it.
+      // Retrieve ad unit list, and display it.
       $result = $this->adSenseService->adunits
           ->listAdunits($adClientId, $optParams);
-      $adUnits = $result['items'];
-      if (isset($adUnits)) {
+      if (isset($result['items'])) {
+        $adUnits = $result['items'];
         foreach ($adUnits as $adUnit) {
-          $format = 'Ad unit with code "%s", name "%s" and status "%s" was found.';
+          $format =
+              'Ad unit with code "%s", name "%s" and status "%s" was found.';
           $content = sprintf(
               $format, $adUnit['code'], $adUnit['name'], $adUnit['status']);
           printListElement($content);

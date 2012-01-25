@@ -47,15 +47,14 @@ class AdSenseAuth {
   public function __construct() {
     // Create the apiClient instances.
     $this->apiClient = new apiClient();
-    // Visit https://code.google.com/apis/console to
+    // Visit https://code.google.com/apis/console?api=adsense to
     // generate your oauth2_client_id, oauth2_client_secret, and to
     // register your oauth2_redirect_uri.
-    $this->apiClient->setClientId('YOUR CLIENT ID HERE');
-    $this->apiClient->setClientSecret('YOUR CLIENT SECRET HERE');
+    $this->apiClient->setClientId('YOUR_CLIENT_ID_HERE');
+    $this->apiClient->setClientSecret('YOUR_CLIENT_SECRET_HERE');
     $this->apiClient->setDeveloperKey('YOUR_DEVELOPER_KEY_HERE');
     // Point the oauth2_redirect_uri to index.php.
-    //$this->apiClient->setRedirectUri('http://localhost/index.php');
-    $this->apiClient->setRedirectUri('http://silvano.lon.corp.google.com:8080/index.php');
+    $this->apiClient->setRedirectUri('http://localhost/index.php');
     // Create the api AdsenseService instance.
     $this->adSenseService = new apiAdsenseService($this->apiClient);
   }

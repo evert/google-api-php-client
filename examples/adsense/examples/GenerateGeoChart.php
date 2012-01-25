@@ -36,7 +36,7 @@ class GenerateGeoChart extends BaseExample {
     $report = $this->adSenseService->reports
         ->generate($startDate, $endDate, $optParams);
     $data = $report['rows'];
-    // We need to convert the metrics to numeric values for the chart
+    // We need to convert the metrics to numeric values for the chart.
     foreach ($data as &$row) {
       $row[1] = (int)$row[1];
     }

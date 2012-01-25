@@ -37,8 +37,8 @@ class GenerateReport extends BaseExample {
         'EARNINGS'),
       'dimension' => 'DATE',
       'sort' => 'DATE',
-    	'filter' => array(
-      	'AD_CLIENT_ID==' . AD_CLIENT_ID
+      'filter' => array(
+        'AD_CLIENT_ID==' . AD_CLIENT_ID
       )
     );
     // Retrieve report.

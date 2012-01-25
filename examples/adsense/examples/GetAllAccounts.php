@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,32 @@
  * limitations under the License.
  */
 
-// Require the base class.
+// Require the base class
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Gets all URL channels in an ad client.
+ * Gets all accounts for the logged in user.
  *
- * To get ad clients, run getAllAdClients.py.
- * Tags: urlchannels.list
+ * Tags: accounts.list
  *
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
-class GetAllUrlChannels extends BaseExample {
+class GetAllAccounts extends BaseExample {
   public function render() {
-    $adClientId = AD_CLIENT_ID;
     $optParams['maxResults'] = AD_MAX_PAGE_SIZE;
     $listClass = 'list';
     printListHeader($listClass);
     $pageToken = null;
     do {
       $optParams['pageToken'] = $pageToken;
-      // Retrieve URL channels list and display it.
-      $result = $this->adSenseService->urlchannels
-          ->listUrlchannels($adClientId, $optParams);
-      $urlChannels = $result['items'];
-      if (isset($urlChannels)) {
-        foreach ($urlChannels as $urlChannel) {
-          $format = 'URL channel with URL pattern "%s" was found.';
-          $content = sprintf($format, $urlChannel['urlPattern']);
+      // Retrieve account list, and display it.
+      $result = $this->adSenseService->accounts->listAccounts($optParams);
+      $accounts = $result['items'];
+      if (isset($accounts)) {
+        foreach ($accounts as $account) {
+          $format = 'Account with ID "%s" and name "%s" was found.';
+          $content = sprintf(
+              $format, $account['id'], $account['name']);
           printListElement($content);
         }
         $pageToken = isset($result['nextPageToken']) ? $result['nextPageToken']

@@ -16,8 +16,7 @@
  */
 
 /**
- * Include the libraries file for the AdSense service class and the HTML
- * generation functions.
+ * Include the AdSense service class and the HTML generation functions.
  */
 require_once "../../src/contrib/apiAdsenseService.php";
 require_once "htmlHelper.php";

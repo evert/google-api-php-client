@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,18 @@
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Gets all custom channels in an ad client.
+ * Gets all custom channels an ad unit has been added to.
  *
- * To get ad clients, run getAllAdClients.
- * Tags: customchannels.list
+ * To get ad clients, run getAllAdClients. To get ad units, run getAllAdUnits.
+ * Tags: accounts.adunits.customchannels.list
  *
  * @author Silvano Luciani <silvano.luciani@gmail.com>
  */
-class GetAllCustomChannels extends BaseExample {
+class GetAllCustomChannelsForAdUnit extends BaseExample {
   public function render() {
+    $accountId = ACCOUNT_ID;
     $adClientId = AD_CLIENT_ID;
+    $adUnitId = AD_UNIT_ID;
     $optParams['maxResults'] = AD_MAX_PAGE_SIZE;
     $listClass = 'list';
     printListHeader($listClass);
@@ -36,8 +38,9 @@ class GetAllCustomChannels extends BaseExample {
     do {
       $optParams['pageToken'] = $pageToken;
       // Retrieve custom channels list, and display it.
-      $result = $this->adSenseService->customchannels
-          ->listCustomchannels($adClientId, $optParams);
+      $result = $this->adSenseService->accounts_adunits_customchannels
+          ->listAccountsAdunitsCustomchannels(
+              $accountId, $adClientId, $adUnitId);
       $customChannels = $result['items'];
       if (isset($customChannels)) {
         foreach ($customChannels as $customChannel) {
@@ -50,18 +53,18 @@ class GetAllCustomChannels extends BaseExample {
             $targetingInfo = $customChannel['targetingInfo'];
             if($targetingInfo['adsAppearOn']) {
               $content[] = sprintf('Ads appear on: %s',
-                $targetingInfo['adsAppearOn']);
+                  $targetingInfo['adsAppearOn']);
             }
             if($targetingInfo['location']) {
               $content[] = sprintf('Location: %s', $targetingInfo['location']);
             }
             if($targetingInfo['description']) {
               $content[] = sprintf('Description: %s',
-                $targetingInfo['description']);
+                  $targetingInfo['description']);
             }
             if($targetingInfo['siteLanguage']) {
               $content[] = sprintf('Site language: %s',
-                $targetingInfo['siteLanguage']);
+                  $targetingInfo['siteLanguage']);
             }
           }
           printListElementForClients($content);

@@ -26,9 +26,10 @@
  * @param string $title the title of the page
  */
 function printHtmlHeader($title) {
+  $htmlTitle = filter_var($title, FILTER_SANITIZE_SPECIAL_CHARS);
   print '<!DOCTYPE html>' . "\n";
   print '<html>' . "\n";
-  print '<head><title>' . $title . '</title></head>' . "\n";
+  print '<head><title>' . $htmlTitle . '</title></head>' . "\n";
   print '<link rel="stylesheet" href="style.css" type="text/css" />' . "\n";
   print '<body>' . "\n";
 }

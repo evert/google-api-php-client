@@ -19,7 +19,7 @@
 require_once __DIR__ . "/../BaseExample.php";
 
 /**
- * Gets all ad clients for an account.
+ * Gets all ad clients for the logged in user.
  *
  * Tags: adclients.list
  *
@@ -33,7 +33,7 @@ class GetAllAdClients extends BaseExample {
     $pageToken = null;
     do {
       $optParams['pageToken'] = $pageToken;
-      # Retrieve ad client list, and display it.
+      // Retrieve ad client list, and display it.
       $result = $this->adSenseService->adclients->listAdclients($optParams);
       $adClients = $result['items'];
       if (isset($adClients)) {
