@@ -16,6 +16,7 @@
  */
 
 //require_once "AuthTest.php";
+require_once 'BaseTest.php';
 require_once "CacheTest.php";
 require_once "IoTest.php";
 require_once "ServiceTest.php";

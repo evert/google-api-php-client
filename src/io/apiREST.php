@@ -26,8 +26,8 @@ require_once "service/apiUtils.php";
  */
 class apiREST {
   /**
-   * Executes a apiServiceRequest using a RESTful call by transforming it into a apiHttpRequest,
-   * execute it via apiIO::authenticatedRequest() and returning the json decoded result
+   * Executes a apiServiceRequest using a RESTful call by transforming it into
+   * an apiHttpRequest, and executed via apiIO::authenticatedRequest().
    *
    * @param apiServiceRequest $req
    * @return array decoded result
@@ -37,19 +37,19 @@ class apiREST {
   static public function execute(apiServiceRequest $req) {
     $result = null;
     $postBody = $req->getPostBody();
-    $url = self::createRequestUri($req->getRestBasePath(), $req->getRestPath(), $req->getParameters());
+    $url = self::createRequestUri(
+        $req->getRestBasePath(), $req->getRestPath(), $req->getParameters());
 
     $httpRequest = new apiHttpRequest($url, $req->getHttpMethod(), null, $postBody);
-    // Add a content-type: application/json header so the server knows how to interpret the post body
     if ($postBody) {
       $contentTypeHeader = array(
-          'Content-Type: application/json; charset=UTF-8',
-          'Content-Length: ' . apiUtils::getStrLen($postBody)
+          'Content-Type' => 'application/json; charset=UTF-8',
+          'Content-Length' => apiUtils::getStrLen($postBody)
       );
-      if ($httpRequest->getHeaders()) {
-        $contentTypeHeader = array_merge($httpRequest->getHeaders(), $contentTypeHeader);
+      if ($httpRequest->getRequestHeaders()) {
+        $contentTypeHeader = array_merge($httpRequest->getRequestHeaders(), $contentTypeHeader);
       }
-      $httpRequest->setHeaders($contentTypeHeader);
+      $httpRequest->setRequestHeaders($contentTypeHeader);
     }
 
     $httpRequest = apiClient::$io->authenticatedRequest($httpRequest);
@@ -75,11 +75,11 @@ class apiREST {
     
     if ($code != '200' && $code != '201' && $code != '204') {
       $decoded = json_decode($body, true);
-      $err = 'Error calling ' . $response->getMethod() . ' ' . $response->getUrl();
-      if ($decoded != null && isset($decoded['error']['message']) && isset($decoded['error']['code'])) {
+      $err = 'Error calling ' . $response->getRequestMethod() . ' ' . $response->getUrl();
+      if ($decoded != null && isset($decoded['error']['message'])  && isset($decoded['error']['code'])) {
         // if we're getting a json encoded error definition, use that instead of the raw response
         // body for improved readability
-        $err .= ": ({$decoded['error']['code']}) " . $decoded['error']['message'];
+        $err .= ": ({$decoded['error']['code']}) {$decoded['error']['message']}";
       } else {
         $err .= ": ($code) $body";
       }
@@ -139,7 +139,6 @@ class apiREST {
     //FIXME work around for the the uri template lib which url encodes
     // the @'s & confuses our servers.
     $requestUrl = str_replace('%40', '@', $requestUrl);
-    //EOFIX
 
     if (count($queryVars)) {
       $requestUrl .= '?' . implode($queryVars, '&');

@@ -69,7 +69,7 @@ class apiServiceResource {
     $batchKey = false;
     if (isset($arguments[1])) {
       if (! is_string($arguments[1])) {
-        throw new apiException("The batch key parameter should be a string (\$client->plus->activities->list( array('userId' => '@me'), 'batchKey'))");
+        throw new apiException("The batch key parameter should be a string (\$client->plus->activities->list( array('userId' => 'me'), 'batchKey'))");
       }
       $batchKey = $arguments[1];
     }
@@ -86,7 +86,7 @@ class apiServiceResource {
       }
 
       // Some APIs require the postBody to be set under the data key.
-      if (is_array($parameters['postBody']) && 'buzz' == $this->serviceName) {
+      if (is_array($parameters['postBody']) && 'latitude' == $this->serviceName) {
         if (!isset($parameters['postBody']['data'])) {
           $rawBody = $parameters['postBody'];
           unset($parameters['postBody']);

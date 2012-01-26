@@ -23,6 +23,33 @@ class apiCacheParser {
   public static $CACHEABLE_HTTP_METHODS = array('GET', 'HEAD');
   public static $CACHEABLE_STATUS_CODES = array('200', '203', '300', '301');
 
+  private function __construct() {}
+
+  /**
+   * Check if an HTTP request can be cached by a private local cache.
+   *
+   * @static
+   * @param apiHttpRequest $resp
+   * @return bool True if the request is cacheable.
+   * False if the request is uncacheable.
+   */
+  public static function isRequestCacheable (apiHttpRequest $resp) {
+    $method = $resp->getRequestMethod();
+    if (! in_array($method, self::$CACHEABLE_HTTP_METHODS)) {
+      return false;
+    }
+
+    // Don't cache authorized requests/responses.
+    // [rfc2616-14.8] When a shared cache receives a request containing an
+    // Authorization field, it MUST NOT return the corresponding response
+    // as a reply to any other request...
+    if ($resp->getRequestHeader("authorization")) {
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    * Check if an HTTP response can be cached by a private local cache.
    *
@@ -32,8 +59,9 @@ class apiCacheParser {
    * False if the response is un-cacheable.
    */
   public static function isResponseCacheable (apiHttpRequest $resp) {
-    $method = $resp->getRequestMethod();
-    if (! in_array($method, self::$CACHEABLE_HTTP_METHODS)) {
+    // First, check if the HTTP request was cacheable before inspecting the
+    // HTTP response.
+    if (false == self::isRequestCacheable($resp)) {
       return false;
     }
 
@@ -52,7 +80,7 @@ class apiCacheParser {
     // [rfc2616-14.9.2]  If [no-store is] sent in a response, a cache MUST NOT
     // store any part of either this response or the request that elicited it.
     $cacheControl = $resp->getParsedCacheControl();
-    if (in_array('no-store', $cacheControl)) {
+    if (isset($cacheControl['no-store'])) {
       return false;
     }
 
@@ -103,12 +131,13 @@ class apiCacheParser {
     // Calculate the freshness of an http response.
     $freshnessLifetime = false;
     $cacheControl = $resp->getParsedCacheControl();
-    if (in_array('max-age', $cacheControl)) {
+    if (isset($cacheControl['max-age'])) {
       $freshnessLifetime = $cacheControl['max-age'];
     }
 
     $rawDate = $resp->getResponseHeader('date');
     $parsedDate = strtotime($rawDate);
+
     if (empty($rawDate) || false == $parsedDate) {
       $parsedDate = time();
     }
@@ -127,5 +156,18 @@ class apiCacheParser {
     }
 
     return $freshnessLifetime <= $age;
+  }
+
+  /**
+   * Determine if a cache entry should be revalidated with by the origin.
+   *
+   * @param apiHttpRequest $response
+   * @return bool True if the entry is expired, else return false.
+   */
+  public static function mustRevalidate(apiHttpRequest $response) {
+    // [13.3] When a cache has a stale entry that it would like to use as a
+    // response to a client's request, it first has to check with the origin
+    // server to see if its cached entry is still usable.
+    return self::isExpired($response);
   }
 }
