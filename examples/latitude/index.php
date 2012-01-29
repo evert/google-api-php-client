@@ -30,13 +30,13 @@ $service = new apiLatitudeService($client);
 
 if (isset($_REQUEST['logout'])) {
   unset($_SESSION['access_token']);
-  header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
 }
 
 if (isset($_GET['code'])) {
   $client->authenticate();
   $_SESSION['access_token'] = $client->getAccessToken();
-  header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+  $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+  header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 }
 
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
