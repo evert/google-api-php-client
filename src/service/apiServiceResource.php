@@ -31,7 +31,10 @@ class apiServiceResource {
       'fields' => array('type' => 'string', 'location' => 'query'),
       'trace' => array('type' => 'string', 'location' => 'query'),
       'userIp' => array('type' => 'string', 'location' => 'query'),
-      'userip' => array('type' => 'string', 'location' => 'query')
+      'userip' => array('type' => 'string', 'location' => 'query'),
+      'file' => array('type' => 'complex', 'location' => 'body'),
+      'data' => array('type' => 'string', 'location' => 'body'),
+      'mimeType' => array('type' => 'string', 'location' => 'header'),
   );
 
   /** @var apiService $service */
@@ -61,10 +64,10 @@ class apiServiceResource {
    */
   public function __call($name, $arguments) {
     if (count($arguments) != 1 && count($arguments) != 2) {
-      throw new apiException("apiClient method calls expect 1 or 2 parameter (\$client->plus->activities->list(array('userId' => 'me'))");
+      throw new apiException("client method calls expect 1 or 2 parameter (\$client->plus->activities->list(array('userId' => 'me'))");
     }
     if (! is_array($arguments[0])) {
-      throw new apiException("apiClient method parameter should be an array (\$client->plus->activities->list(array('userId' => 'me'))");
+      throw new apiException("client method parameter should be an array (\$client->plus->activities->list(array('userId' => 'me'))");
     }
     $batchKey = false;
     if (isset($arguments[1])) {
@@ -94,14 +97,14 @@ class apiServiceResource {
         }
       }
 
-      $postBody = is_array($parameters['postBody']) || is_object($parameters['postBody']) ? json_encode($parameters['postBody']) : $parameters['postBody'];
-      // remove from the parameter list so not to trip up the param entry checking & make sure it doesn't end up on the query
+      $postBody = is_array($parameters['postBody']) || is_object($parameters['postBody'])
+          ? json_encode($parameters['postBody'])
+          : $parameters['postBody'];
       unset($parameters['postBody']);
 
       if (isset($parameters['optParams'])) {
         $optParams = $parameters['optParams'];
         unset($parameters['optParams']);
-
         $parameters = array_merge($parameters, $optParams);
       }
     }
@@ -142,8 +145,36 @@ class apiServiceResource {
       $method['path'] = $method['restPath'];
     }
 
-    $request = new apiServiceRequest($this->service->restBasePath, $this->service->rpcPath,
-        $method['path'], $method['id'], $method['httpMethod'], $parameters, $postBody);
+    if (isset($method['mediaUpload']['protocols'])) {
+      if (isset($parameters['protocol']) && 'resumable' == $parameters['protocol']) {
+        $this->service->restBasePath = $method['mediaUpload']['protocols']['resumable']['path'];
+        $method['path'] = '';
+      } else {
+        $this->service->restBasePath = $method['mediaUpload']['protocols']['simple']['path'];
+        $method['path'] = '';
+      }
+     }
+
+    // Process Media Request
+    $contentType = false;
+    if (isset($method['mediaUpload'])) {
+      $media = apiMediaFileUpload::process($postBody, $parameters);
+      if (isset($media['data'])) {
+        $postBody = $media['data'];
+        $contentType = $media['content-type'];
+      }
+    }
+
+    $request = new apiServiceRequest(
+        $this->service->restBasePath,
+        $this->service->rpcPath,
+        $method['path'],
+        $method['id'],
+        $method['httpMethod'],
+        $parameters, $postBody
+    );
+
+    $request->setContentType($contentType);
     if ($batchKey) {
       $request->setBatchKey($batchKey);
       return $request;
@@ -160,7 +191,7 @@ class apiServiceResource {
   protected function stripNull(&$o) {
     $o = (array) $o;
     foreach ($o as $k => $v) {
-      if ($v === null) {
+      if ($v === null || strstr($k, "\0*\0__")) {
         unset($o[$k]);
       }
       elseif (is_object($v) || is_array($v)) {

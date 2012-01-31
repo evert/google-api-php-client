@@ -45,6 +45,7 @@ require_once 'auth/apiAuth.php';
 require_once 'cache/apiCache.php';
 require_once 'io/apiIO.php';
 require_once 'service/apiService.php';
+require_once('service/apiMediaFileUpload.php');
 
 /**
  * The Google API Client
