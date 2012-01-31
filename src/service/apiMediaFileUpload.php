@@ -36,7 +36,7 @@ class apiMediaFileUpload {
     unset($params['file']);
 
     if ($file) {
-      if (substr($file, 0, 1) != '&') {
+      if (substr($file, 0, 1) != '@') {
         $file = '@' . $file;
       }
       $payload['file'] = $file;

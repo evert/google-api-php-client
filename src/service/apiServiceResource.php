@@ -163,6 +163,10 @@ class apiServiceResource {
         $postBody = $media['data'];
         $contentType = $media['content-type'];
       }
+      if (isset($media['file'])) {
+        $postBody = $media;
+        $contentType = "multipart/form-data";
+      }
     }
 
     $request = new apiServiceRequest(
