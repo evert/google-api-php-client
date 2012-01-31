@@ -66,7 +66,7 @@ class RestTest extends BaseTest {
     $params['u']['location'] = 'path';
     $params['u']['value'] = 'me';
     $value = $this->rest->createRequestUri($basePath, $restPath, $params);
-    $this->assertEquals("http://localhost/plus/me?alt=json", $value);
+    $this->assertEquals("http://localhost/plus/me", $value);
 
     // Test Query
     $params = array();
@@ -74,7 +74,7 @@ class RestTest extends BaseTest {
     $params['u']['location'] = 'query';
     $params['u']['value'] = 'me';
     $value = $this->rest->createRequestUri($basePath, '/plus', $params);
-    $this->assertEquals("http://localhost/plus?u=me&alt=json", $value);
+    $this->assertEquals("http://localhost/plus?u=me", $value);
 
     // Test Booleans
     $params = array();
@@ -82,11 +82,11 @@ class RestTest extends BaseTest {
     $params['u']['location'] = 'path';
     $params['u']['value'] = '1';
     $value = $this->rest->createRequestUri($basePath, $restPath, $params);
-    $this->assertEquals("http://localhost/plus/true?alt=json", $value);
+    $this->assertEquals("http://localhost/plus/true", $value);
 
     $params['u']['location'] = 'query';
     $value = $this->rest->createRequestUri($basePath, '/plus', $params);
-    $this->assertEquals("http://localhost/plus?u=true&alt=json", $value);
+    $this->assertEquals("http://localhost/plus?u=true", $value);
     
     // Test encoding
     $params = array();
@@ -94,7 +94,7 @@ class RestTest extends BaseTest {
     $params['u']['location'] = 'query';
     $params['u']['value'] = '@me/';
     $value = $this->rest->createRequestUri($basePath, '/plus', $params);
-    $this->assertEquals("http://localhost/plus?u=%40me%2F&alt=json", $value);
+    $this->assertEquals("http://localhost/plus?u=%40me%2F", $value);
   }
 }
  

@@ -42,12 +42,12 @@ class apiREST {
 
     $httpRequest = new apiHttpRequest($url, $req->getHttpMethod(), null, $postBody);
     if ($postBody) {
-      $contentTypeHeader = array(
-          'Content-Type' => 'application/json; charset=UTF-8',
-          'Content-Length' => apiUtils::getStrLen($postBody)
-      );
-      if ($httpRequest->getRequestHeaders()) {
-        $contentTypeHeader = array_merge($httpRequest->getRequestHeaders(), $contentTypeHeader);
+      $contentTypeHeader = array();
+      if (isset($req->contentType) && $req->contentType) {
+        $contentTypeHeader['content-type'] = $req->contentType;
+      } else {
+        $contentTypeHeader['content-type'] = 'application/json; charset=UTF-8';
+        $contentTypeHeader['content-length'] = apiUtils::getStrLen($postBody);
       }
       $httpRequest->setRequestHeaders($contentTypeHeader);
     }
@@ -96,7 +96,6 @@ class apiREST {
     return $decoded;
   }
 
-  
   /**
    * Parse/expand request parameters and create a fully qualified
    * request uri.
@@ -131,7 +130,7 @@ class apiREST {
         }
       }
     }
-    $queryVars[] = 'alt=json';
+
     if (count($uriTemplateVars)) {
       $uriTemplateParser = new URI_Template_Parser($requestUrl);
       $requestUrl = $uriTemplateParser->expand($uriTemplateVars);
