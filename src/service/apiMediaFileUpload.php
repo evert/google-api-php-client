@@ -44,8 +44,8 @@ class apiMediaFileUpload {
       return $payload;
     }
 
-
-    if (false == $metadata) {
+    $parsedMeta = is_string($metadata) ? json_decode($metadata, true) : $metadata;
+    if (false == $metadata || false == $parsedMeta) {
       // This is a simple media upload.
       $payload['content-type'] = $mimeType;
       $payload['data'] = $data;
