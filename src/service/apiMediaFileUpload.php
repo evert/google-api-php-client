@@ -24,12 +24,13 @@ class apiMediaFileUpload {
   public $fileName;
   public $chunkSize;
 
-  public static function process($metadata, &$params) {
+  public static function process($metadata, $method, &$params) {
     $payload = array();
 
     $data = isset($params['data']) ? $params['data']['value'] : false;
     $mimeType = isset($params['mimeType']) ? $params['mimeType']['value'] : false;
     $file = isset($params['file']) ? $params['file']['value'] : false;
+    $uploadPath = $method['mediaUpload']['protocols']['simple']['path'];
 
     unset($params['data']);
     unset($params['mimeType']);
@@ -40,11 +41,21 @@ class apiMediaFileUpload {
         $file = '@' . $file;
       }
       $payload['file'] = $file;
+      $payload['content-type'] = 'multipart/form-data';
+      $payload['restBasePath'] = $uploadPath;
+
       // This is a standard file upload with curl.
       return $payload;
     }
 
     $parsedMeta = is_string($metadata) ? json_decode($metadata, true) : $metadata;
+    if ($metadata && false == $data) {
+      // Process as a normal API request.
+      return false;
+    }
+
+    // Process as a media upload request. Determine which type.
+    $payload['restBasePath'] = $uploadPath;
     if (false == $metadata || false == $parsedMeta) {
       // This is a simple media upload.
       $payload['content-type'] = $mimeType;

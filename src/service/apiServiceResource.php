@@ -145,32 +145,32 @@ class apiServiceResource {
       $method['path'] = $method['restPath'];
     }
 
-    if (isset($method['mediaUpload']['protocols'])) {
-      if (isset($parameters['protocol']) && 'resumable' == $parameters['protocol']) {
-        $this->service->restBasePath = $method['mediaUpload']['protocols']['resumable']['path'];
-        $method['path'] = '';
-      } else {
-        $this->service->restBasePath = $method['mediaUpload']['protocols']['simple']['path'];
-        $method['path'] = '';
-      }
-     }
+    $restBasePath = $this->service->restBasePath;
 
     // Process Media Request
     $contentType = false;
     if (isset($method['mediaUpload'])) {
-      $media = apiMediaFileUpload::process($postBody, $parameters);
-      if (isset($media['data'])) {
-        $postBody = $media['data'];
+      $media = apiMediaFileUpload::process($postBody, $method, $parameters);
+      if (isset($media['content-type'])) {
         $contentType = $media['content-type'];
       }
+
+      if (isset($media['data'])) {
+        $postBody = $media['data'];
+      }
+
       if (isset($media['file'])) {
-        $postBody = $media;
-        $contentType = "multipart/form-data";
+        $postBody = array('file' => $media['file']);
+      }
+
+      if (isset($media['restBasePath'])) {
+        $restBasePath = $media['restBasePath'];
+        $method['path'] = '';
       }
     }
 
     $request = new apiServiceRequest(
-        $this->service->restBasePath,
+        $restBasePath,
         $this->service->rpcPath,
         $method['path'],
         $method['id'],
