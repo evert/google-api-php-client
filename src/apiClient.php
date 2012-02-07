@@ -41,10 +41,12 @@ if (file_exists($cwd . '/local_config.php')) {
 }
 
 // Include the top level classes, they each include their own dependencies
+require_once 'service/apiModel.php';
+require_once 'service/apiService.php';
+require_once 'service/apiServiceRequest.php';
 require_once 'auth/apiAuth.php';
 require_once 'cache/apiCache.php';
 require_once 'io/apiIO.php';
-require_once 'service/apiService.php';
 require_once('service/apiMediaFileUpload.php');
 
 /**
