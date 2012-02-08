@@ -41,7 +41,7 @@ if ($client->getAccessToken()) {
   $goals = $service->management_goals->listManagementGoals("~all", "~all", "~all");
   print "<h1>Segments</h1><pre>" . print_r($goals, true) . "</pre>";
 
-$_SESSION['token'] = $client->getAccessToken();
+  $_SESSION['token'] = $client->getAccessToken();
 } else {
   $authUrl = $client->createAuthUrl();
   print "<a class='login' href='$authUrl'>Connect Me!</a>";
