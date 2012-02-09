@@ -17,11 +17,15 @@
 
 // Check for the required json and curl extensions, the Google API PHP Client won't function without them.
 if (! function_exists('curl_init')) {
-  throw new Exception('The Google PHP API Client requires the CURL PHP extension');
+  throw new Exception('Google PHP API Client requires the CURL PHP extension');
 }
 
 if (! function_exists('json_decode')) {
-  throw new Exception('The Google PHP API Client requires the JSON PHP extension');
+  throw new Exception('Google PHP API Client requires the JSON PHP extension');
+}
+
+if (! function_exists('http_build_query')) {
+  throw new Exception('Google PHP API Client requires http_build_query()');
 }
 
 if (! ini_get('date.timezone') && function_exists('date_default_timezone_set')) {

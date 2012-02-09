@@ -87,7 +87,7 @@ class apiCurlIO implements apiIO {
 
     if (array_key_exists($request->getRequestMethod(),
           self::$ENTITY_HTTP_METHODS)) {
-      $this->processEntityRequest($request);
+      $request = $this->processEntityRequest($request);
     }
 
     $ch = curl_init();
@@ -217,8 +217,9 @@ class apiCurlIO implements apiIO {
    * @visible for testing
    * Process an http request that contains an enclosed entity.
    * @param apiHttpRequest $request
+   * @return apiHttpRequest Processed request with the enclosed entity.
    */
-  public function processEntityRequest(apiHttpRequest &$request) {
+  public function processEntityRequest(apiHttpRequest $request) {
     $postBody = $request->getPostBody();
     $contentType = $request->getRequestHeader("content-type");
 
@@ -239,5 +240,7 @@ class apiCurlIO implements apiIO {
       $postsLength = strlen($postBody);
       $request->setRequestHeaders(array('content-length' => $postsLength));
     }
+
+    return $request;
   }
 }
