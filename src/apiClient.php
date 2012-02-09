@@ -289,6 +289,18 @@ class apiClient {
   }
 
   /**
+   * Verify an id_token. This method will verify the current id_token, if one
+   * isn't provided.
+   * @throws apiAuthException
+   * @param string|null $token The token (id_token) that should be verified.
+   * @return apiLoginTicket Returns an apiLoginTicket if the verification was
+   * successful.
+   */
+  public function verifyIdToken($token = null) {
+    return self::$auth->verifyIdToken($token);
+  }
+
+  /**
    * This function allows you to overrule the automatically generated scopes,
    * so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!

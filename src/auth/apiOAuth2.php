@@ -294,7 +294,11 @@ class apiOAuth2 extends apiAuth {
    * @param $audience
    * @return apiLoginTicket
    */
-  function verifyIdToken($id_token, $audience = null) {
+  public function verifyIdToken($id_token = null, $audience = null) {
+    if (!$id_token) {
+      $id_token = $this->accessToken['id_token'];
+    }
+
     $certs = $this->getFederatedSignonCerts();
     if (!$audience) {
       $audience = $this->clientId;
