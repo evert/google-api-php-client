@@ -231,7 +231,7 @@ class apiCurlIO implements apiIO {
 
     // Force the payload to match the content-type asserted in the header.
     if ($contentType == self::FORM_URLENCODED && is_array($postBody)) {
-      $postBody = http_build_query($postBody);
+      $postBody = http_build_query($postBody, '', '&');
       $request->setPostBody($postBody);
     }
 
