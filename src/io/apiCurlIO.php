@@ -110,6 +110,15 @@ class apiCurlIO implements apiIO {
     curl_setopt($ch, CURLOPT_USERAGENT, $request->getUserAgent());
 
     $respData = curl_exec($ch);
+
+    // Retry if certificates are missing.
+    if (curl_errno($ch) == CURLE_SSL_CACERT) {
+      error_log('SSL certificate problem, verify that the CA cert is OK.'
+        . ' Retrying with the CA cert bundle from google-api-php-client.');
+      curl_setopt($ch, CURLOPT_CERTINFO, dirname(__FILE__) . '/cacerts.pem');
+      $respData = curl_exec($ch);
+    }
+
     $respHeaderSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $respHttpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlErrorNum = curl_errno($ch);
