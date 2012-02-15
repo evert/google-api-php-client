@@ -244,7 +244,7 @@ class apiCurlIO implements apiIO {
     }
 
     // Make sure the content-length header is set.
-    if (is_string($postBody)) {
+    if (!$postBody || is_string($postBody)) {
       $postsLength = strlen($postBody);
       $request->setRequestHeaders(array('content-length' => $postsLength));
     }
