@@ -35,6 +35,7 @@ class apiServiceResource {
       'file' => array('type' => 'complex', 'location' => 'body'),
       'data' => array('type' => 'string', 'location' => 'body'),
       'mimeType' => array('type' => 'string', 'location' => 'header'),
+      'uploadType' => array('type' => 'string', 'location' => 'query'),
   );
 
   /** @var apiService $service */

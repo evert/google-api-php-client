@@ -54,7 +54,14 @@ class apiMediaFileUpload {
       return false;
     }
 
-    // Process as a media upload request. Determine which type.
+    // Process as a media upload request.
+    $parameters['uploadType'] = array(
+        'type' => 'string',
+        'location' => 'query',
+        'value' => 'media',
+    );
+
+    // Determine which type.
     $payload['restBasePath'] = $uploadPath;
     if (false == $metadata || false == $parsedMeta) {
       // This is a simple media upload.
