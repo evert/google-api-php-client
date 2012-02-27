@@ -55,7 +55,7 @@ class apiMediaFileUpload {
     }
 
     // Process as a media upload request.
-    $parameters['uploadType'] = array(
+    $params['uploadType'] = array(
         'type' => 'string',
         'location' => 'query',
         'value' => 'media',
