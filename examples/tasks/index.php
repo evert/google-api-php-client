@@ -59,13 +59,6 @@ if (isset($_GET['code'])) {
   foreach ($lists['items'] as $list) {
     print "<h3>{$list['title']}</h3>";
     $tasks = $tasksService->tasks->listTasks($list['id']);
-    foreach ($tasks['items'] as $task) {
-      $updated = new Task($task);
-      $updated->setNotes('Test');
-      $updated->setTitle($task['title'] + ' ' . time());
-      $tasksService->tasks->update($list['id'], $task['id'], $updated);
-      print "<p id='post'>{$task['title']}</p>";
-    }
   }
 ?>
   </div>
