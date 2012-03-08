@@ -143,7 +143,7 @@ require_once 'service/apiServiceRequest.php';
 
 
 /**
- * Service definition for Prediction (v1.4).
+ * Service definition for Prediction (v1.5).
  *
  * <p>
  * Lets you access a cloud hosted machine learning service that makes it easy to build smart apps
@@ -166,8 +166,8 @@ class apiPredictionService extends apiService {
    */
   public function __construct(apiClient $apiClient) {
     $this->rpcPath = '/rpc';
-    $this->restBasePath = '/prediction/v1.4/';
-    $this->version = 'v1.4';
+    $this->restBasePath = '/prediction/v1.5/';
+    $this->version = 'v1.5';
     $this->serviceName = 'prediction';
 
     $apiClient->addService($this->serviceName, $this->version);
@@ -429,3 +429,4 @@ class Update extends apiModel {
     return $this->label;
   }
 }
+
