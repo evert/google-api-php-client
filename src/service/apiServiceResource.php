@@ -28,6 +28,7 @@ class apiServiceResource {
   // Valid query parameters that work, but don't appear in discovery.
   private $stackParameters = array(
       'alt' => array('type' => 'string', 'location' => 'query'),
+      'boundary' => array('type' => 'string', 'location' => 'query'),
       'fields' => array('type' => 'string', 'location' => 'query'),
       'trace' => array('type' => 'string', 'location' => 'query'),
       'userIp' => array('type' => 'string', 'location' => 'query'),
@@ -36,6 +37,7 @@ class apiServiceResource {
       'data' => array('type' => 'string', 'location' => 'body'),
       'mimeType' => array('type' => 'string', 'location' => 'header'),
       'uploadType' => array('type' => 'string', 'location' => 'query'),
+      'mediaUpload' => array('type' => 'complex', 'location' => 'query'),
   );
 
   /** @var apiService $service */
@@ -151,21 +153,11 @@ class apiServiceResource {
     // Process Media Request
     $contentType = false;
     if (isset($method['mediaUpload'])) {
-      $media = apiMediaFileUpload::process($postBody, $method, $parameters);
-      if (isset($media['content-type'])) {
-        $contentType = $media['content-type'];
-      }
-
-      if (isset($media['data'])) {
-        $postBody = $media['data'];
-      }
-
-      if (isset($media['file'])) {
-        $postBody = array('file' => $media['file']);
-      }
-
-      if (isset($media['restBasePath'])) {
-        $restBasePath = $media['restBasePath'];
+      $media = apiMediaFileUpload::process($postBody, $parameters);
+      if ($media) {
+        $contentType = isset($media['content-type']) ? $media['content-type']: null;
+        $postBody = isset($media['postBody']) ? $media['postBody'] : null;
+        $restBasePath = $method['mediaUpload']['protocols']['simple']['path'];
         $method['path'] = '';
       }
     }
@@ -180,6 +172,13 @@ class apiServiceResource {
     );
 
     $request->setContentType($contentType);
+
+    // Terminate immediatly if this is a resumable request.
+    if (isset($parameters['uploadType']['value'])
+        && 'resumable' == $parameters['uploadType']['value']) {
+      return $request;
+    }
+
     if ($batchKey) {
       $request->setBatchKey($batchKey);
       return $request;

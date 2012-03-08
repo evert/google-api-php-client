@@ -68,7 +68,7 @@ class apiREST {
    * @param apiHttpRequest $response The http response to be decoded.
    * @return mixed|null
    */
-  static function decodeHttpResponse($response) {
+  public static function decodeHttpResponse($response) {
     $code = $response->getResponseHttpCode();
     $body = $response->getResponseBody();
     $decoded = null;

@@ -20,36 +20,61 @@
  *
  */
 class apiMediaFileUpload {
+  const UPLOAD_MEDIA_TYPE = 'media';
+  const UPLOAD_MULTIPART_TYPE = 'multipart';
+  const UPLOAD_RESUMABLE_TYPE = 'resumable';
+
+  /** @var string $mimeType */
   public $mimeType;
-  public $fileName;
+
+  /** @var string $data */
+  public $data;
+
+  /** @var bool $resumable */
+  public $resumable;
+
+  /** @var int $chunkSize */
   public $chunkSize;
 
-  public static function process($metadata, $method, &$params) {
-    $payload = array();
+  /** @var int $size */
+  public $size;
 
-    $data = isset($params['data']) ? $params['data']['value'] : false;
-    $mimeType = isset($params['mimeType']) ? $params['mimeType']['value'] : false;
-    $file = isset($params['file']) ? $params['file']['value'] : false;
-    $uploadPath = $method['mediaUpload']['protocols']['simple']['path'];
+  /** @var string $resumeUri */
+  public $resumeUri;
 
-    unset($params['data']);
-    unset($params['mimeType']);
-    unset($params['file']);
+  /** @var int $progress */
+  public $progress;
 
-    if ($file) {
-      if (substr($file, 0, 1) != '@') {
-        $file = '@' . $file;
-      }
-      $payload['file'] = $file;
-      $payload['content-type'] = 'multipart/form-data';
-      $payload['restBasePath'] = $uploadPath;
-
-      // This is a standard file upload with curl.
-      return $payload;
+  /**
+   * @param $mimeType string
+   * @param $data string The bytes you want to upload.
+   * @param $resumable bool
+   * @param bool $chunkSize File will be uploaded in chunks of this many bytes.
+   * only used if resumable=True
+   */
+  public function __construct($mimeType, $data, $resumable=false, $chunkSize=false) {
+    $this->mimeType = $mimeType;
+    $this->data = $data;
+    $this->size = strlen($this->data);
+    $this->resumable = $resumable;
+    if(!$chunkSize) {
+      $this->chunkSize = 256 * 1024;
     }
 
-    $parsedMeta = is_string($metadata) ? json_decode($metadata, true) : $metadata;
-    if ($metadata && false == $data) {
+    $this->progress = 0;
+  }
+
+  /**
+   * @static
+   * @param $meta
+   * @param $params
+   * @return array|bool
+   */
+  public static function process($meta, &$params) {
+    $payload = array();
+    $meta = is_string($meta) ? json_decode($meta, true) : $meta;
+    $uploadType = self::getUploadType($meta, $payload, $params);
+    if (!$uploadType) {
       // Process as a normal API request.
       return false;
     }
@@ -58,32 +83,171 @@ class apiMediaFileUpload {
     $params['uploadType'] = array(
         'type' => 'string',
         'location' => 'query',
-        'value' => 'media',
+        'value' => $uploadType,
     );
 
-    // Determine which type.
-    $payload['restBasePath'] = $uploadPath;
-    if (false == $metadata || false == $parsedMeta) {
+    if (isset($params['file'])) {
+      // This is a standard file upload with curl.
+      $file = $params['file']['value'];
+      unset($params['file']);
+      return self::processFileUpload($file);
+    }
+
+    $mimeType = isset($params['mimeType'])
+        ? $params['mimeType']['value']
+        : false;
+    unset($params['mimeType']);
+
+    $data = isset($params['data'])
+        ? $params['data']['value']
+        : false;
+    unset($params['data']);
+
+    if (self::UPLOAD_RESUMABLE_TYPE == $uploadType) {
+      $payload['content-type'] = $mimeType;
+
+    } elseif (self::UPLOAD_MEDIA_TYPE == $uploadType) {
       // This is a simple media upload.
       $payload['content-type'] = $mimeType;
-      $payload['data'] = $data;
-    } else {
+      $payload['postBody'] = $data;
+    }
+
+    elseif (self::UPLOAD_MULTIPART_TYPE == $uploadType) {
       // This is a multipart/related upload.
-      $boundary = isset($params['boundary']) ? $params['boundary'] : mt_rand();
+      $boundary = isset($params['boundary']['value']) ? $params['boundary']['value'] : mt_rand();
       $boundary = str_replace('"', '', $boundary);
       $payload['content-type'] = 'multipart/related; boundary=' . $boundary;
-
       $related = "--$boundary\r\n";
       $related .= "Content-Type: application/json; charset=UTF-8\r\n";
-      $related .= "\r\n" . $metadata . "\r\n";
+      $related .= "\r\n" . json_encode($meta) . "\r\n";
       $related .= "--$boundary\r\n";
       $related .= "Content-Type: $mimeType\r\n";
       $related .= "Content-Transfer-Encoding: base64\r\n";
       $related .= "\r\n" . base64_encode($data) . "\r\n";
       $related .= "--$boundary--";
-      $payload['data'] = $related;
+      $payload['postBody'] = $related;
     }
 
     return $payload;
+  }
+
+  /**
+   * Process standard file uploads.
+   * @param $file
+   * @internal param $fileName
+   * @return array Inclues the processed file name.
+   * @visible For testing.
+   */
+  public static function processFileUpload($file) {
+    if (!$file) return array();
+    if (substr($file, 0, 1) != '@') {
+      $file = '@' . $file;
+    }
+
+    // This is a standard file upload with curl.
+    return array('postBody' => array('file' => $file));
+  }
+
+  /**
+   * Valid upload types:
+   * - resumable (UPLOAD_RESUMABLE_TYPE)
+   * - media (UPLOAD_MEDIA_TYPE)
+   * - multipart (UPLOAD_MULTIPART_TYPE)
+   * - none (false)
+   * @param $meta
+   * @param $payload
+   * @param $params
+   * @return bool|string
+   */
+  public static function getUploadType($meta, &$payload, &$params) {
+    if (isset($params['mediaUpload'])
+        && get_class($params['mediaUpload']['value']) == 'apiMediaFileUpload') {
+      $upload = $params['mediaUpload']['value'];
+      unset($params['mediaUpload']);
+      $payload['content-type'] = $upload->mimeType;
+      if (isset($upload->resumable) && $upload->resumable) {
+        return self::UPLOAD_RESUMABLE_TYPE;
+      }
+    }
+
+    // Allow the developer to override the upload type.
+    if (isset($params['uploadType'])) {
+      return $params['uploadType']['value'];
+    }
+
+    $data = isset($params['data']['value'])
+        ? $params['data']['value'] : false;
+
+    if (false == $data && false == isset($params['file'])) {
+      // No upload data available.
+      return false;
+    }
+
+    if (isset($params['file'])) {
+      return self::UPLOAD_MEDIA_TYPE;
+    }
+
+    if (false == $meta) {
+      return self::UPLOAD_MEDIA_TYPE;
+    }
+
+    return self::UPLOAD_MULTIPART_TYPE;
+  }
+
+
+  public function nextChunk(apiServiceRequest $req) {
+    if (false == $this->resumeUri) {
+      $this->resumeUri = $this->getResumeUri($req);
+    }
+
+    $data = substr($this->data, $this->progress, $this->chunkSize);
+    $lastBytePos = $this->progress + strlen($data) - 1;
+    $headers = array(
+      'content-range' => "bytes $this->progress-$lastBytePos/$this->size",
+      'content-type' => $req->contentType,
+      'content-length' => $this->chunkSize,
+      'expect' => '',
+    );
+
+    $httpRequest = new apiHttpRequest($this->resumeUri, 'PUT', $headers, $data);
+    $response = apiClient::$io->authenticatedRequest($httpRequest);
+    $code = $response->getResponseHttpCode();
+    if (308 == $code) {
+      $range = explode('-', $response->getResponseHeader('range'));
+      $this->progress = $range[1] + 1;
+      return false;
+    } else {
+      return apiREST::decodeHttpResponse($response);
+    }
+  }
+
+  private function getResumeUri(apiServiceRequest $req) {
+    $result = null;
+    $postBody = $req->getPostBody();
+    $url = apiREST::createRequestUri(
+        $req->getRestBasePath(),
+        $req->getRestPath(),
+        $req->getParameters()
+    );
+
+    $httpRequest = new apiHttpRequest(
+        $url, $req->getHttpMethod(), null, $postBody);
+
+    if ($postBody) {
+      $httpRequest->setRequestHeaders(array(
+        'content-type' => 'application/json; charset=UTF-8',
+        'content-length' => apiUtils::getStrLen($postBody),
+        'x-upload-content-type' => $this->mimeType,
+        'expect' => '',
+      ));
+    }
+
+    $response = apiClient::$io->authenticatedRequest($httpRequest);
+    $location = $response->getResponseHeader('location');
+    $code = $response->getResponseHttpCode();
+    if (200 == $code && true == $location) {
+      return $location;
+    }
+    throw new apiException("Failed to start the resumable upload");
   }
 }
