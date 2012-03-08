@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=0.4.9
+VERSION=0.5.0
 TMPDIR=/tmp/google-api-php-client
 RELFILE=/tmp/google-api-php-client-${VERSION}.tar.gz
 
