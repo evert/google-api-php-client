@@ -24,6 +24,7 @@ require_once "ApiModelTest.php";
 require_once "RestTest.php";
 require_once "ApiClientTest.php";
 require_once "ApiCacheParserTest.php";
+require_once "ApiMediaFileUploadTest.php";
 require_once "ApiOAuth2Test.php";
 
 class GeneralTests extends PHPUnit_Framework_TestSuite {
@@ -37,6 +38,7 @@ class GeneralTests extends PHPUnit_Framework_TestSuite {
     $suite->addTestSuite('ApiClientTest');
     $suite->addTestSuite('ApiOAuth2Test');
     $suite->addTestSuite('ApiCacheParserTest');
+    $suite->addTestSuite('ApiMediaFileUploadTest');
     $suite->addTestSuite('RestTest');
     return $suite;
   }
