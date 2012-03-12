@@ -32,6 +32,7 @@ $client->setScopes(array(
   'https://www.googleapis.com/auth/tasks',
   'https://www.googleapis.com/auth/siteverification',
   'https://www.googleapis.com/auth/urlshortener',
+  'https://www.googleapis.com/auth/adsense.readonly',
 ));
 
 $authUrl = $client->createAuthUrl();
