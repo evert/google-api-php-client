@@ -63,7 +63,7 @@ if ($client->getAccessToken()) {
 <html>
 <head><meta charset="utf-8"></head>
 <body>
-<header><h1>Google+ Sample App</h1></header>
+<header><h1>Google UserInfo Sample App</h1></header>
 <?php if(isset($personMarkup)): ?>
 <?php print $personMarkup ?>
 <?php endif ?>
