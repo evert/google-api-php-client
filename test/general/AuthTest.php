@@ -21,11 +21,17 @@
 require_once 'auth/apiSigner.php';
 
 class AuthTest extends BaseTest {
-  const PRIVATE_KEY_FILE = "general/testdata/test_private_key.p12";
-  const PUBLIC_KEY_FILE = "general/testdata/test_public_key.pem";
+  const PRIVATE_KEY_FILE = "general/testdata/cert.p12";
+  const PUBLIC_KEY_FILE = "general/testdata/cacert.pem";
   const USER_ID = "102102479283111695822";
+
+  /** @var apiP12Signer  */
   private $signer;
+
+  /** @var string */
   private $pem;
+
+  /** @var apiPemVerifier */
   private $verifier;
 
   public function setUp() {
@@ -70,12 +76,12 @@ class AuthTest extends BaseTest {
   private function makeSignedJwt($payload) {
     $header = array("typ" => "JWT", "alg" => "RS256");
     $segments = array();
-    $segments[] = apiOAuth2::urlSafeB64Encode(json_encode($header));
-    $segments[] = apiOAuth2::urlSafeB64Encode(json_encode($payload));
+    $segments[] = apiUtils::urlSafeB64Encode(json_encode($header));
+    $segments[] = apiUtils::urlSafeB64Encode(json_encode($payload));
     $signing_input = implode(".", $segments);
 
     $signature = $this->signer->sign($signing_input);
-    $segments[] = apiOAuth2::urlSafeB64Encode($signature);
+    $segments[] = apiUtils::urlSafeB64Encode($signature);
 
     return implode(".", $segments);
   }
