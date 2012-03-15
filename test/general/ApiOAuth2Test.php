@@ -18,6 +18,8 @@
  * under the License.
  */
 
+require_once "../src/apiClient.php";
+require_once "BaseTest.php";
 require_once "io/apiREST.php";
 
 class ApiOAuth2Test extends BaseTest {
@@ -34,6 +36,23 @@ class ApiOAuth2Test extends BaseTest {
 
     $this->auth->approvalPrompt = 'force';
     $this->auth->accessType = "offline";
+  }
+
+  public function testSign() {
+    $req = new apiHttpRequest('http://localhost');
+    $req = $this->auth->sign($req);
+
+    $this->assertEquals('http://localhost?key=devKey', $req->getUrl());
+
+    // test accessToken
+    $this->auth->accessToken = array(
+        'access_token' => 'ACCESS_TOKEN',
+        'created' => time(),
+        'expires_in' => '3600'
+    );
+    $req = $this->auth->sign($req);
+    $auth = $req->getRequestHeader('authorization');
+    $this->assertEquals('Bearer ACCESS_TOKEN', $auth);
   }
 
   public function testCreateAuthUrl() {
