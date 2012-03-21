@@ -16,7 +16,6 @@
  */
 
 require_once "apiFileCache.php";
-require_once "apiApcCache.php";
 require_once "apiMemcacheCache.php";
 
 /**
