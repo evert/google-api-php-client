@@ -35,24 +35,24 @@ class AuthTest extends BaseTest {
   private $verifier;
 
   public function setUp() {
-    $this->signer = new apiP12Signer(self::PRIVATE_KEY_FILE, "notasecret");
+    $this->signer = new apiP12Signer(file_get_contents(self::PRIVATE_KEY_FILE), "notasecret");
     $this->pem = file_get_contents(self::PUBLIC_KEY_FILE);
     $this->verifier = new apiPemVerifier($this->pem);
   }
 
   public function testCantOpenP12() {
     try {
-      new apiP12Signer(self::PRIVATE_KEY_FILE, "badpassword");
+      new apiP12Signer(file_get_contents(self::PRIVATE_KEY_FILE), "badpassword");
       $this->fail("Should have thrown");
     } catch (apiAuthException $e) {
       $this->assertContains("mac verify failure", $e->getMessage());
     }
 
     try {
-      new apiP12Signer(self::PRIVATE_KEY_FILE . "foo", "badpassword");
+      new apiP12Signer(file_get_contents(self::PRIVATE_KEY_FILE) . "foo", "badpassword");
       $this->fail("Should have thrown");
     } catch (Exception $e) {
-      $this->assertContains("No such file or directory", $e->getMessage());
+      $this->assertContains("Unable to parse", $e->getMessage());
     }
   }
 

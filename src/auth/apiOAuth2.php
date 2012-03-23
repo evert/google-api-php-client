@@ -36,6 +36,9 @@ class apiOAuth2 extends apiAuth {
   public $accessType = 'offline';
   public $approvalPrompt = 'force';
 
+  /** @var apiAssertionCredentials $assertionCredentials */
+  public $assertionCredentials;
+
   const OAUTH2_REVOKE_URI = 'https://accounts.google.com/o/oauth2/revoke';
   const OAUTH2_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
   const OAUTH2_AUTH_URL = 'https://accounts.google.com/o/oauth2/auth';
@@ -169,6 +172,10 @@ class apiOAuth2 extends apiAuth {
     $this->approvalPrompt = $approvalPrompt;
   }
 
+  public function setAssertionCredentials(apiAssertionCredentials $creds) {
+    $this->assertionCredentials = $creds;
+  }
+
   /**
    * Include an accessToken in a given apiHttpRequest.
    * @param apiHttpRequest $request
@@ -185,20 +192,29 @@ class apiOAuth2 extends apiAuth {
     }
 
     // Cannot sign the request without an OAuth access token.
-    if (null == $this->accessToken) {
+    if (null == $this->accessToken && null == $this->assertionCredentials) {
       return $request;
     }
 
     // If the token is set to expire in the next 30 seconds (or has already
     // expired), refresh it and set the new token.
-    $expired = ($this->accessToken['created'] + ($this->accessToken['expires_in'] - 30)) < time();
+    if (!isset($this->accessToken['created'])) {
+      var_dump($this->accessToken);
+    }
+    $expired = (null == $this->accessToken) ||
+        ($this->accessToken['created'] + ($this->accessToken['expires_in'] - 30)) < time();
+
     if ($expired) {
-      if (! array_key_exists('refresh_token', $this->accessToken)) {
-        throw new apiAuthException("The OAuth 2.0 access token has expired, "
-            . "and a refresh token is not available. Refresh tokens are not "
-            . "returned for responses that were auto-approved.");
+      if ($this->assertionCredentials) {
+        $this->refreshTokenWithAssertion();
+      } else {
+        if (! array_key_exists('refresh_token', $this->accessToken)) {
+            throw new apiAuthException("The OAuth 2.0 access token has expired, "
+                . "and a refresh token is not available. Refresh tokens are not "
+                . "returned for responses that were auto-approved.");
+        }
+        $this->refreshToken($this->accessToken['refresh_token']);
       }
-      $this->refreshToken($this->accessToken['refresh_token']);
     }
 
     // Add the OAuth2 header to the request
@@ -215,26 +231,47 @@ class apiOAuth2 extends apiAuth {
    * @return void
    */
   public function refreshToken($refreshToken) {
-    $params = array(
+    $this->refreshTokenRequest(array(
         'client_id' => $this->clientId,
         'client_secret' => $this->clientSecret,
         'refresh_token' => $refreshToken,
         'grant_type' => 'refresh_token'
-    );
-    $request = apiClient::$io->makeRequest(
-          new apiHttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), $params));
+    ));
+  }
+
+  /**
+   * Fetches a fresh access token with a given assertion token.
+   * @param apiAssertionCredentials $assertionCredentials optional.
+   * @return void
+   */
+  public function refreshTokenWithAssertion($assertionCredentials = null) {
+    if (!$assertionCredentials) {
+      $assertionCredentials = $this->assertionCredentials;
+    }
+
+    $this->refreshTokenRequest(array(
+        'grant_type' => 'assertion',
+        'assertion_type' => $assertionCredentials->assertionType,
+        'assertion' => $assertionCredentials->generateAssertion(),
+    ));
+  }
+
+  private function refreshTokenRequest($params) {
+    $http = new apiHttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), $params);
+    $request = apiClient::$io->makeRequest($http);
+
     $code = $request->getResponseHttpCode();
     $body = $request->getResponseBody();
-    if ($code == 200) {
+    if (200 == $code) {
       $token = json_decode($body, true);
       if ($token == null) {
         throw new apiAuthException("Could not json decode the access token");
       }
-      
+
       if (! isset($token['access_token']) || ! isset($token['expires_in'])) {
         throw new apiAuthException("Invalid token format");
       }
-      
+
       $this->accessToken['access_token'] = $token['access_token'];
       $this->accessToken['expires_in'] = $token['expires_in'];
       $this->accessToken['created'] = time();

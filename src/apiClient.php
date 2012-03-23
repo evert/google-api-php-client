@@ -47,7 +47,12 @@ if (file_exists($cwd . '/local_config.php')) {
 // Include the top level classes, they each include their own dependencies
 require_once 'service/apiModel.php';
 require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+require_once 'service/apiServiceResource.php';
+require_once 'auth/apiAssertionCredentials.php';
+require_once 'auth/apiSigner.php';
+require_once 'auth/apiP12Signer.php';
+require_once 'service/apiBatchRequest.php';
+require_once 'external/URITemplateParser.php';
 require_once 'auth/apiAuth.php';
 require_once 'cache/apiCache.php';
 require_once 'io/apiIO.php';
@@ -61,20 +66,29 @@ require_once('service/apiMediaFileUpload.php');
  * @author Chirag Shah <chirags@google.com>
  */
 class apiClient {
-  // the version of the discovery mechanism this class is meant to work with
-  const discoveryVersion = 'v0.3';
-
   /**
    * @static
    * @var apiAuth $auth
    */
   static $auth;
 
-  /** @var apiIo $io */
+  /**
+   * @static
+   * @var apiIo $io
+   */
   static $io;
 
-  /** @var apiCache $cache */
+  /**
+   * @static
+   * @var apiCache $cache
+   */
   static $cache;
+
+  /**
+   * @static
+   * @var boolean $useBatch
+   */
+  static $useBatch = false;
 
   /** @var array $scopes */
   protected $scopes = array();
@@ -88,11 +102,6 @@ class apiClient {
   // Used to track authenticated state, can't discover services after doing authenticate()
   private $authenticated = false;
 
-  private $defaultService = array(
-      'authorization_token_url' => 'https://www.google.com/accounts/OAuthAuthorizeToken',
-      'request_token_url' => 'https://www.google.com/accounts/OAuthGetRequestToken',
-      'access_token_url' => 'https://www.google.com/accounts/OAuthGetAccessToken');
-
   public function __construct($config = array()) {
     global $apiConfig;
     $apiConfig = array_merge($apiConfig, $config);
@@ -101,35 +110,19 @@ class apiClient {
     self::$io = new $apiConfig['ioClass']();
   }
 
-  public function discover($service, $version = 'v1') {
-    $this->addService($service, $version);
-    $this->$service = $this->discoverService($service, $this->services[$service]['discoveryURI']);
-    return $this->$service;
-  }
-
   /**
    * Add a service
    */
-  public function addService($service, $version) {
+  public function addService($service, $version = false) {
     global $apiConfig;
     if ($this->authenticated) {
-      // Adding services after being authenticated, since the oauth scope is already set (so you wouldn't have access to that data)
       throw new apiException('Cant add services after having authenticated');
     }
-    $this->services[$service] = $this->defaultService;
+    $this->services[$service] = array();
     if (isset($apiConfig['services'][$service])) {
       // Merge the service descriptor with the default values
       $this->services[$service] = array_merge($this->services[$service], $apiConfig['services'][$service]);
     }
-    $this->services[$service]['discoveryURI'] = $apiConfig['basePath'] . '/discovery/' . self::discoveryVersion . '/describe/' . urlencode($service) . '/' . urlencode($version);
-  }
-
-  /**
-   * Set the type of Auth class the client should use.
-   * @param string $authClassName
-   */
-  public function setAuthClass($authClassName) {
-    self::$auth = new $authClassName();
   }
 
   public function authenticate() {
@@ -138,17 +131,8 @@ class apiClient {
     return self::$auth->authenticate($service);
   }
 
-  /**
-   * Construct the OAuth 2.0 authorization request URI.
-   * @return string 
-   */
-  public function createAuthUrl() {
-    $service = $this->prepareService();
-    return self::$auth->createAuthUrl($service['scope']);
-  }
-
   private function prepareService() {
-    $service = $this->defaultService;
+    $service = array();
     $scopes = array();
     if ($this->scopes) {
       $scopes = $this->scopes;
@@ -184,6 +168,23 @@ class apiClient {
       $accessToken = null;
     }
     self::$auth->setAccessToken($accessToken);
+  }
+
+  /**
+   * Set the type of Auth class the client should use.
+   * @param string $authClassName
+   */
+  public function setAuthClass($authClassName) {
+    self::$auth = new $authClassName();
+  }
+
+  /**
+   * Construct the OAuth 2.0 authorization request URI.
+   * @return string
+   */
+  public function createAuthUrl() {
+    $service = $this->prepareService();
+    return self::$auth->createAuthUrl($service['scope']);
   }
 
   /**
@@ -305,10 +306,18 @@ class apiClient {
   }
 
   /**
+   * @param apiAssertionCredentials $creds
+   * @return void
+   */
+  public function setAssertionCredentials(apiAssertionCredentials $creds) {
+    self::$auth->setAssertionCredentials($creds);
+  }
+
+  /**
    * This function allows you to overrule the automatically generated scopes,
    * so that you can ask for more or less permission in the auth flow
    * Set this before you call authenticate() though!
-   * @param array $scopes, ie: array('https://www.googleapis.com/auth/plus', 'https://www.googleapis.com/auth/moderator')
+   * @param array $scopes, ie: array('https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/moderator')
    */
   public function setScopes($scopes) {
     $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
@@ -319,24 +328,22 @@ class apiClient {
    *
    * @param boolean $useObjects True if objects should be returned by the service classes.
    * False if associative arrays should be returned (default behavior).
+   * @experimental
    */
   public function setUseObjects($useObjects) {
     global $apiConfig;
     $apiConfig['use_objects'] = $useObjects;
   }
 
-  private function discoverService($serviceName, $serviceURI) {
-    $request = self::$io->makeRequest(new apiHttpRequest($serviceURI));
-    if ($request->getResponseHttpCode() != 200) {
-      throw new apiException("Could not fetch discovery document for $serviceName, code: "
-            . $request->getResponseHttpCode() . ", response: " . $request->getResponseBody());
-    }
-    $discoveryResponse = $request->getResponseBody();
-    $discoveryDocument = json_decode($discoveryResponse, true);
-    if ($discoveryDocument == NULL) {
-      throw new apiException("Invalid json returned for $serviceName");
-    }
-    return new apiService($serviceName, $discoveryDocument, apiClient::getIo());
+  /**
+   * Declare if objects should be returned by the api service classes.
+   *
+   * @param boolean $useBatch True if the experimental batch support should
+   * be enabled. Defaults to False.
+   * @experimental
+   */
+  public function setUseBatch($useBatch) {
+    self::$useBatch = $useBatch;
   }
 
   /**
