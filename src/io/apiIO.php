@@ -18,7 +18,6 @@
 require_once 'io/apiHttpRequest.php';
 require_once 'io/apiCurlIO.php';
 require_once 'io/apiREST.php';
-require_once 'io/apiRPC.php';
 
 /**
  * Abstract IO class

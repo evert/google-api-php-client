@@ -195,7 +195,7 @@ class apiMediaFileUpload {
   }
 
 
-  public function nextChunk(apiServiceRequest $req) {
+  public function nextChunk(apiHttpRequest $req) {
     if (false == $this->resumeUri) {
       $this->resumeUri = $this->getResumeUri($req);
     }
@@ -204,7 +204,7 @@ class apiMediaFileUpload {
     $lastBytePos = $this->progress + strlen($data) - 1;
     $headers = array(
       'content-range' => "bytes $this->progress-$lastBytePos/$this->size",
-      'content-type' => $req->contentType,
+      'content-type' => $req->getRequestHeader('content-type'),
       'content-length' => $this->chunkSize,
       'expect' => '',
     );
@@ -221,28 +221,19 @@ class apiMediaFileUpload {
     }
   }
 
-  private function getResumeUri(apiServiceRequest $req) {
+  private function getResumeUri(apiHttpRequest $httpRequest) {
     $result = null;
-    $postBody = $req->getPostBody();
-    $url = apiREST::createRequestUri(
-        $req->getRestBasePath(),
-        $req->getRestPath(),
-        $req->getParameters()
-    );
-
-    $httpRequest = new apiHttpRequest(
-        $url, $req->getHttpMethod(), null, $postBody);
-
-    if ($postBody) {
+    $body = $httpRequest->getPostBody();
+    if ($body) {
       $httpRequest->setRequestHeaders(array(
         'content-type' => 'application/json; charset=UTF-8',
-        'content-length' => apiUtils::getStrLen($postBody),
+        'content-length' => apiUtils::getStrLen($body),
         'x-upload-content-type' => $this->mimeType,
         'expect' => '',
       ));
     }
 
-    $response = apiClient::$io->authenticatedRequest($httpRequest);
+    $response = apiClient::$io->makeRequest($httpRequest);
     $location = $response->getResponseHeader('location');
     $code = $response->getResponseHttpCode();
     if (200 == $code && true == $location) {

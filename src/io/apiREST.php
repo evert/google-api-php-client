@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-require_once "external/URITemplateParser.php";
-require_once "service/apiUtils.php";
-
 /**
  * This class implements the RESTful transport of apiServiceRequest()'s
  *
@@ -29,30 +26,13 @@ class apiREST {
    * Executes a apiServiceRequest using a RESTful call by transforming it into
    * an apiHttpRequest, and executed via apiIO::authenticatedRequest().
    *
-   * @param apiServiceRequest $req
+   * @param apiHttpRequest $req
    * @return array decoded result
-   * @throws apiServiceException on server side error (ie: not authenticated, invalid or
-   * malformed post body, invalid url)
+   * @throws apiServiceException on server side error (ie: not authenticated,
+   *  invalid or malformed post body, invalid url)
    */
-  static public function execute(apiServiceRequest $req) {
-    $result = null;
-    $postBody = $req->getPostBody();
-    $url = self::createRequestUri(
-        $req->getRestBasePath(), $req->getRestPath(), $req->getParameters());
-
-    $httpRequest = new apiHttpRequest($url, $req->getHttpMethod(), null, $postBody);
-    if ($postBody) {
-      $contentTypeHeader = array();
-      if (isset($req->contentType) && $req->contentType) {
-        $contentTypeHeader['content-type'] = $req->contentType;
-      } else {
-        $contentTypeHeader['content-type'] = 'application/json; charset=UTF-8';
-        $contentTypeHeader['content-length'] = apiUtils::getStrLen($postBody);
-      }
-      $httpRequest->setRequestHeaders($contentTypeHeader);
-    }
-
-    $httpRequest = apiClient::$io->authenticatedRequest($httpRequest);
+  static public function execute(apiHttpRequest $req) {
+    $httpRequest = apiClient::$io->makeRequest($req);
     $decodedResponse = self::decodeHttpResponse($httpRequest);
 
     //FIXME currently everything is wrapped in a data envelope, but hopefully this might change some day

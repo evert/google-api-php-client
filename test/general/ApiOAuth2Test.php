@@ -23,40 +23,44 @@ require_once "BaseTest.php";
 require_once "io/apiREST.php";
 
 class ApiOAuth2Test extends BaseTest {
-  /** @var apiOAuth2 $auth */
-  private $auth;
-  
-  public function setUp() {
-    $this->auth = new apiOAuth2();
-
-    $this->auth->developerKey = "devKey";
-    $this->auth->clientId = "clientId1";
-    $this->auth->clientSecret = "clientSecret1";
-    $this->auth->redirectUri = "http://localhost";
-
-    $this->auth->approvalPrompt = 'force';
-    $this->auth->accessType = "offline";
-  }
 
   public function testSign() {
+    $oauth = new apiOAuth2();
+
+    $oauth->developerKey = "devKey";
+    $oauth->clientId = "clientId1";
+    $oauth->clientSecret = "clientSecret1";
+    $oauth->redirectUri = "http://localhost";
+    $oauth->approvalPrompt = 'force';
+    $oauth->accessType = "offline";
+
     $req = new apiHttpRequest('http://localhost');
-    $req = $this->auth->sign($req);
+    $req = $oauth->sign($req);
 
     $this->assertEquals('http://localhost?key=devKey', $req->getUrl());
 
     // test accessToken
-    $this->auth->accessToken = array(
+    $oauth->accessToken = array(
         'access_token' => 'ACCESS_TOKEN',
         'created' => time(),
         'expires_in' => '3600'
     );
-    $req = $this->auth->sign($req);
+    $req = $oauth->sign($req);
     $auth = $req->getRequestHeader('authorization');
     $this->assertEquals('Bearer ACCESS_TOKEN', $auth);
   }
 
   public function testCreateAuthUrl() {
-    $authUrl = $this->auth->createAuthUrl("http://googleapis.com/scope/foo");
+    $oauth = new apiOAuth2();
+
+    $oauth->developerKey = "devKey";
+    $oauth->clientId = "clientId1";
+    $oauth->clientSecret = "clientSecret1";
+    $oauth->redirectUri = "http://localhost";
+    $oauth->approvalPrompt = 'force';
+    $oauth->accessType = "offline";
+
+    $authUrl = $oauth->createAuthUrl("http://googleapis.com/scope/foo");
     $expected = "https://accounts.google.com/o/oauth2/auth"
         . "?response_type=code"
         . "&redirect_uri=http%3A%2F%2Flocalhost"

@@ -39,6 +39,7 @@ class apiCurlIO implements apiIO {
       CURLOPT_FAILONERROR => false,
       CURLOPT_SSL_VERIFYPEER => true,
       CURLOPT_HEADER => true,
+      CURLOPT_VERBOSE => false,
   );
 
   /**
@@ -129,7 +130,7 @@ class apiCurlIO implements apiIO {
 
     // Parse out the raw response into usable bits
     list($responseHeaders, $responseBody) =
-          $this->parseHttpResponseBody($respData, $respHeaderSize);
+          self::parseHttpResponse($respData, $respHeaderSize);
 
     if ($respHttpCode == 304 && $cached) {
       // If the server responded NOT_MODIFIED, return the cached request.
@@ -197,15 +198,26 @@ class apiCurlIO implements apiIO {
    * @param $headerSize
    * @return array
    */
-  public function parseHttpResponseBody($respData, $headerSize) {
+  public static function parseHttpResponse($respData, $headerSize) {
     if (stripos($respData, self::CONNECTION_ESTABLISHED) !== false) {
       $respData = str_ireplace(self::CONNECTION_ESTABLISHED, '', $respData);
     }
 
-    $responseBody = substr($respData, $headerSize);
-    $responseHeaderLines = explode("\r\n", substr($respData, 0, $headerSize));
-    $responseHeaders  = array();
+    if ($headerSize) {
+      $responseBody = substr($respData, $headerSize);
+      $responseHeaders = substr($respData, 0, $headerSize);
+    } else {
+      list($responseHeaders, $responseBody) = explode("\r\n\r\n", $respData, 2);
+    }
 
+    $responseHeaders = self::parseResponseHeaders($responseHeaders);
+    return array($responseHeaders, $responseBody);
+  }
+
+  public static function parseResponseHeaders($rawHeaders) {
+    $responseHeaders = array();
+
+    $responseHeaderLines = explode("\r\n", $rawHeaders);
     foreach ($responseHeaderLines as $headerLine) {
       if ($headerLine && strpos($headerLine, ':') !== false) {
         list($header, $value) = explode(': ', $headerLine, 2);
@@ -217,8 +229,7 @@ class apiCurlIO implements apiIO {
         }
       }
     }
-
-    return array($responseHeaders, $responseBody);
+    return $responseHeaders;
   }
 
   /**

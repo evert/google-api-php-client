@@ -18,17 +18,28 @@
  * under the License.
  */
 
-class ApiClientTest extends BaseTest {
-  public function testClient() {
-    // temp place holder as tests are being filled in
-    $client = new apiClient();
-    $client->setAccessType('foo');
-    $this->assertEquals('foo', $client->getAuth()->accessType);
+require_once 'BaseTest.php';
+require_once '../src/contrib/apiPlusService.php';
+require_once '../src/service/apiBatchRequest.php';
 
-    $client->setDeveloperKey('foo');
-    $this->assertEquals('foo', $client->getAuth()->developerKey);
+class ApiBatchRequestTest extends BaseTest {
+  public $plus;
+  public function __construct() {
+    parent::__construct();
+    $this->plus = new apiPlusService(BaseTest::$client);
+  }
 
-    $client->setAccessToken(json_encode(array('access_token' => '1')));
-    $this->assertEquals("{\"access_token\":\"1\"}", $client->getAccessToken());
+  public function testBatchRequest() {
+    $batch = new apiBatchRequest();
+
+    BaseTest::$client->setUseBatch(true);
+    $batch->add($this->plus->people->get('me'), 'key1');
+    $batch->add($this->plus->people->get('me'), 'key2');
+    $batch->add($this->plus->people->get('me'), 'key3');
+
+    $result = $batch->execute();
+    $this->assertTrue(isset($result['key1']));
+    $this->assertTrue(isset($result['key2']));
+    $this->assertTrue(isset($result['key3']));
   }
 }

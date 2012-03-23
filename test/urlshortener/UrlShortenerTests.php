@@ -24,8 +24,6 @@ class UrlShortenerTests extends BaseTest {
   public function __construct() {
     parent::__construct();
     $this->service = new apiUrlshortenerService(BaseTest::$client);
-
-    BaseTest::$client->discover('urlshortener');
   }
 
   public function testUrlShort() {
@@ -35,25 +33,5 @@ class UrlShortenerTests extends BaseTest {
     $shortUrl = $this->service->url->insert($url);
     $this->assertEquals('urlshortener#url', $shortUrl['kind']);
     $this->assertEquals('http://google.com/', $shortUrl['longUrl']);
-  }
-
-  public function testRpcBatch() {
-    $url = new Url();
-    $url->longUrl = "http://google.com";
-    $short0 = $this->service->url->insert($url);
-
-    $url = new Url();
-    $url->longUrl = "http://www.google.com";
-    $short1 = $this->service->url->insert($url);
-
-    $ret = apiBatch::execute(
-      BaseTest::$client->urlshortener->url->get(array('shortUrl' => $short0['id']), 'url0'),
-      BaseTest::$client->urlshortener->url->get(array('shortUrl' => $short1['id']), 'url1')
-    );
-
-    $this->assertArrayHasKey('url0', $ret);
-    $this->assertArrayHasKey('url1', $ret);
-    $this->assertArrayHasKey('id', $ret['url0']);
-    $this->assertArrayHasKey('longUrl', $ret['url0']);
   }
 }

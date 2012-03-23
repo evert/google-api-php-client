@@ -30,14 +30,14 @@ class IoTest extends BaseTest {
     $rawBody = "{}";
 
     $rawResponse = "$rawHeaders\r\n$rawBody";
-    list($headers, $body) = $io->parseHttpResponseBody($rawResponse, $size);
+    list($headers, $body) = $io->parseHttpResponse($rawResponse, $size);
     $this->assertEquals(3, sizeof($headers));
     $this->assertEquals(array(), json_decode($body, true));
 
 
     // Test empty bodies.
     $rawResponse = $rawHeaders . "\r\n";
-    list($headers, $body) = $io->parseHttpResponseBody($rawResponse, $size);
+    list($headers, $body) = $io->parseHttpResponse($rawResponse, $size);
     $this->assertEquals(3, sizeof($headers));
     $this->assertEquals(null, json_decode($body, true));
 
@@ -48,7 +48,7 @@ class IoTest extends BaseTest {
 
     $rawResponse = apiCurlIO::CONNECTION_ESTABLISHED
           . "$rawHeaders\r\n$rawBody";
-    list($headers, $body) = $io->parseHttpResponseBody($rawResponse, $size);
+    list($headers, $body) = $io->parseHttpResponse($rawResponse, $size);
     $this->assertEquals(1, sizeof($headers));
     $this->assertEquals(array(), json_decode($body, true));
   }
