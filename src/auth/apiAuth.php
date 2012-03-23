@@ -16,7 +16,6 @@
  */
 
 require_once "apiAuthNone.php";
-require_once "apiOAuth.php";
 require_once "apiOAuth2.php";
 
 /**
