@@ -198,9 +198,6 @@ class apiOAuth2 extends apiAuth {
 
     // If the token is set to expire in the next 30 seconds (or has already
     // expired), refresh it and set the new token.
-    if (!isset($this->accessToken['created'])) {
-      var_dump($this->accessToken);
-    }
     $expired = (null == $this->accessToken) ||
         ($this->accessToken['created'] + ($this->accessToken['expires_in'] - 30)) < time();
 
