@@ -195,4 +195,33 @@ class AuthTest extends BaseTest {
         "exp" => time() + 3600));
     $this->checkIdTokenFailure($id_token, "Wrong recipient");
   }
+
+  public function testNoAuth() {
+    /** @var $noAuth apiAuthNone */
+    $noAuth = new apiAuthNone();
+    $req = new apiHttpRequest("http://example.com");
+
+    $resp = $noAuth->sign($req);
+    $noAuth->authenticate(null);
+    $noAuth->createAuthUrl(null);
+    $noAuth->setAccessToken(null);
+    $noAuth->getAccessToken();
+    $noAuth->refreshToken(null);
+    $noAuth->revokeToken();
+    $noAuth->setDeveloperKey(null);
+    $this->assertTrue(strpos($resp->getUrl(), "http://example.com?key=") === 0);
+  }
+
+  public function testAssertionCredentials() {
+    $assertion = new apiAssertionCredentials('name', 'scope',
+        file_get_contents(self::PRIVATE_KEY_FILE));
+
+    $token = explode(".", $assertion->generateAssertion());
+    $this->assertEquals('{"typ":"JWT","alg":"RS256"}', base64_decode($token[0]));
+
+    $jwt = json_decode(base64_decode($token[1]), true);
+    $this->assertEquals('https://accounts.google.com/o/oauth2/token', $jwt['aud']);
+    $this->assertEquals('scope', $jwt['scope']);
+    $this->assertEquals('name', $jwt['iss']);
+  }
 }

@@ -131,7 +131,11 @@ class apiClient {
     return self::$auth->authenticate($service);
   }
 
-  private function prepareService() {
+  /**
+   * @return array
+   * @visible For Testing
+   */
+  public function prepareService() {
     $service = array();
     $scopes = array();
     if ($this->scopes) {

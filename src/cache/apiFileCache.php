@@ -40,12 +40,14 @@ class apiFileCache extends apiCache {
   private function createLock($storageFile) {
     $storageDir = dirname($storageFile);
     if (! is_dir($storageDir)) {
+      // @codeCoverageIgnoreStart
       if (! @mkdir($storageDir, 0755, true)) {
         // make sure the failure isn't because of a concurrency issue
         if (! is_dir($storageDir)) {
           throw new apiCacheException("Could not create storage directory: $storageDir");
         }
       }
+      // @codeCoverageIgnoreEnd
     }
     @touch($storageFile . '.lock');
   }

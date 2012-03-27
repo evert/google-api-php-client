@@ -33,11 +33,11 @@ class apiModel {
 
   /**
    * Initialize this object's properties from an array.
-   * 
+   *
    * @param array Used to seed this object's properties.
    * @return void
    */
-  private function mapTypes($array) {
+  protected function mapTypes($array) {
     foreach ($array as $key => $val) {
       $this->$key = $val;
 
@@ -69,7 +69,7 @@ class apiModel {
    * @param array $array
    * @return bool True if the array is associative.
    */
-  private function isAssociativeArray($array) {
+  protected function isAssociativeArray($array) {
     if (!is_array($array)) {
       return false;
     }
@@ -93,7 +93,7 @@ class apiModel {
     $type = $this->$name;
     return new $type($item);
   }
-  
+
   protected function useObjects() {
     global $apiConfig;
     return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);

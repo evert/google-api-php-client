@@ -27,11 +27,11 @@ class apiPemVerifier extends apiVerifier {
    * Constructs a verifier from the supplied PEM-encoded certificate.
    *
    * $pem: a PEM encoded certificate (not a file).
+   * @param $pem
    */
   function __construct($pem) {
     if (!function_exists('openssl_x509_read')) {
-      throw new Exception(
-          'The Google PHP API library needs the openssl PHP extension');
+      throw new Exception('Google API PHP client needs the openssl PHP extension');
     }
     $this->publicKey = openssl_x509_read($pem);
     if (!$this->publicKey) {
@@ -49,12 +49,14 @@ class apiPemVerifier extends apiVerifier {
    * Verifies the signature on data.
    *
    * Returns true if the signature is valid, false otherwise.
+   * @param $data
+   * @param $signature
+   * @return bool
    */
   function verify($data, $signature) {
     $status = openssl_verify($data, $signature, $this->publicKey, "sha256");
     if ($status === -1) {
-      throw new apiAuthException("Signature verification error: " .
-          openssl_error_string());
+      throw new apiAuthException('Signature verification error: ' . openssl_error_string());
     }
     return $status === 1;
   }

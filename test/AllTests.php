@@ -38,7 +38,7 @@ class AllTests {
     $suite->addTestSuite(AllPageSpeedTests::suite());
     $suite->addTestSuite(AllUrlShortenerTests::suite());
     $suite->addTestSuite(AllPlusTests::suite());
-    $suite->addTestSuite(AdsenseTests::suite());
+    //$suite->addTestSuite(AdsenseTests::suite());
 
     $suite->addTestSuite(GeneralTests::suite());
     return $suite;

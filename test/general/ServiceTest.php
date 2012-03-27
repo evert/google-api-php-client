@@ -19,9 +19,75 @@
  */
 require_once '../src/contrib/apiPlusService.php';
 
+class AnimalServiceResource extends apiServiceResource {
+  public function stripNull($o) {
+    return parent::stripNull($o);
+  }
+}
+
+class TestModel extends apiModel {
+  function mapTypes($array) {
+    return parent::mapTypes($array);
+  }
+
+  function isAssociativeArray($array) {
+    return parent::isAssociativeArray($array);
+  }
+}
+
 class ServiceTest extends BaseTest {
   public function testServiceResource() {
-    // temp place holder as tests are being filled in
-    $service = new apiPlusService(BaseTest::$client);
+    $resource = new AnimalServiceResource($this, 'plus', 'people', json_decode('{"methods": {"listByActivity": {}}}', true));
+
+    $test = null;
+    $resource->stripNull($test);
+    $this->assertEquals(null, $test);
+  }
+
+  public function testModel() {
+    $model = new TestModel();
+
+    $model->mapTypes(array(
+      'name' => 'asdf',
+      'gender' => 'z',
+    ));
+    $this->assertEquals('asdf', $model->name);
+    $this->assertEquals('z', $model->gender);
+
+    global $apiConfig;
+    $apiConfig['use_objects'] = true;
+    $model->mapTypes(array(
+      '__infoType' => 'apiModel',
+      '__infoDataType' => 'map',
+      'info' => array (
+        'location' => 'mars',
+        'timezone' => 'mst',
+      ),
+      'name' => 'asdf',
+      'gender' => 'z',
+    ));
+    $this->assertEquals('asdf', $model->name);
+    $this->assertEquals('z', $model->gender);
+
+    $apiConfig['use_objects'] = false;
+    $this->assertEquals(false, $model->isAssociativeArray(""));
+    $this->assertEquals(false, $model->isAssociativeArray(false));
+    $this->assertEquals(false, $model->isAssociativeArray(null));
+    $this->assertEquals(false, $model->isAssociativeArray(array()));
+    $this->assertEquals(false, $model->isAssociativeArray(array(1, 2)));
+    $this->assertEquals(false, $model->isAssociativeArray(array(1 => 2)));
+
+    $this->assertEquals(true, $model->isAssociativeArray(array('test' => 'a')));
+    $this->assertEquals(true, $model->isAssociativeArray(array("a", "b" => 2)));
+  }
+
+  public function testStrLen() {
+    $this->assertEquals(0, apiUtils::getStrLen(null));
+    $this->assertEquals(0, apiUtils::getStrLen(false));
+    $this->assertEquals(0, apiUtils::getStrLen(""));
+
+    $this->assertEquals(1, apiUtils::getStrLen(" "));
+    $this->assertEquals(2, apiUtils::getStrLen(" 1"));
+    $this->assertEquals(7, apiUtils::getStrLen("0a\\n\n\r\n"));
   }
 }
