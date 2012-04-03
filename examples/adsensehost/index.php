@@ -23,7 +23,6 @@
  */
 
 // Ad client id to use in the example
-//define('AD_CLIENT_ID', 'INSERT_AD_CLIENT_ID_HERE');
 define('AD_CLIENT_ID', 'INSERT_AD_CLIENT_ID_HERE');
 // Max results per page.
 define('AD_MAX_PAGE_SIZE', 50);

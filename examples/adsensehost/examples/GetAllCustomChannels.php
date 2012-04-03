@@ -39,7 +39,6 @@ class GetAllCustomChannels extends BaseExample {
       $result = $this->adSenseHostService->customchannels
           ->listCustomchannels($adClientId, $optParams);
       $customChannels = $result['items'];
-      print_r($customChannels);
       if (isset($customChannels)) {
         foreach ($customChannels as $customChannel) {
           $format = 'Custom channel with code "%s" and name "%s" was found.';
@@ -49,9 +48,6 @@ class GetAllCustomChannels extends BaseExample {
         }
         $pageToken = isset($result['nextPageToken']) ? $result['nextPageToken']
             : null;
-        print_r($result);
-        print $pageToken;
-        
       } else {
         printNoResultForList();
       }
