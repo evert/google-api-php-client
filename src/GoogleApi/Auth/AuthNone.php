@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Auth;
+
+use GoogleApi\Io\HttpRequest;
 
 /**
  * Do-nothing authentication implementation, use this if you want to make un-authenticated calls
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-class apiAuthNone extends apiAuth {
+class AuthNone extends Auth {
   public $key = null;
 
   public function __construct() {
@@ -38,7 +41,7 @@ class apiAuthNone extends apiAuth {
   public function refreshToken($refreshToken) {/* noop*/}
   public function revokeToken() {/* noop*/}
 
-  public function sign(apiHttpRequest $request) {
+  public function sign(HttpRequest $request) {
     if ($this->key) {
       $request->setUrl($request->getUrl() . ((strpos($request->getUrl(), '?') === false) ? '?' : '&')
           . 'key='.urlencode($this->key));

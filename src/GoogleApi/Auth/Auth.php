@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Auth;
 
-require_once "apiAuthNone.php";
-require_once "apiOAuth2.php";
+use GoogleApi\Io\HttpRequest;
 
 /**
  * Abstract class for the Authentication in the API client
@@ -25,7 +25,7 @@ require_once "apiOAuth2.php";
  */
 abstract class apiAuth {
   abstract public function authenticate($service);
-  abstract public function sign(apiHttpRequest $request);
+  abstract public function sign(HttpRequest $request);
   abstract public function createAuthUrl($scope);
 
   abstract public function getAccessToken();

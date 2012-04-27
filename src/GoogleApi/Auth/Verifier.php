@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-require_once "apiPemVerifier.php";
+namespace GoogleApi\Auth;
 
 /**
  * Verifies signatures.
  *
  * @author Brian Eaton <beaton@google.com>
  */
-abstract class apiVerifier {
+abstract class Verifier {
   /**
    * Checks a signature, returns true if the signature is correct,
    * false otherwise.

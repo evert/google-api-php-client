@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Auth;
 
 /**
  * Class to hold information about an authenticated login.
  *
  * @author Brian Eaton <beaton@google.com>
  */
-class apiLoginTicket {
+class LoginTicket {
   const USER_ATTR = "id";
 
   // Information from id token envelope.
@@ -47,7 +48,7 @@ class apiLoginTicket {
     if (array_key_exists(self::USER_ATTR, $this->payload)) {
       return $this->payload[self::USER_ATTR];
     }
-    throw new apiAuthException("No user_id in token");
+    throw new Exception("No user_id in token");
   }
 
   /**

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Auth;
 
 /**
  * Signs data.
@@ -22,7 +23,7 @@
  *
  * @author Brian Eaton <beaton@google.com>
  */
-class apiP12Signer extends apiSigner {
+class P12Signer extends Signer {
   // OpenSSL private key resource
   private $privateKey;
 
@@ -35,18 +36,18 @@ class apiP12Signer extends apiSigner {
     // This throws on error
     $certs = array();
     if (!openssl_pkcs12_read($p12, $certs, $password)) {
-      throw new apiAuthException("Unable to parse the p12 file.  " .
+      throw new Exception("Unable to parse the p12 file.  " .
           "Is this a .p12 file?  Is the password correct?  OpenSSL error: " .
           openssl_error_string());
     }
     // TODO(beaton): is this part of the contract for the openssl_pkcs12_read
     // method?  What happens if there are multiple private keys?  Do we care?
     if (!array_key_exists("pkey", $certs) || !$certs["pkey"]) {
-      throw new apiAuthException("No private key found in p12 file.");
+      throw new Exception("No private key found in p12 file.");
     }
     $this->privateKey = openssl_pkey_get_private($certs["pkey"]);
     if (!$this->privateKey) {
-      throw new apiAuthException("Unable to load private key in ");
+      throw new Exception("Unable to load private key in ");
     }
   }
 
@@ -58,7 +59,7 @@ class apiP12Signer extends apiSigner {
 
   function sign($data) {
     if (!openssl_sign($data, $signature, $this->privateKey, "sha256")) {
-      throw new apiAuthException("Unable to sign data");
+      throw new Exception("Unable to sign data");
     }
     return $signature;
   }

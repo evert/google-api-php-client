@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Auth;
 
 /**
  * Verifies signatures using PEM encoded certificates.
  *
  * @author Brian Eaton <beaton@google.com>
  */
-class apiPemVerifier extends apiVerifier {
+class PemVerifier extends Verifier {
   private $publicKey;
 
   /**
@@ -35,7 +36,7 @@ class apiPemVerifier extends apiVerifier {
     }
     $this->publicKey = openssl_x509_read($pem);
     if (!$this->publicKey) {
-      throw new apiAuthException("Unable to parse PEM: $pem");
+      throw new Exception("Unable to parse PEM: $pem");
     }
   }
 
@@ -56,7 +57,7 @@ class apiPemVerifier extends apiVerifier {
   function verify($data, $signature) {
     $status = openssl_verify($data, $signature, $this->publicKey, "sha256");
     if ($status === -1) {
-      throw new apiAuthException('Signature verification error: ' . openssl_error_string());
+      throw new Exception('Signature verification error: ' . openssl_error_string());
     }
     return $status === 1;
   }

@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-require_once "apiP12Signer.php";
+namespace GoogleApi\Auth;
 
 /**
  * Signs data.
  *
  * @author Brian Eaton <beaton@google.com>
  */
-abstract class apiSigner {
+abstract class Signer {
   /**
    * Signs data, returns the signature as binary data.
    */
