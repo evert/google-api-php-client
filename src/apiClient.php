@@ -14,49 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi;
 
-// Check for the required json and curl extensions, the Google API PHP Client won't function without them.
-if (! function_exists('curl_init')) {
-  throw new Exception('Google PHP API Client requires the CURL PHP extension');
-}
-
-if (! function_exists('json_decode')) {
-  throw new Exception('Google PHP API Client requires the JSON PHP extension');
-}
-
-if (! function_exists('http_build_query')) {
-  throw new Exception('Google PHP API Client requires http_build_query()');
-}
-
-if (! ini_get('date.timezone') && function_exists('date_default_timezone_set')) {
-  date_default_timezone_set('UTC');
-}
-
-// hack around with the include paths a bit so the library 'just works'
-$cwd = dirname(__FILE__);
-set_include_path("$cwd" . PATH_SEPARATOR . get_include_path());
-
-require_once "config.php";
-// If a local configuration file is found, merge it's values with the default configuration
-if (file_exists($cwd . '/local_config.php')) {
-  $defaultConfig = $apiConfig;
-  require_once ($cwd . '/local_config.php');
-  $apiConfig = array_merge($defaultConfig, $apiConfig);
-}
-
-// Include the top level classes, they each include their own dependencies
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceResource.php';
-require_once 'auth/apiAssertionCredentials.php';
-require_once 'auth/apiSigner.php';
-require_once 'auth/apiP12Signer.php';
-require_once 'service/apiBatchRequest.php';
-require_once 'external/URITemplateParser.php';
-require_once 'auth/apiAuth.php';
-require_once 'cache/apiCache.php';
-require_once 'io/apiIO.php';
-require_once('service/apiMediaFileUpload.php');
+use GoogleApi\Auth;
+use GoogleApi\Io;
+use GoogleApi\Cache;
 
 /**
  * The Google API Client
@@ -65,22 +27,21 @@ require_once('service/apiMediaFileUpload.php');
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-class apiClient {
+class Client {
+
   /**
-   * @static
-   * @var apiAuth $auth
+   * @var \GoogleApi\Auth\Auth $auth
    */
   static $auth;
 
   /**
-   * @static
-   * @var apiIo $io
+   * @var \GoogleApi\Io\Io $io
    */
   static $io;
 
   /**
    * @static
-   * @var apiCache $cache
+   * @var \GoogleApi\Cache\Cache $cache
    */
   static $cache;
 
@@ -289,7 +250,7 @@ class apiClient {
   /**
    * Revoke an OAuth2 access token or refresh token. This method will revoke the current access
    * token, if a token isn't provided.
-   * @throws apiAuthException
+   * @throws Auth\Exception
    * @param string|null $token The token (access token or a refresh token) that should be revoked.
    * @return boolean Returns True if the revocation was successful, otherwise False.
    */
@@ -300,9 +261,9 @@ class apiClient {
   /**
    * Verify an id_token. This method will verify the current id_token, if one
    * isn't provided.
-   * @throws apiAuthException
+   * @throws Auth\Exception
    * @param string|null $token The token (id_token) that should be verified.
-   * @return apiLoginTicket Returns an apiLoginTicket if the verification was
+   * @return Auth\LoginTicket Returns an Auth\LoginTicket if the verification was
    * successful.
    */
   public function verifyIdToken($token = null) {
@@ -310,10 +271,10 @@ class apiClient {
   }
 
   /**
-   * @param apiAssertionCredentials $creds
+   * @param Auth\AssertionCredentials $creds
    * @return void
    */
-  public function setAssertionCredentials(apiAssertionCredentials $creds) {
+  public function setAssertionCredentials(Auth\AssertionCredentials $creds) {
     self::$auth->setAssertionCredentials($creds);
   }
 
@@ -351,32 +312,25 @@ class apiClient {
   }
 
   /**
-   * @static
-   * @return apiAuth the implementation of apiAuth.
+   * @return Auth\Auth the implementation of Auth\Auth
    */
   public static function getAuth() {
-    return apiClient::$auth;
+    return Client::$auth;
   }
 
   /**
    * @static
-   * @return apiIo the implementation of apiIo.
+   * @return Io\Io the implementation of Io\Io.
    */
   public static function getIo() {
-    return apiClient::$io;
+    return Client::$io;
   }
 
   /**
-   * @return apiCache the implementation of apiCache.
+   * @return Cache\Cache the implementation of Cache\Cache.
    */
   public function getCache() {
-    return apiClient::$cache;
+    return Client::$cache;
   }
 }
 
-// Exceptions that the Google PHP API Library can throw
-class apiException extends Exception {}
-class apiAuthException extends apiException {}
-class apiCacheException extends apiException {}
-class apiIOException extends apiException {}
-class apiServiceException extends apiException {}
