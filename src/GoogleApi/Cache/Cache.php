@@ -14,16 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-require_once "apiFileCache.php";
-require_once "apiMemcacheCache.php";
+namespace GoogleApi\Cache;
 
 /**
  * Abstract storage class
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-abstract class apiCache {
+abstract class Cache {
 
   /**
    * Retrieves the data for the given key, or false if they

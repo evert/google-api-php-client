@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Cache;
 
 /**
  * A persistent storage class based on the APC cache, which is not
@@ -23,11 +24,11 @@
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-class apiApcCache extends apiCache {
+class ApcCache extends Cache {
 
   public function __construct() {
     if (! function_exists('apc_add')) {
-      throw new apiCacheException("Apc functions not available");
+      throw new Exception("Apc functions not available");
     }
   }
 
@@ -84,7 +85,7 @@ class apiApcCache extends apiCache {
    */
   public function set($key, $value) {
     if (@apc_store($key, array('time' => time(), 'data' => serialize($value))) == false) {
-      throw new apiCacheException("Couldn't store data");
+      throw new Exception("Couldn't store data");
     }
   }
 

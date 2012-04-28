@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Cache;
 
 /*
  * This class implements a basic on disk storage. While that does
@@ -24,7 +25,7 @@
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-class apiFileCache extends apiCache {
+class FileCache extends Cache {
   private $path;
 
   public function __construct() {
@@ -44,7 +45,7 @@ class apiFileCache extends apiCache {
       if (! @mkdir($storageDir, 0755, true)) {
         // make sure the failure isn't because of a concurrency issue
         if (! is_dir($storageDir)) {
-          throw new apiCacheException("Could not create storage directory: $storageDir");
+          throw new Exception("Could not create storage directory: $storageDir");
         }
       }
       // @codeCoverageIgnoreEnd
@@ -114,7 +115,7 @@ class apiFileCache extends apiCache {
     }
     if (! is_dir($storageDir)) {
       if (! @mkdir($storageDir, 0755, true)) {
-        throw new apiCacheException("Could not create storage directory: $storageDir");
+        throw new Exception("Could not create storage directory: $storageDir");
       }
     }
     // we serialize the whole request object, since we don't only want the
@@ -123,7 +124,7 @@ class apiFileCache extends apiCache {
     $this->createLock($storageFile);
     if (! @file_put_contents($storageFile, $data)) {
       $this->removeLock($storageFile);
-      throw new apiCacheException("Could not store data in the file");
+      throw new Exception("Could not store data in the file");
     }
     $this->removeLock($storageFile);
   }
@@ -131,7 +132,7 @@ class apiFileCache extends apiCache {
   public function delete($key) {
     $file = $this->getCacheFile(md5($key));
     if (! @unlink($file)) {
-      throw new apiCacheException("Cache file could not be deleted");
+      throw new Exception("Cache file could not be deleted");
     }
   }
 }
