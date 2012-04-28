@@ -1,0 +1,24 @@
+{
+    "name": "evert/google-api-php-client",
+    "type": "library",
+    "description": "Google API library for PHP",
+    "keywords": ["google","gdata"],
+    "homepage": "https://github.com/evert/google-api-php-client",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Evert Pot",
+            "email": "evert@rooftopsolutions.nl",
+            "homepage": "http://www.rooftopsolutions.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "GoogleApi": "src"
+        }
+    }
+}
