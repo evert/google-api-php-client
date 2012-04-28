@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Service;
 
 /**
  * This class defines attributes, valid values, and usage which is generated from
@@ -22,7 +23,7 @@
  * @author Chirag Shah <chirags@google.com>
  *
  */
-class apiModel {
+class Model {
   public function __construct( /* polymorphic */ ) {
     if (func_num_args() ==  1 && is_array(func_get_arg(0))) {
       // Initialize the model with the array's contents.
@@ -101,14 +102,14 @@ class apiModel {
 
   /**
    * Verify if $obj is an array.
-   * @throws apiException Thrown if $obj isn't an array.
+   * @throws Exception Thrown if $obj isn't an array.
    * @param array $obj Items that should be validated.
    * @param string $type Array items should be of this type.
    * @param string $method Method expecting an array as an argument.
    */
   protected function assertIsArray($obj, $type, $method) {
     if ($obj && !is_array($obj)) {
-      throw new apiException("Incorrect parameter type passed to $method(), expected an"
+      throw new \GoogleApi\Exception("Incorrect parameter type passed to $method(), expected an"
           . " array containing items of type $type.");
     }
   }

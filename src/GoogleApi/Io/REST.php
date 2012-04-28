@@ -14,25 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Io;
+
+use GoogleApi\Client;
+use GoogleApi\Service;
 
 /**
- * This class implements the RESTful transport of apiServiceRequest()'s
+ * This class implements the RESTful transport of Service\ServiceRequest()'s
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-class apiREST {
+class REST {
   /**
-   * Executes a apiServiceRequest using a RESTful call by transforming it into
-   * an apiHttpRequest, and executed via apiIO::authenticatedRequest().
+   * Executes a ServiceRequest using a RESTful call by transforming it into
+   * an HttpRequest, and executed via IO::authenticatedRequest().
    *
-   * @param apiHttpRequest $req
+   * @param HttpRequest $req
    * @return array decoded result
-   * @throws apiServiceException on server side error (ie: not authenticated,
+   * @throws Service\Exception on server side error (ie: not authenticated,
    *  invalid or malformed post body, invalid url)
    */
-  static public function execute(apiHttpRequest $req) {
-    $httpRequest = apiClient::$io->makeRequest($req);
+  static public function execute(HttpRequest $req) {
+    $httpRequest = Client::$io->makeRequest($req);
     $decodedResponse = self::decodeHttpResponse($httpRequest);
 
     //FIXME currently everything is wrapped in a data envelope, but hopefully this might change some day
@@ -44,8 +48,8 @@ class apiREST {
   /**
    * Decode an HTTP Response.
    * @static
-   * @throws apiServiceException
-   * @param apiHttpRequest $response The http response to be decoded.
+   * @throws Service\Exception
+   * @param HttpRequest $response The http response to be decoded.
    * @return mixed|null
    */
   public static function decodeHttpResponse($response) {
@@ -63,14 +67,14 @@ class apiREST {
       } else {
         $err .= ": ($code) $body";
       }
-      throw new apiServiceException($err, $code);
+      throw new Service\Exception($err, $code);
     }
     
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
     if ($code != '204') {
       $decoded = json_decode($body, true);
       if ($decoded == null) {
-        throw new apiServiceException("Invalid json in service response: $body");
+        throw new Service\Exception("Invalid json in service response: $body");
       }
     }
     return $decoded;

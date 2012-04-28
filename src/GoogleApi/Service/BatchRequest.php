@@ -14,11 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Service;
+
+use GoogleApi\Io\HttpRequest;
+use GoogleApi\Client;
+use GoogleApi\Io\CurlIO;
+use GoogleApi\Io\REST;
 
 /**
  * @author Chirag Shah <chirags@google.com>
  */
-class apiBatchRequest {
+class BatchRequest {
   /** @var string Multipart Boundary. */
   private $boundary;
 
@@ -30,7 +36,7 @@ class apiBatchRequest {
     $this->boundary = str_replace('"', '', $boundary);
   }
 
-  public function add(apiHttpRequest $request, $key = false) {
+  public function add(HttpRequest $request, $key = false) {
     if (false == $key) {
       $key = mt_rand();
     }
@@ -41,7 +47,7 @@ class apiBatchRequest {
   public function execute() {
     $body = '';
 
-    /** @var apiHttpRequest $req */
+    /** @var HttpRequest $req */
     foreach($this->requests as $key => $req) {
       $body .= "--{$this->boundary}\n";
       $body .= $req->toBatchString($key) . "\n";
@@ -52,18 +58,18 @@ class apiBatchRequest {
 
     global $apiConfig;
     $url = $apiConfig['basePath'] . '/batch';
-    $httpRequest = new apiHttpRequest($url, 'POST');
+    $httpRequest = new HttpRequest($url, 'POST');
     $httpRequest->setRequestHeaders(array(
         'Content-Type' => 'multipart/mixed; boundary=' . $this->boundary));
 
     $httpRequest->setPostBody($body);
-    $response = apiClient::$io->makeRequest($httpRequest);
+    $response = Client::$io->makeRequest($httpRequest);
 
     $response = $this->parseResponse($response);
     return $response;
   }
 
-  public function parseResponse(apiHttpRequest $response) {
+  public function parseResponse(HttpRequest $response) {
     $contentType = $response->getResponseHeader('content-type');
     $contentType = explode(';', $contentType);
     $boundary = false;
@@ -84,18 +90,18 @@ class apiBatchRequest {
         $part = trim($part);
         if (!empty($part)) {
           list($metaHeaders, $part) = explode("\r\n\r\n", $part, 2);
-          $metaHeaders = apiCurlIO::parseResponseHeaders($metaHeaders);
+          $metaHeaders = CurlIO::parseResponseHeaders($metaHeaders);
 
           $status = substr($part, 0, strpos($part, "\n"));
           $status = explode(" ", $status);
           $status = $status[1];
 
-          list($partHeaders, $partBody) = apiCurlIO::parseHttpResponse($part, false);
-          $response = new apiHttpRequest("");
+          list($partHeaders, $partBody) = CurlIO::parseHttpResponse($part, false);
+          $response = new HttpRequest("");
           $response->setResponseHttpCode($status);
           $response->setResponseHeaders($partHeaders);
           $response->setResponseBody($partBody);
-          $response = apiREST::decodeHttpResponse($response);
+          $response = REST::decodeHttpResponse($response);
 
           // Need content id.
           $responses[$metaHeaders['content-id']] = $response;

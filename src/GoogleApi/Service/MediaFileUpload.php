@@ -14,12 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Service;
+
+use GoogleApi\Io\HttpRequest;
+use GoogleApi\Client;
+use GoogleApi\Io\REST;
 
 /**
  * @author Chirag Shah <chirags@google.com>
  *
  */
-class apiMediaFileUpload {
+class MediaFileUpload {
   const UPLOAD_MEDIA_TYPE = 'media';
   const UPLOAD_MULTIPART_TYPE = 'multipart';
   const UPLOAD_RESUMABLE_TYPE = 'resumable';
@@ -161,7 +166,7 @@ class apiMediaFileUpload {
    */
   public static function getUploadType($meta, &$payload, &$params) {
     if (isset($params['mediaUpload'])
-        && get_class($params['mediaUpload']['value']) == 'apiMediaFileUpload') {
+        && get_class($params['mediaUpload']['value']) == '\GoogleApi\\Service\\MediaFileUpload') {
       $upload = $params['mediaUpload']['value'];
       unset($params['mediaUpload']);
       $payload['content-type'] = $upload->mimeType;
@@ -195,7 +200,7 @@ class apiMediaFileUpload {
   }
 
 
-  public function nextChunk(apiHttpRequest $req) {
+  public function nextChunk(HttpRequest $req) {
     if (false == $this->resumeUri) {
       $this->resumeUri = $this->getResumeUri($req);
     }
@@ -209,36 +214,36 @@ class apiMediaFileUpload {
       'expect' => '',
     );
 
-    $httpRequest = new apiHttpRequest($this->resumeUri, 'PUT', $headers, $data);
-    $response = apiClient::$io->authenticatedRequest($httpRequest);
+    $httpRequest = new HttpRequest($this->resumeUri, 'PUT', $headers, $data);
+    $response = Client::$io->authenticatedRequest($httpRequest);
     $code = $response->getResponseHttpCode();
     if (308 == $code) {
       $range = explode('-', $response->getResponseHeader('range'));
       $this->progress = $range[1] + 1;
       return false;
     } else {
-      return apiREST::decodeHttpResponse($response);
+      return REST::decodeHttpResponse($response);
     }
   }
 
-  private function getResumeUri(apiHttpRequest $httpRequest) {
+  private function getResumeUri(HttpRequest $httpRequest) {
     $result = null;
     $body = $httpRequest->getPostBody();
     if ($body) {
       $httpRequest->setRequestHeaders(array(
         'content-type' => 'application/json; charset=UTF-8',
-        'content-length' => apiUtils::getStrLen($body),
+        'content-length' => Utils::getStrLen($body),
         'x-upload-content-type' => $this->mimeType,
         'expect' => '',
       ));
     }
 
-    $response = apiClient::$io->makeRequest($httpRequest);
+    $response = Client::$io->makeRequest($httpRequest);
     $location = $response->getResponseHeader('location');
     $code = $response->getResponseHttpCode();
     if (200 == $code && true == $location) {
       return $location;
     }
-    throw new apiException("Failed to start the resumable upload");
+    throw new \GoogleApi\Exception("Failed to start the resumable upload");
   }
 }

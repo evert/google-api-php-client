@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Service;
 
-class apiService {
+class Service {
   public $version;
   public $restBasePath;
   public $resource;

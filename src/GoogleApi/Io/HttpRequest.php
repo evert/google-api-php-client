@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Io;
+
+use GoogleApi\Service\Utils;
 
 /**
- * HTTP Request to be executed by apiIO classes. Upon execution, the
+ * HTTP Request to be executed by IO classes. Upon execution, the
  * responseHttpCode, responseHeaders and responseBody will be filled in.
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  *
  */
-class apiHttpRequest {
+class HttpRequest {
   const USER_AGENT_SUFFIX = "google-api-php-client/0.5.0";
   private $batchHeaders = array(
     'Content-Type' => 'application/http',
@@ -119,7 +122,7 @@ class apiHttpRequest {
    * to be normalized.
    */
   public function setResponseHeaders($headers) {
-    $headers = apiUtils::normalize($headers);
+    $headers = Utils::normalize($headers);
     if ($this->responseHeaders) {
       $headers = array_merge($this->responseHeaders, $headers);
     }
@@ -211,7 +214,7 @@ class apiHttpRequest {
    * to be set and normalized.
    */
   public function setRequestHeaders($headers) {
-    $headers = apiUtils::normalize($headers);
+    $headers = Utils::normalize($headers);
     if ($this->requestHeaders) {
       $headers = array_merge($this->requestHeaders, $headers);
     }

@@ -14,17 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Service;
+
+use GoogleApi\Io\HttpRequest;
+use GoogleApi\Io\REST;
+use GoogleApi\Client;
 
 /**
  * Implements the actual methods/resources of the discovered Google API using magic function
  * calling overloading (__call()), which on call will see if the method name (plus.activities.list)
- * is available in this service, and if so construct an apiHttpRequest representing it.
+ * is available in this service, and if so construct an HttpRequest representing it.
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  *
  */
-class apiServiceResource {
+class ServiceResource {
   // Valid query parameters that work, but don't appear in discovery.
   private $stackParameters = array(
       'alt' => array('type' => 'string', 'location' => 'query'),
@@ -40,7 +45,7 @@ class apiServiceResource {
       'mediaUpload' => array('type' => 'complex', 'location' => 'query'),
   );
 
-  /** @var apiService $service */
+  /** @var Service $service */
   private $service;
 
   /** @var string $serviceName */
@@ -62,12 +67,12 @@ class apiServiceResource {
   /**
    * @param $name
    * @param $arguments
-   * @return apiHttpRequest|array
-   * @throws apiException
+   * @return HttpRequest|array
+   * @throws \GoogleApi\Exception
    */
   public function __call($name, $arguments) {
     if (! isset($this->methods[$name])) {
-      throw new apiException("Unknown function: {$this->serviceName}->{$this->resourceName}->{$name}()");
+      throw new \GoogleApi\Exception("Unknown function: {$this->serviceName}->{$this->resourceName}->{$name}()");
     }
     $method = $this->methods[$name];
     $parameters = $arguments[0];
@@ -107,13 +112,13 @@ class apiServiceResource {
     $method['parameters'] = array_merge($method['parameters'], $this->stackParameters);
     foreach ($parameters as $key => $val) {
       if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
-        throw new apiException("($name) unknown parameter: '$key'");
+        throw new \GoogleApi\Exception("($name) unknown parameter: '$key'");
       }
     }
     if (isset($method['parameters'])) {
       foreach ($method['parameters'] as $paramName => $paramSpec) {
         if (isset($paramSpec['required']) && $paramSpec['required'] && ! isset($parameters[$paramName])) {
-          throw new apiException("($name) missing required param: '$paramName'");
+          throw new \GoogleApi\Exception("($name) missing required param: '$paramName'");
         }
         if (isset($parameters[$paramName])) {
           $value = $parameters[$paramName];
@@ -141,7 +146,7 @@ class apiServiceResource {
     // Process Media Request
     $contentType = false;
     if (isset($method['mediaUpload'])) {
-      $media = apiMediaFileUpload::process($postBody, $parameters);
+      $media = MediaFileUpload::process($postBody, $parameters);
       if ($media) {
         $contentType = isset($media['content-type']) ? $media['content-type']: null;
         $postBody = isset($media['postBody']) ? $media['postBody'] : null;
@@ -150,22 +155,22 @@ class apiServiceResource {
       }
     }
 
-    $url = apiREST::createRequestUri($restBasePath, $method['path'], $parameters);
+    $url = REST::createRequestUri($restBasePath, $method['path'], $parameters);
 
-    $httpRequest = new apiHttpRequest($url, $method['httpMethod'], null, $postBody);
+    $httpRequest = new HttpRequest($url, $method['httpMethod'], null, $postBody);
     if ($postBody) {
       $contentTypeHeader = array();
       if (isset($contentType) && $contentType) {
         $contentTypeHeader['content-type'] = $contentType;
       } else {
         $contentTypeHeader['content-type'] = 'application/json; charset=UTF-8';
-        $contentTypeHeader['content-length'] = apiUtils::getStrLen($postBody);
+        $contentTypeHeader['content-length'] = Utils::getStrLen($postBody);
       }
       $httpRequest->setRequestHeaders($contentTypeHeader);
     }
 
-    $httpRequest = apiClient::$auth->sign($httpRequest);
-    if (apiClient::$useBatch) {
+    $httpRequest = Client::$auth->sign($httpRequest);
+    if (Client::$useBatch) {
       return $httpRequest;
     }
 
@@ -175,7 +180,7 @@ class apiServiceResource {
       return $httpRequest;
     }
 
-    return apiREST::execute($httpRequest);
+    return REST::execute($httpRequest);
   }
 
   protected function useObjects() {

@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace GoogleApi\Io;
 
+use GoogleApi\Client;
 /**
- * Curl based implementation of apiIO.
+ * Curl based implementation of IO.
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-
-require_once 'apiCacheParser.php';
-
-class apiCurlIO implements apiIO {
+class CurlIO implements IO {
   const CONNECTION_ESTABLISHED = "HTTP/1.0 200 Connection established\r\n\r\n";
   const FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
@@ -43,33 +42,33 @@ class apiCurlIO implements apiIO {
   );
 
   /**
-   * Perform an authenticated / signed apiHttpRequest.
-   * This function takes the apiHttpRequest, calls apiAuth->sign on it
+   * Perform an authenticated / signed HttpRequest.
+   * This function takes the HttpRequest, calls Auth->sign on it
    * (which can modify the request in what ever way fits the auth mechanism)
-   * and then calls apiCurlIO::makeRequest on the signed request
+   * and then calls CurlIO::makeRequest on the signed request
    *
-   * @param apiHttpRequest $request
-   * @return apiHttpRequest The resulting HTTP response including the
+   * @param HttpRequest $request
+   * @return HttpRequest The resulting HTTP response including the
    * responseHttpCode, responseHeaders and responseBody.
    */
-  public function authenticatedRequest(apiHttpRequest $request) {
-    $request = apiClient::$auth->sign($request);
+  public function authenticatedRequest(HttpRequest $request) {
+    $request = Client::$auth->sign($request);
     return $this->makeRequest($request);
   }
 
   /**
-   * Execute a apiHttpRequest
+   * Execute a HttpRequest
    *
-   * @param apiHttpRequest $request the http request to be executed
-   * @return apiHttpRequest http request with the response http code, response
+   * @param HttpRequest $request the http request to be executed
+   * @return HttpRequest http request with the response http code, response
    * headers and response body filled in
-   * @throws apiIOException on curl or IO error
+   * @throws Exception on curl or IO error
    */
-  public function makeRequest(apiHttpRequest $request) {
+  public function makeRequest(HttpRequest $request) {
     // First, check to see if we have a valid cached version.
     $cached = $this->getCachedRequest($request);
     if ($cached !== false) {
-      if (apiCacheParser::mustRevalidate($cached)) {
+      if (CacheParser::mustRevalidate($cached)) {
         $addHeaders = array();
         if ($cached->getResponseHeader('etag')) {
           // [13.3.4] If an entity tag has been provided by the origin server,
@@ -125,7 +124,7 @@ class apiCurlIO implements apiIO {
     $curlError = curl_error($ch);
     curl_close($ch);
     if ($curlErrorNum != CURLE_OK) {
-      throw new apiIOException("HTTP Error: ($respHttpCode) $curlError");
+      throw new Exception("HTTP Error: ($respHttpCode) $curlError");
     }
 
     // Parse out the raw response into usable bits
@@ -151,7 +150,7 @@ class apiCurlIO implements apiIO {
       return $cached;
     }
 
-    // Fill in the apiHttpRequest with the response values
+    // Fill in the HttpRequest with the response values
     $request->setResponseHttpCode($respHttpCode);
     $request->setResponseHeaders($responseHeaders);
     $request->setResponseBody($responseBody);
@@ -165,14 +164,14 @@ class apiCurlIO implements apiIO {
   /**
    * @visible for testing.
    * Cache the response to an HTTP request if it is cacheable.
-   * @param apiHttpRequest $request
+   * @param HttpRequest $request
    * @return bool Returns true if the insertion was successful.
    * Otherwise, return false.
    */
-  public function setCachedRequest(apiHttpRequest $request) {
+  public function setCachedRequest(HttpRequest $request) {
     // Determine if the request is cacheable.
-    if (apiCacheParser::isResponseCacheable($request)) {
-      apiClient::$cache->set($request->getCacheKey(), $request);
+    if (CacheParser::isResponseCacheable($request)) {
+      Client::$cache->set($request->getCacheKey(), $request);
       return true;
     }
 
@@ -181,16 +180,16 @@ class apiCurlIO implements apiIO {
 
   /**
    * @visible for testing.
-   * @param apiHttpRequest $request
-   * @return apiHttpRequest|bool Returns the cached object or
+   * @param HttpRequest $request
+   * @return HttpRequest|bool Returns the cached object or
    * false if the operation was unsuccessful.
    */
-  public function getCachedRequest(apiHttpRequest $request) {
-    if (false == apiCacheParser::isRequestCacheable($request)) {
+  public function getCachedRequest(HttpRequest $request) {
+    if (false == CacheParser::isRequestCacheable($request)) {
       false;
     }
 
-    return apiClient::$cache->get($request->getCacheKey());
+    return Client::$cache->get($request->getCacheKey());
   }
 
   /**
@@ -235,10 +234,10 @@ class apiCurlIO implements apiIO {
   /**
    * @visible for testing
    * Process an http request that contains an enclosed entity.
-   * @param apiHttpRequest $request
-   * @return apiHttpRequest Processed request with the enclosed entity.
+   * @param HttpRequest $request
+   * @return HttpRequest Processed request with the enclosed entity.
    */
-  public function processEntityRequest(apiHttpRequest $request) {
+  public function processEntityRequest(HttpRequest $request) {
     $postBody = $request->getPostBody();
     $contentType = $request->getRequestHeader("content-type");
 

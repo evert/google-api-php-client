@@ -14,29 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-require_once 'io/apiHttpRequest.php';
-require_once 'io/apiCurlIO.php';
-require_once 'io/apiREST.php';
+namespace GoogleApi\Io;
 
 /**
  * Abstract IO class
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-interface apiIO {
+interface IO {
   /**
    * An utility function that first calls $this->auth->sign($request) and then executes makeRequest()
    * on that signed request. Used for when a request should be authenticated
-   * @param apiHttpRequest $request
-   * @return apiHttpRequest $request
+   * @param HttpRequest $request
+   * @return HttpRequest $request
    */
-  public function authenticatedRequest(apiHttpRequest $request);
+  public function authenticatedRequest(HttpRequest $request);
 
   /**
    * Executes a apIHttpRequest and returns the resulting populated httpRequest
-   * @param apiHttpRequest $request
-   * @return apiHttpRequest $request
+   * @param HttpRequest $request
+   * @return HttpRequest $request
    */
-  public function makeRequest(apiHttpRequest $request);
+  public function makeRequest(HttpRequest $request);
 }
