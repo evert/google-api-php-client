@@ -54,7 +54,7 @@ Supported sample applications:
 
 ```
 <?php
-include 'vendor/.composer/autoload.php';
+include 'vendor/autoload.php';
 
 $client = new \GoogleApi\Client();
 $service = new \GoogleApi\Books\Service($client);
