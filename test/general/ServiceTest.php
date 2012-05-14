@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-require_once '../src/contrib/apiPlusService.php';
+require_once '../src/Contrib/apiPlusService.php';
 
 class AnimalServiceResource extends apiServiceResource {
   public function stripNull($o) {

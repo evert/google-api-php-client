@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once '../src/contrib/apiPlusService.php';
+require_once '../src/Contrib/apiPlusService.php';
 
 class AllPlusTests extends PHPUnit_Framework_TestSuite {
   public static function suite() {

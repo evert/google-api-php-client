@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiOauth2Service.php';
+require_once '../../src/Contrib/apiOauth2Service.php';
 session_start();
 
 $client = new apiClient();

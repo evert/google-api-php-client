@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once '../src/contrib/apiPagespeedonlineService.php';
+require_once '../src/Contrib/apiPagespeedonlineService.php';
 
 class PageSpeedTest extends BaseTest {
   public $service;

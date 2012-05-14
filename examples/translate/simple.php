@@ -1,6 +1,6 @@
 <?php
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiTranslateService.php';
+require_once '../../src/Contrib/apiTranslateService.php';
 
 $client = new apiClient();
 $client->setApplicationName('Google Translate PHP Starter Application');

@@ -1,6 +1,6 @@
 <?php
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiSiteVerificationService.php';
+require_once '../../src/Contrib/apiSiteVerificationService.php';
 session_start();
 
 $client = new apiClient();

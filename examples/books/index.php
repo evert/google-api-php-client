@@ -17,7 +17,7 @@
 session_start();
 
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiBooksService.php';
+require_once '../../src/Contrib/apiBooksService.php';
 
 // Include the boilerplate markup.
 include 'interface.html';

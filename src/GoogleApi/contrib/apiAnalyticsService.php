@@ -15,20 +15,17 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
-
+namespace GoogleApi\Contrib;
 
   /**
    * The "management" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $management = $analyticsService->management;
    *  </code>
    */
-  class ManagementServiceResource extends apiServiceResource {
+  class ManagementServiceResource extends ServiceResource {
 
 
   }
@@ -38,11 +35,11 @@ require_once 'service/apiServiceRequest.php';
    * The "webproperties" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $webproperties = $analyticsService->webproperties;
    *  </code>
    */
-  class ManagementWebpropertiesServiceResource extends apiServiceResource {
+  class ManagementWebpropertiesServiceResource extends ServiceResource {
 
 
     /**
@@ -70,11 +67,11 @@ require_once 'service/apiServiceRequest.php';
    * The "segments" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $segments = $analyticsService->segments;
    *  </code>
    */
-  class ManagementSegmentsServiceResource extends apiServiceResource {
+  class ManagementSegmentsServiceResource extends ServiceResource {
 
 
     /**
@@ -101,11 +98,11 @@ require_once 'service/apiServiceRequest.php';
    * The "accounts" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $accounts = $analyticsService->accounts;
    *  </code>
    */
-  class ManagementAccountsServiceResource extends apiServiceResource {
+  class ManagementAccountsServiceResource extends ServiceResource {
 
 
     /**
@@ -132,11 +129,11 @@ require_once 'service/apiServiceRequest.php';
    * The "goals" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $goals = $analyticsService->goals;
    *  </code>
    */
-  class ManagementGoalsServiceResource extends apiServiceResource {
+  class ManagementGoalsServiceResource extends ServiceResource {
 
 
     /**
@@ -166,11 +163,11 @@ require_once 'service/apiServiceRequest.php';
    * The "profiles" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $profiles = $analyticsService->profiles;
    *  </code>
    */
-  class ManagementProfilesServiceResource extends apiServiceResource {
+  class ManagementProfilesServiceResource extends ServiceResource {
 
 
     /**
@@ -200,11 +197,11 @@ require_once 'service/apiServiceRequest.php';
    * The "data" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $data = $analyticsService->data;
    *  </code>
    */
-  class DataServiceResource extends apiServiceResource {
+  class DataServiceResource extends ServiceResource {
 
 
   }
@@ -214,11 +211,11 @@ require_once 'service/apiServiceRequest.php';
    * The "ga" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $analyticsService = new apiAnalyticsService(...);
+   *   $analyticsService = new AnalyticsService(...);
    *   $ga = $analyticsService->ga;
    *  </code>
    */
-  class DataGaServiceResource extends apiServiceResource {
+  class DataGaServiceResource extends ServiceResource {
 
 
     /**
@@ -266,7 +263,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiAnalyticsService extends apiService {
+class AnalyticsService extends Service {
   public $management_webproperties;
   public $management_segments;
   public $management_accounts;
@@ -276,15 +273,15 @@ class apiAnalyticsService extends apiService {
   /**
    * Constructs the internal representation of the Analytics service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/analytics/v3/';
     $this->version = 'v3';
     $this->serviceName = 'analytics';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $client->addService($this->serviceName, $this->version);
     $this->management_webproperties = new ManagementWebpropertiesServiceResource($this, $this->serviceName, 'webproperties', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/analytics.readonly"], "parameters": {"max-results": {"format": "int32", "type": "integer", "location": "query"}, "start-index": {"format": "int32", "minimum": "1", "type": "integer", "location": "query"}, "accountId": {"required": true, "type": "string", "location": "path"}}, "id": "analytics.management.webproperties.list", "httpMethod": "GET", "path": "management/accounts/{accountId}/webproperties", "response": {"$ref": "Webproperties"}}}}', true));
     $this->management_segments = new ManagementSegmentsServiceResource($this, $this->serviceName, 'segments', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/analytics.readonly"], "parameters": {"max-results": {"format": "int32", "type": "integer", "location": "query"}, "start-index": {"format": "int32", "minimum": "1", "type": "integer", "location": "query"}}, "response": {"$ref": "Segments"}, "httpMethod": "GET", "path": "management/segments", "id": "analytics.management.segments.list"}}}', true));
     $this->management_accounts = new ManagementAccountsServiceResource($this, $this->serviceName, 'accounts', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/analytics.readonly"], "parameters": {"max-results": {"format": "int32", "type": "integer", "location": "query"}, "start-index": {"format": "int32", "minimum": "1", "type": "integer", "location": "query"}}, "response": {"$ref": "Accounts"}, "httpMethod": "GET", "path": "management/accounts", "id": "analytics.management.accounts.list"}}}', true));
@@ -294,7 +291,7 @@ class apiAnalyticsService extends apiService {
   }
 }
 
-class Account extends apiModel {
+class Account extends Model {
   public $kind;
   public $name;
   public $created;
@@ -348,7 +345,7 @@ class Account extends apiModel {
   }
 }
 
-class AccountChildLink extends apiModel {
+class AccountChildLink extends Model {
   public $href;
   public $type;
   public function setHref($href) {
@@ -365,7 +362,7 @@ class AccountChildLink extends apiModel {
   }
 }
 
-class Accounts extends apiModel {
+class Accounts extends Model {
   public $username;
   public $kind;
   protected $__itemsType = 'Account';
@@ -427,7 +424,7 @@ class Accounts extends apiModel {
   }
 }
 
-class GaData extends apiModel {
+class GaData extends Model {
   public $kind;
   public $rows;
   public $containsSampledData;
@@ -529,7 +526,7 @@ class GaData extends apiModel {
   }
 }
 
-class GaDataColumnHeaders extends apiModel {
+class GaDataColumnHeaders extends Model {
   public $dataType;
   public $columnType;
   public $name;
@@ -553,7 +550,7 @@ class GaDataColumnHeaders extends apiModel {
   }
 }
 
-class GaDataProfileInfo extends apiModel {
+class GaDataProfileInfo extends Model {
   public $webPropertyId;
   public $internalWebPropertyId;
   public $tableId;
@@ -598,7 +595,7 @@ class GaDataProfileInfo extends apiModel {
   }
 }
 
-class GaDataQuery extends apiModel {
+class GaDataQuery extends Model {
   public $max_results;
   public $sort;
   public $dimensions;
@@ -673,7 +670,7 @@ class GaDataQuery extends apiModel {
   }
 }
 
-class Goal extends apiModel {
+class Goal extends Model {
   public $kind;
   protected $__visitTimeOnSiteDetailsType = 'GoalVisitTimeOnSiteDetails';
   protected $__visitTimeOnSiteDetailsDataType = '';
@@ -812,7 +809,7 @@ class Goal extends apiModel {
   }
 }
 
-class GoalEventDetails extends apiModel {
+class GoalEventDetails extends Model {
   protected $__eventConditionsType = 'GoalEventDetailsEventConditions';
   protected $__eventConditionsDataType = 'array';
   public $eventConditions;
@@ -832,7 +829,7 @@ class GoalEventDetails extends apiModel {
   }
 }
 
-class GoalEventDetailsEventConditions extends apiModel {
+class GoalEventDetailsEventConditions extends Model {
   public $type;
   public $matchType;
   public $expression;
@@ -870,7 +867,7 @@ class GoalEventDetailsEventConditions extends apiModel {
   }
 }
 
-class GoalParentLink extends apiModel {
+class GoalParentLink extends Model {
   public $href;
   public $type;
   public function setHref($href) {
@@ -887,7 +884,7 @@ class GoalParentLink extends apiModel {
   }
 }
 
-class GoalUrlDestinationDetails extends apiModel {
+class GoalUrlDestinationDetails extends Model {
   public $url;
   public $caseSensitive;
   public $matchType;
@@ -928,7 +925,7 @@ class GoalUrlDestinationDetails extends apiModel {
   }
 }
 
-class GoalUrlDestinationDetailsSteps extends apiModel {
+class GoalUrlDestinationDetailsSteps extends Model {
   public $url;
   public $name;
   public $number;
@@ -952,7 +949,7 @@ class GoalUrlDestinationDetailsSteps extends apiModel {
   }
 }
 
-class GoalVisitNumPagesDetails extends apiModel {
+class GoalVisitNumPagesDetails extends Model {
   public $comparisonType;
   public $comparisonValue;
   public function setComparisonType($comparisonType) {
@@ -969,7 +966,7 @@ class GoalVisitNumPagesDetails extends apiModel {
   }
 }
 
-class GoalVisitTimeOnSiteDetails extends apiModel {
+class GoalVisitTimeOnSiteDetails extends Model {
   public $comparisonType;
   public $comparisonValue;
   public function setComparisonType($comparisonType) {
@@ -986,7 +983,7 @@ class GoalVisitTimeOnSiteDetails extends apiModel {
   }
 }
 
-class Goals extends apiModel {
+class Goals extends Model {
   public $username;
   public $kind;
   protected $__itemsType = 'Goal';
@@ -1048,7 +1045,7 @@ class Goals extends apiModel {
   }
 }
 
-class Profile extends apiModel {
+class Profile extends Model {
   public $defaultPage;
   public $kind;
   public $excludeQueryParameters;
@@ -1174,7 +1171,7 @@ class Profile extends apiModel {
   }
 }
 
-class ProfileChildLink extends apiModel {
+class ProfileChildLink extends Model {
   public $href;
   public $type;
   public function setHref($href) {
@@ -1191,7 +1188,7 @@ class ProfileChildLink extends apiModel {
   }
 }
 
-class ProfileParentLink extends apiModel {
+class ProfileParentLink extends Model {
   public $href;
   public $type;
   public function setHref($href) {
@@ -1208,7 +1205,7 @@ class ProfileParentLink extends apiModel {
   }
 }
 
-class Profiles extends apiModel {
+class Profiles extends Model {
   public $username;
   public $kind;
   protected $__itemsType = 'Profile';
@@ -1270,7 +1267,7 @@ class Profiles extends apiModel {
   }
 }
 
-class Segment extends apiModel {
+class Segment extends Model {
   public $definition;
   public $kind;
   public $segmentId;
@@ -1329,7 +1326,7 @@ class Segment extends apiModel {
   }
 }
 
-class Segments extends apiModel {
+class Segments extends Model {
   public $username;
   public $kind;
   protected $__itemsType = 'Segment';
@@ -1391,7 +1388,7 @@ class Segments extends apiModel {
   }
 }
 
-class Webproperties extends apiModel {
+class Webproperties extends Model {
   public $username;
   public $kind;
   protected $__itemsType = 'Webproperty';
@@ -1453,7 +1450,7 @@ class Webproperties extends apiModel {
   }
 }
 
-class Webproperty extends apiModel {
+class Webproperty extends Model {
   public $kind;
   public $name;
   public $created;
@@ -1537,7 +1534,7 @@ class Webproperty extends apiModel {
   }
 }
 
-class WebpropertyChildLink extends apiModel {
+class WebpropertyChildLink extends Model {
   public $href;
   public $type;
   public function setHref($href) {
@@ -1554,7 +1551,7 @@ class WebpropertyChildLink extends apiModel {
   }
 }
 
-class WebpropertyParentLink extends apiModel {
+class WebpropertyParentLink extends Model {
   public $href;
   public $type;
   public function setHref($href) {

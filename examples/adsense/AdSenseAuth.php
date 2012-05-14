@@ -24,7 +24,7 @@ if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
  * Include the library files for the api client and AdSense service class.
  */
 require_once "../../src/apiClient.php";
-require_once "../../src/contrib/apiAdsenseService.php";
+require_once "../../src/Contrib/apiAdsenseService.php";
 
 /**
  * Handles authentication and OAuth token storing.

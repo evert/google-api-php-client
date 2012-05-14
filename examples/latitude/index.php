@@ -17,7 +17,7 @@
 session_start();
 
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiLatitudeService.php';
+require_once '../../src/Contrib/apiLatitudeService.php';
 
 $client = new apiClient();
 // Visit https://code.google.com/apis/console to generate your

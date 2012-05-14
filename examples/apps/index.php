@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiGanService.php';
+require_once '../../src/Contrib/apiGanService.php';
 
 session_start();
 

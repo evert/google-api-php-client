@@ -16,7 +16,7 @@
  */
 session_start();
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiTasksService.php';
+require_once '../../src/Contrib/apiTasksService.php';
 
 $client = new apiClient();
 // Visit https://code.google.com/apis/console to generate your

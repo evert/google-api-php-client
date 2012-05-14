@@ -16,7 +16,7 @@
  */
 
 require_once '../src/apiClient.php';
-require_once '../src/contrib/apiUrlshortenerService.php';
+require_once '../src/Contrib/apiUrlshortenerService.php';
 
 class UrlShortenerTests extends BaseTest {
   public $service;
