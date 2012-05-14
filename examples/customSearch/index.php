@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiCustomsearchService.php';
+require_once '../../src/Contrib/apiCustomsearchService.php';
 session_start();
 
 $client = new apiClient();

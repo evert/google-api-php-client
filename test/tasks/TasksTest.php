@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once '../src/contrib/apiTasksService.php';
+require_once '../src/Contrib/apiTasksService.php';
 
 class TasksTest extends BaseTest {
   public $taskService;

@@ -19,7 +19,7 @@
  */
 
 require_once 'BaseTest.php';
-require_once '../src/contrib/apiPlusService.php';
+require_once '../src/Contrib/apiPlusService.php';
 require_once '../src/service/apiBatchRequest.php';
 
 class ApiBatchRequestTest extends BaseTest {

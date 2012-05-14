@@ -1,6 +1,6 @@
 <?php
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiAnalyticsService.php';
+require_once '../../src/Contrib/AnalyticsService.php';
 session_start();
 
 $client = new apiClient();

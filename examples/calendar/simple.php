@@ -1,6 +1,6 @@
 <?php
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiCalendarService.php';
+require_once '../../src/Contrib/apiCalendarService.php';
 session_start();
 
 $client = new apiClient();

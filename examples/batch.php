@@ -16,7 +16,7 @@
  */
 
 require_once '../src/apiClient.php';
-require_once '../src/contrib/apiPlusService.php';
+require_once '../src/Contrib/apiPlusService.php';
 session_start();
 
 $client = new apiClient();

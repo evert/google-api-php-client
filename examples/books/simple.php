@@ -16,7 +16,7 @@
  */
 
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiBooksService.php';
+require_once '../../src/Contrib/apiBooksService.php';
 
 $client = new apiClient();
 $client->setApplicationName("My_Books_API_Example");

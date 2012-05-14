@@ -16,7 +16,7 @@
  */
 
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiPredictionService.php';
+require_once '../../src/Contrib/apiPredictionService.php';
 
 // Set your client id, service account name, and the path to your private key.
 // For more information about obtaining these keys, visit:
