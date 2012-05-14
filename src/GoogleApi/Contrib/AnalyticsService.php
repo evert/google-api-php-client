@@ -17,6 +17,11 @@
 
 namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\ServiceResource;
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Client;
+
   /**
    * The "management" collection of methods.
    * Typical usage is:
@@ -273,7 +278,7 @@ class AnalyticsService extends Service {
   /**
    * Constructs the internal representation of the Analytics service.
    *
-   * @param Client Client
+   * @param $client \GoogleApi\Client
    */
   public function __construct(Client $client) {
     $this->rpcPath = '/rpc';
