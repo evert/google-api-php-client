@@ -19,6 +19,7 @@ namespace GoogleApi\Auth;
 use GoogleApi\Client;
 use GoogleApi\Io\HttpRequest;
 use GoogleApi\Service\Utils;
+use GoogleApi\Auth\Auth;
 
 /**
  * Authentication class that deals with the OAuth 2 web-server authentication flow
