@@ -77,7 +77,7 @@ class Client {
   public function addService($service, $version = false) {
     global $apiConfig;
     if ($this->authenticated) {
-      throw new apiException('Cant add services after having authenticated');
+      throw new \GoogleApi\Exception('Cant add services after having authenticated');
     }
     $this->services[$service] = array();
     if (isset($apiConfig['services'][$service])) {
