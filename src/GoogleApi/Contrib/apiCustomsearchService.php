@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "cse" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $cse = $customsearchService->cse;
    *  </code>
    */
-  class CseServiceResource extends apiServiceResource {
+  class CseServiceResource extends ServiceResource {
 
 
     /**
@@ -79,7 +80,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiCustomsearchService extends apiService {
+class apiCustomsearchService extends Service {
   public $cse;
   /**
    * Constructs the internal representation of the Customsearch service.
@@ -97,7 +98,7 @@ class apiCustomsearchService extends apiService {
   }
 }
 
-class Context extends apiModel {
+class Context extends Model {
   protected $__facetsType = 'ContextFacets';
   protected $__facetsDataType = 'array';
   public $facets;
@@ -117,7 +118,7 @@ class Context extends apiModel {
   }
 }
 
-class ContextFacets extends apiModel {
+class ContextFacets extends Model {
   public $anchor;
   public $label;
   public function setAnchor($anchor) {
@@ -134,7 +135,7 @@ class ContextFacets extends apiModel {
   }
 }
 
-class Promotion extends apiModel {
+class Promotion extends Model {
   public $link;
   public $displayLink;
   protected $__imageType = 'PromotionImage';
@@ -177,7 +178,7 @@ class Promotion extends apiModel {
   }
 }
 
-class PromotionBodyLines extends apiModel {
+class PromotionBodyLines extends Model {
   public $url;
   public $link;
   public $title;
@@ -201,7 +202,7 @@ class PromotionBodyLines extends apiModel {
   }
 }
 
-class PromotionImage extends apiModel {
+class PromotionImage extends Model {
   public $source;
   public $width;
   public $height;
@@ -225,7 +226,7 @@ class PromotionImage extends apiModel {
   }
 }
 
-class Query extends apiModel {
+class Query extends Model {
   public $count;
   public $sort;
   public $outputEncoding;
@@ -347,7 +348,7 @@ class Query extends apiModel {
   }
 }
 
-class Result extends apiModel {
+class Result extends Model {
   public $kind;
   public $title;
   public $displayLink;
@@ -413,7 +414,7 @@ class Result extends apiModel {
   }
 }
 
-class Search extends apiModel {
+class Search extends Model {
   protected $__promotionsType = 'Promotion';
   protected $__promotionsDataType = 'array';
   public $promotions;
@@ -470,7 +471,7 @@ class Search extends apiModel {
   }
 }
 
-class SearchUrl extends apiModel {
+class SearchUrl extends Model {
   public $type;
   public $template;
   public function setType($type) {

@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "advertisers" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $advertisers = $ganService->advertisers;
    *  </code>
    */
-  class AdvertisersServiceResource extends apiServiceResource {
+  class AdvertisersServiceResource extends ServiceResource {
 
 
     /**
@@ -90,7 +91,7 @@ require_once 'service/apiServiceRequest.php';
    *   $ccOffers = $ganService->ccOffers;
    *  </code>
    */
-  class CcOffersServiceResource extends apiServiceResource {
+  class CcOffersServiceResource extends ServiceResource {
 
 
     /**
@@ -123,7 +124,7 @@ require_once 'service/apiServiceRequest.php';
    *   $events = $ganService->events;
    *  </code>
    */
-  class EventsServiceResource extends apiServiceResource {
+  class EventsServiceResource extends ServiceResource {
 
 
     /**
@@ -169,7 +170,7 @@ require_once 'service/apiServiceRequest.php';
    *   $publishers = $ganService->publishers;
    *  </code>
    */
-  class PublishersServiceResource extends apiServiceResource {
+  class PublishersServiceResource extends ServiceResource {
 
 
     /**
@@ -239,7 +240,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiGanService extends apiService {
+class apiGanService extends Service {
   public $advertisers;
   public $ccOffers;
   public $events;
@@ -263,7 +264,7 @@ class apiGanService extends apiService {
   }
 }
 
-class Advertiser extends apiModel {
+class Advertiser extends Model {
   public $category;
   public $productFeedsEnabled;
   public $kind;
@@ -391,7 +392,7 @@ class Advertiser extends apiModel {
   }
 }
 
-class Advertisers extends apiModel {
+class Advertisers extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Advertiser';
   protected $__itemsDataType = 'array';
@@ -418,7 +419,7 @@ class Advertisers extends apiModel {
   }
 }
 
-class CcOffer extends apiModel {
+class CcOffer extends Model {
   public $rewardsHaveBlackoutDates;
   public $introPurchasePeriodLength;
   public $introBalanceTransferRate;
@@ -1043,7 +1044,7 @@ class CcOffer extends apiModel {
   }
 }
 
-class CcOfferBonusRewards extends apiModel {
+class CcOfferBonusRewards extends Model {
   public $amount;
   public $details;
   public function setAmount($amount) {
@@ -1060,7 +1061,7 @@ class CcOfferBonusRewards extends apiModel {
   }
 }
 
-class CcOfferDefaultFees extends apiModel {
+class CcOfferDefaultFees extends Model {
   public $category;
   public $maxRate;
   public $minRate;
@@ -1091,7 +1092,7 @@ class CcOfferDefaultFees extends apiModel {
   }
 }
 
-class CcOfferRewards extends apiModel {
+class CcOfferRewards extends Model {
   public $category;
   public $minRewardTier;
   public $maxRewardTier;
@@ -1136,7 +1137,7 @@ class CcOfferRewards extends apiModel {
   }
 }
 
-class CcOffers extends apiModel {
+class CcOffers extends Model {
   protected $__itemsType = 'CcOffer';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1156,7 +1157,7 @@ class CcOffers extends apiModel {
   }
 }
 
-class Event extends apiModel {
+class Event extends Model {
   protected $__networkFeeType = 'Money';
   protected $__networkFeeDataType = '';
   public $networkFee;
@@ -1296,7 +1297,7 @@ class Event extends apiModel {
   }
 }
 
-class EventProducts extends apiModel {
+class EventProducts extends Model {
   protected $__networkFeeType = 'Money';
   protected $__networkFeeDataType = '';
   public $networkFee;
@@ -1370,7 +1371,7 @@ class EventProducts extends apiModel {
   }
 }
 
-class Events extends apiModel {
+class Events extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Event';
   protected $__itemsDataType = 'array';
@@ -1397,7 +1398,7 @@ class Events extends apiModel {
   }
 }
 
-class Money extends apiModel {
+class Money extends Model {
   public $amount;
   public $currencyCode;
   public function setAmount($amount) {
@@ -1414,7 +1415,7 @@ class Money extends apiModel {
   }
 }
 
-class Publisher extends apiModel {
+class Publisher extends Model {
   public $status;
   public $kind;
   public $name;
@@ -1501,7 +1502,7 @@ class Publisher extends apiModel {
   }
 }
 
-class Publishers extends apiModel {
+class Publishers extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Publisher';
   protected $__itemsDataType = 'array';

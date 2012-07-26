@@ -20,6 +20,7 @@ use GoogleApi\Io\HttpRequest;
 use GoogleApi\Client;
 use GoogleApi\Io\CurlIO;
 use GoogleApi\Io\REST;
+use GoogleApi\Config;
 
 /**
  * @author Chirag Shah <chirags@google.com>
@@ -56,8 +57,7 @@ class BatchRequest {
     $body = rtrim($body);
     $body .= "\n--{$this->boundary}--";
 
-    global $apiConfig;
-    $url = $apiConfig['basePath'] . '/batch';
+    $url = Config::get('basePath') . '/batch';
     $httpRequest = new HttpRequest($url, 'POST');
     $httpRequest->setRequestHeaders(array(
         'Content-Type' => 'multipart/mixed; boundary=' . $this->boundary));

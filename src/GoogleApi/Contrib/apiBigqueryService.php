@@ -15,6 +15,11 @@
  * the License.
  */
 
+namespace GoogleApi\Contrib;
+
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "tables" collection of methods.
@@ -24,7 +29,7 @@
    *   $tables = $bigqueryService->tables;
    *  </code>
    */
-  class TablesServiceResource extends apiServiceResource {
+  class TablesServiceResource extends ServiceResource {
 
 
     /**
@@ -152,7 +157,7 @@
    *   $datasets = $bigqueryService->datasets;
    *  </code>
    */
-  class DatasetsServiceResource extends apiServiceResource {
+  class DatasetsServiceResource extends ServiceResource {
 
 
     /**
@@ -283,7 +288,7 @@
    *   $jobs = $bigqueryService->jobs;
    *  </code>
    */
-  class JobsServiceResource extends apiServiceResource {
+  class JobsServiceResource extends ServiceResource {
 
 
     /**
@@ -407,7 +412,7 @@
    *   $tabledata = $bigqueryService->tabledata;
    *  </code>
    */
-  class TabledataServiceResource extends apiServiceResource {
+  class TabledataServiceResource extends ServiceResource {
 
 
     /**
@@ -442,7 +447,7 @@
    *   $projects = $bigqueryService->projects;
    *  </code>
    */
-  class ProjectsServiceResource extends apiServiceResource {
+  class ProjectsServiceResource extends ServiceResource {
 
 
     /**
@@ -480,7 +485,7 @@
  *
  * @author Google, Inc.
  */
-class apiBigqueryService extends apiService {
+class apiBigqueryService extends Service {
   public $tables;
   public $datasets;
   public $jobs;
@@ -507,7 +512,7 @@ class apiBigqueryService extends apiService {
   }
 }
 
-class Dataset extends apiModel {
+class Dataset extends Model {
   public $kind;
   public $description;
   protected $__datasetReferenceType = 'DatasetReference';
@@ -585,7 +590,7 @@ class Dataset extends apiModel {
   }
 }
 
-class DatasetAccess extends apiModel {
+class DatasetAccess extends Model {
   public $specialGroup;
   public $domain;
   public $role;
@@ -623,7 +628,7 @@ class DatasetAccess extends apiModel {
   }
 }
 
-class DatasetList extends apiModel {
+class DatasetList extends Model {
   public $nextPageToken;
   public $kind;
   protected $__datasetsType = 'DatasetListDatasets';
@@ -657,7 +662,7 @@ class DatasetList extends apiModel {
   }
 }
 
-class DatasetListDatasets extends apiModel {
+class DatasetListDatasets extends Model {
   public $friendlyName;
   public $kind;
   public $id;
@@ -690,7 +695,7 @@ class DatasetListDatasets extends apiModel {
   }
 }
 
-class DatasetReference extends apiModel {
+class DatasetReference extends Model {
   public $projectId;
   public $datasetId;
   public function setProjectId($projectId) {
@@ -707,7 +712,7 @@ class DatasetReference extends apiModel {
   }
 }
 
-class ErrorProto extends apiModel {
+class ErrorProto extends Model {
   public $debugInfo;
   public $message;
   public $reason;
@@ -738,7 +743,7 @@ class ErrorProto extends apiModel {
   }
 }
 
-class GetQueryResultsResponse extends apiModel {
+class GetQueryResultsResponse extends Model {
   public $kind;
   protected $__rowsType = 'TableRow';
   protected $__rowsDataType = 'array';
@@ -797,7 +802,7 @@ class GetQueryResultsResponse extends apiModel {
   }
 }
 
-class Job extends apiModel {
+class Job extends Model {
   protected $__statusType = 'JobStatus';
   protected $__statusDataType = '';
   public $status;
@@ -864,7 +869,7 @@ class Job extends apiModel {
   }
 }
 
-class JobConfiguration extends apiModel {
+class JobConfiguration extends Model {
   protected $__loadType = 'JobConfigurationLoad';
   protected $__loadDataType = '';
   public $load;
@@ -919,7 +924,7 @@ class JobConfiguration extends apiModel {
   }
 }
 
-class JobConfigurationExtract extends apiModel {
+class JobConfigurationExtract extends Model {
   public $destinationUri;
   protected $__sourceTableType = 'TableReference';
   protected $__sourceTableDataType = '';
@@ -938,7 +943,7 @@ class JobConfigurationExtract extends apiModel {
   }
 }
 
-class JobConfigurationLink extends apiModel {
+class JobConfigurationLink extends Model {
   public $createDisposition;
   protected $__destinationTableType = 'TableReference';
   protected $__destinationTableDataType = '';
@@ -964,7 +969,7 @@ class JobConfigurationLink extends apiModel {
   }
 }
 
-class JobConfigurationLoad extends apiModel {
+class JobConfigurationLoad extends Model {
   public $encoding;
   public $fieldDelimiter;
   protected $__destinationTableType = 'TableReference';
@@ -1035,7 +1040,7 @@ class JobConfigurationLoad extends apiModel {
   }
 }
 
-class JobConfigurationQuery extends apiModel {
+class JobConfigurationQuery extends Model {
   public $createDisposition;
   public $query;
   public $writeDisposition;
@@ -1077,7 +1082,7 @@ class JobConfigurationQuery extends apiModel {
   }
 }
 
-class JobConfigurationTableCopy extends apiModel {
+class JobConfigurationTableCopy extends Model {
   public $createDisposition;
   public $writeDisposition;
   protected $__destinationTableType = 'TableReference';
@@ -1112,7 +1117,7 @@ class JobConfigurationTableCopy extends apiModel {
   }
 }
 
-class JobList extends apiModel {
+class JobList extends Model {
   public $nextPageToken;
   public $totalItems;
   public $kind;
@@ -1153,7 +1158,7 @@ class JobList extends apiModel {
   }
 }
 
-class JobListJobs extends apiModel {
+class JobListJobs extends Model {
   protected $__statusType = 'JobStatus';
   protected $__statusDataType = '';
   public $status;
@@ -1215,7 +1220,7 @@ class JobListJobs extends apiModel {
   }
 }
 
-class JobReference extends apiModel {
+class JobReference extends Model {
   public $projectId;
   public $jobId;
   public function setProjectId($projectId) {
@@ -1232,7 +1237,7 @@ class JobReference extends apiModel {
   }
 }
 
-class JobStatistics extends apiModel {
+class JobStatistics extends Model {
   public $endTime;
   public $totalBytesProcessed;
   public $startTime;
@@ -1256,7 +1261,7 @@ class JobStatistics extends apiModel {
   }
 }
 
-class JobStatus extends apiModel {
+class JobStatus extends Model {
   public $state;
   protected $__errorsType = 'ErrorProto';
   protected $__errorsDataType = 'array';
@@ -1285,7 +1290,7 @@ class JobStatus extends apiModel {
   }
 }
 
-class ProjectList extends apiModel {
+class ProjectList extends Model {
   public $nextPageToken;
   public $totalItems;
   public $kind;
@@ -1326,7 +1331,7 @@ class ProjectList extends apiModel {
   }
 }
 
-class ProjectListProjects extends apiModel {
+class ProjectListProjects extends Model {
   public $friendlyName;
   public $kind;
   public $id;
@@ -1359,7 +1364,7 @@ class ProjectListProjects extends apiModel {
   }
 }
 
-class ProjectReference extends apiModel {
+class ProjectReference extends Model {
   public $projectId;
   public function setProjectId($projectId) {
     $this->projectId = $projectId;
@@ -1369,7 +1374,7 @@ class ProjectReference extends apiModel {
   }
 }
 
-class QueryRequest extends apiModel {
+class QueryRequest extends Model {
   public $timeoutMs;
   public $query;
   public $kind;
@@ -1409,7 +1414,7 @@ class QueryRequest extends apiModel {
   }
 }
 
-class QueryResponse extends apiModel {
+class QueryResponse extends Model {
   public $kind;
   protected $__rowsType = 'TableRow';
   protected $__rowsDataType = 'array';
@@ -1461,7 +1466,7 @@ class QueryResponse extends apiModel {
   }
 }
 
-class Table extends apiModel {
+class Table extends Model {
   public $kind;
   public $description;
   public $creationTime;
@@ -1538,7 +1543,7 @@ class Table extends apiModel {
   }
 }
 
-class TableDataList extends apiModel {
+class TableDataList extends Model {
   protected $__rowsType = 'TableRow';
   protected $__rowsDataType = 'array';
   public $rows;
@@ -1572,7 +1577,7 @@ class TableDataList extends apiModel {
   }
 }
 
-class TableFieldSchema extends apiModel {
+class TableFieldSchema extends Model {
   protected $__fieldsType = 'TableFieldSchema';
   protected $__fieldsDataType = 'array';
   public $fields;
@@ -1606,7 +1611,7 @@ class TableFieldSchema extends apiModel {
   }
 }
 
-class TableList extends apiModel {
+class TableList extends Model {
   public $nextPageToken;
   protected $__tablesType = 'TableListTables';
   protected $__tablesDataType = 'array';
@@ -1647,7 +1652,7 @@ class TableList extends apiModel {
   }
 }
 
-class TableListTables extends apiModel {
+class TableListTables extends Model {
   public $friendlyName;
   public $kind;
   public $id;
@@ -1680,7 +1685,7 @@ class TableListTables extends apiModel {
   }
 }
 
-class TableReference extends apiModel {
+class TableReference extends Model {
   public $projectId;
   public $tableId;
   public $datasetId;
@@ -1704,7 +1709,7 @@ class TableReference extends apiModel {
   }
 }
 
-class TableRow extends apiModel {
+class TableRow extends Model {
   protected $__fType = 'TableRowF';
   protected $__fDataType = 'array';
   public $f;
@@ -1717,7 +1722,7 @@ class TableRow extends apiModel {
   }
 }
 
-class TableRowF extends apiModel {
+class TableRowF extends Model {
   public $v;
   public function setV($v) {
     $this->v = $v;
@@ -1727,7 +1732,7 @@ class TableRowF extends apiModel {
   }
 }
 
-class TableSchema extends apiModel {
+class TableSchema extends Model {
   protected $__fieldsType = 'TableFieldSchema';
   protected $__fieldsDataType = 'array';
   public $fields;

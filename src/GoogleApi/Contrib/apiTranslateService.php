@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "languages" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $languages = $translateService->languages;
    *  </code>
    */
-  class LanguagesServiceResource extends apiServiceResource {
+  class LanguagesServiceResource extends ServiceResource {
 
 
     /**
@@ -59,7 +60,7 @@ require_once 'service/apiServiceRequest.php';
    *   $detections = $translateService->detections;
    *  </code>
    */
-  class DetectionsServiceResource extends apiServiceResource {
+  class DetectionsServiceResource extends ServiceResource {
 
 
     /**
@@ -88,7 +89,7 @@ require_once 'service/apiServiceRequest.php';
    *   $translations = $translateService->translations;
    *  </code>
    */
-  class TranslationsServiceResource extends apiServiceResource {
+  class TranslationsServiceResource extends ServiceResource {
 
 
     /**
@@ -131,7 +132,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiTranslateService extends apiService {
+class apiTranslateService extends Service {
   public $languages;
   public $detections;
   public $translations;
@@ -153,7 +154,7 @@ class apiTranslateService extends apiService {
   }
 }
 
-class DetectionsListResponse extends apiModel {
+class DetectionsListResponse extends Model {
   protected $__detectionsType = 'DetectionsResourceItems';
   protected $__detectionsDataType = 'array';
   public $detections;
@@ -166,10 +167,10 @@ class DetectionsListResponse extends apiModel {
   }
 }
 
-class DetectionsResource extends apiModel {
+class DetectionsResource extends Model {
 }
 
-class DetectionsResourceItems extends apiModel {
+class DetectionsResourceItems extends Model {
   public $isReliable;
   public $confidence;
   public $language;
@@ -193,7 +194,7 @@ class DetectionsResourceItems extends apiModel {
   }
 }
 
-class LanguagesListResponse extends apiModel {
+class LanguagesListResponse extends Model {
   protected $__languagesType = 'LanguagesResource';
   protected $__languagesDataType = 'array';
   public $languages;
@@ -206,7 +207,7 @@ class LanguagesListResponse extends apiModel {
   }
 }
 
-class LanguagesResource extends apiModel {
+class LanguagesResource extends Model {
   public $name;
   public $language;
   public function setName($name) {
@@ -223,7 +224,7 @@ class LanguagesResource extends apiModel {
   }
 }
 
-class TranslationsListResponse extends apiModel {
+class TranslationsListResponse extends Model {
   protected $__translationsType = 'TranslationsResource';
   protected $__translationsDataType = 'array';
   public $translations;
@@ -236,7 +237,7 @@ class TranslationsListResponse extends apiModel {
   }
 }
 
-class TranslationsResource extends apiModel {
+class TranslationsResource extends Model {
   public $detectedSourceLanguage;
   public $translatedText;
   public function setDetectedSourceLanguage($detectedSourceLanguage) {

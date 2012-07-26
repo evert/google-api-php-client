@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "votes" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $votes = $moderatorService->votes;
    *  </code>
    */
-  class VotesServiceResource extends apiServiceResource {
+  class VotesServiceResource extends ServiceResource {
 
 
     /**
@@ -151,7 +152,7 @@ require_once 'service/apiServiceRequest.php';
    *   $responses = $moderatorService->responses;
    *  </code>
    */
-  class ResponsesServiceResource extends apiServiceResource {
+  class ResponsesServiceResource extends ServiceResource {
 
 
     /**
@@ -214,7 +215,7 @@ require_once 'service/apiServiceRequest.php';
    *   $tags = $moderatorService->tags;
    *  </code>
    */
-  class TagsServiceResource extends apiServiceResource {
+  class TagsServiceResource extends ServiceResource {
 
 
     /**
@@ -276,7 +277,7 @@ require_once 'service/apiServiceRequest.php';
    *   $series = $moderatorService->series;
    *  </code>
    */
-  class SeriesServiceResource extends apiServiceResource {
+  class SeriesServiceResource extends ServiceResource {
 
 
     /**
@@ -376,7 +377,7 @@ require_once 'service/apiServiceRequest.php';
    *   $submissions = $moderatorService->submissions;
    *  </code>
    */
-  class SeriesSubmissionsServiceResource extends apiServiceResource {
+  class SeriesSubmissionsServiceResource extends ServiceResource {
 
 
     /**
@@ -415,7 +416,7 @@ require_once 'service/apiServiceRequest.php';
    *   $responses = $moderatorService->responses;
    *  </code>
    */
-  class SeriesResponsesServiceResource extends apiServiceResource {
+  class SeriesResponsesServiceResource extends ServiceResource {
 
 
     /**
@@ -452,7 +453,7 @@ require_once 'service/apiServiceRequest.php';
    *   $topics = $moderatorService->topics;
    *  </code>
    */
-  class TopicsServiceResource extends apiServiceResource {
+  class TopicsServiceResource extends ServiceResource {
 
 
     /**
@@ -540,7 +541,7 @@ require_once 'service/apiServiceRequest.php';
    *   $submissions = $moderatorService->submissions;
    *  </code>
    */
-  class TopicsSubmissionsServiceResource extends apiServiceResource {
+  class TopicsSubmissionsServiceResource extends ServiceResource {
 
 
     /**
@@ -580,7 +581,7 @@ require_once 'service/apiServiceRequest.php';
    *   $global = $moderatorService->global;
    *  </code>
    */
-  class ModeratorGlobalServiceResource extends apiServiceResource {
+  class ModeratorGlobalServiceResource extends ServiceResource {
 
 
   }
@@ -594,7 +595,7 @@ require_once 'service/apiServiceRequest.php';
    *   $series = $moderatorService->series;
    *  </code>
    */
-  class ModeratorGlobalSeriesServiceResource extends apiServiceResource {
+  class ModeratorGlobalSeriesServiceResource extends ServiceResource {
 
 
     /**
@@ -627,7 +628,7 @@ require_once 'service/apiServiceRequest.php';
    *   $profiles = $moderatorService->profiles;
    *  </code>
    */
-  class ProfilesServiceResource extends apiServiceResource {
+  class ProfilesServiceResource extends ServiceResource {
 
 
     /**
@@ -688,7 +689,7 @@ require_once 'service/apiServiceRequest.php';
    *   $featured = $moderatorService->featured;
    *  </code>
    */
-  class FeaturedServiceResource extends apiServiceResource {
+  class FeaturedServiceResource extends ServiceResource {
 
 
   }
@@ -702,7 +703,7 @@ require_once 'service/apiServiceRequest.php';
    *   $series = $moderatorService->series;
    *  </code>
    */
-  class FeaturedSeriesServiceResource extends apiServiceResource {
+  class FeaturedSeriesServiceResource extends ServiceResource {
 
 
     /**
@@ -730,7 +731,7 @@ require_once 'service/apiServiceRequest.php';
    *   $myrecent = $moderatorService->myrecent;
    *  </code>
    */
-  class MyrecentServiceResource extends apiServiceResource {
+  class MyrecentServiceResource extends ServiceResource {
 
 
   }
@@ -744,7 +745,7 @@ require_once 'service/apiServiceRequest.php';
    *   $series = $moderatorService->series;
    *  </code>
    */
-  class MyrecentSeriesServiceResource extends apiServiceResource {
+  class MyrecentSeriesServiceResource extends ServiceResource {
 
 
     /**
@@ -772,7 +773,7 @@ require_once 'service/apiServiceRequest.php';
    *   $my = $moderatorService->my;
    *  </code>
    */
-  class MyServiceResource extends apiServiceResource {
+  class MyServiceResource extends ServiceResource {
 
 
   }
@@ -786,7 +787,7 @@ require_once 'service/apiServiceRequest.php';
    *   $series = $moderatorService->series;
    *  </code>
    */
-  class MySeriesServiceResource extends apiServiceResource {
+  class MySeriesServiceResource extends ServiceResource {
 
 
     /**
@@ -814,7 +815,7 @@ require_once 'service/apiServiceRequest.php';
    *   $submissions = $moderatorService->submissions;
    *  </code>
    */
-  class SubmissionsServiceResource extends apiServiceResource {
+  class SubmissionsServiceResource extends ServiceResource {
 
 
     /**
@@ -878,7 +879,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiModeratorService extends apiService {
+class apiModeratorService extends Service {
   public $votes;
   public $responses;
   public $tags;
@@ -939,7 +940,7 @@ class apiModeratorService extends apiService {
   }
 }
 
-class ModeratorTopicsResourcePartial extends apiModel {
+class ModeratorTopicsResourcePartial extends Model {
   protected $__idType = 'ModeratorTopicsResourcePartialId';
   protected $__idDataType = '';
   public $id;
@@ -951,7 +952,7 @@ class ModeratorTopicsResourcePartial extends apiModel {
   }
 }
 
-class ModeratorTopicsResourcePartialId extends apiModel {
+class ModeratorTopicsResourcePartialId extends Model {
   public $seriesId;
   public $topicId;
   public function setSeriesId($seriesId) {
@@ -968,7 +969,7 @@ class ModeratorTopicsResourcePartialId extends apiModel {
   }
 }
 
-class ModeratorVotesResourcePartial extends apiModel {
+class ModeratorVotesResourcePartial extends Model {
   public $vote;
   public $flag;
   public function setVote($vote) {
@@ -985,7 +986,7 @@ class ModeratorVotesResourcePartial extends apiModel {
   }
 }
 
-class Profile extends apiModel {
+class Profile extends Model {
   public $kind;
   protected $__attributionType = 'ProfileAttribution';
   protected $__attributionDataType = '';
@@ -1013,7 +1014,7 @@ class Profile extends apiModel {
   }
 }
 
-class ProfileAttribution extends apiModel {
+class ProfileAttribution extends Model {
   protected $__geoType = 'ProfileAttributionGeo';
   protected $__geoDataType = '';
   public $geo;
@@ -1046,7 +1047,7 @@ class ProfileAttribution extends apiModel {
   }
 }
 
-class ProfileAttributionGeo extends apiModel {
+class ProfileAttributionGeo extends Model {
   public $latitude;
   public $location;
   public $longitude;
@@ -1070,7 +1071,7 @@ class ProfileAttributionGeo extends apiModel {
   }
 }
 
-class ProfileId extends apiModel {
+class ProfileId extends Model {
   public $user;
   public function setUser($user) {
     $this->user = $user;
@@ -1080,7 +1081,7 @@ class ProfileId extends apiModel {
   }
 }
 
-class Series extends apiModel {
+class Series extends Model {
   public $kind;
   public $description;
   protected $__rulesType = 'SeriesRules';
@@ -1166,7 +1167,7 @@ class Series extends apiModel {
   }
 }
 
-class SeriesCounters extends apiModel {
+class SeriesCounters extends Model {
   public $users;
   public $noneVotes;
   public $videoSubmissions;
@@ -1218,7 +1219,7 @@ class SeriesCounters extends apiModel {
   }
 }
 
-class SeriesId extends apiModel {
+class SeriesId extends Model {
   public $seriesId;
   public function setSeriesId($seriesId) {
     $this->seriesId = $seriesId;
@@ -1228,7 +1229,7 @@ class SeriesId extends apiModel {
   }
 }
 
-class SeriesList extends apiModel {
+class SeriesList extends Model {
   protected $__itemsType = 'Series';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1248,7 +1249,7 @@ class SeriesList extends apiModel {
   }
 }
 
-class SeriesRules extends apiModel {
+class SeriesRules extends Model {
   protected $__votesType = 'SeriesRulesVotes';
   protected $__votesDataType = '';
   public $votes;
@@ -1269,7 +1270,7 @@ class SeriesRules extends apiModel {
   }
 }
 
-class SeriesRulesSubmissions extends apiModel {
+class SeriesRulesSubmissions extends Model {
   public $close;
   public $open;
   public function setClose($close) {
@@ -1286,7 +1287,7 @@ class SeriesRulesSubmissions extends apiModel {
   }
 }
 
-class SeriesRulesVotes extends apiModel {
+class SeriesRulesVotes extends Model {
   public $close;
   public $open;
   public function setClose($close) {
@@ -1303,7 +1304,7 @@ class SeriesRulesVotes extends apiModel {
   }
 }
 
-class Submission extends apiModel {
+class Submission extends Model {
   public $kind;
   protected $__attributionType = 'SubmissionAttribution';
   protected $__attributionDataType = '';
@@ -1415,7 +1416,7 @@ class Submission extends apiModel {
   }
 }
 
-class SubmissionAttribution extends apiModel {
+class SubmissionAttribution extends Model {
   public $displayName;
   public $location;
   public $avatarUrl;
@@ -1439,7 +1440,7 @@ class SubmissionAttribution extends apiModel {
   }
 }
 
-class SubmissionCounters extends apiModel {
+class SubmissionCounters extends Model {
   public $noneVotes;
   public $minusVotes;
   public $plusVotes;
@@ -1463,7 +1464,7 @@ class SubmissionCounters extends apiModel {
   }
 }
 
-class SubmissionGeo extends apiModel {
+class SubmissionGeo extends Model {
   public $latitude;
   public $location;
   public $longitude;
@@ -1487,7 +1488,7 @@ class SubmissionGeo extends apiModel {
   }
 }
 
-class SubmissionId extends apiModel {
+class SubmissionId extends Model {
   public $seriesId;
   public $submissionId;
   public function setSeriesId($seriesId) {
@@ -1504,7 +1505,7 @@ class SubmissionId extends apiModel {
   }
 }
 
-class SubmissionList extends apiModel {
+class SubmissionList extends Model {
   protected $__itemsType = 'Submission';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1524,7 +1525,7 @@ class SubmissionList extends apiModel {
   }
 }
 
-class SubmissionParentSubmissionId extends apiModel {
+class SubmissionParentSubmissionId extends Model {
   public $seriesId;
   public $submissionId;
   public function setSeriesId($seriesId) {
@@ -1541,7 +1542,7 @@ class SubmissionParentSubmissionId extends apiModel {
   }
 }
 
-class SubmissionTranslations extends apiModel {
+class SubmissionTranslations extends Model {
   public $lang;
   public $text;
   public function setLang($lang) {
@@ -1558,7 +1559,7 @@ class SubmissionTranslations extends apiModel {
   }
 }
 
-class Tag extends apiModel {
+class Tag extends Model {
   public $text;
   public $kind;
   protected $__idType = 'TagId';
@@ -1584,7 +1585,7 @@ class Tag extends apiModel {
   }
 }
 
-class TagId extends apiModel {
+class TagId extends Model {
   public $seriesId;
   public $tagId;
   public $submissionId;
@@ -1608,7 +1609,7 @@ class TagId extends apiModel {
   }
 }
 
-class TagList extends apiModel {
+class TagList extends Model {
   protected $__itemsType = 'Tag';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1628,7 +1629,7 @@ class TagList extends apiModel {
   }
 }
 
-class Topic extends apiModel {
+class Topic extends Model {
   public $kind;
   public $description;
   protected $__rulesType = 'TopicRules';
@@ -1695,7 +1696,7 @@ class Topic extends apiModel {
   }
 }
 
-class TopicCounters extends apiModel {
+class TopicCounters extends Model {
   public $users;
   public $noneVotes;
   public $videoSubmissions;
@@ -1740,7 +1741,7 @@ class TopicCounters extends apiModel {
   }
 }
 
-class TopicId extends apiModel {
+class TopicId extends Model {
   public $seriesId;
   public $topicId;
   public function setSeriesId($seriesId) {
@@ -1757,7 +1758,7 @@ class TopicId extends apiModel {
   }
 }
 
-class TopicList extends apiModel {
+class TopicList extends Model {
   protected $__itemsType = 'Topic';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1777,7 +1778,7 @@ class TopicList extends apiModel {
   }
 }
 
-class TopicRules extends apiModel {
+class TopicRules extends Model {
   protected $__votesType = 'TopicRulesVotes';
   protected $__votesDataType = '';
   public $votes;
@@ -1798,7 +1799,7 @@ class TopicRules extends apiModel {
   }
 }
 
-class TopicRulesSubmissions extends apiModel {
+class TopicRulesSubmissions extends Model {
   public $close;
   public $open;
   public function setClose($close) {
@@ -1815,7 +1816,7 @@ class TopicRulesSubmissions extends apiModel {
   }
 }
 
-class TopicRulesVotes extends apiModel {
+class TopicRulesVotes extends Model {
   public $close;
   public $open;
   public function setClose($close) {
@@ -1832,7 +1833,7 @@ class TopicRulesVotes extends apiModel {
   }
 }
 
-class Vote extends apiModel {
+class Vote extends Model {
   public $vote;
   public $flag;
   protected $__idType = 'VoteId';
@@ -1865,7 +1866,7 @@ class Vote extends apiModel {
   }
 }
 
-class VoteId extends apiModel {
+class VoteId extends Model {
   public $seriesId;
   public $submissionId;
   public function setSeriesId($seriesId) {
@@ -1882,7 +1883,7 @@ class VoteId extends apiModel {
   }
 }
 
-class VoteList extends apiModel {
+class VoteList extends Model {
   protected $__itemsType = 'Vote';
   protected $__itemsDataType = 'array';
   public $items;

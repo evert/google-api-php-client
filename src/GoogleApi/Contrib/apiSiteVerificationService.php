@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "webResource" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $webResource = $siteVerificationService->webResource;
    *  </code>
    */
-  class WebResourceServiceResource extends apiServiceResource {
+  class WebResourceServiceResource extends ServiceResource {
 
 
     /**
@@ -163,7 +164,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiSiteVerificationService extends apiService {
+class apiSiteVerificationService extends Service {
   public $webResource;
   /**
    * Constructs the internal representation of the SiteVerification service.
@@ -181,7 +182,7 @@ class apiSiteVerificationService extends apiService {
   }
 }
 
-class SiteVerificationWebResourceGettokenRequest extends apiModel {
+class SiteVerificationWebResourceGettokenRequest extends Model {
   public $verificationMethod;
   protected $__siteType = 'SiteVerificationWebResourceGettokenRequestSite';
   protected $__siteDataType = '';
@@ -200,7 +201,7 @@ class SiteVerificationWebResourceGettokenRequest extends apiModel {
   }
 }
 
-class SiteVerificationWebResourceGettokenRequestSite extends apiModel {
+class SiteVerificationWebResourceGettokenRequestSite extends Model {
   public $identifier;
   public $type;
   public function setIdentifier($identifier) {
@@ -217,7 +218,7 @@ class SiteVerificationWebResourceGettokenRequestSite extends apiModel {
   }
 }
 
-class SiteVerificationWebResourceGettokenResponse extends apiModel {
+class SiteVerificationWebResourceGettokenResponse extends Model {
   public $token;
   public $method;
   public function setToken($token) {
@@ -234,7 +235,7 @@ class SiteVerificationWebResourceGettokenResponse extends apiModel {
   }
 }
 
-class SiteVerificationWebResourceListResponse extends apiModel {
+class SiteVerificationWebResourceListResponse extends Model {
   protected $__itemsType = 'SiteVerificationWebResourceResource';
   protected $__itemsDataType = 'array';
   public $items;
@@ -247,7 +248,7 @@ class SiteVerificationWebResourceListResponse extends apiModel {
   }
 }
 
-class SiteVerificationWebResourceResource extends apiModel {
+class SiteVerificationWebResourceResource extends Model {
   public $owners;
   public $id;
   protected $__siteType = 'SiteVerificationWebResourceResourceSite';
@@ -274,7 +275,7 @@ class SiteVerificationWebResourceResource extends apiModel {
   }
 }
 
-class SiteVerificationWebResourceResourceSite extends apiModel {
+class SiteVerificationWebResourceResourceSite extends Model {
   public $identifier;
   public $type;
   public function setIdentifier($identifier) {

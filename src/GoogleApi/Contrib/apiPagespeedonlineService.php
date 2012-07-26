@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "pagespeedapi" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $pagespeedapi = $pagespeedonlineService->pagespeedapi;
    *  </code>
    */
-  class PagespeedapiServiceResource extends apiServiceResource {
+  class PagespeedServiceResource extends ServiceResource {
 
 
     /**
@@ -71,7 +72,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiPagespeedonlineService extends apiService {
+class apiPagespeedonlineService extends Service {
   public $pagespeedapi;
   /**
    * Constructs the internal representation of the Pagespeedonline service.
@@ -85,11 +86,11 @@ class apiPagespeedonlineService extends apiService {
     $this->serviceName = 'pagespeedonline';
 
     $apiClient->addService($this->serviceName, $this->version);
-    $this->pagespeedapi = new PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"type": "string", "location": "query"}, "url": {"required": true, "type": "string", "location": "query"}, "rule": {"repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
+    $this->pagespeedapi = new PagespeedServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"type": "string", "location": "query"}, "url": {"required": true, "type": "string", "location": "query"}, "rule": {"repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
   }
 }
 
-class Result extends apiModel {
+class Result extends Model {
   public $kind;
   protected $__formattedResultsType = 'ResultFormattedResults';
   protected $__formattedResultsDataType = '';
@@ -162,7 +163,7 @@ class Result extends apiModel {
   }
 }
 
-class ResultFormattedResults extends apiModel {
+class ResultFormattedResults extends Model {
   public $locale;
   protected $__ruleResultsType = 'ResultFormattedResultsRuleResults';
   protected $__ruleResultsDataType = 'map';
@@ -181,7 +182,7 @@ class ResultFormattedResults extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResults extends apiModel {
+class ResultFormattedResultsRuleResults extends Model {
   public $localizedRuleName;
   protected $__urlBlocksType = 'ResultFormattedResultsRuleResultsUrlBlocks';
   protected $__urlBlocksDataType = 'array';
@@ -215,7 +216,7 @@ class ResultFormattedResultsRuleResults extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocks extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocks extends Model {
   protected $__headerType = 'ResultFormattedResultsRuleResultsUrlBlocksHeader';
   protected $__headerDataType = '';
   public $header;
@@ -237,7 +238,7 @@ class ResultFormattedResultsRuleResultsUrlBlocks extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksHeader extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksHeader extends Model {
   protected $__argsType = 'ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs';
   protected $__argsDataType = 'array';
   public $args;
@@ -257,7 +258,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksHeader extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs extends Model {
   public $type;
   public $value;
   public function setType($type) {
@@ -274,7 +275,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksHeaderArgs extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksUrls extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksUrls extends Model {
   protected $__detailsType = 'ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails';
   protected $__detailsDataType = 'array';
   public $details;
@@ -296,7 +297,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrls extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails extends Model {
   protected $__argsType = 'ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs';
   protected $__argsDataType = 'array';
   public $args;
@@ -316,7 +317,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetails extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs extends Model {
   public $type;
   public $value;
   public function setType($type) {
@@ -333,7 +334,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrlsDetailsArgs extends apiModel
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksUrlsResult extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsResult extends Model {
   protected $__argsType = 'ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs';
   protected $__argsDataType = 'array';
   public $args;
@@ -353,7 +354,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrlsResult extends apiModel {
   }
 }
 
-class ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs extends apiModel {
+class ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs extends Model {
   public $type;
   public $value;
   public function setType($type) {
@@ -370,7 +371,7 @@ class ResultFormattedResultsRuleResultsUrlBlocksUrlsResultArgs extends apiModel 
   }
 }
 
-class ResultPageStats extends apiModel {
+class ResultPageStats extends Model {
   public $otherResponseBytes;
   public $flashResponseBytes;
   public $totalRequestBytes;
@@ -464,7 +465,7 @@ class ResultPageStats extends apiModel {
   }
 }
 
-class ResultVersion extends apiModel {
+class ResultVersion extends Model {
   public $major;
   public $minor;
   public function setMajor($major) {

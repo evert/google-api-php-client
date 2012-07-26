@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "trainedmodels" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $trainedmodels = $predictionService->trainedmodels;
    *  </code>
    */
-  class TrainedmodelsServiceResource extends apiServiceResource {
+  class TrainedmodelsServiceResource extends ServiceResource {
 
 
     /**
@@ -118,7 +119,7 @@ require_once 'service/apiServiceRequest.php';
    *   $hostedmodels = $predictionService->hostedmodels;
    *  </code>
    */
-  class HostedmodelsServiceResource extends apiServiceResource {
+  class HostedmodelsServiceResource extends ServiceResource {
 
 
     /**
@@ -156,7 +157,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiPredictionService extends apiService {
+class apiPredictionService extends Service {
   public $trainedmodels;
   public $hostedmodels;
   /**
@@ -176,7 +177,7 @@ class apiPredictionService extends apiService {
   }
 }
 
-class Input extends apiModel {
+class Input extends Model {
   protected $__inputType = 'InputInput';
   protected $__inputDataType = '';
   public $input;
@@ -188,7 +189,7 @@ class Input extends apiModel {
   }
 }
 
-class InputInput extends apiModel {
+class InputInput extends Model {
   public $csvInstance;
   public function setCsvInstance(/* array(object) */ $csvInstance) {
     $this->assertIsArray($csvInstance, 'object', __METHOD__);
@@ -199,7 +200,7 @@ class InputInput extends apiModel {
   }
 }
 
-class Output extends apiModel {
+class Output extends Model {
   public $kind;
   public $outputLabel;
   public $id;
@@ -247,7 +248,7 @@ class Output extends apiModel {
   }
 }
 
-class OutputOutputMulti extends apiModel {
+class OutputOutputMulti extends Model {
   public $score;
   public $label;
   public function setScore($score) {
@@ -264,7 +265,7 @@ class OutputOutputMulti extends apiModel {
   }
 }
 
-class Training extends apiModel {
+class Training extends Model {
   public $kind;
   public $storageDataLocation;
   public $storagePMMLModelLocation;
@@ -342,7 +343,7 @@ class Training extends apiModel {
   }
 }
 
-class TrainingDataAnalysis extends apiModel {
+class TrainingDataAnalysis extends Model {
   public $warnings;
   public function setWarnings(/* array(string) */ $warnings) {
     $this->assertIsArray($warnings, 'string', __METHOD__);
@@ -353,7 +354,7 @@ class TrainingDataAnalysis extends apiModel {
   }
 }
 
-class TrainingModelInfo extends apiModel {
+class TrainingModelInfo extends Model {
   public $confusionMatrixRowTotals;
   public $numberLabels;
   public $confusionMatrix;
@@ -412,7 +413,7 @@ class TrainingModelInfo extends apiModel {
   }
 }
 
-class Update extends apiModel {
+class Update extends Model {
   public $csvInstance;
   public $label;
   public function setCsvInstance(/* array(object) */ $csvInstance) {

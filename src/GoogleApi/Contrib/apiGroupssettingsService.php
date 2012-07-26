@@ -15,6 +15,11 @@
  * the License.
  */
 
+namespace GoogleApi\Contrib;
+
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "groups" collection of methods.
@@ -24,7 +29,7 @@
    *   $groups = $groupssettingsService->groups;
    *  </code>
    */
-  class GroupsServiceResource extends apiServiceResource {
+  class GroupsServiceResource extends ServiceResource {
 
 
     /**
@@ -93,7 +98,7 @@
  *
  * @author Google, Inc.
  */
-class apiGroupssettingsService extends apiService {
+class apiGroupssettingsService extends Service {
   public $groups;
   /**
    * Constructs the internal representation of the Groupssettings service.
@@ -112,7 +117,7 @@ class apiGroupssettingsService extends apiService {
   }
 }
 
-class Groups extends apiModel {
+class Groups extends Model {
   public $allowExternalMembers;
   public $whoCanJoin;
   public $primaryLanguage;

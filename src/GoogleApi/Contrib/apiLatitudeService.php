@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "currentLocation" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $currentLocation = $latitudeService->currentLocation;
    *  </code>
    */
-  class CurrentLocationServiceResource extends apiServiceResource {
+  class CurrentLocationServiceResource extends ServiceResource {
 
 
     /**
@@ -85,7 +86,7 @@ require_once 'service/apiServiceRequest.php';
    *   $location = $latitudeService->location;
    *  </code>
    */
-  class LocationServiceResource extends apiServiceResource {
+  class LocationServiceResource extends ServiceResource {
 
 
     /**
@@ -173,7 +174,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiLatitudeService extends apiService {
+class apiLatitudeService extends Service {
   public $currentLocation;
   public $location;
   /**
@@ -193,7 +194,7 @@ class apiLatitudeService extends apiService {
   }
 }
 
-class Location extends apiModel {
+class Location extends Model {
   public $kind;
   public $altitude;
   public $longitude;
@@ -266,7 +267,7 @@ class Location extends apiModel {
   }
 }
 
-class LocationFeed extends apiModel {
+class LocationFeed extends Model {
   protected $__itemsType = 'Location';
   protected $__itemsDataType = 'array';
   public $items;

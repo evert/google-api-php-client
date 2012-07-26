@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "url" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $url = $urlshortenerService->url;
    *  </code>
    */
-  class UrlServiceResource extends apiServiceResource {
+  class UrlServiceResource extends ServiceResource {
 
 
     /**
@@ -103,7 +104,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiUrlshortenerService extends apiService {
+class apiUrlshortenerService extends Service {
   public $url;
   /**
    * Constructs the internal representation of the Urlshortener service.
@@ -121,7 +122,7 @@ class apiUrlshortenerService extends apiService {
   }
 }
 
-class AnalyticsSnapshot extends apiModel {
+class AnalyticsSnapshot extends Model {
   public $shortUrlClicks;
   protected $__countriesType = 'StringCount';
   protected $__countriesDataType = 'array';
@@ -178,7 +179,7 @@ class AnalyticsSnapshot extends apiModel {
   }
 }
 
-class AnalyticsSummary extends apiModel {
+class AnalyticsSummary extends Model {
   protected $__weekType = 'AnalyticsSnapshot';
   protected $__weekDataType = '';
   public $week;
@@ -226,7 +227,7 @@ class AnalyticsSummary extends apiModel {
   }
 }
 
-class StringCount extends apiModel {
+class StringCount extends Model {
   public $count;
   public $id;
   public function setCount($count) {
@@ -243,7 +244,7 @@ class StringCount extends apiModel {
   }
 }
 
-class Url extends apiModel {
+class Url extends Model {
   public $status;
   public $kind;
   public $created;
@@ -290,7 +291,7 @@ class Url extends apiModel {
   }
 }
 
-class UrlHistory extends apiModel {
+class UrlHistory extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Url';
   protected $__itemsDataType = 'array';

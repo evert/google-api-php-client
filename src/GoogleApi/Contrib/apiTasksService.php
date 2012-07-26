@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "tasks" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $tasks = $tasksService->tasks;
    *  </code>
    */
-  class TasksServiceResource extends apiServiceResource {
+  class TasksServiceResource extends ServiceResource {
 
 
     /**
@@ -191,7 +192,7 @@ require_once 'service/apiServiceRequest.php';
    *   $tasklists = $tasksService->tasklists;
    *  </code>
    */
-  class TasklistsServiceResource extends apiServiceResource {
+  class TasklistsServiceResource extends ServiceResource {
 
 
     /**
@@ -309,7 +310,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiTasksService extends apiService {
+class apiTasksService extends Service {
   public $tasks;
   public $tasklists;
   /**
@@ -329,7 +330,7 @@ class apiTasksService extends apiService {
   }
 }
 
-class Task extends apiModel {
+class Task extends Model {
   public $status;
   public $kind;
   public $updated;
@@ -440,7 +441,7 @@ class Task extends apiModel {
   }
 }
 
-class TaskLinks extends apiModel {
+class TaskLinks extends Model {
   public $type;
   public $link;
   public $description;
@@ -464,7 +465,7 @@ class TaskLinks extends apiModel {
   }
 }
 
-class TaskList extends apiModel {
+class TaskList extends Model {
   public $kind;
   public $etag;
   public $id;
@@ -502,7 +503,7 @@ class TaskList extends apiModel {
   }
 }
 
-class TaskLists extends apiModel {
+class TaskLists extends Model {
   public $nextPageToken;
   protected $__itemsType = 'TaskList';
   protected $__itemsDataType = 'array';
@@ -536,7 +537,7 @@ class TaskLists extends apiModel {
   }
 }
 
-class Tasks extends apiModel {
+class Tasks extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Task';
   protected $__itemsDataType = 'array';

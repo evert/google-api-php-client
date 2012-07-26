@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "webfonts" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $webfonts = $webfontsService->webfonts;
    *  </code>
    */
-  class WebfontsServiceResource extends apiServiceResource {
+  class WebfontsServiceResource extends ServiceResource {
 
 
     /**
@@ -68,7 +69,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiWebfontsService extends apiService {
+class apiWebfontsService extends Service {
   public $webfonts;
   /**
    * Constructs the internal representation of the Webfonts service.
@@ -86,7 +87,7 @@ class apiWebfontsService extends apiService {
   }
 }
 
-class Webfont extends apiModel {
+class Webfont extends Model {
   public $kind;
   public $variants;
   public $subsets;
@@ -117,7 +118,7 @@ class Webfont extends apiModel {
   }
 }
 
-class WebfontList extends apiModel {
+class WebfontList extends Model {
   protected $__itemsType = 'Webfont';
   protected $__itemsDataType = 'array';
   public $items;

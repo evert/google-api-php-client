@@ -15,6 +15,11 @@
  * the License.
  */
 
+namespace GoogleApi\Contrib;
+
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "files" collection of methods.
@@ -24,7 +29,7 @@
    *   $files = $driveService->files;
    *  </code>
    */
-  class FilesServiceResource extends apiServiceResource {
+  class FilesServiceResource extends ServiceResource {
 
 
     /**
@@ -33,7 +38,7 @@
      * @param DriveFile $postBody
      * @return DriveFile
      */
-    public function insert(com.google.drive.model.DriveFile $postBody, $optParams = array()) {
+    public function insert(DriveFile $postBody, $optParams = array()) {
       $params = array('postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
@@ -55,7 +60,7 @@
      * @opt_param bool newRevision Whether a blob upload should create a new revision. If not set or false, the blob data in the current head revision will be replaced.
      * @return DriveFile
      */
-    public function patch($id, com.google.drive.model.DriveFile $postBody, $optParams = array()) {
+    public function patch($id, DriveFile $postBody, $optParams = array()) {
       $params = array('id' => $id, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
@@ -77,7 +82,7 @@
      * @opt_param bool newRevision Whether a blob upload should create a new revision. If not set or false, the blob data in the current head revision will be replaced.
      * @return DriveFile
      */
-    public function update($id, com.google.drive.model.DriveFile $postBody, $optParams = array()) {
+    public function update($id, DriveFile $postBody, $optParams = array()) {
       $params = array('id' => $id, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
@@ -123,7 +128,7 @@
  *
  * @author Google, Inc.
  */
-class apiDriveService extends apiService {
+class apiDriveService extends Service {
   public $files;
   /**
    * Constructs the internal representation of the Drive service.
@@ -142,7 +147,7 @@ class apiDriveService extends apiService {
   }
 }
 
-class DriveFile extends apiModel {
+class DriveFile extends Model {
   public $mimeType;
   public $selfLink;
   public $kind;
@@ -287,7 +292,7 @@ class DriveFile extends apiModel {
   }
 }
 
-class DriveFileIndexableText extends apiModel {
+class DriveFileIndexableText extends Model {
   public $text;
   public function setText($text) {
     $this->text = $text;
@@ -297,7 +302,7 @@ class DriveFileIndexableText extends apiModel {
   }
 }
 
-class DriveFileLabels extends apiModel {
+class DriveFileLabels extends Model {
   public $hidden;
   public $starred;
   public $trashed;
@@ -321,7 +326,7 @@ class DriveFileLabels extends apiModel {
   }
 }
 
-class DriveFileParentsCollection extends apiModel {
+class DriveFileParentsCollection extends Model {
   public $parentLink;
   public $id;
   public function setParentLink($parentLink) {
@@ -338,7 +343,7 @@ class DriveFileParentsCollection extends apiModel {
   }
 }
 
-class Permission extends apiModel {
+class Permission extends Model {
   public $type;
   public $kind;
   public $etag;

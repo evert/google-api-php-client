@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "communityMembers" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityMembers = $orkutService->communityMembers;
    *  </code>
    */
-  class CommunityMembersServiceResource extends apiServiceResource {
+  class CommunityMembersServiceResource extends ServiceResource {
 
 
     /**
@@ -112,7 +113,7 @@ require_once 'service/apiServiceRequest.php';
    *   $activities = $orkutService->activities;
    *  </code>
    */
-  class ActivitiesServiceResource extends apiServiceResource {
+  class ActivitiesServiceResource extends ServiceResource {
 
 
     /**
@@ -158,7 +159,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityPollComments = $orkutService->communityPollComments;
    *  </code>
    */
-  class CommunityPollCommentsServiceResource extends apiServiceResource {
+  class CommunityPollCommentsServiceResource extends ServiceResource {
 
 
     /**
@@ -211,7 +212,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityPolls = $orkutService->communityPolls;
    *  </code>
    */
-  class CommunityPollsServiceResource extends apiServiceResource {
+  class CommunityPollsServiceResource extends ServiceResource {
 
 
     /**
@@ -265,7 +266,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityMessages = $orkutService->communityMessages;
    *  </code>
    */
-  class CommunityMessagesServiceResource extends apiServiceResource {
+  class CommunityMessagesServiceResource extends ServiceResource {
 
 
     /**
@@ -331,7 +332,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityTopics = $orkutService->communityTopics;
    *  </code>
    */
-  class CommunityTopicsServiceResource extends apiServiceResource {
+  class CommunityTopicsServiceResource extends ServiceResource {
 
 
     /**
@@ -417,7 +418,7 @@ require_once 'service/apiServiceRequest.php';
    *   $comments = $orkutService->comments;
    *  </code>
    */
-  class CommentsServiceResource extends apiServiceResource {
+  class CommentsServiceResource extends ServiceResource {
 
 
     /**
@@ -499,7 +500,7 @@ require_once 'service/apiServiceRequest.php';
    *   $acl = $orkutService->acl;
    *  </code>
    */
-  class AclServiceResource extends apiServiceResource {
+  class AclServiceResource extends ServiceResource {
 
 
     /**
@@ -524,7 +525,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityRelated = $orkutService->communityRelated;
    *  </code>
    */
-  class CommunityRelatedServiceResource extends apiServiceResource {
+  class CommunityRelatedServiceResource extends ServiceResource {
 
 
     /**
@@ -556,7 +557,7 @@ require_once 'service/apiServiceRequest.php';
    *   $scraps = $orkutService->scraps;
    *  </code>
    */
-  class ScrapsServiceResource extends apiServiceResource {
+  class ScrapsServiceResource extends ServiceResource {
 
 
     /**
@@ -585,7 +586,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityPollVotes = $orkutService->communityPollVotes;
    *  </code>
    */
-  class CommunityPollVotesServiceResource extends apiServiceResource {
+  class CommunityPollVotesServiceResource extends ServiceResource {
 
 
     /**
@@ -616,7 +617,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communities = $orkutService->communities;
    *  </code>
    */
-  class CommunitiesServiceResource extends apiServiceResource {
+  class CommunitiesServiceResource extends ServiceResource {
 
 
     /**
@@ -669,7 +670,7 @@ require_once 'service/apiServiceRequest.php';
    *   $communityFollow = $orkutService->communityFollow;
    *  </code>
    */
-  class CommunityFollowServiceResource extends apiServiceResource {
+  class CommunityFollowServiceResource extends ServiceResource {
 
 
     /**
@@ -711,7 +712,7 @@ require_once 'service/apiServiceRequest.php';
    *   $activityVisibility = $orkutService->activityVisibility;
    *  </code>
    */
-  class ActivityVisibilityServiceResource extends apiServiceResource {
+  class ActivityVisibilityServiceResource extends ServiceResource {
 
 
     /**
@@ -775,7 +776,7 @@ require_once 'service/apiServiceRequest.php';
    *   $badges = $orkutService->badges;
    *  </code>
    */
-  class BadgesServiceResource extends apiServiceResource {
+  class BadgesServiceResource extends ServiceResource {
 
 
     /**
@@ -821,7 +822,7 @@ require_once 'service/apiServiceRequest.php';
    *   $counters = $orkutService->counters;
    *  </code>
    */
-  class CountersServiceResource extends apiServiceResource {
+  class CountersServiceResource extends ServiceResource {
 
 
     /**
@@ -858,7 +859,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiOrkutService extends apiService {
+class apiOrkutService extends Service {
   public $communityMembers;
   public $activities;
   public $communityPollComments;
@@ -906,7 +907,7 @@ class apiOrkutService extends apiService {
   }
 }
 
-class Acl extends apiModel {
+class Acl extends Model {
   protected $__itemsType = 'AclItems';
   protected $__itemsDataType = 'array';
   public $items;
@@ -940,7 +941,7 @@ class Acl extends apiModel {
   }
 }
 
-class AclItems extends apiModel {
+class AclItems extends Model {
   public $type;
   public $id;
   public function setType($type) {
@@ -957,7 +958,7 @@ class AclItems extends apiModel {
   }
 }
 
-class Activity extends apiModel {
+class Activity extends Model {
   public $kind;
   protected $__linksType = 'OrkutLinkResource';
   protected $__linksDataType = 'array';
@@ -1039,7 +1040,7 @@ class Activity extends apiModel {
   }
 }
 
-class ActivityList extends apiModel {
+class ActivityList extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Activity';
   protected $__itemsDataType = 'array';
@@ -1066,7 +1067,7 @@ class ActivityList extends apiModel {
   }
 }
 
-class ActivityObject extends apiModel {
+class ActivityObject extends Model {
   public $content;
   protected $__itemsType = 'OrkutActivityobjectsResource';
   protected $__itemsDataType = 'array';
@@ -1102,7 +1103,7 @@ class ActivityObject extends apiModel {
   }
 }
 
-class ActivityObjectReplies extends apiModel {
+class ActivityObjectReplies extends Model {
   public $totalItems;
   protected $__itemsType = 'Comment';
   protected $__itemsDataType = 'array';
@@ -1129,7 +1130,7 @@ class ActivityObjectReplies extends apiModel {
   }
 }
 
-class Badge extends apiModel {
+class Badge extends Model {
   public $badgeSmallLogo;
   public $kind;
   public $description;
@@ -1195,7 +1196,7 @@ class Badge extends apiModel {
   }
 }
 
-class BadgeList extends apiModel {
+class BadgeList extends Model {
   protected $__itemsType = 'Badge';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1215,7 +1216,7 @@ class BadgeList extends apiModel {
   }
 }
 
-class Comment extends apiModel {
+class Comment extends Model {
   protected $__inReplyToType = 'CommentInReplyTo';
   protected $__inReplyToDataType = '';
   public $inReplyTo;
@@ -1274,7 +1275,7 @@ class Comment extends apiModel {
   }
 }
 
-class CommentInReplyTo extends apiModel {
+class CommentInReplyTo extends Model {
   public $type;
   public $href;
   public $ref;
@@ -1305,7 +1306,7 @@ class CommentInReplyTo extends apiModel {
   }
 }
 
-class CommentList extends apiModel {
+class CommentList extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Comment';
   protected $__itemsDataType = 'array';
@@ -1339,7 +1340,7 @@ class CommentList extends apiModel {
   }
 }
 
-class Community extends apiModel {
+class Community extends Model {
   public $category;
   public $kind;
   public $member_count;
@@ -1451,7 +1452,7 @@ class Community extends apiModel {
   }
 }
 
-class CommunityList extends apiModel {
+class CommunityList extends Model {
   protected $__itemsType = 'Community';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1471,7 +1472,7 @@ class CommunityList extends apiModel {
   }
 }
 
-class CommunityMembers extends apiModel {
+class CommunityMembers extends Model {
   protected $__communityMembershipStatusType = 'CommunityMembershipStatus';
   protected $__communityMembershipStatusDataType = '';
   public $communityMembershipStatus;
@@ -1499,7 +1500,7 @@ class CommunityMembers extends apiModel {
   }
 }
 
-class CommunityMembersList extends apiModel {
+class CommunityMembersList extends Model {
   public $nextPageToken;
   public $kind;
   protected $__itemsType = 'CommunityMembers';
@@ -1547,7 +1548,7 @@ class CommunityMembersList extends apiModel {
   }
 }
 
-class CommunityMembershipStatus extends apiModel {
+class CommunityMembershipStatus extends Model {
   public $status;
   public $isFollowing;
   public $isRestoreAvailable;
@@ -1627,7 +1628,7 @@ class CommunityMembershipStatus extends apiModel {
   }
 }
 
-class CommunityMessage extends apiModel {
+class CommunityMessage extends Model {
   public $body;
   public $kind;
   protected $__linksType = 'OrkutLinkResource';
@@ -1691,7 +1692,7 @@ class CommunityMessage extends apiModel {
   }
 }
 
-class CommunityMessageList extends apiModel {
+class CommunityMessageList extends Model {
   public $nextPageToken;
   public $kind;
   protected $__itemsType = 'CommunityMessage';
@@ -1739,7 +1740,7 @@ class CommunityMessageList extends apiModel {
   }
 }
 
-class CommunityPoll extends apiModel {
+class CommunityPoll extends Model {
   protected $__linksType = 'OrkutLinkResource';
   protected $__linksDataType = 'array';
   public $links;
@@ -1907,7 +1908,7 @@ class CommunityPoll extends apiModel {
   }
 }
 
-class CommunityPollComment extends apiModel {
+class CommunityPollComment extends Model {
   public $body;
   public $kind;
   public $addedDate;
@@ -1947,7 +1948,7 @@ class CommunityPollComment extends apiModel {
   }
 }
 
-class CommunityPollCommentList extends apiModel {
+class CommunityPollCommentList extends Model {
   public $nextPageToken;
   public $kind;
   protected $__itemsType = 'CommunityPollComment';
@@ -1995,7 +1996,7 @@ class CommunityPollCommentList extends apiModel {
   }
 }
 
-class CommunityPollImage extends apiModel {
+class CommunityPollImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -2005,7 +2006,7 @@ class CommunityPollImage extends apiModel {
   }
 }
 
-class CommunityPollList extends apiModel {
+class CommunityPollList extends Model {
   public $nextPageToken;
   public $kind;
   protected $__itemsType = 'CommunityPoll';
@@ -2053,7 +2054,7 @@ class CommunityPollList extends apiModel {
   }
 }
 
-class CommunityPollVote extends apiModel {
+class CommunityPollVote extends Model {
   public $kind;
   public $optionIds;
   public $isVotevisible;
@@ -2078,7 +2079,7 @@ class CommunityPollVote extends apiModel {
   }
 }
 
-class CommunityTopic extends apiModel {
+class CommunityTopic extends Model {
   public $body;
   public $lastUpdate;
   public $kind;
@@ -2166,7 +2167,7 @@ class CommunityTopic extends apiModel {
   }
 }
 
-class CommunityTopicList extends apiModel {
+class CommunityTopicList extends Model {
   public $nextPageToken;
   public $kind;
   protected $__itemsType = 'CommunityTopic';
@@ -2214,7 +2215,7 @@ class CommunityTopicList extends apiModel {
   }
 }
 
-class Counters extends apiModel {
+class Counters extends Model {
   protected $__itemsType = 'OrkutCounterResource';
   protected $__itemsDataType = 'array';
   public $items;
@@ -2234,7 +2235,7 @@ class Counters extends apiModel {
   }
 }
 
-class OrkutActivityobjectsResource extends apiModel {
+class OrkutActivityobjectsResource extends Model {
   public $displayName;
   protected $__linksType = 'OrkutLinkResource';
   protected $__linksDataType = 'array';
@@ -2284,7 +2285,7 @@ class OrkutActivityobjectsResource extends apiModel {
   }
 }
 
-class OrkutActivitypersonResource extends apiModel {
+class OrkutActivitypersonResource extends Model {
   protected $__nameType = 'OrkutActivitypersonResourceName';
   protected $__nameDataType = '';
   public $name;
@@ -2333,7 +2334,7 @@ class OrkutActivitypersonResource extends apiModel {
   }
 }
 
-class OrkutActivitypersonResourceImage extends apiModel {
+class OrkutActivitypersonResourceImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -2343,7 +2344,7 @@ class OrkutActivitypersonResourceImage extends apiModel {
   }
 }
 
-class OrkutActivitypersonResourceName extends apiModel {
+class OrkutActivitypersonResourceName extends Model {
   public $givenName;
   public $familyName;
   public function setGivenName($givenName) {
@@ -2360,7 +2361,7 @@ class OrkutActivitypersonResourceName extends apiModel {
   }
 }
 
-class OrkutAuthorResource extends apiModel {
+class OrkutAuthorResource extends Model {
   public $url;
   protected $__imageType = 'OrkutAuthorResourceImage';
   protected $__imageDataType = '';
@@ -2393,7 +2394,7 @@ class OrkutAuthorResource extends apiModel {
   }
 }
 
-class OrkutAuthorResourceImage extends apiModel {
+class OrkutAuthorResourceImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -2403,7 +2404,7 @@ class OrkutAuthorResourceImage extends apiModel {
   }
 }
 
-class OrkutCommunitypolloptionResource extends apiModel {
+class OrkutCommunitypolloptionResource extends Model {
   protected $__imageType = 'OrkutCommunitypolloptionResourceImage';
   protected $__imageDataType = '';
   public $image;
@@ -2436,7 +2437,7 @@ class OrkutCommunitypolloptionResource extends apiModel {
   }
 }
 
-class OrkutCommunitypolloptionResourceImage extends apiModel {
+class OrkutCommunitypolloptionResourceImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -2446,7 +2447,7 @@ class OrkutCommunitypolloptionResourceImage extends apiModel {
   }
 }
 
-class OrkutCounterResource extends apiModel {
+class OrkutCounterResource extends Model {
   public $total;
   protected $__linkType = 'OrkutLinkResource';
   protected $__linkDataType = '';
@@ -2472,7 +2473,7 @@ class OrkutCounterResource extends apiModel {
   }
 }
 
-class OrkutLinkResource extends apiModel {
+class OrkutLinkResource extends Model {
   public $href;
   public $type;
   public $rel;
@@ -2503,7 +2504,7 @@ class OrkutLinkResource extends apiModel {
   }
 }
 
-class Visibility extends apiModel {
+class Visibility extends Model {
   public $kind;
   public $visibility;
   protected $__linksType = 'OrkutLinkResource';

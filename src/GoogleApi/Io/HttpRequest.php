@@ -17,6 +17,7 @@
 namespace GoogleApi\Io;
 
 use GoogleApi\Service\Utils;
+use GoogleApi\Config;
 
 /**
  * HTTP Request to be executed by IO classes. Upon execution, the
@@ -53,11 +54,10 @@ class HttpRequest {
     $this->setRequestHeaders($headers);
     $this->setPostBody($postBody);
 
-    global $apiConfig;
-    if (empty($apiConfig['application_name'])) {
+    if (!Config::has('application_name')) {
       $this->userAgent = self::USER_AGENT_SUFFIX;
     } else {
-      $this->userAgent = $apiConfig['application_name'] . " " . self::USER_AGENT_SUFFIX;
+      $this->userAgent = Config::get('application_name') . " " . self::USER_AGENT_SUFFIX;
     }
   }
 
@@ -195,8 +195,7 @@ class HttpRequest {
     if (substr($url, 0, 4) == 'http') {
       $this->url = $url;
     } else {
-      global $apiConfig;
-      $this->url = $apiConfig['basePath'] . $url;
+      $this->url = Config::get('basePath') . $url;
     }
   }
 

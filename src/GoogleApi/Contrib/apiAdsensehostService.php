@@ -15,6 +15,11 @@
  * the License.
  */
 
+namespace GoogleApi\Contrib;
+
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "urlchannels" collection of methods.
@@ -24,7 +29,7 @@
    *   $urlchannels = $adsensehostService->urlchannels;
    *  </code>
    */
-  class UrlchannelsServiceResource extends apiServiceResource {
+  class UrlchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -57,7 +62,7 @@
    *   $adclients = $adsensehostService->adclients;
    *  </code>
    */
-  class AdclientsServiceResource extends apiServiceResource {
+  class AdclientsServiceResource extends ServiceResource {
 
 
     /**
@@ -89,7 +94,7 @@
    *   $reports = $adsensehostService->reports;
    *  </code>
    */
-  class ReportsServiceResource extends apiServiceResource {
+  class ReportsServiceResource extends ServiceResource {
 
 
     /**
@@ -131,7 +136,7 @@
    *   $customchannels = $adsensehostService->customchannels;
    *  </code>
    */
-  class CustomchannelsServiceResource extends apiServiceResource {
+  class CustomchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -170,7 +175,7 @@
  *
  * @author Google, Inc.
  */
-class apiAdsensehostService extends apiService {
+class apiAdsensehostService extends Service {
   public $urlchannels;
   public $adclients;
   public $reports;
@@ -195,7 +200,7 @@ class apiAdsensehostService extends apiService {
   }
 }
 
-class AdClient extends apiModel {
+class AdClient extends Model {
   public $productCode;
   public $kind;
   public $id;
@@ -226,7 +231,7 @@ class AdClient extends apiModel {
   }
 }
 
-class AdClients extends apiModel {
+class AdClients extends Model {
   public $nextPageToken;
   protected $__itemsType = 'AdClient';
   protected $__itemsDataType = 'array';
@@ -260,7 +265,7 @@ class AdClients extends apiModel {
   }
 }
 
-class AdsensehostReportsGenerateResponse extends apiModel {
+class AdsensehostReportsGenerateResponse extends Model {
   public $rows;
   public $warnings;
   public $totals;
@@ -312,7 +317,7 @@ class AdsensehostReportsGenerateResponse extends apiModel {
   }
 }
 
-class AdsensehostReportsGenerateResponseHeaders extends apiModel {
+class AdsensehostReportsGenerateResponseHeaders extends Model {
   public $currency;
   public $type;
   public $name;
@@ -336,7 +341,7 @@ class AdsensehostReportsGenerateResponseHeaders extends apiModel {
   }
 }
 
-class CustomChannel extends apiModel {
+class CustomChannel extends Model {
   public $kind;
   public $code;
   public $id;
@@ -367,7 +372,7 @@ class CustomChannel extends apiModel {
   }
 }
 
-class CustomChannels extends apiModel {
+class CustomChannels extends Model {
   public $nextPageToken;
   protected $__itemsType = 'CustomChannel';
   protected $__itemsDataType = 'array';
@@ -401,7 +406,7 @@ class CustomChannels extends apiModel {
   }
 }
 
-class UrlChannel extends apiModel {
+class UrlChannel extends Model {
   public $kind;
   public $id;
   public $urlPattern;
@@ -425,7 +430,7 @@ class UrlChannel extends apiModel {
   }
 }
 
-class UrlChannels extends apiModel {
+class UrlChannels extends Model {
   public $nextPageToken;
   protected $__itemsType = 'UrlChannel';
   protected $__itemsDataType = 'array';

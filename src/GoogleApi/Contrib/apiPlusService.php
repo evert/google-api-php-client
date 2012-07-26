@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "activities" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $activities = $plusService->activities;
    *  </code>
    */
-  class ActivitiesServiceResource extends apiServiceResource {
+  class ActivitiesServiceResource extends ServiceResource {
 
 
     /**
@@ -100,7 +101,7 @@ require_once 'service/apiServiceRequest.php';
    *   $comments = $plusService->comments;
    *  </code>
    */
-  class CommentsServiceResource extends apiServiceResource {
+  class CommentsServiceResource extends ServiceResource {
 
 
     /**
@@ -149,7 +150,7 @@ require_once 'service/apiServiceRequest.php';
    *   $people = $plusService->people;
    *  </code>
    */
-  class PeopleServiceResource extends apiServiceResource {
+  class PeopleServiceResource extends ServiceResource {
 
 
     /**
@@ -229,7 +230,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiPlusService extends apiService {
+class apiPlusService extends Service {
   public $activities;
   public $comments;
   public $people;
@@ -251,7 +252,7 @@ class apiPlusService extends apiService {
   }
 }
 
-class Acl extends apiModel {
+class Acl extends Model {
   protected $__itemsType = 'PlusAclentryResource';
   protected $__itemsDataType = 'array';
   public $items;
@@ -278,7 +279,7 @@ class Acl extends apiModel {
   }
 }
 
-class Activity extends apiModel {
+class Activity extends Model {
   public $placeName;
   public $kind;
   public $updated;
@@ -429,7 +430,7 @@ class Activity extends apiModel {
   }
 }
 
-class ActivityActor extends apiModel {
+class ActivityActor extends Model {
   public $displayName;
   public $url;
   protected $__imageType = 'ActivityActorImage';
@@ -476,7 +477,7 @@ class ActivityActor extends apiModel {
   }
 }
 
-class ActivityActorImage extends apiModel {
+class ActivityActorImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -486,7 +487,7 @@ class ActivityActorImage extends apiModel {
   }
 }
 
-class ActivityFeed extends apiModel {
+class ActivityFeed extends Model {
   public $nextPageToken;
   public $kind;
   public $title;
@@ -555,7 +556,7 @@ class ActivityFeed extends apiModel {
   }
 }
 
-class ActivityObject extends apiModel {
+class ActivityObject extends Model {
   protected $__resharersType = 'ActivityObjectResharers';
   protected $__resharersDataType = '';
   public $resharers;
@@ -639,7 +640,7 @@ class ActivityObject extends apiModel {
   }
 }
 
-class ActivityObjectActor extends apiModel {
+class ActivityObjectActor extends Model {
   public $url;
   protected $__imageType = 'ActivityObjectActorImage';
   protected $__imageDataType = '';
@@ -672,7 +673,7 @@ class ActivityObjectActor extends apiModel {
   }
 }
 
-class ActivityObjectActorImage extends apiModel {
+class ActivityObjectActorImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -682,7 +683,7 @@ class ActivityObjectActorImage extends apiModel {
   }
 }
 
-class ActivityObjectAttachments extends apiModel {
+class ActivityObjectAttachments extends Model {
   public $displayName;
   protected $__fullImageType = 'ActivityObjectAttachmentsFullImage';
   protected $__fullImageDataType = '';
@@ -747,7 +748,7 @@ class ActivityObjectAttachments extends apiModel {
   }
 }
 
-class ActivityObjectAttachmentsEmbed extends apiModel {
+class ActivityObjectAttachmentsEmbed extends Model {
   public $url;
   public $type;
   public function setUrl($url) {
@@ -764,38 +765,7 @@ class ActivityObjectAttachmentsEmbed extends apiModel {
   }
 }
 
-class ActivityObjectAttachmentsFullImage extends apiModel {
-  public $url;
-  public $width;
-  public $type;
-  public $height;
-  public function setUrl($url) {
-    $this->url = $url;
-  }
-  public function getUrl() {
-    return $this->url;
-  }
-  public function setWidth($width) {
-    $this->width = $width;
-  }
-  public function getWidth() {
-    return $this->width;
-  }
-  public function setType($type) {
-    $this->type = $type;
-  }
-  public function getType() {
-    return $this->type;
-  }
-  public function setHeight($height) {
-    $this->height = $height;
-  }
-  public function getHeight() {
-    return $this->height;
-  }
-}
-
-class ActivityObjectAttachmentsImage extends apiModel {
+class ActivityObjectAttachmentsFullImage extends Model {
   public $url;
   public $width;
   public $type;
@@ -826,7 +796,38 @@ class ActivityObjectAttachmentsImage extends apiModel {
   }
 }
 
-class ActivityObjectPlusoners extends apiModel {
+class ActivityObjectAttachmentsImage extends Model {
+  public $url;
+  public $width;
+  public $type;
+  public $height;
+  public function setUrl($url) {
+    $this->url = $url;
+  }
+  public function getUrl() {
+    return $this->url;
+  }
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  public function getWidth() {
+    return $this->width;
+  }
+  public function setType($type) {
+    $this->type = $type;
+  }
+  public function getType() {
+    return $this->type;
+  }
+  public function setHeight($height) {
+    $this->height = $height;
+  }
+  public function getHeight() {
+    return $this->height;
+  }
+}
+
+class ActivityObjectPlusoners extends Model {
   public $totalItems;
   public $selfLink;
   public function setTotalItems($totalItems) {
@@ -843,7 +844,7 @@ class ActivityObjectPlusoners extends apiModel {
   }
 }
 
-class ActivityObjectReplies extends apiModel {
+class ActivityObjectReplies extends Model {
   public $totalItems;
   public $selfLink;
   public function setTotalItems($totalItems) {
@@ -860,7 +861,7 @@ class ActivityObjectReplies extends apiModel {
   }
 }
 
-class ActivityObjectResharers extends apiModel {
+class ActivityObjectResharers extends Model {
   public $totalItems;
   public $selfLink;
   public function setTotalItems($totalItems) {
@@ -877,7 +878,7 @@ class ActivityObjectResharers extends apiModel {
   }
 }
 
-class ActivityProvider extends apiModel {
+class ActivityProvider extends Model {
   public $title;
   public function setTitle($title) {
     $this->title = $title;
@@ -887,7 +888,7 @@ class ActivityProvider extends apiModel {
   }
 }
 
-class Comment extends apiModel {
+class Comment extends Model {
   protected $__inReplyToType = 'CommentInReplyTo';
   protected $__inReplyToDataType = 'array';
   public $inReplyTo;
@@ -967,7 +968,7 @@ class Comment extends apiModel {
   }
 }
 
-class CommentActor extends apiModel {
+class CommentActor extends Model {
   public $url;
   protected $__imageType = 'CommentActorImage';
   protected $__imageDataType = '';
@@ -1000,7 +1001,7 @@ class CommentActor extends apiModel {
   }
 }
 
-class CommentActorImage extends apiModel {
+class CommentActorImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -1010,7 +1011,7 @@ class CommentActorImage extends apiModel {
   }
 }
 
-class CommentFeed extends apiModel {
+class CommentFeed extends Model {
   public $nextPageToken;
   public $kind;
   public $title;
@@ -1072,7 +1073,7 @@ class CommentFeed extends apiModel {
   }
 }
 
-class CommentInReplyTo extends apiModel {
+class CommentInReplyTo extends Model {
   public $url;
   public $id;
   public function setUrl($url) {
@@ -1089,7 +1090,7 @@ class CommentInReplyTo extends apiModel {
   }
 }
 
-class CommentObject extends apiModel {
+class CommentObject extends Model {
   public $content;
   public $objectType;
   public function setContent($content) {
@@ -1106,7 +1107,7 @@ class CommentObject extends apiModel {
   }
 }
 
-class PeopleFeed extends apiModel {
+class PeopleFeed extends Model {
   public $nextPageToken;
   public $kind;
   public $title;
@@ -1154,7 +1155,7 @@ class PeopleFeed extends apiModel {
   }
 }
 
-class Person extends apiModel {
+class Person extends Model {
   public $relationshipStatus;
   protected $__organizationsType = 'PersonOrganizations';
   protected $__organizationsDataType = 'array';
@@ -1321,7 +1322,7 @@ class Person extends apiModel {
   }
 }
 
-class PersonEmails extends apiModel {
+class PersonEmails extends Model {
   public $type;
   public $primary;
   public $value;
@@ -1345,7 +1346,7 @@ class PersonEmails extends apiModel {
   }
 }
 
-class PersonImage extends apiModel {
+class PersonImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -1355,7 +1356,7 @@ class PersonImage extends apiModel {
   }
 }
 
-class PersonName extends apiModel {
+class PersonName extends Model {
   public $honorificPrefix;
   public $middleName;
   public $familyName;
@@ -1400,7 +1401,7 @@ class PersonName extends apiModel {
   }
 }
 
-class PersonOrganizations extends apiModel {
+class PersonOrganizations extends Model {
   public $startDate;
   public $endDate;
   public $description;
@@ -1466,7 +1467,7 @@ class PersonOrganizations extends apiModel {
   }
 }
 
-class PersonPlacesLived extends apiModel {
+class PersonPlacesLived extends Model {
   public $primary;
   public $value;
   public function setPrimary($primary) {
@@ -1483,7 +1484,7 @@ class PersonPlacesLived extends apiModel {
   }
 }
 
-class PersonUrls extends apiModel {
+class PersonUrls extends Model {
   public $type;
   public $primary;
   public $value;
@@ -1507,7 +1508,7 @@ class PersonUrls extends apiModel {
   }
 }
 
-class PlusAclentryResource extends apiModel {
+class PlusAclentryResource extends Model {
   public $type;
   public $id;
   public function setType($type) {

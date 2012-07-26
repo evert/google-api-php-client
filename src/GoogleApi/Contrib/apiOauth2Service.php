@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "userinfo" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $userinfo = $oauth2Service->userinfo;
    *  </code>
    */
-  class UserinfoServiceResource extends apiServiceResource {
+  class UserinfoServiceResource extends ServiceResource {
 
 
     /**
@@ -57,7 +58,7 @@ require_once 'service/apiServiceRequest.php';
    *   $v2 = $oauth2Service->v2;
    *  </code>
    */
-  class UserinfoV2ServiceResource extends apiServiceResource {
+  class UserinfoV2ServiceResource extends ServiceResource {
 
 
   }
@@ -71,7 +72,7 @@ require_once 'service/apiServiceRequest.php';
    *   $me = $oauth2Service->me;
    *  </code>
    */
-  class UserinfoV2MeServiceResource extends apiServiceResource {
+  class UserinfoV2MeServiceResource extends ServiceResource {
 
 
     /**
@@ -100,7 +101,7 @@ require_once 'service/apiServiceRequest.php';
    *   $tokeninfo = $oauth2Service->tokeninfo;
    *  </code>
    */
-  class TokeninfoServiceResource extends apiServiceResource {
+  class TokeninfoServiceResource extends ServiceResource {
     /**
      * (tokeninfo.tokeninfo)
      *
@@ -138,7 +139,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiOauth2Service extends apiService {
+class apiOauth2Service extends Service {
   public $tokeninfo;
   public $userinfo;
   public $userinfo_v2;
@@ -160,7 +161,7 @@ class apiOauth2Service extends apiService {
   }
 }
 
-class Tokeninfo extends apiModel {
+class Tokeninfo extends Model {
   public $issued_to;
   public $user_id;
   public $expires_in;
@@ -219,7 +220,7 @@ class Tokeninfo extends apiModel {
   }
 }
 
-class Userinfo extends apiModel {
+class Userinfo extends Model {
   public $family_name;
   public $name;
   public $picture;

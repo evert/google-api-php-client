@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "bookshelves" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $bookshelves = $booksService->bookshelves;
    *  </code>
    */
-  class BookshelvesServiceResource extends apiServiceResource {
+  class BookshelvesServiceResource extends ServiceResource {
 
 
     /**
@@ -83,7 +84,7 @@ require_once 'service/apiServiceRequest.php';
    *   $volumes = $booksService->volumes;
    *  </code>
    */
-  class BookshelvesVolumesServiceResource extends apiServiceResource {
+  class BookshelvesVolumesServiceResource extends ServiceResource {
 
 
     /**
@@ -120,7 +121,7 @@ require_once 'service/apiServiceRequest.php';
    *   $myconfig = $booksService->myconfig;
    *  </code>
    */
-  class MyconfigServiceResource extends apiServiceResource {
+  class MyconfigServiceResource extends ServiceResource {
 
 
     /**
@@ -202,7 +203,7 @@ require_once 'service/apiServiceRequest.php';
    *   $volumes = $booksService->volumes;
    *  </code>
    */
-  class VolumesServiceResource extends apiServiceResource {
+  class VolumesServiceResource extends ServiceResource {
 
 
     /**
@@ -268,7 +269,7 @@ require_once 'service/apiServiceRequest.php';
    *   $mylibrary = $booksService->mylibrary;
    *  </code>
    */
-  class MylibraryServiceResource extends apiServiceResource {
+  class MylibraryServiceResource extends ServiceResource {
 
 
   }
@@ -282,7 +283,7 @@ require_once 'service/apiServiceRequest.php';
    *   $bookshelves = $booksService->bookshelves;
    *  </code>
    */
-  class MylibraryBookshelvesServiceResource extends apiServiceResource {
+  class MylibraryBookshelvesServiceResource extends ServiceResource {
 
 
     /**
@@ -382,7 +383,7 @@ require_once 'service/apiServiceRequest.php';
    *   $volumes = $booksService->volumes;
    *  </code>
    */
-  class MylibraryBookshelvesVolumesServiceResource extends apiServiceResource {
+  class MylibraryBookshelvesVolumesServiceResource extends ServiceResource {
 
 
     /**
@@ -419,7 +420,7 @@ require_once 'service/apiServiceRequest.php';
    *   $annotations = $booksService->annotations;
    *  </code>
    */
-  class MylibraryAnnotationsServiceResource extends apiServiceResource {
+  class MylibraryAnnotationsServiceResource extends ServiceResource {
 
 
     /**
@@ -541,7 +542,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiBooksService extends apiService {
+class apiBooksService extends Service {
   public $bookshelves;
   public $bookshelves_volumes;
   public $myconfig;
@@ -571,7 +572,7 @@ class apiBooksService extends apiService {
   }
 }
 
-class Annotation extends apiModel {
+class Annotation extends Model {
   public $kind;
   public $updated;
   public $created;
@@ -684,7 +685,7 @@ class Annotation extends apiModel {
   }
 }
 
-class AnnotationClientVersionRanges extends apiModel {
+class AnnotationClientVersionRanges extends Model {
   public $contentVersion;
   protected $__gbTextRangeType = 'BooksAnnotationsRange';
   protected $__gbTextRangeDataType = '';
@@ -721,7 +722,7 @@ class AnnotationClientVersionRanges extends apiModel {
   }
 }
 
-class AnnotationCurrentVersionRanges extends apiModel {
+class AnnotationCurrentVersionRanges extends Model {
   public $contentVersion;
   protected $__gbTextRangeType = 'BooksAnnotationsRange';
   protected $__gbTextRangeDataType = '';
@@ -758,7 +759,7 @@ class AnnotationCurrentVersionRanges extends apiModel {
   }
 }
 
-class Annotations extends apiModel {
+class Annotations extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Annotation';
   protected $__itemsDataType = 'array';
@@ -792,7 +793,7 @@ class Annotations extends apiModel {
   }
 }
 
-class BooksAnnotationsRange extends apiModel {
+class BooksAnnotationsRange extends Model {
   public $startPosition;
   public $endPosition;
   public $startOffset;
@@ -823,7 +824,7 @@ class BooksAnnotationsRange extends apiModel {
   }
 }
 
-class Bookshelf extends apiModel {
+class Bookshelf extends Model {
   public $kind;
   public $description;
   public $created;
@@ -896,7 +897,7 @@ class Bookshelf extends apiModel {
   }
 }
 
-class Bookshelves extends apiModel {
+class Bookshelves extends Model {
   protected $__itemsType = 'Bookshelf';
   protected $__itemsDataType = 'array';
   public $items;
@@ -916,7 +917,7 @@ class Bookshelves extends apiModel {
   }
 }
 
-class ConcurrentAccessRestriction extends apiModel {
+class ConcurrentAccessRestriction extends Model {
   public $nonce;
   public $kind;
   public $restricted;
@@ -996,7 +997,7 @@ class ConcurrentAccessRestriction extends apiModel {
   }
 }
 
-class DownloadAccessRestriction extends apiModel {
+class DownloadAccessRestriction extends Model {
   public $nonce;
   public $kind;
   public $justAcquired;
@@ -1083,7 +1084,7 @@ class DownloadAccessRestriction extends apiModel {
   }
 }
 
-class DownloadAccesses extends apiModel {
+class DownloadAccesses extends Model {
   protected $__downloadAccessListType = 'DownloadAccessRestriction';
   protected $__downloadAccessListDataType = 'array';
   public $downloadAccessList;
@@ -1103,7 +1104,7 @@ class DownloadAccesses extends apiModel {
   }
 }
 
-class ReadingPosition extends apiModel {
+class ReadingPosition extends Model {
   public $kind;
   public $gbImagePosition;
   public $epubCfiPosition;
@@ -1155,7 +1156,7 @@ class ReadingPosition extends apiModel {
   }
 }
 
-class RequestAccess extends apiModel {
+class RequestAccess extends Model {
   protected $__downloadAccessType = 'DownloadAccessRestriction';
   protected $__downloadAccessDataType = '';
   public $downloadAccess;
@@ -1183,7 +1184,7 @@ class RequestAccess extends apiModel {
   }
 }
 
-class Review extends apiModel {
+class Review extends Model {
   public $rating;
   public $kind;
   protected $__authorType = 'ReviewAuthor';
@@ -1260,7 +1261,7 @@ class Review extends apiModel {
   }
 }
 
-class ReviewAuthor extends apiModel {
+class ReviewAuthor extends Model {
   public $displayName;
   public function setDisplayName($displayName) {
     $this->displayName = $displayName;
@@ -1270,7 +1271,7 @@ class ReviewAuthor extends apiModel {
   }
 }
 
-class ReviewSource extends apiModel {
+class ReviewSource extends Model {
   public $extraDescription;
   public $url;
   public $description;
@@ -1294,7 +1295,7 @@ class ReviewSource extends apiModel {
   }
 }
 
-class Volume extends apiModel {
+class Volume extends Model {
   public $kind;
   protected $__accessInfoType = 'VolumeAccessInfo';
   protected $__accessInfoDataType = '';
@@ -1361,7 +1362,7 @@ class Volume extends apiModel {
   }
 }
 
-class VolumeAccessInfo extends apiModel {
+class VolumeAccessInfo extends Model {
   public $publicDomain;
   public $embeddable;
   protected $__downloadAccessType = 'DownloadAccessRestriction';
@@ -1433,7 +1434,7 @@ class VolumeAccessInfo extends apiModel {
   }
 }
 
-class VolumeAccessInfoEpub extends apiModel {
+class VolumeAccessInfoEpub extends Model {
   public $downloadLink;
   public $acsTokenLink;
   public function setDownloadLink($downloadLink) {
@@ -1450,7 +1451,7 @@ class VolumeAccessInfoEpub extends apiModel {
   }
 }
 
-class VolumeAccessInfoPdf extends apiModel {
+class VolumeAccessInfoPdf extends Model {
   public $downloadLink;
   public $acsTokenLink;
   public function setDownloadLink($downloadLink) {
@@ -1467,7 +1468,7 @@ class VolumeAccessInfoPdf extends apiModel {
   }
 }
 
-class VolumeSaleInfo extends apiModel {
+class VolumeSaleInfo extends Model {
   public $country;
   protected $__retailPriceType = 'VolumeSaleInfoRetailPrice';
   protected $__retailPriceDataType = '';
@@ -1523,7 +1524,7 @@ class VolumeSaleInfo extends apiModel {
   }
 }
 
-class VolumeSaleInfoListPrice extends apiModel {
+class VolumeSaleInfoListPrice extends Model {
   public $amount;
   public $currencyCode;
   public function setAmount($amount) {
@@ -1540,7 +1541,7 @@ class VolumeSaleInfoListPrice extends apiModel {
   }
 }
 
-class VolumeSaleInfoRetailPrice extends apiModel {
+class VolumeSaleInfoRetailPrice extends Model {
   public $amount;
   public $currencyCode;
   public function setAmount($amount) {
@@ -1557,7 +1558,7 @@ class VolumeSaleInfoRetailPrice extends apiModel {
   }
 }
 
-class VolumeUserInfo extends apiModel {
+class VolumeUserInfo extends Model {
   public $updated;
   public $isPreordered;
   public $isPurchased;
@@ -1599,7 +1600,7 @@ class VolumeUserInfo extends apiModel {
   }
 }
 
-class VolumeVolumeInfo extends apiModel {
+class VolumeVolumeInfo extends Model {
   public $publisher;
   public $subtitle;
   public $description;
@@ -1751,7 +1752,7 @@ class VolumeVolumeInfo extends apiModel {
   }
 }
 
-class VolumeVolumeInfoDimensions extends apiModel {
+class VolumeVolumeInfoDimensions extends Model {
   public $width;
   public $thickness;
   public $height;
@@ -1775,7 +1776,7 @@ class VolumeVolumeInfoDimensions extends apiModel {
   }
 }
 
-class VolumeVolumeInfoImageLinks extends apiModel {
+class VolumeVolumeInfoImageLinks extends Model {
   public $medium;
   public $smallThumbnail;
   public $large;
@@ -1820,7 +1821,7 @@ class VolumeVolumeInfoImageLinks extends apiModel {
   }
 }
 
-class VolumeVolumeInfoIndustryIdentifiers extends apiModel {
+class VolumeVolumeInfoIndustryIdentifiers extends Model {
   public $identifier;
   public $type;
   public function setIdentifier($identifier) {
@@ -1837,7 +1838,7 @@ class VolumeVolumeInfoIndustryIdentifiers extends apiModel {
   }
 }
 
-class Volumes extends apiModel {
+class Volumes extends Model {
   public $totalItems;
   protected $__itemsType = 'Volume';
   protected $__itemsDataType = 'array';

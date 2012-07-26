@@ -184,8 +184,7 @@ class ServiceResource {
   }
 
   protected function useObjects() {
-    global $apiConfig;
-    return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
+    return Config::get('use_objects', false);
   }
 
   protected function stripNull(&$o) {

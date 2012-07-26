@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "text" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $text = $freebaseService->text;
    *  </code>
    */
-  class TextServiceResource extends apiServiceResource {
+  class TextServiceResource extends ServiceResource {
 
 
     /**
@@ -62,7 +63,7 @@ require_once 'service/apiServiceRequest.php';
    *   $mqlread = $freebaseService->mqlread;
    *  </code>
    */
-  class MqlreadServiceResource extends apiServiceResource {
+  class MqlreadServiceResource extends ServiceResource {
     /**
      * Performs MQL Queries. (mqlread.mqlread)
      *
@@ -96,7 +97,7 @@ require_once 'service/apiServiceRequest.php';
    *   $image = $freebaseService->image;
    *  </code>
    */
-  class ImageServiceResource extends apiServiceResource {
+  class ImageServiceResource extends ServiceResource {
     /**
      * Returns the scaled/cropped image attached to a freebase node. (image.image)
      *
@@ -133,7 +134,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiFreebaseService extends apiService {
+class apiFreebaseService extends Service {
   public $mqlread;
   public $image;
   public $text;
@@ -155,7 +156,7 @@ class apiFreebaseService extends apiService {
   }
 }
 
-class ContentserviceGet extends apiModel {
+class ContentserviceGet extends Model {
   public $result;
   public function setResult($result) {
     $this->result = $result;

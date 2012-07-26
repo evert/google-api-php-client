@@ -15,6 +15,11 @@
  * the License.
  */
 
+namespace GoogleApi\Contrib;
+
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "directDeals" collection of methods.
@@ -24,7 +29,7 @@
    *   $directDeals = $adexchangebuyerService->directDeals;
    *  </code>
    */
-  class DirectDealsServiceResource extends apiServiceResource {
+  class DirectDealsServiceResource extends ServiceResource {
 
 
     /**
@@ -68,7 +73,7 @@
    *   $accounts = $adexchangebuyerService->accounts;
    *  </code>
    */
-  class AccountsServiceResource extends apiServiceResource {
+  class AccountsServiceResource extends ServiceResource {
 
 
     /**
@@ -146,7 +151,7 @@
    *   $creatives = $adexchangebuyerService->creatives;
    *  </code>
    */
-  class CreativesServiceResource extends apiServiceResource {
+  class CreativesServiceResource extends ServiceResource {
 
 
     /**
@@ -199,7 +204,7 @@
  *
  * @author Google, Inc.
  */
-class apiAdexchangebuyerService extends apiService {
+class apiAdexchangebuyerService extends Service {
   public $directDeals;
   public $accounts;
   public $creatives;
@@ -222,7 +227,7 @@ class apiAdexchangebuyerService extends apiService {
   }
 }
 
-class Account extends apiModel {
+class Account extends Model {
   public $kind;
   public $maximumTotalQps;
   protected $__bidderLocationType = 'AccountBidderLocation';
@@ -270,7 +275,7 @@ class Account extends apiModel {
   }
 }
 
-class AccountBidderLocation extends apiModel {
+class AccountBidderLocation extends Model {
   public $url;
   public $maximumQps;
   public function setUrl($url) {
@@ -287,7 +292,7 @@ class AccountBidderLocation extends apiModel {
   }
 }
 
-class AccountsList extends apiModel {
+class AccountsList extends Model {
   protected $__itemsType = 'Account';
   protected $__itemsDataType = 'array';
   public $items;
@@ -307,7 +312,7 @@ class AccountsList extends apiModel {
   }
 }
 
-class Creative extends apiModel {
+class Creative extends Model {
   public $productCategories;
   public $advertiserName;
   public $adgroupId;
@@ -436,7 +441,7 @@ class Creative extends apiModel {
   }
 }
 
-class DirectDeal extends apiModel {
+class DirectDeal extends Model {
   public $advertiser;
   public $kind;
   public $currencyCode;
@@ -502,7 +507,7 @@ class DirectDeal extends apiModel {
   }
 }
 
-class DirectDealsList extends apiModel {
+class DirectDealsList extends Model {
   public $kind;
   protected $__directDealsType = 'DirectDeal';
   protected $__directDealsDataType = 'array';
