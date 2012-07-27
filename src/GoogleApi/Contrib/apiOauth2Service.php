@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "userinfo" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $userinfo = $oauth2Service->userinfo;
    *  </code>
    */
-  class UserinfoServiceResource extends apiServiceResource {
+  class UserinfoServiceResource extends ServiceResource {
 
 
     /**
@@ -57,7 +58,7 @@ require_once 'service/apiServiceRequest.php';
    *   $v2 = $oauth2Service->v2;
    *  </code>
    */
-  class UserinfoV2ServiceResource extends apiServiceResource {
+  class UserinfoV2ServiceResource extends ServiceResource {
 
 
   }
@@ -71,7 +72,7 @@ require_once 'service/apiServiceRequest.php';
    *   $me = $oauth2Service->me;
    *  </code>
    */
-  class UserinfoV2MeServiceResource extends apiServiceResource {
+  class UserinfoV2MeServiceResource extends ServiceResource {
 
 
     /**
@@ -100,7 +101,7 @@ require_once 'service/apiServiceRequest.php';
    *   $tokeninfo = $oauth2Service->tokeninfo;
    *  </code>
    */
-  class TokeninfoServiceResource extends apiServiceResource {
+  class TokeninfoServiceResource extends ServiceResource {
     /**
      * (tokeninfo.tokeninfo)
      *
@@ -138,29 +139,29 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiOauth2Service extends apiService {
+class apiOauth2Service extends Service {
   public $tokeninfo;
   public $userinfo;
   public $userinfo_v2;
   /**
    * Constructs the internal representation of the Oauth2 service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/';
     $this->version = 'v2';
     $this->serviceName = 'oauth2';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->userinfo = new UserinfoServiceResource($this, $this->serviceName, 'userinfo', json_decode('{"methods": {"get": {"path": "oauth2/v2/userinfo", "response": {"$ref": "Userinfo"}, "httpMethod": "GET", "id": "oauth2.userinfo.get"}}}', true));
     $this->userinfo_v2 = new UserinfoV2ServiceResource($this, $this->serviceName, 'v2', json_decode('{}', true));
     $this->tokeninfo = new TokeninfoServiceResource($this, $this->serviceName, 'tokeninfo', json_decode('{"id": "oauth2.tokeninfo", "path": "oauth2/v2/tokeninfo", "response": {"$ref": "Tokeninfo"}, "parameters": {"access_token": {"type": "string", "location": "query"}, "id_token": {"type": "string", "location": "query"}}, "httpMethod": "GET"}', true));
   }
 }
 
-class Tokeninfo extends apiModel {
+class Tokeninfo extends Model {
   public $issued_to;
   public $user_id;
   public $expires_in;
@@ -219,7 +220,7 @@ class Tokeninfo extends apiModel {
   }
 }
 
-class Userinfo extends apiModel {
+class Userinfo extends Model {
   public $family_name;
   public $name;
   public $picture;

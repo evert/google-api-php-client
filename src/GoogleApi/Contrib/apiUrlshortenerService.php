@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "url" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $url = $urlshortenerService->url;
    *  </code>
    */
-  class UrlServiceResource extends apiServiceResource {
+  class UrlServiceResource extends ServiceResource {
 
 
     /**
@@ -103,25 +104,25 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiUrlshortenerService extends apiService {
+class apiUrlshortenerService extends Service {
   public $url;
   /**
    * Constructs the internal representation of the Urlshortener service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/urlshortener/v1/';
     $this->version = 'v1';
     $this->serviceName = 'urlshortener';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->url = new UrlServiceResource($this, $this->serviceName, 'url', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "request": {"$ref": "Url"}, "response": {"$ref": "Url"}, "httpMethod": "POST", "path": "url", "id": "urlshortener.url.insert"}, "list": {"scopes": ["https://www.googleapis.com/auth/urlshortener"], "parameters": {"start-token": {"type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "FULL"], "type": "string", "location": "query"}}, "response": {"$ref": "UrlHistory"}, "httpMethod": "GET", "path": "url/history", "id": "urlshortener.url.list"}, "get": {"parameters": {"shortUrl": {"required": true, "type": "string", "location": "query"}, "projection": {"enum": ["ANALYTICS_CLICKS", "ANALYTICS_TOP_STRINGS", "FULL"], "type": "string", "location": "query"}}, "id": "urlshortener.url.get", "httpMethod": "GET", "path": "url", "response": {"$ref": "Url"}}}}', true));
   }
 }
 
-class AnalyticsSnapshot extends apiModel {
+class AnalyticsSnapshot extends Model {
   public $shortUrlClicks;
   protected $__countriesType = 'StringCount';
   protected $__countriesDataType = 'array';
@@ -178,7 +179,7 @@ class AnalyticsSnapshot extends apiModel {
   }
 }
 
-class AnalyticsSummary extends apiModel {
+class AnalyticsSummary extends Model {
   protected $__weekType = 'AnalyticsSnapshot';
   protected $__weekDataType = '';
   public $week;
@@ -226,7 +227,7 @@ class AnalyticsSummary extends apiModel {
   }
 }
 
-class StringCount extends apiModel {
+class StringCount extends Model {
   public $count;
   public $id;
   public function setCount($count) {
@@ -243,7 +244,7 @@ class StringCount extends apiModel {
   }
 }
 
-class Url extends apiModel {
+class Url extends Model {
   public $status;
   public $kind;
   public $created;
@@ -290,7 +291,7 @@ class Url extends apiModel {
   }
 }
 
-class UrlHistory extends apiModel {
+class UrlHistory extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Url';
   protected $__itemsDataType = 'array';

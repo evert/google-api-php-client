@@ -19,6 +19,7 @@ namespace GoogleApi\Auth;
 use GoogleApi\Client;
 use GoogleApi\Io\HttpRequest;
 use GoogleApi\Service\Utils;
+use GoogleApi\Config;
 
 /**
  * Authentication class that deals with the OAuth 2 web-server authentication flow
@@ -53,7 +54,7 @@ class OAuth2 extends Auth {
    * to the discretion of the caller (which is done by calling authenticate()).
    */
   public function __construct() {
-    global $apiConfig;
+    $apiConfig = Config::getAll();
     
     if (! empty($apiConfig['developer_key'])) {
       $this->developerKey = $apiConfig['developer_key'];

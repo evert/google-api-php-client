@@ -16,6 +16,8 @@
  */
 namespace GoogleApi\Service;
 
+use GoogleApi\Config;
+
 /**
  * This class defines attributes, valid values, and usage which is generated from
  * a given json schema. http://tools.ietf.org/html/draft-zyp-json-schema-03#section-5
@@ -96,8 +98,7 @@ class Model {
   }
 
   protected function useObjects() {
-    global $apiConfig;
-    return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
+    return Config::get('use_objects', false);
   }
 
   /**
