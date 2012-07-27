@@ -139,15 +139,15 @@ class apiTranslateService extends Service {
   /**
    * Constructs the internal representation of the Translate service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/language/translate/';
     $this->version = 'v2';
     $this->serviceName = 'translate';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->languages = new LanguagesServiceResource($this, $this->serviceName, 'languages', json_decode('{"methods": {"list": {"parameters": {"target": {"type": "string", "location": "query"}}, "id": "language.languages.list", "httpMethod": "GET", "path": "v2/languages", "response": {"$ref": "LanguagesListResponse"}}}}', true));
     $this->detections = new DetectionsServiceResource($this, $this->serviceName, 'detections', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}}, "id": "language.detections.list", "httpMethod": "GET", "path": "v2/detect", "response": {"$ref": "DetectionsListResponse"}}}}', true));
     $this->translations = new TranslationsServiceResource($this, $this->serviceName, 'translations', json_decode('{"methods": {"list": {"parameters": {"q": {"repeated": true, "required": true, "type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "cid": {"repeated": true, "type": "string", "location": "query"}, "target": {"required": true, "type": "string", "location": "query"}, "format": {"enum": ["html", "text"], "type": "string", "location": "query"}}, "id": "language.translations.list", "httpMethod": "GET", "path": "v2", "response": {"$ref": "TranslationsListResponse"}}}}', true));

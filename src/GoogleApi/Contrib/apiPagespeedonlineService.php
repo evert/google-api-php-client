@@ -77,15 +77,15 @@ class apiPagespeedonlineService extends Service {
   /**
    * Constructs the internal representation of the Pagespeedonline service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/pagespeedonline/v1/';
     $this->version = 'v1';
     $this->serviceName = 'pagespeedonline';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->pagespeedapi = new PagespeedServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"parameters": {"locale": {"type": "string", "location": "query"}, "url": {"required": true, "type": "string", "location": "query"}, "rule": {"repeated": true, "type": "string", "location": "query"}, "strategy": {"enum": ["desktop", "mobile"], "type": "string", "location": "query"}}, "id": "pagespeedonline.pagespeedapi.runpagespeed", "httpMethod": "GET", "path": "runPagespeed", "response": {"$ref": "Result"}}}}', true));
   }
 }

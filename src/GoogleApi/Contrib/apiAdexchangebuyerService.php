@@ -211,15 +211,15 @@ class apiAdexchangebuyerService extends Service {
   /**
    * Constructs the internal representation of the Adexchangebuyer service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/adexchangebuyer/v1/';
     $this->version = 'v1';
     $this->serviceName = 'adexchangebuyer';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->directDeals = new DirectDealsServiceResource($this, $this->serviceName, 'directDeals', json_decode('{"methods": {"list": {"id": "adexchangebuyer.directDeals.list", "path": "directdeals", "httpMethod": "GET", "response": {"$ref": "DirectDealsList"}}, "get": {"parameters": {"id": {"format": "int64", "required": true, "type": "string", "location": "path"}}, "id": "adexchangebuyer.directDeals.get", "httpMethod": "GET", "path": "directdeals/{id}", "response": {"$ref": "DirectDeal"}}}}', true));
     $this->accounts = new AccountsServiceResource($this, $this->serviceName, 'accounts', json_decode('{"methods": {"get": {"parameters": {"id": {"format": "int32", "required": true, "type": "integer", "location": "path"}}, "id": "adexchangebuyer.accounts.get", "httpMethod": "GET", "path": "accounts/{id}", "response": {"$ref": "Account"}}, "list": {"id": "adexchangebuyer.accounts.list", "path": "accounts", "httpMethod": "GET", "response": {"$ref": "AccountsList"}}, "update": {"parameters": {"id": {"format": "int32", "required": true, "type": "integer", "location": "path"}}, "request": {"$ref": "Account"}, "id": "adexchangebuyer.accounts.update", "httpMethod": "PUT", "path": "accounts/{id}", "response": {"$ref": "Account"}}, "patch": {"parameters": {"id": {"format": "int32", "required": true, "type": "integer", "location": "path"}}, "request": {"$ref": "Account"}, "id": "adexchangebuyer.accounts.patch", "httpMethod": "PATCH", "path": "accounts/{id}", "response": {"$ref": "Account"}}}}', true));
     $this->creatives = new CreativesServiceResource($this, $this->serviceName, 'creatives', json_decode('{"methods": {"insert": {"request": {"$ref": "Creative"}, "id": "adexchangebuyer.creatives.insert", "httpMethod": "POST", "path": "creatives", "response": {"$ref": "Creative"}}, "get": {"parameters": {"adgroupId": {"format": "int64", "required": true, "type": "string", "location": "query"}, "buyerCreativeId": {"required": true, "type": "string", "location": "path"}, "accountId": {"format": "int32", "required": true, "type": "integer", "location": "path"}}, "id": "adexchangebuyer.creatives.get", "httpMethod": "GET", "path": "creatives/{accountId}/{buyerCreativeId}", "response": {"$ref": "Creative"}}}}', true));

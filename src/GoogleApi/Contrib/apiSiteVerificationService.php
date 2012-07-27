@@ -169,15 +169,15 @@ class apiSiteVerificationService extends Service {
   /**
    * Constructs the internal representation of the SiteVerification service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/siteVerification/v1/';
     $this->version = 'v1';
     $this->serviceName = 'siteVerification';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->webResource = new WebResourceServiceResource($this, $this->serviceName, 'webResource', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "parameters": {"verificationMethod": {"required": true, "type": "string", "location": "query"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "id": "siteVerification.webResource.insert", "httpMethod": "POST", "path": "webResource", "response": {"$ref": "SiteVerificationWebResourceResource"}}, "get": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "parameters": {"id": {"required": true, "type": "string", "location": "path"}}, "id": "siteVerification.webResource.get", "httpMethod": "GET", "path": "webResource/{id}", "response": {"$ref": "SiteVerificationWebResourceResource"}}, "list": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "id": "siteVerification.webResource.list", "httpMethod": "GET", "path": "webResource", "response": {"$ref": "SiteVerificationWebResourceListResponse"}}, "update": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "parameters": {"id": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "id": "siteVerification.webResource.update", "httpMethod": "PUT", "path": "webResource/{id}", "response": {"$ref": "SiteVerificationWebResourceResource"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "parameters": {"id": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "id": "siteVerification.webResource.patch", "httpMethod": "PATCH", "path": "webResource/{id}", "response": {"$ref": "SiteVerificationWebResourceResource"}}, "getToken": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "parameters": {"type": {"type": "string", "location": "query"}, "identifier": {"type": "string", "location": "query"}, "verificationMethod": {"type": "string", "location": "query"}}, "response": {"$ref": "SiteVerificationWebResourceGettokenResponse"}, "httpMethod": "GET", "path": "token", "id": "siteVerification.webResource.getToken"}, "delete": {"scopes": ["https://www.googleapis.com/auth/siteverification"], "parameters": {"id": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "webResource/{id}", "id": "siteVerification.webResource.delete"}}}', true));
   }
 }

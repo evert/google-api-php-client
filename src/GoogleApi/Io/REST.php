@@ -18,6 +18,7 @@ namespace GoogleApi\Io;
 
 use GoogleApi\Client;
 use GoogleApi\Service;
+use GoogleApi\External\URITemplateParser;
 
 /**
  * This class implements the RESTful transport of Service\ServiceRequest()'s
@@ -116,7 +117,7 @@ class REST {
     }
 
     if (count($uriTemplateVars)) {
-      $uriTemplateParser = new URI_Template_Parser($requestUrl);
+      $uriTemplateParser = new URITemplateParser($requestUrl);
       $requestUrl = $uriTemplateParser->expand($uriTemplateVars);
     }
     //FIXME work around for the the uri template lib which url encodes

@@ -74,15 +74,15 @@ class apiWebfontsService extends Service {
   /**
    * Constructs the internal representation of the Webfonts service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/webfonts/v1/';
     $this->version = 'v1';
     $this->serviceName = 'webfonts';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->webfonts = new WebfontsServiceResource($this, $this->serviceName, 'webfonts', json_decode('{"methods": {"list": {"parameters": {"sort": {"enum": ["alpha", "date", "popularity", "style", "trending"], "type": "string", "location": "query"}}, "id": "webfonts.webfonts.list", "httpMethod": "GET", "path": "webfonts", "response": {"$ref": "WebfontList"}}}}', true));
   }
 }

@@ -146,15 +146,15 @@ class apiOauth2Service extends Service {
   /**
    * Constructs the internal representation of the Oauth2 service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/';
     $this->version = 'v2';
     $this->serviceName = 'oauth2';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->userinfo = new UserinfoServiceResource($this, $this->serviceName, 'userinfo', json_decode('{"methods": {"get": {"path": "oauth2/v2/userinfo", "response": {"$ref": "Userinfo"}, "httpMethod": "GET", "id": "oauth2.userinfo.get"}}}', true));
     $this->userinfo_v2 = new UserinfoV2ServiceResource($this, $this->serviceName, 'v2', json_decode('{}', true));
     $this->tokeninfo = new TokeninfoServiceResource($this, $this->serviceName, 'tokeninfo', json_decode('{"id": "oauth2.tokeninfo", "path": "oauth2/v2/tokeninfo", "response": {"$ref": "Tokeninfo"}, "parameters": {"access_token": {"type": "string", "location": "query"}, "id_token": {"type": "string", "location": "query"}}, "httpMethod": "GET"}', true));

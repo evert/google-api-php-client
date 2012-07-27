@@ -19,6 +19,7 @@ namespace GoogleApi\Service;
 use GoogleApi\Io\HttpRequest;
 use GoogleApi\Io\REST;
 use GoogleApi\Client;
+use GoogleApi\Config;
 
 /**
  * Implements the actual methods/resources of the discovered Google API using magic function
