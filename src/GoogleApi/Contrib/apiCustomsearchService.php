@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "cse" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $cse = $customsearchService->cse;
    *  </code>
    */
-  class CseServiceResource extends apiServiceResource {
+  class CseServiceResource extends ServiceResource {
 
 
     /**
@@ -79,25 +80,25 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiCustomsearchService extends apiService {
+class apiCustomsearchService extends Service {
   public $cse;
   /**
    * Constructs the internal representation of the Customsearch service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/customsearch/';
     $this->version = 'v1';
     $this->serviceName = 'customsearch';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->cse = new CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"parameters": {"sort": {"type": "string", "location": "query"}, "filter": {"enum": ["0", "1"], "type": "string", "location": "query"}, "cx": {"type": "string", "location": "query"}, "googlehost": {"type": "string", "location": "query"}, "safe": {"default": "off", "enum": ["high", "medium", "off"], "location": "query", "type": "string"}, "q": {"required": true, "type": "string", "location": "query"}, "start": {"type": "string", "location": "query"}, "num": {"default": "10", "type": "string", "location": "query"}, "lr": {"enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "type": "string", "location": "query"}, "cr": {"type": "string", "location": "query"}, "gl": {"type": "string", "location": "query"}, "cref": {"type": "string", "location": "query"}}, "id": "search.cse.list", "httpMethod": "GET", "path": "v1", "response": {"$ref": "Search"}}}}', true));
   }
 }
 
-class Context extends apiModel {
+class Context extends Model {
   protected $__facetsType = 'ContextFacets';
   protected $__facetsDataType = 'array';
   public $facets;
@@ -117,7 +118,7 @@ class Context extends apiModel {
   }
 }
 
-class ContextFacets extends apiModel {
+class ContextFacets extends Model {
   public $anchor;
   public $label;
   public function setAnchor($anchor) {
@@ -134,7 +135,7 @@ class ContextFacets extends apiModel {
   }
 }
 
-class Promotion extends apiModel {
+class Promotion extends Model {
   public $link;
   public $displayLink;
   protected $__imageType = 'PromotionImage';
@@ -177,7 +178,7 @@ class Promotion extends apiModel {
   }
 }
 
-class PromotionBodyLines extends apiModel {
+class PromotionBodyLines extends Model {
   public $url;
   public $link;
   public $title;
@@ -201,7 +202,7 @@ class PromotionBodyLines extends apiModel {
   }
 }
 
-class PromotionImage extends apiModel {
+class PromotionImage extends Model {
   public $source;
   public $width;
   public $height;
@@ -225,7 +226,7 @@ class PromotionImage extends apiModel {
   }
 }
 
-class Query extends apiModel {
+class Query extends Model {
   public $count;
   public $sort;
   public $outputEncoding;
@@ -347,7 +348,7 @@ class Query extends apiModel {
   }
 }
 
-class Result extends apiModel {
+class Result extends Model {
   public $kind;
   public $title;
   public $displayLink;
@@ -413,7 +414,7 @@ class Result extends apiModel {
   }
 }
 
-class Search extends apiModel {
+class Search extends Model {
   protected $__promotionsType = 'Promotion';
   protected $__promotionsDataType = 'array';
   public $promotions;
@@ -470,7 +471,7 @@ class Search extends apiModel {
   }
 }
 
-class SearchUrl extends apiModel {
+class SearchUrl extends Model {
   public $type;
   public $template;
   public function setType($type) {

@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "products" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $products = $shoppingService->products;
    *  </code>
    */
-  class ProductsServiceResource extends apiServiceResource {
+  class ProductsServiceResource extends ServiceResource {
 
 
     /**
@@ -150,25 +151,25 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiShoppingService extends apiService {
+class apiShoppingService extends Service {
   public $products;
   /**
    * Constructs the internal representation of the Shopping service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/shopping/search/v1/';
     $this->version = 'v1';
     $this->serviceName = 'shopping';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->products = new ProductsServiceResource($this, $this->serviceName, 'products', json_decode('{"methods": {"list": {"parameters": {"sayt.useGcsConfig": {"type": "boolean", "location": "query"}, "debug.geocodeResponse": {"type": "boolean", "location": "query"}, "debug.enableLogging": {"type": "boolean", "location": "query"}, "facets.enabled": {"type": "boolean", "location": "query"}, "relatedQueries.useGcsConfig": {"type": "boolean", "location": "query"}, "promotions.enabled": {"type": "boolean", "location": "query"}, "debug.enabled": {"type": "boolean", "location": "query"}, "facets.include": {"type": "string", "location": "query"}, "productFields": {"type": "string", "location": "query"}, "channels": {"type": "string", "location": "query"}, "currency": {"type": "string", "location": "query"}, "startIndex": {"format": "uint32", "type": "integer", "location": "query"}, "facets.discover": {"type": "string", "location": "query"}, "debug.searchResponse": {"type": "boolean", "location": "query"}, "crowdBy": {"type": "string", "location": "query"}, "spelling.enabled": {"type": "boolean", "location": "query"}, "debug.geocodeRequest": {"type": "boolean", "location": "query"}, "source": {"required": true, "type": "string", "location": "path"}, "spelling.useGcsConfig": {"type": "boolean", "location": "query"}, "useCase": {"type": "string", "location": "query"}, "location": {"type": "string", "location": "query"}, "taxonomy": {"type": "string", "location": "query"}, "debug.rdcRequest": {"type": "boolean", "location": "query"}, "categories.include": {"type": "string", "location": "query"}, "debug.searchRequest": {"type": "boolean", "location": "query"}, "safe": {"type": "boolean", "location": "query"}, "boostBy": {"type": "string", "location": "query"}, "maxVariants": {"format": "uint32", "type": "integer", "location": "query"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "maxResults": {"format": "uint32", "type": "integer", "location": "query"}, "facets.useGcsConfig": {"type": "boolean", "location": "query"}, "categories.enabled": {"type": "boolean", "location": "query"}, "attributeFilter": {"type": "string", "location": "query"}, "sayt.enabled": {"type": "boolean", "location": "query"}, "plusOne": {"type": "string", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}, "language": {"type": "string", "location": "query"}, "redirects.useGcsConfig": {"type": "boolean", "location": "query"}, "rankBy": {"type": "string", "location": "query"}, "restrictBy": {"type": "string", "location": "query"}, "debug.rdcResponse": {"type": "boolean", "location": "query"}, "q": {"type": "string", "location": "query"}, "redirects.enabled": {"type": "boolean", "location": "query"}, "country": {"type": "string", "location": "query"}, "relatedQueries.enabled": {"type": "boolean", "location": "query"}, "minAvailability": {"enum": ["inStock", "limited", "outOfStock", "unknown"], "type": "string", "location": "query"}, "promotions.useGcsConfig": {"type": "boolean", "location": "query"}}, "id": "shopping.products.list", "httpMethod": "GET", "path": "{source}/products", "response": {"$ref": "Products"}}, "get": {"parameters": {"categories.include": {"type": "string", "location": "query"}, "recommendations.enabled": {"type": "boolean", "location": "query"}, "plusOne": {"type": "string", "location": "query"}, "debug.enableLogging": {"type": "boolean", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}, "recommendations.include": {"type": "string", "location": "query"}, "taxonomy": {"type": "string", "location": "query"}, "productIdType": {"required": true, "type": "string", "location": "path"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "attributeFilter": {"type": "string", "location": "query"}, "debug.enabled": {"type": "boolean", "location": "query"}, "source": {"required": true, "type": "string", "location": "path"}, "categories.enabled": {"type": "boolean", "location": "query"}, "location": {"type": "string", "location": "query"}, "debug.searchRequest": {"type": "boolean", "location": "query"}, "debug.searchResponse": {"type": "boolean", "location": "query"}, "recommendations.useGcsConfig": {"type": "boolean", "location": "query"}, "productFields": {"type": "string", "location": "query"}, "accountId": {"format": "uint32", "required": true, "type": "integer", "location": "path"}, "productId": {"required": true, "type": "string", "location": "path"}}, "id": "shopping.products.get", "httpMethod": "GET", "path": "{source}/products/{accountId}/{productIdType}/{productId}", "response": {"$ref": "Product"}}}}', true));
   }
 }
 
-class Product extends apiModel {
+class Product extends Model {
   public $selfLink;
   public $kind;
   protected $__productType = 'ShoppingModelProductJsonV1';
@@ -237,7 +238,7 @@ class Product extends apiModel {
   }
 }
 
-class ProductRecommendations extends apiModel {
+class ProductRecommendations extends Model {
   protected $__recommendationListType = 'ProductRecommendationsRecommendationList';
   protected $__recommendationListDataType = 'array';
   public $recommendationList;
@@ -257,7 +258,7 @@ class ProductRecommendations extends apiModel {
   }
 }
 
-class ProductRecommendationsRecommendationList extends apiModel {
+class ProductRecommendationsRecommendationList extends Model {
   protected $__productType = 'ShoppingModelProductJsonV1';
   protected $__productDataType = '';
   public $product;
@@ -269,7 +270,7 @@ class ProductRecommendationsRecommendationList extends apiModel {
   }
 }
 
-class Products extends apiModel {
+class Products extends Model {
   protected $__promotionsType = 'ProductsPromotions';
   protected $__promotionsDataType = 'array';
   public $promotions;
@@ -443,7 +444,7 @@ class Products extends apiModel {
   }
 }
 
-class ProductsFacets extends apiModel {
+class ProductsFacets extends Model {
   public $count;
   public $displayName;
   public $name;
@@ -498,7 +499,7 @@ class ProductsFacets extends apiModel {
   }
 }
 
-class ProductsFacetsBuckets extends apiModel {
+class ProductsFacetsBuckets extends Model {
   public $count;
   public $minExclusive;
   public $min;
@@ -543,7 +544,7 @@ class ProductsFacetsBuckets extends apiModel {
   }
 }
 
-class ProductsPromotions extends apiModel {
+class ProductsPromotions extends Model {
   protected $__productType = 'ShoppingModelProductJsonV1';
   protected $__productDataType = '';
   public $product;
@@ -614,7 +615,7 @@ class ProductsPromotions extends apiModel {
   }
 }
 
-class ProductsPromotionsCustomFields extends apiModel {
+class ProductsPromotionsCustomFields extends Model {
   public $name;
   public $value;
   public function setName($name) {
@@ -631,7 +632,7 @@ class ProductsPromotionsCustomFields extends apiModel {
   }
 }
 
-class ProductsShelfSpaceAds extends apiModel {
+class ProductsShelfSpaceAds extends Model {
   protected $__productType = 'ShoppingModelProductJsonV1';
   protected $__productDataType = '';
   public $product;
@@ -643,7 +644,7 @@ class ProductsShelfSpaceAds extends apiModel {
   }
 }
 
-class ProductsSpelling extends apiModel {
+class ProductsSpelling extends Model {
   public $suggestion;
   public function setSuggestion($suggestion) {
     $this->suggestion = $suggestion;
@@ -653,7 +654,7 @@ class ProductsSpelling extends apiModel {
   }
 }
 
-class ProductsStores extends apiModel {
+class ProductsStores extends Model {
   public $storeCode;
   public $name;
   public $storeId;
@@ -698,7 +699,7 @@ class ProductsStores extends apiModel {
   }
 }
 
-class ShoppingModelCategoryJsonV1 extends apiModel {
+class ShoppingModelCategoryJsonV1 extends Model {
   public $url;
   public $shortName;
   public $parents;
@@ -730,7 +731,7 @@ class ShoppingModelCategoryJsonV1 extends apiModel {
   }
 }
 
-class ShoppingModelDebugJsonV1 extends apiModel {
+class ShoppingModelDebugJsonV1 extends Model {
   public $searchResponse;
   public $searchRequest;
   public $rdcResponse;
@@ -771,7 +772,7 @@ class ShoppingModelDebugJsonV1 extends apiModel {
   }
 }
 
-class ShoppingModelDebugJsonV1BackendTimes extends apiModel {
+class ShoppingModelDebugJsonV1BackendTimes extends Model {
   public $serverMillis;
   public $hostName;
   public $name;
@@ -802,7 +803,7 @@ class ShoppingModelDebugJsonV1BackendTimes extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1 extends apiModel {
+class ShoppingModelProductJsonV1 extends Model {
   public $queryMatched;
   public $gtin;
   protected $__imagesType = 'ShoppingModelProductJsonV1Images';
@@ -1058,7 +1059,7 @@ class ShoppingModelProductJsonV1 extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1Attributes extends apiModel {
+class ShoppingModelProductJsonV1Attributes extends Model {
   public $type;
   public $value;
   public $displayName;
@@ -1096,7 +1097,7 @@ class ShoppingModelProductJsonV1Attributes extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1Author extends apiModel {
+class ShoppingModelProductJsonV1Author extends Model {
   public $name;
   public $accountId;
   public function setName($name) {
@@ -1113,7 +1114,7 @@ class ShoppingModelProductJsonV1Author extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1Images extends apiModel {
+class ShoppingModelProductJsonV1Images extends Model {
   public $link;
   protected $__thumbnailsType = 'ShoppingModelProductJsonV1ImagesThumbnails';
   protected $__thumbnailsDataType = 'array';
@@ -1133,7 +1134,7 @@ class ShoppingModelProductJsonV1Images extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1ImagesThumbnails extends apiModel {
+class ShoppingModelProductJsonV1ImagesThumbnails extends Model {
   public $content;
   public $width;
   public $link;
@@ -1164,7 +1165,7 @@ class ShoppingModelProductJsonV1ImagesThumbnails extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1Internal4 extends apiModel {
+class ShoppingModelProductJsonV1Internal4 extends Model {
   public $node;
   public $confidence;
   public function setNode($node) {
@@ -1181,7 +1182,7 @@ class ShoppingModelProductJsonV1Internal4 extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1Inventories extends apiModel {
+class ShoppingModelProductJsonV1Inventories extends Model {
   public $distance;
   public $price;
   public $storeId;
@@ -1247,7 +1248,7 @@ class ShoppingModelProductJsonV1Inventories extends apiModel {
   }
 }
 
-class ShoppingModelProductJsonV1Variants extends apiModel {
+class ShoppingModelProductJsonV1Variants extends Model {
   protected $__variantType = 'ShoppingModelProductJsonV1';
   protected $__variantDataType = '';
   public $variant;

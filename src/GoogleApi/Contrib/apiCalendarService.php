@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "freebusy" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $freebusy = $calendarService->freebusy;
    *  </code>
    */
-  class FreebusyServiceResource extends apiServiceResource {
+  class FreebusyServiceResource extends ServiceResource {
 
 
     /**
@@ -57,7 +58,7 @@ require_once 'service/apiServiceRequest.php';
    *   $settings = $calendarService->settings;
    *  </code>
    */
-  class SettingsServiceResource extends apiServiceResource {
+  class SettingsServiceResource extends ServiceResource {
 
 
     /**
@@ -101,7 +102,7 @@ require_once 'service/apiServiceRequest.php';
    *   $calendarList = $calendarService->calendarList;
    *  </code>
    */
-  class CalendarListServiceResource extends apiServiceResource {
+  class CalendarListServiceResource extends ServiceResource {
 
 
     /**
@@ -213,7 +214,7 @@ require_once 'service/apiServiceRequest.php';
    *   $calendars = $calendarService->calendars;
    *  </code>
    */
-  class CalendarsServiceResource extends apiServiceResource {
+  class CalendarsServiceResource extends ServiceResource {
 
 
     /**
@@ -315,7 +316,7 @@ require_once 'service/apiServiceRequest.php';
    *   $acl = $calendarService->acl;
    *  </code>
    */
-  class AclServiceResource extends apiServiceResource {
+  class AclServiceResource extends ServiceResource {
 
 
     /**
@@ -426,7 +427,7 @@ require_once 'service/apiServiceRequest.php';
    *   $colors = $calendarService->colors;
    *  </code>
    */
-  class ColorsServiceResource extends apiServiceResource {
+  class ColorsServiceResource extends ServiceResource {
 
 
     /**
@@ -454,7 +455,7 @@ require_once 'service/apiServiceRequest.php';
    *   $events = $calendarService->events;
    *  </code>
    */
-  class EventsServiceResource extends apiServiceResource {
+  class EventsServiceResource extends ServiceResource {
 
 
     /**
@@ -707,7 +708,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiCalendarService extends apiService {
+class apiCalendarService extends Service {
   public $freebusy;
   public $settings;
   public $calendarList;
@@ -718,15 +719,15 @@ class apiCalendarService extends apiService {
   /**
    * Constructs the internal representation of the Calendar service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/calendar/v3/';
     $this->version = 'v3';
     $this->serviceName = 'calendar';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->freebusy = new FreebusyServiceResource($this, $this->serviceName, 'freebusy', json_decode('{"methods": {"query": {"scopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/calendar.readonly"], "request": {"$ref": "FreeBusyRequest"}, "response": {"$ref": "FreeBusyResponse"}, "httpMethod": "POST", "path": "freeBusy", "id": "calendar.freebusy.query"}}}', true));
     $this->settings = new SettingsServiceResource($this, $this->serviceName, 'settings', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/calendar.readonly"], "id": "calendar.settings.list", "httpMethod": "GET", "path": "users/me/settings", "response": {"$ref": "Settings"}}, "get": {"scopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/calendar.readonly"], "parameters": {"setting": {"required": true, "type": "string", "location": "path"}}, "id": "calendar.settings.get", "httpMethod": "GET", "path": "users/me/settings/{setting}", "response": {"$ref": "Setting"}}}}', true));
     $this->calendarList = new CalendarListServiceResource($this, $this->serviceName, 'calendarList', json_decode('{"methods": {"insert": {"scopes": ["https://www.googleapis.com/auth/calendar"], "request": {"$ref": "CalendarListEntry"}, "response": {"$ref": "CalendarListEntry"}, "httpMethod": "POST", "path": "users/me/calendarList", "id": "calendar.calendarList.insert"}, "get": {"scopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/calendar.readonly"], "parameters": {"calendarId": {"required": true, "type": "string", "location": "path"}}, "id": "calendar.calendarList.get", "httpMethod": "GET", "path": "users/me/calendarList/{calendarId}", "response": {"$ref": "CalendarListEntry"}}, "list": {"scopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/calendar.readonly"], "parameters": {"pageToken": {"type": "string", "location": "query"}, "showHidden": {"type": "boolean", "location": "query"}, "maxResults": {"format": "int32", "minimum": "1", "type": "integer", "location": "query"}, "minAccessRole": {"enum": ["freeBusyReader", "owner", "reader", "writer"], "type": "string", "location": "query"}}, "response": {"$ref": "CalendarList"}, "httpMethod": "GET", "path": "users/me/calendarList", "id": "calendar.calendarList.list"}, "update": {"scopes": ["https://www.googleapis.com/auth/calendar"], "parameters": {"calendarId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "CalendarListEntry"}, "id": "calendar.calendarList.update", "httpMethod": "PUT", "path": "users/me/calendarList/{calendarId}", "response": {"$ref": "CalendarListEntry"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/calendar"], "parameters": {"calendarId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "CalendarListEntry"}, "id": "calendar.calendarList.patch", "httpMethod": "PATCH", "path": "users/me/calendarList/{calendarId}", "response": {"$ref": "CalendarListEntry"}}, "delete": {"scopes": ["https://www.googleapis.com/auth/calendar"], "parameters": {"calendarId": {"required": true, "type": "string", "location": "path"}}, "httpMethod": "DELETE", "path": "users/me/calendarList/{calendarId}", "id": "calendar.calendarList.delete"}}}', true));
@@ -737,7 +738,7 @@ class apiCalendarService extends apiService {
   }
 }
 
-class Acl extends apiModel {
+class Acl extends Model {
   public $nextPageToken;
   protected $__itemsType = 'AclRule';
   protected $__itemsDataType = 'array';
@@ -771,7 +772,7 @@ class Acl extends apiModel {
   }
 }
 
-class AclRule extends apiModel {
+class AclRule extends Model {
   protected $__scopeType = 'AclRuleScope';
   protected $__scopeDataType = '';
   public $scope;
@@ -811,7 +812,7 @@ class AclRule extends apiModel {
   }
 }
 
-class AclRuleScope extends apiModel {
+class AclRuleScope extends Model {
   public $type;
   public $value;
   public function setType($type) {
@@ -828,7 +829,7 @@ class AclRuleScope extends apiModel {
   }
 }
 
-class Calendar extends apiModel {
+class Calendar extends Model {
   public $kind;
   public $description;
   public $summary;
@@ -880,7 +881,7 @@ class Calendar extends apiModel {
   }
 }
 
-class CalendarList extends apiModel {
+class CalendarList extends Model {
   public $nextPageToken;
   protected $__itemsType = 'CalendarListEntry';
   protected $__itemsDataType = 'array';
@@ -914,7 +915,7 @@ class CalendarList extends apiModel {
   }
 }
 
-class CalendarListEntry extends apiModel {
+class CalendarListEntry extends Model {
   public $kind;
   protected $__defaultRemindersType = 'EventReminder';
   protected $__defaultRemindersDataType = 'array';
@@ -1011,7 +1012,7 @@ class CalendarListEntry extends apiModel {
   }
 }
 
-class ColorDefinition extends apiModel {
+class ColorDefinition extends Model {
   public $foreground;
   public $background;
   public function setForeground($foreground) {
@@ -1028,7 +1029,7 @@ class ColorDefinition extends apiModel {
   }
 }
 
-class Colors extends apiModel {
+class Colors extends Model {
   protected $__calendarType = 'ColorDefinition';
   protected $__calendarDataType = 'map';
   public $calendar;
@@ -1063,7 +1064,7 @@ class Colors extends apiModel {
   }
 }
 
-class Error extends apiModel {
+class Error extends Model {
   public $domain;
   public $reason;
   public function setDomain($domain) {
@@ -1080,7 +1081,7 @@ class Error extends apiModel {
   }
 }
 
-class Event extends apiModel {
+class Event extends Model {
   protected $__creatorType = 'EventCreator';
   protected $__creatorDataType = '';
   public $creator;
@@ -1327,7 +1328,7 @@ class Event extends apiModel {
   }
 }
 
-class EventAttendee extends apiModel {
+class EventAttendee extends Model {
   public $comment;
   public $displayName;
   public $self;
@@ -1393,7 +1394,7 @@ class EventAttendee extends apiModel {
   }
 }
 
-class EventCreator extends apiModel {
+class EventCreator extends Model {
   public $displayName;
   public $email;
   public function setDisplayName($displayName) {
@@ -1410,7 +1411,7 @@ class EventCreator extends apiModel {
   }
 }
 
-class EventDateTime extends apiModel {
+class EventDateTime extends Model {
   public $date;
   public $timeZone;
   public $dateTime;
@@ -1434,7 +1435,7 @@ class EventDateTime extends apiModel {
   }
 }
 
-class EventExtendedProperties extends apiModel {
+class EventExtendedProperties extends Model {
   public $shared;
   public $private;
   public function setShared($shared) {
@@ -1451,7 +1452,7 @@ class EventExtendedProperties extends apiModel {
   }
 }
 
-class EventGadget extends apiModel {
+class EventGadget extends Model {
   public $preferences;
   public $title;
   public $height;
@@ -1510,7 +1511,7 @@ class EventGadget extends apiModel {
   }
 }
 
-class EventOrganizer extends apiModel {
+class EventOrganizer extends Model {
   public $displayName;
   public $email;
   public function setDisplayName($displayName) {
@@ -1527,7 +1528,7 @@ class EventOrganizer extends apiModel {
   }
 }
 
-class EventReminder extends apiModel {
+class EventReminder extends Model {
   public $minutes;
   public $method;
   public function setMinutes($minutes) {
@@ -1544,7 +1545,7 @@ class EventReminder extends apiModel {
   }
 }
 
-class EventReminders extends apiModel {
+class EventReminders extends Model {
   protected $__overridesType = 'EventReminder';
   protected $__overridesDataType = 'array';
   public $overrides;
@@ -1564,7 +1565,7 @@ class EventReminders extends apiModel {
   }
 }
 
-class Events extends apiModel {
+class Events extends Model {
   public $nextPageToken;
   public $kind;
   protected $__defaultRemindersType = 'EventReminder';
@@ -1643,7 +1644,7 @@ class Events extends apiModel {
   }
 }
 
-class FreeBusyCalendar extends apiModel {
+class FreeBusyCalendar extends Model {
   protected $__busyType = 'TimePeriod';
   protected $__busyDataType = 'array';
   public $busy;
@@ -1666,7 +1667,7 @@ class FreeBusyCalendar extends apiModel {
   }
 }
 
-class FreeBusyGroup extends apiModel {
+class FreeBusyGroup extends Model {
   protected $__errorsType = 'Error';
   protected $__errorsDataType = 'array';
   public $errors;
@@ -1687,7 +1688,7 @@ class FreeBusyGroup extends apiModel {
   }
 }
 
-class FreeBusyRequest extends apiModel {
+class FreeBusyRequest extends Model {
   public $calendarExpansionMax;
   public $groupExpansionMax;
   public $timeMax;
@@ -1735,7 +1736,7 @@ class FreeBusyRequest extends apiModel {
   }
 }
 
-class FreeBusyRequestItem extends apiModel {
+class FreeBusyRequestItem extends Model {
   public $id;
   public function setId($id) {
     $this->id = $id;
@@ -1745,7 +1746,7 @@ class FreeBusyRequestItem extends apiModel {
   }
 }
 
-class FreeBusyResponse extends apiModel {
+class FreeBusyResponse extends Model {
   public $timeMax;
   public $kind;
   protected $__calendarsType = 'FreeBusyCalendar';
@@ -1787,7 +1788,7 @@ class FreeBusyResponse extends apiModel {
   }
 }
 
-class Setting extends apiModel {
+class Setting extends Model {
   public $kind;
   public $etag;
   public $id;
@@ -1818,7 +1819,7 @@ class Setting extends apiModel {
   }
 }
 
-class Settings extends apiModel {
+class Settings extends Model {
   protected $__itemsType = 'Setting';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1845,7 +1846,7 @@ class Settings extends apiModel {
   }
 }
 
-class TimePeriod extends apiModel {
+class TimePeriod extends Model {
   public $start;
   public $end;
   public function setStart($start) {

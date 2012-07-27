@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "blogs" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $blogs = $bloggerService->blogs;
    *  </code>
    */
-  class BlogsServiceResource extends apiServiceResource {
+  class BlogsServiceResource extends ServiceResource {
 
 
     /**
@@ -57,7 +58,7 @@ require_once 'service/apiServiceRequest.php';
    *   $posts = $bloggerService->posts;
    *  </code>
    */
-  class PostsServiceResource extends apiServiceResource {
+  class PostsServiceResource extends ServiceResource {
 
 
     /**
@@ -109,7 +110,7 @@ require_once 'service/apiServiceRequest.php';
    *   $pages = $bloggerService->pages;
    *  </code>
    */
-  class PagesServiceResource extends apiServiceResource {
+  class PagesServiceResource extends ServiceResource {
 
 
     /**
@@ -158,7 +159,7 @@ require_once 'service/apiServiceRequest.php';
    *   $comments = $bloggerService->comments;
    *  </code>
    */
-  class CommentsServiceResource extends apiServiceResource {
+  class CommentsServiceResource extends ServiceResource {
 
 
     /**
@@ -212,7 +213,7 @@ require_once 'service/apiServiceRequest.php';
    *   $users = $bloggerService->users;
    *  </code>
    */
-  class UsersServiceResource extends apiServiceResource {
+  class UsersServiceResource extends ServiceResource {
 
 
     /**
@@ -242,7 +243,7 @@ require_once 'service/apiServiceRequest.php';
    *   $blogs = $bloggerService->blogs;
    *  </code>
    */
-  class UsersBlogsServiceResource extends apiServiceResource {
+  class UsersBlogsServiceResource extends ServiceResource {
 
 
     /**
@@ -279,7 +280,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiBloggerService extends apiService {
+class apiBloggerService extends Service {
   public $blogs;
   public $posts;
   public $pages;
@@ -289,15 +290,15 @@ class apiBloggerService extends apiService {
   /**
    * Constructs the internal representation of the Blogger service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/blogger/v2/';
     $this->version = 'v2';
     $this->serviceName = 'blogger';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->blogs = new BlogsServiceResource($this, $this->serviceName, 'blogs', json_decode('{"methods": {"get": {"scopes": ["https://www.googleapis.com/auth/blogger"], "parameters": {"blogId": {"required": true, "type": "string", "location": "path"}}, "id": "blogger.blogs.get", "httpMethod": "GET", "path": "blogs/{blogId}", "response": {"$ref": "Blog"}}}}', true));
     $this->posts = new PostsServiceResource($this, $this->serviceName, 'posts', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/blogger"], "parameters": {"pageToken": {"type": "string", "location": "query"}, "fetchBodies": {"type": "boolean", "location": "query"}, "blogId": {"required": true, "type": "string", "location": "path"}, "maxResults": {"format": "uint32", "type": "integer", "location": "query"}, "startDate": {"type": "string", "location": "query"}}, "id": "blogger.posts.list", "httpMethod": "GET", "path": "blogs/{blogId}/posts", "response": {"$ref": "PostList"}}, "get": {"scopes": ["https://www.googleapis.com/auth/blogger"], "parameters": {"postId": {"required": true, "type": "string", "location": "path"}, "blogId": {"required": true, "type": "string", "location": "path"}}, "id": "blogger.posts.get", "httpMethod": "GET", "path": "blogs/{blogId}/posts/{postId}", "response": {"$ref": "Post"}}}}', true));
     $this->pages = new PagesServiceResource($this, $this->serviceName, 'pages', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/blogger"], "parameters": {"fetchBodies": {"type": "boolean", "location": "query"}, "blogId": {"required": true, "type": "string", "location": "path"}}, "id": "blogger.pages.list", "httpMethod": "GET", "path": "blogs/{blogId}/pages", "response": {"$ref": "PageList"}}, "get": {"scopes": ["https://www.googleapis.com/auth/blogger"], "parameters": {"pageId": {"required": true, "type": "string", "location": "path"}, "blogId": {"required": true, "type": "string", "location": "path"}}, "id": "blogger.pages.get", "httpMethod": "GET", "path": "blogs/{blogId}/pages/{pageId}", "response": {"$ref": "Page"}}}}', true));
@@ -307,7 +308,7 @@ class apiBloggerService extends apiService {
   }
 }
 
-class Blog extends apiModel {
+class Blog extends Model {
   public $kind;
   public $description;
   protected $__localeType = 'BlogLocale';
@@ -393,7 +394,7 @@ class Blog extends apiModel {
   }
 }
 
-class BlogList extends apiModel {
+class BlogList extends Model {
   protected $__itemsType = 'Blog';
   protected $__itemsDataType = 'array';
   public $items;
@@ -413,7 +414,7 @@ class BlogList extends apiModel {
   }
 }
 
-class BlogLocale extends apiModel {
+class BlogLocale extends Model {
   public $country;
   public $variant;
   public $language;
@@ -437,7 +438,7 @@ class BlogLocale extends apiModel {
   }
 }
 
-class BlogPages extends apiModel {
+class BlogPages extends Model {
   public $totalItems;
   public $selfLink;
   public function setTotalItems($totalItems) {
@@ -454,7 +455,7 @@ class BlogPages extends apiModel {
   }
 }
 
-class BlogPosts extends apiModel {
+class BlogPosts extends Model {
   public $totalItems;
   public $selfLink;
   public function setTotalItems($totalItems) {
@@ -471,7 +472,7 @@ class BlogPosts extends apiModel {
   }
 }
 
-class Comment extends apiModel {
+class Comment extends Model {
   public $content;
   public $kind;
   protected $__authorType = 'CommentAuthor';
@@ -543,7 +544,7 @@ class Comment extends apiModel {
   }
 }
 
-class CommentAuthor extends apiModel {
+class CommentAuthor extends Model {
   public $url;
   protected $__imageType = 'CommentAuthorImage';
   protected $__imageDataType = '';
@@ -576,7 +577,7 @@ class CommentAuthor extends apiModel {
   }
 }
 
-class CommentAuthorImage extends apiModel {
+class CommentAuthorImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -586,7 +587,7 @@ class CommentAuthorImage extends apiModel {
   }
 }
 
-class CommentBlog extends apiModel {
+class CommentBlog extends Model {
   public $id;
   public function setId($id) {
     $this->id = $id;
@@ -596,7 +597,7 @@ class CommentBlog extends apiModel {
   }
 }
 
-class CommentList extends apiModel {
+class CommentList extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Comment';
   protected $__itemsDataType = 'array';
@@ -630,7 +631,7 @@ class CommentList extends apiModel {
   }
 }
 
-class CommentPost extends apiModel {
+class CommentPost extends Model {
   public $id;
   public function setId($id) {
     $this->id = $id;
@@ -640,7 +641,7 @@ class CommentPost extends apiModel {
   }
 }
 
-class Page extends apiModel {
+class Page extends Model {
   public $content;
   public $kind;
   protected $__authorType = 'PageAuthor';
@@ -717,7 +718,7 @@ class Page extends apiModel {
   }
 }
 
-class PageAuthor extends apiModel {
+class PageAuthor extends Model {
   public $url;
   protected $__imageType = 'PageAuthorImage';
   protected $__imageDataType = '';
@@ -750,7 +751,7 @@ class PageAuthor extends apiModel {
   }
 }
 
-class PageAuthorImage extends apiModel {
+class PageAuthorImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -760,7 +761,7 @@ class PageAuthorImage extends apiModel {
   }
 }
 
-class PageBlog extends apiModel {
+class PageBlog extends Model {
   public $id;
   public function setId($id) {
     $this->id = $id;
@@ -770,7 +771,7 @@ class PageBlog extends apiModel {
   }
 }
 
-class PageList extends apiModel {
+class PageList extends Model {
   protected $__itemsType = 'Page';
   protected $__itemsDataType = 'array';
   public $items;
@@ -790,7 +791,7 @@ class PageList extends apiModel {
   }
 }
 
-class Post extends apiModel {
+class Post extends Model {
   public $content;
   public $kind;
   protected $__authorType = 'PostAuthor';
@@ -884,7 +885,7 @@ class Post extends apiModel {
   }
 }
 
-class PostAuthor extends apiModel {
+class PostAuthor extends Model {
   public $url;
   protected $__imageType = 'PostAuthorImage';
   protected $__imageDataType = '';
@@ -917,7 +918,7 @@ class PostAuthor extends apiModel {
   }
 }
 
-class PostAuthorImage extends apiModel {
+class PostAuthorImage extends Model {
   public $url;
   public function setUrl($url) {
     $this->url = $url;
@@ -927,7 +928,7 @@ class PostAuthorImage extends apiModel {
   }
 }
 
-class PostBlog extends apiModel {
+class PostBlog extends Model {
   public $id;
   public function setId($id) {
     $this->id = $id;
@@ -937,7 +938,7 @@ class PostBlog extends apiModel {
   }
 }
 
-class PostList extends apiModel {
+class PostList extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Post';
   protected $__itemsDataType = 'array';
@@ -971,7 +972,7 @@ class PostList extends apiModel {
   }
 }
 
-class PostReplies extends apiModel {
+class PostReplies extends Model {
   public $totalItems;
   public $selfLink;
   public function setTotalItems($totalItems) {
@@ -988,7 +989,7 @@ class PostReplies extends apiModel {
   }
 }
 
-class User extends apiModel {
+class User extends Model {
   public $about;
   public $displayName;
   public $created;
@@ -1058,7 +1059,7 @@ class User extends apiModel {
   }
 }
 
-class UserBlogs extends apiModel {
+class UserBlogs extends Model {
   public $selfLink;
   public function setSelfLink($selfLink) {
     $this->selfLink = $selfLink;
@@ -1068,7 +1069,7 @@ class UserBlogs extends apiModel {
   }
 }
 
-class UserLocale extends apiModel {
+class UserLocale extends Model {
   public $country;
   public $variant;
   public $language;

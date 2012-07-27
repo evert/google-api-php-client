@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "urlchannels" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $urlchannels = $adsenseService->urlchannels;
    *  </code>
    */
-  class UrlchannelsServiceResource extends apiServiceResource {
+  class UrlchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -61,7 +62,7 @@ require_once 'service/apiServiceRequest.php';
    *   $adunits = $adsenseService->adunits;
    *  </code>
    */
-  class AdunitsServiceResource extends apiServiceResource {
+  class AdunitsServiceResource extends ServiceResource {
 
 
     /**
@@ -113,7 +114,7 @@ require_once 'service/apiServiceRequest.php';
    *   $customchannels = $adsenseService->customchannels;
    *  </code>
    */
-  class AdunitsCustomchannelsServiceResource extends apiServiceResource {
+  class AdunitsCustomchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -147,7 +148,7 @@ require_once 'service/apiServiceRequest.php';
    *   $adclients = $adsenseService->adclients;
    *  </code>
    */
-  class AdclientsServiceResource extends apiServiceResource {
+  class AdclientsServiceResource extends ServiceResource {
 
 
     /**
@@ -179,7 +180,7 @@ require_once 'service/apiServiceRequest.php';
    *   $reports = $adsenseService->reports;
    *  </code>
    */
-  class ReportsServiceResource extends apiServiceResource {
+  class ReportsServiceResource extends ServiceResource {
 
 
     /**
@@ -222,7 +223,7 @@ require_once 'service/apiServiceRequest.php';
    *   $accounts = $adsenseService->accounts;
    *  </code>
    */
-  class AccountsServiceResource extends apiServiceResource {
+  class AccountsServiceResource extends ServiceResource {
 
 
     /**
@@ -274,7 +275,7 @@ require_once 'service/apiServiceRequest.php';
    *   $urlchannels = $adsenseService->urlchannels;
    *  </code>
    */
-  class AccountsUrlchannelsServiceResource extends apiServiceResource {
+  class AccountsUrlchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -307,7 +308,7 @@ require_once 'service/apiServiceRequest.php';
    *   $adunits = $adsenseService->adunits;
    *  </code>
    */
-  class AccountsAdunitsServiceResource extends apiServiceResource {
+  class AccountsAdunitsServiceResource extends ServiceResource {
 
 
     /**
@@ -361,7 +362,7 @@ require_once 'service/apiServiceRequest.php';
    *   $customchannels = $adsenseService->customchannels;
    *  </code>
    */
-  class AccountsAdunitsCustomchannelsServiceResource extends apiServiceResource {
+  class AccountsAdunitsCustomchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -395,7 +396,7 @@ require_once 'service/apiServiceRequest.php';
    *   $adclients = $adsenseService->adclients;
    *  </code>
    */
-  class AccountsAdclientsServiceResource extends apiServiceResource {
+  class AccountsAdclientsServiceResource extends ServiceResource {
 
 
     /**
@@ -427,7 +428,7 @@ require_once 'service/apiServiceRequest.php';
    *   $reports = $adsenseService->reports;
    *  </code>
    */
-  class AccountsReportsServiceResource extends apiServiceResource {
+  class AccountsReportsServiceResource extends ServiceResource {
 
 
     /**
@@ -469,7 +470,7 @@ require_once 'service/apiServiceRequest.php';
    *   $customchannels = $adsenseService->customchannels;
    *  </code>
    */
-  class AccountsCustomchannelsServiceResource extends apiServiceResource {
+  class AccountsCustomchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -524,7 +525,7 @@ require_once 'service/apiServiceRequest.php';
    *   $adunits = $adsenseService->adunits;
    *  </code>
    */
-  class AccountsCustomchannelsAdunitsServiceResource extends apiServiceResource {
+  class AccountsCustomchannelsAdunitsServiceResource extends ServiceResource {
 
 
     /**
@@ -560,7 +561,7 @@ require_once 'service/apiServiceRequest.php';
    *   $customchannels = $adsenseService->customchannels;
    *  </code>
    */
-  class CustomchannelsServiceResource extends apiServiceResource {
+  class CustomchannelsServiceResource extends ServiceResource {
 
 
     /**
@@ -612,7 +613,7 @@ require_once 'service/apiServiceRequest.php';
    *   $adunits = $adsenseService->adunits;
    *  </code>
    */
-  class CustomchannelsAdunitsServiceResource extends apiServiceResource {
+  class CustomchannelsAdunitsServiceResource extends ServiceResource {
 
 
     /**
@@ -655,7 +656,7 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiAdsenseService extends apiService {
+class apiAdsenseService extends Service {
   public $urlchannels;
   public $adunits;
   public $adunits_customchannels;
@@ -699,15 +700,15 @@ class apiAdsenseService extends apiService {
   /**
    * Constructs the internal representation of the Adsense service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/adsense/v1.1/';
     $this->version = 'v1.1';
     $this->serviceName = 'adsense';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->urlchannels = new UrlchannelsServiceResource($this, $this->serviceName, 'urlchannels', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/adsense", "https://www.googleapis.com/auth/adsense.readonly"], "parameters": {"pageToken": {"type": "string", "location": "query"}, "adClientId": {"required": true, "type": "string", "location": "path"}, "maxResults": {"format": "int32", "maximum": "10000", "minimum": "0", "location": "query", "type": "integer"}}, "id": "adsense.urlchannels.list", "httpMethod": "GET", "path": "adclients/{adClientId}/urlchannels", "response": {"$ref": "UrlChannels"}}}}', true));
     $this->adunits = new AdunitsServiceResource($this, $this->serviceName, 'adunits', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/adsense", "https://www.googleapis.com/auth/adsense.readonly"], "parameters": {"includeInactive": {"type": "boolean", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "adClientId": {"required": true, "type": "string", "location": "path"}, "maxResults": {"format": "int32", "maximum": "10000", "minimum": "0", "location": "query", "type": "integer"}}, "id": "adsense.adunits.list", "httpMethod": "GET", "path": "adclients/{adClientId}/adunits", "response": {"$ref": "AdUnits"}}, "get": {"scopes": ["https://www.googleapis.com/auth/adsense", "https://www.googleapis.com/auth/adsense.readonly"], "parameters": {"adClientId": {"required": true, "type": "string", "location": "path"}, "adUnitId": {"required": true, "type": "string", "location": "path"}}, "id": "adsense.adunits.get", "httpMethod": "GET", "path": "adclients/{adClientId}/adunits/{adUnitId}", "response": {"$ref": "AdUnit"}}}}', true));
     $this->adunits_customchannels = new AdunitsCustomchannelsServiceResource($this, $this->serviceName, 'customchannels', json_decode('{"methods": {"list": {"scopes": ["https://www.googleapis.com/auth/adsense", "https://www.googleapis.com/auth/adsense.readonly"], "parameters": {"pageToken": {"type": "string", "location": "query"}, "adClientId": {"required": true, "type": "string", "location": "path"}, "adUnitId": {"required": true, "type": "string", "location": "path"}, "maxResults": {"format": "int32", "maximum": "10000", "minimum": "0", "location": "query", "type": "integer"}}, "id": "adsense.adunits.customchannels.list", "httpMethod": "GET", "path": "adclients/{adClientId}/adunits/{adUnitId}/customchannels", "response": {"$ref": "CustomChannels"}}}}', true));
@@ -726,7 +727,7 @@ class apiAdsenseService extends apiService {
   }
 }
 
-class Account extends apiModel {
+class Account extends Model {
   public $kind;
   public $id;
   protected $__subAccountsType = 'Account';
@@ -760,7 +761,7 @@ class Account extends apiModel {
   }
 }
 
-class Accounts extends apiModel {
+class Accounts extends Model {
   public $nextPageToken;
   protected $__itemsType = 'Account';
   protected $__itemsDataType = 'array';
@@ -794,7 +795,7 @@ class Accounts extends apiModel {
   }
 }
 
-class AdClient extends apiModel {
+class AdClient extends Model {
   public $productCode;
   public $kind;
   public $id;
@@ -825,7 +826,7 @@ class AdClient extends apiModel {
   }
 }
 
-class AdClients extends apiModel {
+class AdClients extends Model {
   public $nextPageToken;
   protected $__itemsType = 'AdClient';
   protected $__itemsDataType = 'array';
@@ -859,7 +860,7 @@ class AdClients extends apiModel {
   }
 }
 
-class AdUnit extends apiModel {
+class AdUnit extends Model {
   public $status;
   public $kind;
   public $code;
@@ -897,7 +898,7 @@ class AdUnit extends apiModel {
   }
 }
 
-class AdUnits extends apiModel {
+class AdUnits extends Model {
   public $nextPageToken;
   protected $__itemsType = 'AdUnit';
   protected $__itemsDataType = 'array';
@@ -931,7 +932,7 @@ class AdUnits extends apiModel {
   }
 }
 
-class AdsenseReportsGenerateResponse extends apiModel {
+class AdsenseReportsGenerateResponse extends Model {
   public $kind;
   public $rows;
   public $warnings;
@@ -990,7 +991,7 @@ class AdsenseReportsGenerateResponse extends apiModel {
   }
 }
 
-class AdsenseReportsGenerateResponseHeaders extends apiModel {
+class AdsenseReportsGenerateResponseHeaders extends Model {
   public $currency;
   public $type;
   public $name;
@@ -1014,7 +1015,7 @@ class AdsenseReportsGenerateResponseHeaders extends apiModel {
   }
 }
 
-class CustomChannel extends apiModel {
+class CustomChannel extends Model {
   public $kind;
   public $code;
   protected $__targetingInfoType = 'CustomChannelTargetingInfo';
@@ -1054,7 +1055,7 @@ class CustomChannel extends apiModel {
   }
 }
 
-class CustomChannelTargetingInfo extends apiModel {
+class CustomChannelTargetingInfo extends Model {
   public $location;
   public $adsAppearOn;
   public $siteLanguage;
@@ -1085,7 +1086,7 @@ class CustomChannelTargetingInfo extends apiModel {
   }
 }
 
-class CustomChannels extends apiModel {
+class CustomChannels extends Model {
   public $nextPageToken;
   protected $__itemsType = 'CustomChannel';
   protected $__itemsDataType = 'array';
@@ -1119,7 +1120,7 @@ class CustomChannels extends apiModel {
   }
 }
 
-class UrlChannel extends apiModel {
+class UrlChannel extends Model {
   public $kind;
   public $id;
   public $urlPattern;
@@ -1143,7 +1144,7 @@ class UrlChannel extends apiModel {
   }
 }
 
-class UrlChannels extends apiModel {
+class UrlChannels extends Model {
   public $nextPageToken;
   protected $__itemsType = 'UrlChannel';
   protected $__itemsDataType = 'array';
