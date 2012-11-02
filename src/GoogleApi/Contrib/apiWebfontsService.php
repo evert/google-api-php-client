@@ -15,10 +15,11 @@
  * the License.
  */
 
-require_once 'service/apiModel.php';
-require_once 'service/apiService.php';
-require_once 'service/apiServiceRequest.php';
+namespace GoogleApi\Contrib;
 
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "webfonts" collection of methods.
@@ -28,7 +29,7 @@ require_once 'service/apiServiceRequest.php';
    *   $webfonts = $webfontsService->webfonts;
    *  </code>
    */
-  class WebfontsServiceResource extends apiServiceResource {
+  class WebfontsServiceResource extends ServiceResource {
 
 
     /**
@@ -68,25 +69,25 @@ require_once 'service/apiServiceRequest.php';
  *
  * @author Google, Inc.
  */
-class apiWebfontsService extends apiService {
+class apiWebfontsService extends Service {
   public $webfonts;
   /**
    * Constructs the internal representation of the Webfonts service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/webfonts/v1/';
     $this->version = 'v1';
     $this->serviceName = 'webfonts';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->webfonts = new WebfontsServiceResource($this, $this->serviceName, 'webfonts', json_decode('{"methods": {"list": {"parameters": {"sort": {"enum": ["alpha", "date", "popularity", "style", "trending"], "type": "string", "location": "query"}}, "id": "webfonts.webfonts.list", "httpMethod": "GET", "path": "webfonts", "response": {"$ref": "WebfontList"}}}}', true));
   }
 }
 
-class Webfont extends apiModel {
+class Webfont extends Model {
   public $kind;
   public $variants;
   public $subsets;
@@ -117,7 +118,7 @@ class Webfont extends apiModel {
   }
 }
 
-class WebfontList extends apiModel {
+class WebfontList extends Model {
   protected $__itemsType = 'Webfont';
   protected $__itemsDataType = 'array';
   public $items;

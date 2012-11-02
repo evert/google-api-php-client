@@ -23,7 +23,7 @@ use GoogleApi\Io\HttpRequest;
  * @author Chris Chabot <chabotc@google.com>
  *
  */
-abstract class apiAuth {
+abstract class Auth {
   abstract public function authenticate($service);
   abstract public function sign(HttpRequest $request);
   abstract public function createAuthUrl($scope);

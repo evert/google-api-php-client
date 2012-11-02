@@ -15,6 +15,11 @@
  * the License.
  */
 
+namespace GoogleApi\Contrib;
+
+use GoogleApi\Service\Model;
+use GoogleApi\Service\Service;
+use GoogleApi\Service\ServiceResource;
 
   /**
    * The "groups" collection of methods.
@@ -24,7 +29,7 @@
    *   $groups = $groupssettingsService->groups;
    *  </code>
    */
-  class GroupsServiceResource extends apiServiceResource {
+  class GroupsServiceResource extends ServiceResource {
 
 
     /**
@@ -93,26 +98,26 @@
  *
  * @author Google, Inc.
  */
-class apiGroupssettingsService extends apiService {
+class apiGroupssettingsService extends Service {
   public $groups;
   /**
    * Constructs the internal representation of the Groupssettings service.
    *
-   * @param apiClient apiClient
+   * @param Client Client
    */
-  public function __construct(apiClient $apiClient) {
+  public function __construct(Client $Client) {
     $this->rpcPath = '/rpc';
     $this->restBasePath = '/groups/v1/groups/';
     $this->version = 'v1';
     $this->serviceName = 'groupssettings';
 
-    $apiClient->addService($this->serviceName, $this->version);
+    $Client->addService($this->serviceName, $this->version);
     $this->groups = new GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"get": {"scopes": ["https://www.googleapis.com/auth/apps.groups.settings"], "parameters": {"groupUniqueId": {"required": true, "type": "string", "location": "path"}}, "id": "groupsSettings.groups.get", "httpMethod": "GET", "path": "{groupUniqueId}", "response": {"$ref": "Groups"}}, "update": {"scopes": ["https://www.googleapis.com/auth/apps.groups.settings"], "parameters": {"groupUniqueId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Groups"}, "id": "groupsSettings.groups.update", "httpMethod": "PUT", "path": "{groupUniqueId}", "response": {"$ref": "Groups"}}, "patch": {"scopes": ["https://www.googleapis.com/auth/apps.groups.settings"], "parameters": {"groupUniqueId": {"required": true, "type": "string", "location": "path"}}, "request": {"$ref": "Groups"}, "id": "groupsSettings.groups.patch", "httpMethod": "PATCH", "path": "{groupUniqueId}", "response": {"$ref": "Groups"}}}}', true));
 
   }
 }
 
-class Groups extends apiModel {
+class Groups extends Model {
   public $allowExternalMembers;
   public $whoCanJoin;
   public $primaryLanguage;
