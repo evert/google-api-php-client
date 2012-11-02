@@ -17,10 +17,10 @@
 
 namespace GoogleApi\Contrib;
 
+use GoogleApi\Client;
 use GoogleApi\Service\Model;
 use GoogleApi\Service\Service;
 use GoogleApi\Service\ServiceResource;
-use GoogleApi\Client;
 
   /**
    * The "trainedmodels" collection of methods.
