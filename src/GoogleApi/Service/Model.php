@@ -93,7 +93,7 @@ class Model {
    * @return object The object from the item.
    */
   private function createObjectFromName($name, $item) {
-    $type = $this->$name;
+    $type = '\GoogleApi\Contrib\\' . $this->$name;
     return new $type($item);
   }
 
