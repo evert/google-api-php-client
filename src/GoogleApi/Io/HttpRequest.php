@@ -195,6 +195,9 @@ class HttpRequest {
     if (substr($url, 0, 4) == 'http') {
       $this->url = $url;
     } else {
+      if (substr($url, 0, 1) !== '/') {
+        $url = '/' . $url;
+      }
       $this->url = Config::get('basePath') . $url;
     }
   }
