@@ -45,7 +45,7 @@ class HttpRequest {
   protected $responseHttpCode;
   protected $responseHeaders;
   protected $responseBody;
-  
+
   public $accessKey;
 
   public function __construct($url, $method = 'GET', $headers = array(), $postBody = null) {
