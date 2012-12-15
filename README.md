@@ -1,6 +1,11 @@
 Google APIs Client Library for PHP
 =====================================
 
+## Important note
+
+I've never completed this, and have no interest in further maintaining it.
+Please don't start anything new based on this. I'm keeping this repository around for the people who may still need it.
+
 ## Description
 The Google API Client Library enables you to work with Google APIs such as Buzz, Moderator, Tasks, or Latitude on your server.
 
