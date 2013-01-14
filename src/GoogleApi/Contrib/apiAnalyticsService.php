@@ -1072,6 +1072,8 @@ class Profile extends Model {
   public $id;
   public $selfLink;
   public $accountId;
+  public $websiteUrl;
+  public $eCommerceTracking;
   public function setDefaultPage($defaultPage) {
     $this->defaultPage = $defaultPage;
   }
@@ -1174,6 +1176,18 @@ class Profile extends Model {
   public function getAccountId() {
     return $this->accountId;
   }
+  public function setWebsiteUrl($websiteUrl) {
+    $this->websiteUrl = $websiteUrl;
+  }
+  public function getWebsiteUrl() {
+    return $this->websiteUrl;
+  }
+  public function setECommerceTracking($eCommerceTracking) {
+    $this->eCommerceTracking = $eCommerceTracking;
+  }
+  public function getECommerceTracking() {
+    return $this->eCommerceTracking;
+  } 
 }
 
 class ProfileChildLink extends Model {

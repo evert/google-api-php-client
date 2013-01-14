@@ -1,9 +1,9 @@
 {
-    "name": "evert/google-api-php-client",
+    "name": "rafalzmuda/google-api-php-client",
     "type": "library",
     "description": "Google API library for PHP",
     "keywords": ["google","gdata"],
-    "homepage": "https://github.com/evert/google-api-php-client",
+    "homepage": "https://github.com/rafalzmuda/google-api-php-client",
     "license": "Apache 2.0",
     "authors": [
         {
