@@ -21,7 +21,7 @@ require_once '../../src/contrib/apiPredictionService.php';
 // Set your client id, service account name, and the path to your private key.
 // For more information about obtaining these keys, visit:
 // https://developers.google.com/console/help/#service_accounts
-const CLIENT_ID = 'INSERT_YOUR_CLIENT_ID';
+const CLIENT_ID = 'INSERT_YOUR_';
 const SERVICE_ACCOUNT_NAME = 'INSERT_YOUR_SERVICE_ACCOUNT_NAME';
 
 // Make sure you keep your key.p12 file in a secure location, and isn't
