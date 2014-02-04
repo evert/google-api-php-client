@@ -45,7 +45,7 @@ class HttpRequest {
   protected $responseHttpCode;
   protected $responseHeaders;
   protected $responseBody;
-  
+
   public $accessKey;
 
   public function __construct($url, $method = 'GET', $headers = array(), $postBody = null) {
@@ -195,6 +195,9 @@ class HttpRequest {
     if (substr($url, 0, 4) == 'http') {
       $this->url = $url;
     } else {
+      if (substr($url, 0, 1) !== '/') {
+        $url = '/' . $url;
+      }
       $this->url = Config::get('basePath') . $url;
     }
   }
